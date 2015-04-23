@@ -1,0 +1,93 @@
+<!-- file build.xml in your project root directory -->
+
+
+<project name="project" default="jar" basedir=".">
+
+    <!-- edit the following lines to your needs -->
+    <property name="project_name" value="SplitsTree4"/>
+    <property name="jlodaSrcDir" value="../../jloda/src"/>
+    <property name="srcDir" value="../src"/>
+    <property name="classDir" value="classes"/>
+    <property name="jar" value="${project_name}.jar"/>
+    <property name="mainclass" value="splitstree.main.SplitsTree"/>
+
+    <!-- class path -->
+
+    <path id="build.classpath">
+        <fileset dir="../../jloda/jars/batik-1.8" includes="*.jar"/>
+        <fileset dir="../../splitstree4/jars" includes="*.jar"/>
+
+
+        <!-- plugins -->
+        <pathelement path="../plugins/rbt.jar"/>
+        <pathelement path="../plugins/supertree.jar"/>
+    </path>
+
+
+    <!-- init -->
+    <target name="init">
+        <mkdir dir="${classDir}"/>
+        <mkdir dir="${classDir}/resources"/>
+    </target>
+
+    <!-- copy resources -->
+
+    <target name="copy_resources" depends="init">
+        <copy todir="${classDir}/resources">
+            <fileset dir="../resources" excludes=".svn/**"/>
+        </copy>
+    </target>
+
+
+    <!-- compile  jloda -->
+    <target name="compile_jloda" depends="copy_resources">
+        <javac srcdir="${jlodaSrcDir}"
+               destdir="${classDir}"
+               debug="off"
+               classpathref="build.classpath"
+               source="1.7"
+               target="1.7"
+                />
+    </target>
+
+    <!-- compile  SplitsTree -->
+    <target name="compile" depends="compile_jloda">
+        <javac srcdir="${srcDir}"
+               destdir="${classDir}"
+               debug="off"
+               classpathref="build.classpath"
+               source="1.7"
+               target="1.7"
+                />
+    </target>
+
+    <!-- create .jar -->
+    <target name="jar" depends="compile">
+        <jar jarfile="${jar}"
+             basedir="${classDir}"
+             includes="gnu/** jloda/** splitstree/** resources/**">
+        </jar>
+    </target>
+
+
+    <!-- run project -->
+    <target name="run" depends="jar">
+	    <java classname="${mainclass}" fork="true" classpathref="build.classpath">
+            <classpath> <pathelement location="${jar}"/>
+            </classpath>
+            <arg value="-d"/>
+            <jvmarg value="-Dapple.laf.useScreenMenuBar=true"/>
+            <jvmarg value="-server"/>
+            <jvmarg value="-Xmx500M"/>
+            <jvmarg value="-Duser.language=en"/>
+            <jvmarg value="-Duser.region=US"/>
+        </java>
+    </target>
+
+    <!-- removes all that has been built -->
+    <target name="clean">
+        <delete dir="${classDir}" includeEmptyDirs="true"/>
+    </target>
+</project>
+
+        <!-- end file build.xml -->
