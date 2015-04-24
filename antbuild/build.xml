@@ -6,7 +6,8 @@
     <!-- edit the following lines to your needs -->
     <property name="project_name" value="SplitsTree4"/>
     <property name="jlodaSrcDir" value="../../jloda/src"/>
-    <property name="srcDir" value="../src"/>
+    <property name="splitsTreeSrcDir" value="../src"/>
+    <property name="srcDir" value="src"/>
     <property name="classDir" value="classes"/>
     <property name="jar" value="${project_name}.jar"/>
     <property name="mainclass" value="splitstree.main.SplitsTree"/>
@@ -14,13 +15,9 @@
     <!-- class path -->
 
     <path id="build.classpath">
+        <fileset dir="../../jloda/jars" includes="*.jar"/>
         <fileset dir="../../jloda/jars/batik-1.8" includes="*.jar"/>
         <fileset dir="../../splitstree4/jars" includes="*.jar"/>
-
-
-        <!-- plugins -->
-        <pathelement path="../plugins/rbt.jar"/>
-        <pathelement path="../plugins/supertree.jar"/>
     </path>
 
 
@@ -36,29 +33,26 @@
         <copy todir="${classDir}/resources">
             <fileset dir="../resources" excludes=".svn/**"/>
         </copy>
+	</target>
+
+    <!-- copy sources -->
+    <target name="copy_sources" depends="copy_resources">
+        <copy todir="${srcDir}">
+            <fileset dir="${jlodaSrcDir}" excludes=".svn/**"/>
+            <fileset dir="${splitsTreeSrcDir}" excludes=".svn/**"/>
+        </copy>
     </target>
 
-
-    <!-- compile  jloda -->
-    <target name="compile_jloda" depends="copy_resources">
-        <javac srcdir="${jlodaSrcDir}"
-               destdir="${classDir}"
-               debug="off"
-               classpathref="build.classpath"
-               source="1.7"
-               target="1.7"
-                />
-    </target>
-
-    <!-- compile  SplitsTree -->
-    <target name="compile" depends="compile_jloda">
-        <javac srcdir="${srcDir}"
-               destdir="${classDir}"
-               debug="off"
-               classpathref="build.classpath"
-               source="1.7"
-               target="1.7"
-                />
+    <!-- compile  -->
+    <target name="compile" depends="copy_sources">
+	    <javac includeantruntime="false"
+		    srcdir="${srcDir}"
+		    destdir="${classDir}"
+		    debug="on"
+		    classpathref="build.classpath"
+		    source="1.7"
+		    target="1.7"
+		    />
     </target>
 
     <!-- create .jar -->
@@ -87,6 +81,8 @@
     <!-- removes all that has been built -->
     <target name="clean">
         <delete dir="${classDir}" includeEmptyDirs="true"/>
+	<delete dir="${srcDir}" includeEmptyDirs="true"/>
+	<delete file="${jar}"/>
     </target>
 </project>
 
