@@ -18,9 +18,9 @@
 
 package splitstree.gui.input;
 
+import jloda.util.ProgramProperties;
 import splitstree.gui.main.MainViewer;
 import splitstree.gui.main.TextEditor;
-import splitstree.main.Version;
 
 import javax.swing.*;
 import javax.swing.event.UndoableEditEvent;
@@ -56,7 +56,7 @@ public class InputDialog extends JDialog {
         this.viewer = viewer;
         final Actions actions = new Actions(this);
         setModal(true);
-        setTitle("Enter Data Dialog - " + Version.SHORT_DESCRIPTION);
+        setTitle("Enter Data Dialog - " + ProgramProperties.getProgramName());
 
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");

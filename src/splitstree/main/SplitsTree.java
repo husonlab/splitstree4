@@ -18,13 +18,19 @@
 
 package splitstree.main;
 
-import jloda.util.*;
+import jloda.util.ArgsOptions;
+import jloda.util.Basic;
+import jloda.util.ProgramProperties;
+import jloda.util.ProgressCmdLine;
 import splitstree.core.Document;
 import splitstree.gui.Director;
 import splitstree.util.NexusFileFilter;
 
 import javax.swing.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 
 /**
  * Runs the splits tree program
@@ -68,6 +74,7 @@ public class SplitsTree {
      */
     public void parseArguments(String[] args) throws Exception {
         ProgramProperties.setProgramName(SplitsTreeProperties.getVersion());
+        ProgramProperties.setProgramVersion(SplitsTreeProperties.getVersion());
 
         final ArgsOptions options= new ArgsOptions(args, this, "SplitsTree4", "Analyze and visualize phylogenetic data");
         options.setAuthors("Daniel H. Huson and David J. Bryant");
