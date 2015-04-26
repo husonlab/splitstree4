@@ -18,13 +18,13 @@
 
 package splitstree.gui.formatter;
 
-import jloda.gui.director.IDirector;
-import jloda.gui.MenuManager;
 import jloda.export.TransferableGraphic;
 import jloda.graphview.EdgeView;
+import jloda.gui.director.IDirector;
 import jloda.util.Alert;
 import jloda.util.ResourceManager;
 import splitstree.gui.DirectorActions;
+import splitstree.gui.MenuManager;
 import splitstree.gui.main.MainViewer;
 import splitstree.gui.undo.*;
 import splitstree.nexus.Network;
@@ -34,7 +34,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
