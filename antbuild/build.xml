@@ -49,10 +49,11 @@
 		    srcdir="${srcDir}"
 		    destdir="${classDir}"
 		    debug="on"
-		    classpathref="build.classpath"
 		    source="1.7"
 		    target="1.7"
-		    />
+		    classpathref="build.classpath">
+		    <compilerarg value="-XDignore.symbol.file=true"/> 
+        </javac>
     </target>
 
     <!-- create .jar -->
