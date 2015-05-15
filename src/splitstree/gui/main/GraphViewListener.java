@@ -32,10 +32,8 @@ import java.awt.geom.Point2D;
 import java.util.LinkedList;
 
 /**
- * @author Daniel Huson and David Bryant
+ * @author Daniel Huson and David Bryant, 2005
  *         Listener for all MainViewer events.
- *         The only reason why we extend jloda.graphview.GraphViewListener is so that this
- *         can be passed to graphview
  */
 public class GraphViewListener implements IGraphViewListener {
     MainViewer viewer;
@@ -1150,7 +1148,6 @@ public class GraphViewListener implements IGraphViewListener {
                 double s = (toScroll > 0 ? 1.0 / toScroll : toScroll);
                 double scale = s * viewer.trans.getScaleY();
                 if (scale >= GraphView.YMIN_SCALE && scale <= GraphView.YMAX_SCALE) {
-
                     viewer.trans.composeScale(1, s);
                     viewer.repaint();
                     spa.adjust(false, true);
@@ -1186,7 +1183,6 @@ public class GraphViewListener implements IGraphViewListener {
                 double scaleX = s * viewer.trans.getScaleX();
                 double scaleY = s * viewer.trans.getScaleY();
                 if (scaleX >= GraphView.XMIN_SCALE && scaleX <= GraphView.XMAX_SCALE && scaleY >= GraphView.YMIN_SCALE && scaleY <= GraphView.YMAX_SCALE) {
-
                     viewer.trans.composeScale(s, s);
                     viewer.repaint();
                     spa.adjust(true, true);
