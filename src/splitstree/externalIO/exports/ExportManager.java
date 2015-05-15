@@ -37,7 +37,7 @@ import java.util.*;
  */
 public class ExportManager {
 
-    static String packageName = "splits.externalIO.exports";
+    static String packageName = "splitstree.externalIO.exports";
 
     /**
      * gets the list of exporters

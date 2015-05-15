@@ -42,7 +42,7 @@ import java.util.ArrayList;
  */
 public class ImportManager {
 
-    static String packageName = "splits.externalIO.imports";
+    static String packageName = "splitstree.externalIO.imports";
 
     public ImportManager() {
 

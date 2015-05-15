@@ -70,7 +70,7 @@ public class Transforms {
                     try {
                         String block = str.toLowerCase();
 
-                        String fullName = "splits.algorithms." + block + "." + name;
+                        String fullName = "splitstree.algorithms." + block + "." + name;
                         if (name2trans.get(fullName) == null) {
                             Class theClass = Class.forName(fullName);
                             Transformation trans = (Transformation) theClass.newInstance();

@@ -41,7 +41,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -617,7 +616,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splits.algorithms.unaligned", UnalignedTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.unaligned", UnalignedTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = String.valueOf(transform.getClass());
@@ -668,7 +667,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splits.algorithms.characters", CharactersTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.characters", CharactersTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
 
@@ -721,7 +720,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splits.algorithms.distances", DistancesTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.distances", DistancesTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = String.valueOf(transform.getClass());
@@ -774,7 +773,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splits.algorithms.quartets", QuartetsTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.quartets", QuartetsTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = String.valueOf(transform.getClass());
@@ -826,7 +825,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splits.algorithms.trees", TreesTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.trees", TreesTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = String.valueOf(transform.getClass());
@@ -876,7 +875,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splits.algorithms.splits", SplitsTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.splits", SplitsTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = String.valueOf(transform.getClass());
@@ -926,7 +925,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splits.algorithms.reticulate", ReticulateTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.reticulate", ReticulateTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = transform.getClass().getName();

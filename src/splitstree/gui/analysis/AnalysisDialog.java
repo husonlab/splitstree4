@@ -19,7 +19,6 @@
 package splitstree.gui.analysis;
 
 import jloda.util.Basic;
-import jloda.util.ProgramProperties;
 import splitstree.analysis.AnalysisMethod;
 import splitstree.analysis.bootstrap.BootstrapAnalysisMethod;
 import splitstree.analysis.characters.CharactersAnalysisMethod;
@@ -32,7 +31,9 @@ import splitstree.analysis.unaligned.UnalignedAnalysisMethod;
 import splitstree.util.PluginClassLoader;
 
 import javax.swing.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * show list of all known analysis methods
@@ -45,14 +46,14 @@ public class AnalysisDialog extends JDialog {
     public AnalysisDialog() {
         final SortedSet<AnalysisMethod> methods = new TreeSet<>();
 
-        methods.addAll(PluginClassLoader.getInstancesSorted("splits.analysis.bootstrap", BootstrapAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splits.analysis.characters", CharactersAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splits.analysis.distances", DistancesAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splits.analysis.network", NetworkAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splits.analysis.quartets", QuartetsAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splits.analysis.splits", SplitsAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splits.analysis.trees", TreesAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splits.analysis.unaligned", UnalignedAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.bootstrap", BootstrapAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.characters", CharactersAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.distances", DistancesAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.network", NetworkAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.quartets", QuartetsAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.splits", SplitsAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.trees", TreesAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.unaligned", UnalignedAnalysisMethod.class));
         jList.setModel(new MyListModel(methods));
 
     }

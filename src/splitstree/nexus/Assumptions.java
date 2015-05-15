@@ -1172,7 +1172,7 @@ public class Assumptions extends NexusBlock {
      * @return an instance of the set unaligned transformation
      */
     public UnalignedTransform getUnalignedTransform() {
-        String prefix = "splits.algorithms.unaligned.";
+        String prefix = "splitstree.algorithms.unaligned.";
         UnalignedTransform trans;
         Class theClass;
         try {
@@ -1212,7 +1212,7 @@ public class Assumptions extends NexusBlock {
      * @return an instance of the set characters transformation
      */
     public CharactersTransform getCharactersTransform() {
-        String prefix = "splits.algorithms.characters.";
+        String prefix = "splitstree.algorithms.characters.";
         CharactersTransform trans;
         Class theClass;
         try {
@@ -1252,7 +1252,7 @@ public class Assumptions extends NexusBlock {
     public DistancesTransform getDistancesTransform() {
 
 
-        String prefix = "splits.algorithms.distances.";
+        String prefix = "splitstree.algorithms.distances.";
         DistancesTransform trans;
         Class theClass;
         try {
@@ -1291,7 +1291,7 @@ public class Assumptions extends NexusBlock {
      * @return an instance of the set quartets transformation
      */
     public QuartetsTransform getQuartetsTransform() {
-        String prefix = "splits.algorithms.quartets.";
+        String prefix = "splitstree.algorithms.quartets.";
         QuartetsTransform trans;
         Class theClass;
         try {
@@ -1331,7 +1331,7 @@ public class Assumptions extends NexusBlock {
      * @return an instance of the set splits transformation
      */
     public SplitsTransform getSplitsTransform() {
-        String prefix = "splits.algorithms.splits.";
+        String prefix = "splitstree.algorithms.splitstree.";
         SplitsTransform trans;
         Class theClass;
         try {
@@ -1371,7 +1371,7 @@ public class Assumptions extends NexusBlock {
      * @return an instance of the set trees transformation
      */
     public TreesTransform getTreesTransform() {
-        String prefix = "splits.algorithms.trees.";
+        String prefix = "splitstree.algorithms.trees.";
         TreesTransform trans;
         Class theClass;
         try {
@@ -1411,7 +1411,7 @@ public class Assumptions extends NexusBlock {
      * @return an instance of the set reticulate transformation
      */
     public ReticulateTransform getReticulateTransform() {
-        String prefix = "splits.algorithms.reticulate.";
+        String prefix = "splitstree.algorithms.reticulate.";
         ReticulateTransform trans;
         Class theClass;
         try {
