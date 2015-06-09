@@ -290,6 +290,7 @@ public class SplitsUtilities {
         double ssum = 0;
         double dsumSquare = 0;
         double ssumSquare = 0;
+        double netsumSquare = 0;
 
         if (splits == null || dist == null)
             return;
@@ -328,6 +329,7 @@ public class SplitsUtilities {
                 ssumSquare += x * x;
                 dsum += dij;
                 dsumSquare += dij * dij;
+                netsumSquare += sij*sij;
             }
         }
         double fit = 100 * (1.0 - ssum / dsum);
@@ -340,7 +342,9 @@ public class SplitsUtilities {
         lsfit = Math.max(lsfit, 0.0);
         splits.getProperties().setLSFit(lsfit);
 
-        System.err.println("\nRecomputed fit:\n\tfit = "+fit+"\n\tLS fit ="+lsfit+"\n");
+        double stress = Math.sqrt(ssumSquare/netsumSquare);
+        		
+        System.err.println("\nRecomputed fit:\n\tfit = "+fit+"\n\tLS fit ="+lsfit+"\n\tstress ="+stress+"\n");
 
     }
 
