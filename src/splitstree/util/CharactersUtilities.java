@@ -35,6 +35,53 @@ import java.util.*;
  * Methods for analyzing chars
  */
 public class CharactersUtilities {
+    private final static BitSet proteinLetters = new BitSet();
+    private final static BitSet strictDNALetters = new BitSet();
+    private final static BitSet strictRNALetters = new BitSet();
+
+    private final static BitSet dnaPlusAmbiguityLetters = new BitSet();
+    private final static BitSet rnaPlusAmbiguityLetters = new BitSet();
+    private final static BitSet standardLetters = new BitSet();
+
+    static {
+        {
+            final String letters = "ACGT?-".toLowerCase();
+            for (int i = 0; i < letters.length(); i++) {
+                strictDNALetters.set(letters.charAt(i));
+            }
+        }
+        {
+            final String letters = "ACGU?-".toLowerCase();
+            for (int i = 0; i < letters.length(); i++) {
+                strictRNALetters.set(letters.charAt(i));
+            }
+        }
+
+        {
+            final String letters = "ACDEFGHIKL*MNPQRSTVWXY-?".toLowerCase();
+            for (int i = 0; i < letters.length(); i++) {
+                proteinLetters.set(letters.charAt(i));
+            }
+        }
+        {
+            final String letters = "ACGTRYSWKMBDHVN?-".toLowerCase();
+            for (int i = 0; i < letters.length(); i++) {
+                dnaPlusAmbiguityLetters.set(letters.charAt(i));
+            }
+        }
+        {
+            final String letters = "ACGURYSWKMBDHVN?-".toLowerCase();
+            for (int i = 0; i < letters.length(); i++) {
+                rnaPlusAmbiguityLetters.set(letters.charAt(i));
+            }
+        }
+        {
+            final String letters = "01?-".toLowerCase();
+            for (int i = 0; i < letters.length(); i++) {
+                standardLetters.set(letters.charAt(i));
+            }
+        }
+    }
     /**
      * Returns a string description of the currently active sites
      *
@@ -414,32 +461,49 @@ public class CharactersUtilities {
      * @return the data type
      */
     static public String guessType(String excluded, char[] seq) {
-        BitSet alphabet = new BitSet();
+        final BitSet alphabet = new BitSet();
 
         for (char aSeq : seq) {
             char ch = Character.toLowerCase(aSeq);
             if (excluded == null || excluded.indexOf(ch) == -1)
                 alphabet.set(Character.toLowerCase(aSeq));
         }
-        if (alphabet.cardinality() >= 12)
-            return Characters.Datatypes.PROTEIN;
 
-        System.err.print("alphabet: ");
-        for (char ch = 'a'; ch <= 'z'; ch++)
-            if (alphabet.get(ch))
-                System.err.print(ch);
-        System.err.println();
-
-        if (alphabet.get('a') && alphabet.get('c') && alphabet.get('g') && alphabet.get('t'))
+        if (intersection(strictDNALetters, alphabet).cardinality() == alphabet.cardinality())
             return Characters.Datatypes.DNA;
 
-        if (alphabet.get('a') && alphabet.get('c') && alphabet.get('g') && alphabet.get('u'))
+        if (intersection(strictRNALetters, alphabet).cardinality() == alphabet.cardinality())
             return Characters.Datatypes.RNA;
 
-        if (alphabet.get('1') && alphabet.get('0'))
+        boolean possiblyProtein = (intersection(proteinLetters, alphabet).cardinality() == alphabet.cardinality());
+        boolean possiblyDNA = (intersection(dnaPlusAmbiguityLetters, alphabet).cardinality() == alphabet.cardinality());
+        boolean possiblyRNA = (intersection(rnaPlusAmbiguityLetters, alphabet).cardinality() == alphabet.cardinality());
+        boolean possiblyStandard = (intersection(standardLetters, alphabet).cardinality() == alphabet.cardinality());
+
+        if (possiblyProtein && !possiblyDNA && !possiblyRNA)
+            return Characters.Datatypes.PROTEIN;
+        if (!possiblyProtein && possiblyDNA && !possiblyRNA)
+            return Characters.Datatypes.DNA;
+        if (!possiblyProtein && !possiblyDNA && possiblyRNA)
+            return Characters.Datatypes.RNA;
+        if (possiblyStandard)
             return Characters.Datatypes.STANDARD;
 
         return Characters.Datatypes.UNKNOWN;
+    }
+
+    /**
+     * compute intersection
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    private static BitSet intersection(BitSet a, BitSet b) {
+        BitSet result = new BitSet();
+        result.or(a);
+        result.and(b);
+        return result;
     }
 
     /**

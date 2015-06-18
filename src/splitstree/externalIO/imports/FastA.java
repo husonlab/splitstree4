@@ -94,13 +94,18 @@ public class FastA extends FileFilter implements Importer {
 
         StringBuilder buf = new StringBuilder();
         String aLine;
+        int lineNumber = 0;
         while ((aLine = input.readLine()) != null) {
+            lineNumber++;
             aLine = aLine.trim();
-            if (!warned && aLine.contains("[") || aLine.contains("]") || aLine.contains("'")) {
-                warned = true;
-                new Alert(null, "File contains one of [,  ] or ' this may cause a problem!");
-            }
             if (aLine.length() > 0) {
+                if (aLine.contains("[") || aLine.contains("]") || aLine.contains("'") || aLine.contains("\\\"")) {
+                    if (!warned) {
+                        warned = true;
+                        new Alert(null, "File contains illegal characters in line " + lineNumber + ",\nplease fix");
+                    }
+                }
+
                 if (aLine.startsWith(">")) { // new sequence
                     if (taxonNames.size() > 0) {
                         if (buf.toString().length() > 0)
