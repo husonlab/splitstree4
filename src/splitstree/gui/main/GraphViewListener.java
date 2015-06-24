@@ -1188,7 +1188,6 @@ public class GraphViewListener implements IGraphViewListener {
                     viewer.repaint();
                     spa.adjust(true, true);
                 }
-
             }
             viewer.trans.getMagnifier().setActive(useMag);
         }
