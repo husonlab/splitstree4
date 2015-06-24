@@ -1453,8 +1453,7 @@ public class Assumptions extends NexusBlock {
         ps.println("\t[SPLITSTRANSFORM=name [parameters];]");
         ps.println("\t[SPLITSPOSTPROCESS");
         ps.println("\t\t[[NO] LEASTSQUARES]");
-        ps.println("\t\t[FILTER={GREEDYCOMPATIBLE|WEAKLYCOMPATIBLE|WEIGHT VALUE=value|CONFIDENCE VALUE=value" +
-                "|DIMENSION VALUE=value|NONE};]");
+        ps.println("\t\t[FILTER={CLOSESTTREE|GREEDYCOMPATIBLE|WEAKLYCOMPATIBLE|WEIGHT VALUE=value|CONFIDENCE VALUE=value|DIMENSION VALUE=value|NONE};]");
         ps.println("\t[EXTAXA={NONE|list-of-original-taxa-labels};]");
         // ps.println("\t[USETAXSET={ALL|list-of-taxset-labels};]");
         ps.println("\t[EXCHAR={NONE|list-of-original-char-positions};]");
@@ -1597,13 +1596,15 @@ public class Assumptions extends NexusBlock {
         void read(NexusStreamParser np) throws IOException {
 
             if (np.peekMatchIgnoreCase("SplitsPostProcess")) {
-                List tokens = np.getTokensLowerCase("SplitsPostProcess", ";");
-                np.findIgnoreCase(tokens, "no leastsquares");
+                List<String> tokens = np.getTokensLowerCase("SplitsPostProcess", ";");
+
+                leastSquares = false;
+                np.findIgnoreCase(tokens, "no leastquares");
                 leastSquares = np.findIgnoreCase(tokens, "leastsquares");
                 np.findIgnoreCase(tokens, "no leastsquaresagain");
-                filter = np.findIgnoreCase(tokens, "filter=", "greedycompatible greedyWC weight confidence dimension none", "none");
+                filter = np.findIgnoreCase(tokens, "filter=", "closesttree greedycompatible greedyWC weight confidence dimension none", "none");
                 if (filter.equalsIgnoreCase("weight"))
-                    weightThresholdValue = (float) np.findIgnoreCase(tokens, "value", 0, 1000000.0, weightThresholdValue);
+                    weightThresholdValue = (float) np.findIgnoreCase(tokens, "value=", 0, 1000000.0, weightThresholdValue);
                 if (filter.equalsIgnoreCase("confidence"))
                     confidenceThresholdValue = (float) np.findIgnoreCase(tokens, "value=", 0, 1000000.0, confidenceThresholdValue);
                 if (filter.equalsIgnoreCase("dimension"))
