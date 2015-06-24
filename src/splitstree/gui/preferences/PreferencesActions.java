@@ -36,6 +36,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class PreferencesActions {
 
     private PreferencesWindow viewer;
     private Director dir;
-    private List all = new LinkedList();
+    private List<Action> all = new LinkedList<>();
     public final String JCHECKBOX = "JCHECKBOX";
     public final String JTEXTAREA = "JTEXTAREA";
 
@@ -1082,7 +1083,7 @@ public class PreferencesActions {
         AbstractAction action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
 
-                List nextSelected = new LinkedList();
+                List<Integer> nextSelected = new ArrayList<>();
                 BitSet skip = new BitSet();
 
                 DefaultListModel listr = viewer.getListr();
@@ -1126,7 +1127,7 @@ public class PreferencesActions {
                 MainViewerToolBar tb = viewer.getMainViewer().getMainToolBar();
                 tb.removeAll();
                 ProgramProperties.put(SplitsTreeProperties.TOOLBARITEMS, "");
-                List elements = new LinkedList();
+                List<Action> elements = new LinkedList<>();
                 for (int i = 0; i < viewer.getJlistr().getModel().getSize(); i++) {
                     AbstractAction element = (AbstractAction) viewer.getJlistr().getModel().getElementAt(i);
                     elements.add(element);
@@ -1161,205 +1162,4 @@ viewer.getMainViewer().getMainToolBar().setVisible(box.isSelected());*/
         all.add(action);
         return showToolbar = action;
     }
-
-    // Internet proxy settings for PluginData Manager
-
-    private AbstractAction useProxy;
-
-    AbstractAction getUseProxy(final JRadioButton useUser, final JTextField proxyAdress, final JTextField proxyPort, final JTextField proxyUserName, final JTextField proxyUserPassword,
-                               final JLabel proxyAdressLabel, final JLabel proxyPortLabel, final JLabel proxyUserNameLabel, final JLabel proxyUserPasswordLabel) {
-        if (useProxy != null)
-            return useProxy;
-        AbstractAction action = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                JRadioButton box = (JRadioButton) e.getSource();
-                if (box.isSelected()) {
-                    useUser.setEnabled(true);
-                    proxyAdress.setEnabled(true);
-                    proxyAdressLabel.setEnabled(true);
-                    proxyPort.setEnabled(true);
-                    proxyPortLabel.setEnabled(true);
-                    if (useUser.isSelected()) {
-                        proxyUserName.setEnabled(true);
-                        proxyUserNameLabel.setEnabled(true);
-                        proxyUserPassword.setEnabled(true);
-                        proxyUserPasswordLabel.setEnabled(true);
-                    }
-                } else {
-                    useUser.setEnabled(false);
-                    proxyAdress.setEnabled(false);
-                    proxyAdressLabel.setEnabled(false);
-                    proxyPort.setEnabled(false);
-                    proxyPortLabel.setEnabled(false);
-                    proxyUserName.setEnabled(false);
-                    proxyUserNameLabel.setEnabled(false);
-                    proxyUserPassword.setEnabled(false);
-                    proxyUserPasswordLabel.setEnabled(false);
-                }
-            }
-        };
-        action.putValue(AbstractAction.NAME, "Use proxy for PluginData Manager");
-        action.putValue(AbstractAction.SHORT_DESCRIPTION, "Use proxy");
-        all.add(action);
-        return useProxy = action;
-    }
-
-    private AbstractAction useProxyUser;
-
-    AbstractAction getUseProxyUser(final JTextField proxyUserName, final JTextField proxyUserPassword,
-                                   final JLabel proxyUserNameLabel, final JLabel proxyUserPasswordLabel) {
-        if (useProxyUser != null)
-            return useProxyUser;
-        AbstractAction action = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                JRadioButton box = (JRadioButton) e.getSource();
-                if (box.isSelected()) {
-                    if (box.isSelected()) {
-                        proxyUserName.setEnabled(true);
-                        proxyUserNameLabel.setEnabled(true);
-                        proxyUserPassword.setEnabled(true);
-                        proxyUserPasswordLabel.setEnabled(true);
-                    }
-                } else {
-                    proxyUserName.setEnabled(false);
-                    proxyUserNameLabel.setEnabled(false);
-                    proxyUserPassword.setEnabled(false);
-                    proxyUserPasswordLabel.setEnabled(false);
-                }
-            }
-        };
-        action.putValue(AbstractAction.NAME, "Use user for proxy");
-        action.putValue(AbstractAction.SHORT_DESCRIPTION, "Use proxy user");
-        all.add(action);
-        return useProxyUser = action;
-    }
-
-
-    private AbstractAction defaultInternet;
-
-    public AbstractAction getDefaultInternet(final JRadioButton useProxy, final JRadioButton useUser, final JTextField proxyAdress, final JTextField proxyPort, final JTextField proxyUserName, final JTextField proxyUserPassword) {
-        if (defaultInternet != null)
-            return defaultInternet;
-        AbstractAction action = new AbstractAction() {
-            public void actionPerformed(ActionEvent event) {
-                ProgramProperties.put("useProxy", useProxy.isSelected());
-                ProgramProperties.put("useProxyUser", useUser.isSelected());
-                ProgramProperties.put("proxyAdress", proxyAdress.getText().trim());
-                ProgramProperties.put("proxyPort", proxyPort.getText().trim());
-                ProgramProperties.put("proxyUserName", proxyUserName.getText().trim());
-                if (useProxy.isSelected()) {
-                    System.setProperty("proxySet", "true");
-                    System.setProperty("proxyHost", proxyAdress.getText().trim());
-                    System.setProperty("proxyPort", proxyPort.getText().trim());
-                    if (useUser.isSelected()) {
-                        System.setProperty("http.proxyUser", proxyUserName.getText().trim());
-                        System.setProperty("http.proxyPassword", proxyUserPassword.getText().trim());
-                    } else {
-                        System.setProperty("proxySet", "false");
-                        System.setProperty("proxyHost", "");
-                        System.setProperty("proxyPort", "");
-                        System.setProperty("http.proxyUser", "");
-                        System.setProperty("http.proxyPassword", "");
-                    }
-                } else {
-
-                    System.setProperty("http.proxyUser", "");
-                    System.setProperty("http.proxyPassword", "");
-
-                }
-                SplitsTreeProperties.applyProperties(viewer.getMainViewer());
-            }
-        };
-        action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set Proxy Default");
-        action.putValue(AbstractAction.NAME, "Set As Default");
-        action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
-        all.add(action);
-        return defaultInternet = action;
-    }
-
-    AbstractAction applyInternet;
-
-    public AbstractAction getApplyInternet(final JRadioButton useProxy, final JRadioButton useUser, final JTextField proxyAdress, final JTextField proxyPort, final JTextField proxyUserName, final JTextField proxyUserPassword) {
-        if (applyInternet != null)
-            return applyInternet;
-        AbstractAction action = new AbstractAction() {
-            public void actionPerformed(ActionEvent event) {
-                ProgramProperties.put("useProxy", useProxy.isSelected());
-                ProgramProperties.put("useProxyUser", useUser.isSelected());
-                ProgramProperties.put("proxyAdress", proxyAdress.getText().trim());
-                ProgramProperties.put("proxyPort", proxyPort.getText().trim());
-                ProgramProperties.put("proxyUserName", proxyUserName.getText().trim());
-                if (useProxy.isSelected()) {
-                    System.setProperty("proxySet", "true");
-                    System.setProperty("proxyHost", proxyAdress.getText().trim());
-                    System.setProperty("proxyPort", proxyPort.getText().trim());
-                    if (useUser.isSelected()) {
-                        System.setProperty("http.proxyUser", proxyUserName.getText().trim());
-                        System.setProperty("http.proxyPassword", proxyUserPassword.getText().trim());
-                    } else {
-                        System.setProperty("proxySet", "false");
-                        System.setProperty("proxyHost", "");
-                        System.setProperty("proxyPort", "");
-                        System.setProperty("http.proxyUser", "");
-                        System.setProperty("http.proxyPassword", "");
-                    }
-                } else {
-
-                    System.setProperty("http.proxyUser", "");
-                    System.setProperty("http.proxyPassword", "");
-
-                }
-            }
-        };
-        action.putValue(AbstractAction.SHORT_DESCRIPTION, "Apply Proxy Settings");
-        action.putValue(AbstractAction.NAME, "Apply");
-        action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
-        all.add(action);
-        return applyInternet = action;
-    }
-
-    private AbstractAction okInternet;
-
-    public AbstractAction getOKInternet(final JRadioButton useProxy, final JRadioButton useUser, final JTextField proxyAdress, final JTextField proxyPort, final JTextField proxyUserName, final JTextField proxyUserPassword) {
-        if (okInternet != null)
-            return okInternet;
-        AbstractAction action = new AbstractAction() {
-            public void actionPerformed(ActionEvent event) {
-                ProgramProperties.put("useProxy", useProxy.isSelected());
-                ProgramProperties.put("useProxyUser", useUser.isSelected());
-                ProgramProperties.put("proxyAdress", proxyAdress.getText().trim());
-                ProgramProperties.put("proxyPort", proxyPort.getText().trim());
-                ProgramProperties.put("proxyUserName", proxyUserName.getText().trim());
-                if (useProxy.isSelected()) {
-                    System.setProperty("proxySet", "true");
-                    System.setProperty("proxyHost", proxyAdress.getText().trim());
-                    System.setProperty("proxyPort", proxyPort.getText().trim());
-                    if (useUser.isSelected()) {
-                        System.setProperty("http.proxyUser", proxyUserName.getText().trim());
-                        System.setProperty("http.proxyPassword", proxyUserPassword.getText().trim());
-                    } else {
-                        System.setProperty("proxySet", "false");
-                        System.setProperty("proxyHost", "");
-                        System.setProperty("proxyPort", "");
-                        System.setProperty("http.proxyUser", "");
-                        System.setProperty("http.proxyPassword", "");
-                    }
-                } else {
-
-                    System.setProperty("http.proxyUser", "");
-                    System.setProperty("http.proxyPassword", "");
-
-                }
-                SplitsTreeProperties.applyProperties(viewer.getMainViewer());
-                close();
-            }
-        };
-        action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set Proxy Settings and close window");
-        action.putValue(AbstractAction.NAME, "OK");
-        action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
-        all.add(action);
-        return okInternet = action;
-    }
-
-
 }

@@ -268,18 +268,12 @@ public class MainViewer extends PhyloGraphView implements IDirectableViewer, IMa
         //
         setPopupListener(new PopupListener(this, dir.getDocument(), getActions(), dir.getActions()));
 
-        //tabbedPane.requestFocusInWindow();
         resetCursor();
 
         if (getAllowEdit())
             checkEditableGraph();
         else
             updateView(Director.ALL);
-
-        /*
-        jloda.progs.PrintMenuItem.input(menuBar);
-        jloda.progs.PrintMenuItem.run();
-        */
     }
 
     /**
@@ -348,8 +342,6 @@ public class MainViewer extends PhyloGraphView implements IDirectableViewer, IMa
         getActions().updateRedo();
 
         setTitle(dir);
-
-        //tabbedPane.requestFocusInWindow(); // make key events reach the graphview listener
 
         SyncDocToViewer.syncNetworkToViewer(dir.getDocument(), this);
 

@@ -43,9 +43,6 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
 
     public static final String MISSINGLABEL = "Allowed missing data level per site:";
 
-
-
-
     //private JCheckBox codon1cb = null;
     //private JCheckBox codon2cb = null;
     //private JCheckBox codon3cb = null;
@@ -57,10 +54,6 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
     private JCheckBox excludeNonParsimony = new JCheckBox();
     private JLabel sliderLabel = null;
     private JSlider  missingSlider = new JSlider(JSlider.HORIZONTAL,0,100,100);
-
-
-
-
 
     /**
      * sets up the algorithms window
@@ -139,8 +132,10 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
             }
             text = buf.toString();
         }
-        JTextArea textArea = (JTextArea) getActions().getInput().getValue(FilterCharactersActions.JTEXTAREA);
-        textArea.setText(text);
+        System.err.println("Excluded sites:");
+        System.err.println(text);
+        //JTextArea textArea = (JTextArea) getActions().getInput().getValue(FilterCharactersActions.JTEXTAREA);
+        //textArea.setText(text);
 
         //Prepare message below
         if (dir.getDocument().isValidByName(Characters.NAME)) {

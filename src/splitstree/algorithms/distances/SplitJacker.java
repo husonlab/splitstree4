@@ -42,7 +42,7 @@ import java.util.Vector;
 // EOF
 
 /**
- * Implements the split decomposition method of Bandelt and Dress (1992).
+ * splits jackknife
  */
 public class SplitJacker implements Distances2Splits {
     public final static String DESCRIPTION = "Computes the split decomposition (Bandelt and Dress 1992)";
@@ -68,12 +68,11 @@ public class SplitJacker implements Distances2Splits {
      */
     public boolean isApplicable(Document doc, Taxa taxa, Distances d) {
         //We need a valid characters block and a valid characters2distances transform.
-        if (taxa == null || doc.getCharacters() == null)
+        if (taxa == null || doc.getCharacters() == null || doc.getAssumptions().getCharactersTransformName() == null)
             return false;
 
         CharactersTransform trans = doc.getAssumptions().getCharactersTransform();
         return trans instanceof Characters2Distances;
-
     }
 
     int[] taxaSet2Array(TaxaSet A) {

@@ -1332,7 +1332,7 @@ public class Assumptions extends NexusBlock {
      * @return an instance of the set splits transformation
      */
     public SplitsTransform getSplitsTransform() {
-        String prefix = "splitstree.algorithms.splitstree.";
+        String prefix = "splitstree.algorithms.splits.";
         SplitsTransform trans;
         Class theClass;
         try {
