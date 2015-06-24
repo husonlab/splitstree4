@@ -690,4 +690,14 @@ public class MainViewer extends PhyloGraphView implements IDirectableViewer, IMa
     public CommandManager getCommandManager() {
         return null;
     }
+
+    /**
+     * get the name of the class
+     *
+     * @return class name
+     */
+    @Override
+    public String getClassName() {
+        return "MainViewer";
+    }
 }

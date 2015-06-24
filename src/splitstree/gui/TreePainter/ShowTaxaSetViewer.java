@@ -1616,4 +1616,14 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     public boolean isLocked() {
         return false;
     }
+
+    /**
+     * get the name of the class
+     *
+     * @return class name
+     */
+    @Override
+    public String getClassName() {
+        return "ShowTaxaSetViewer";
+    }
 }
