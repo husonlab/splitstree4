@@ -60,7 +60,7 @@
     <target name="jar" depends="compile">
         <jar jarfile="${jar}"
              basedir="${classDir}"
-             includes="gnu/** jloda/** splitstree/** resources/**">
+             includes="jloda/** splitstree/** resources/**">
         </jar>
     </target>
 
