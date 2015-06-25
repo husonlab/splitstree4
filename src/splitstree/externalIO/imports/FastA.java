@@ -184,6 +184,7 @@ public class FastA extends FileFilter implements Importer {
             System.err.println("Importing aligned sequences: ntax=" + taxonNames.size() + " nchar=" +
                     nchar + " type=" + getDatatype());
         } else {
+            System.err.println("Warning: Sequences have different lengths, please check their alignment!");
             result.append("begin unaligned;\n");
             result.append("dimensions ntax=").append(taxonNames.size()).append(";\n");
             result.append("format datatype=").append(getDatatype()).append(" missing= ").append(getOptionMissing()).append(" no labels;\n");
