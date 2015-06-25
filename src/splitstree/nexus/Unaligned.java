@@ -419,7 +419,7 @@ public class Unaligned extends NexusBlock {
                 np.matchIgnoreCase(";");
             matrix[t] = new char[length + 1];
             for (int i = 1; i <= str.length(); i++) {
-                char ch = str.charAt(i - 1);
+                char ch = Character.toLowerCase(str.charAt(i - 1));
                 matrix[t][i] = ch;
             }
 

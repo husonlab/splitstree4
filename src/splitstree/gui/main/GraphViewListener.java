@@ -343,7 +343,7 @@ public class GraphViewListener implements IGraphViewListener {
      * @param me MouseEvent
      */
     public void mouseEntered(MouseEvent me) {
-        viewer.grabFocus();
+        viewer.requestFocusInWindow();
     }
 
     /**

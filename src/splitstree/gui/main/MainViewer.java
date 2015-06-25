@@ -443,6 +443,7 @@ public class MainViewer extends PhyloGraphView implements IDirectableViewer, IMa
         boolean aboutToQuit = (ProjectManager.getProjects().size() == 1);
 
         if (dir.getDocument().isDirty()) {
+            frame.toFront();
             int result = JOptionPane.showConfirmDialog(getFrame(), "Document has been modified, save before "
                     + (aboutToQuit ? "quitting?" : "closing?"),
                     "Question - " + SplitsTreeProperties.getVersion(), JOptionPane.YES_NO_CANCEL_OPTION);

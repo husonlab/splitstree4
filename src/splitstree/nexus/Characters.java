@@ -1256,11 +1256,9 @@ public class Characters extends NexusBlock {
      * @throws IOException       if there are file errors
      * @throws CanceledException if user presses cancel during the read
      */
-    public void read(NexusStreamParser np, Taxa taxa, Document doc)
-            throws SplitsException, IOException, CanceledException {
+    public void read(NexusStreamParser np, Taxa taxa, Document doc) throws SplitsException, IOException, CanceledException {
         unknownStates = new BitSet();
         hasAmbigStates = false;
-
 
         np.matchBeginBlock(NAME);
 
@@ -1422,8 +1420,7 @@ public class Characters extends NexusBlock {
             } else if (getFormat().transpose
                     && !getFormat().interleave) {
                 readMatrixTransposed(np, taxa, doc);
-            } else if (!getFormat().transpose
-                    && getFormat().interleave) {
+            } else if (!getFormat().transpose && getFormat().interleave) {
                 readMatrixInterleaved(np, taxa, doc);
             } else
                 throw new IOException("line " + np.lineno() + ": can't read matrix!");

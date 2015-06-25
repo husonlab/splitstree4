@@ -350,6 +350,9 @@ public class Document extends DocumentData {
                     analysis.apply(this, taxa, Characters.NAME);
                 }
 
+                if (assumptions.getCharactersTransformName() == null)
+                    assumptions.setCharactersTransformName("Uncorrected_P");
+
                 CharactersTransform trans = assumptions.getCharactersTransform();
                 if (!inBootstrap) {
                     notifyTasks("Characters", assumptions.getCharactersTransformName());
