@@ -40,7 +40,6 @@ import java.io.LineNumberReader;
  *         Date: 26-Nov-2003
  */
 public class SplitsTree {
-    private static SplitsTree application;
 
     public static void main(String[] args) {
         try {
@@ -53,7 +52,7 @@ public class SplitsTree {
             Runtime.getRuntime().addShutdownHook(new Thread(finalizer));
 
             //run application
-            application = (new SplitsTree());
+            SplitsTree application = (new SplitsTree());
             application.parseArguments(args);
 
         } catch (Throwable th) {
@@ -142,7 +141,7 @@ public class SplitsTree {
                         while (dir.isInUpdate())  // wait until finished reading file
                         {
                             try {
-                                Thread.sleep(10);
+                                Thread.sleep(100);
                             } catch (java.lang.InterruptedException ex) {
                             }
                         }

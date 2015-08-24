@@ -90,13 +90,13 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
         //Update codon check boxes from the assumptions block.
         JCheckBox codon1 = (JCheckBox) (getActions().getCodon1().getValue(FilterCharactersActions.JCHECKBOX));
         codon1.setSelected(!doc.isValidByName(Assumptions.NAME)
-                || !doc.getAssumptions().getExcludeCodon1());
+                || doc.getAssumptions().getExcludeCodon1());
         JCheckBox codon2 = (JCheckBox) (getActions().getCodon2().getValue(FilterCharactersActions.JCHECKBOX));
         codon2.setSelected(!doc.isValidByName(Assumptions.NAME)
-                || !doc.getAssumptions().getExcludeCodon2());
+                || doc.getAssumptions().getExcludeCodon2());
         JCheckBox codon3 = (JCheckBox) (getActions().getCodon3().getValue(FilterCharactersActions.JCHECKBOX));
         codon3.setSelected(!doc.isValidByName(Assumptions.NAME)
-                || !doc.getAssumptions().getExcludeCodon3());
+                || doc.getAssumptions().getExcludeCodon3());
         if (doc.isValidByName(Characters.NAME)) {
             codon1.setEnabled(doc.getCharacters().isNucleotides());
             codon2.setEnabled(doc.getCharacters().isNucleotides());
@@ -208,7 +208,7 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
         constraints.gridheight = 2;
         panel.add(scrollP, constraints);
 
-        JLabel label = new JLabel("Use codons:");
+        JLabel label = new JLabel("Exclude codons:");
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.1;
         constraints.weighty = 0.1;

@@ -1,0 +1,240 @@
+Dear Daniel and David,
+	These are my comments on the SplitsTree4 beta manual and apply to the 
+June 2, 2005 version of the manual.  Since I don't have LaTex I was unable to 
+incorporate the comments directly into the text that Daniel sent me.
+	Both the program and the manual are  obviously a labor of love, and 
+both are very well done. I think that SplitsTree should become a widely used 
+tool, not just a tool that is limited to the most sophisticated and expert 
+phylogeneticists.  I have therefore approached this from the perspective of a 
+non-mathematician and a fairly naive phylogeneticist.  Aside from a few minor 
+glitches the vast bulk of the manual that describes the use of SplitsTree4 is 
+fine.  I'll document those glitches below.
+
+	My main concern is with Section 5 (pages 7 & 8) that explains Splits, 
+Trees and Networks.  It is essential that the user develops a reasonable sense 
+of what a split is, what a network is, and how the graphs should be 
+interpreted.  Most potential users will not be mathematicians and the language 
+of mathematics will be unfamiliar and intimidating.  The immediate reaction on 
+encountering paragraphs 4 & 5 of that section will be for the eyes to glaze 
+over and to skip that section, with the result that what follows will not be 
+understood and will also be passed over.
+	Below I've suggested one possible revision for that section.  The 
+revision is based on my understanding which, of course, could be entirely 
+incorrect.
+
+
+(Paragraph 4)
+…is based on  the fundamental mathematical concept of a split.  A split is the 
+bipartitioning of a set of taxa under consideration, and any phylogenetic tree 
+defines such a set of splits.  For example, if we are given an alignment of 
+binary sequences
+
+A 010011010110
+B 100001010110
+C 011001101110
+D 010001111111
+
+then each non-constant column in the alignment defines a split of the taxon set 
+consisting of those taxa with the value 0 and those with the value 1.
+The 
+first column splits the taxa into two sets (A,C) and  (B), while the fourth 
+column does not define a split because the characters are constant.
+
+Mathematically, for a set of X taxa any phylogenetic tree T defines a set of 
+such splits called the split encoding ?(T) of T, as follows:… (remainder of the 
+paragraph).
+
+???
+Visually, the tree T on the left becomes the two subtrees TA andTB on the right 
+by deleting the edge (branch) e, and the split S = A,B,C,D/ E,F.
+
+
+(Next paragraph, paragraph 5, as is)
+
+A phylogenetic tree can be thought of as an idealized representation of the 
+historical relationships among a set of taxa; and tree building methods are 
+attempts to find a the set of compatible splits that are most consistent with 
+the data according to some algorithm.  Often there are multiple tree that are 
+equally consistent with the data, i.e. multiple sets of compatible splits.  In 
+general that collection of splits will be incompatible.  Moreover, there exist 
+inference methods such as split decomposition in Neighbor-Net that compute a 
+set of incompatible splits from the data in the form of a given distance 
+matrix.  Note that split decomposition produces a set of splits that are called 
+weakly compatible, while Neighbor-Net produces a set of splits that is 
+circular, as originally defined in [1].
+
+In the next paragraph, paragraph 7, add the following sentence:
+"…required to represent a single split.  A phylogenetic tree is therefore a 
+special case of a split network.  In SplitsTree4…" 
+	Paragraph 7 describes a band of parallel edges.   The term "edge" will 
+be unclear to most users.  For trees I've taken "edge" as synonymous with 
+"branch".  In a network should I think of parallel edges as equivalent branches 
+in alternative trees?
+
+Paragraph 8 is particularly well written and helpful.  Still, it is difficult 
+to know how to interpret a splits graph.  I've tried to get a picture of a 
+splits network into my mind based on Section 5, and I've come to think of it as 
+what I would get if I superimposed a set of equally parsimonious trees, or I 
+superimposed upon the most likely ML tree several slightly less likely trees.  
+I think of a bunch of parallelograms as and area where there are lots of more 
+or less equally good alternatives, and the remainder as portions where I can be 
+fairly confident of the tree-like structure.
+
+???
+	Following paragraph 8 it would be very helpful to show a splits diagram 
+and to discuss its interpretation explicitly.
+
+
+	Paragraph 9 on reticulate networks raises several questions:
+(1) what do you mean by a hybridization event?  How is that different from a 
+recombination event?
+(2)  why are recombination networks based on binary sequences?  Is this because 
+you have not yet figured out how to base recombination networks on DNA or 
+protein sequences, or because you are using recombination in a different sense 
+than biologists do?
+
+	Many users will wonder why you discuss things in terms of binary 
+sequences at all (once they work out what a binary sequence is).  Because their 
+data will almost always be DNA, RNA or protein sequences they will wonder what 
+binary sequences have to do with anything biological.  It might be helpful if 
+you mention that binary sequences could be used to represent the presence or 
+absence of restriction sites.
+
+??
+	Paragraph 10: again, I suspect that most users will want not a more 
+detailed, mathematically justified, discussion of the fundamental concepts, but 
+a more intuitive, biological, non-mathematical discussion.
+
+Minor things
+Section 2, page 4:  It would be helpful to begin with the conventions used in 
+the manual; i.e. Analysis ---> Configure Pipline means "from the Analysis 
+choose the Configure Pipeline item".
+Main:Source means "in the Main window the Source tab".
+
+Section 4, paragraph 3 :   "where written in C++" should be "were written in 
+C++"
+
+Section 5, paragraph 2, first sentence:  "using phylogenetic a tree"  should be 
+"using a phylogenetic tree"
+
+Section 8 paragraph 2.  The behavior is not as described.  When PhyML is not 
+found it brings up a warning with no dialog that would allow the user to find 
+PhyML.  By the way, is PhyML the same as dnaml?
+
+???
+Section 8, paragraph 4:  in the Pipeline window there is a box to provide the 
+path to an exgternal application.  Most users have no idea what a path is, much 
+less how to specify one.  Give an example along the lines of:  Suppose the 
+SplitsTree4 application is in the Applications folder and the external 
+application PhyML is in the folder Phylip elsewhere on the drive.  The path 
+would look like this (path) meaning that the Phylip folder is within the X 
+folder, that is within the Y folder that is on the volume (hard drive) named Z".
+
+???
+In this section it would be nice to tell the user how to add other external 
+programs such as TreeFinder or MrBAyes to SplitsTree4.  Assuming that a plugin 
+is required, where would they obtain such a plugin?  How would they install it?
+
+Section 9, paragraph 2 ( page 10):  The MedikanNetwork menu item is greyed out. 
+ Is it not yet implemented, or is it nor appropriate for DNA character data and 
+thus not available?
+
+???
+Section 10.1.  The scale bar is selected or deselected in the General tab, not 
+the status line tab.  The scale bar has no units, nor are units mentioned in 
+the manual.   If the units are mutations per site that should be mentioned and 
+preferably  indicated under the bar itself on the network graph.
+
+
+Section 11:  Also need to point out that the graph can be dragged around the 
+window by clicking on a node, and that one can click on a terminal node to 
+drage the node and thus change the edge angle in order to visually separate 
+crowded labels.
+
+Section 11, last bullet item:  the sentence is incomplete.  How do you open the 
+Node and Edge window?
+
+???
+Section 12.1, bullet item 2, last sentence:  change to read "If the current 
+document is non-empty, or the Main:Network tab is selected, then the selected 
+file is oopened in a new window"  (Uless this is a bug).
+
+Section 12.1, bullet item 3  The File --> Open Recent submenu… 
+
+???
+Section 12.1  Bullet items 4 & 5 do not exist, and the Import choice is not 
+mentioned in the Manual
+
+???
+Section 12.1, last bullet item:  The Quit command is under the SplitsTree4 menu 
+in the Macintosh version.
+
+???
+Section 12.2, last item:  The Preferences menu choice is under SplitsTree4 menu 
+in the Macintosh version
+
+Section 12.3  Start a new paragraph after the first sentence to maintan same 
+structure as in the rest of this section.
+
+Section 12.4, 4th form last item:  shouldn't "in the network are unselected" 
+read "in the network are selected"??
+
+
+??? FIX
+Section 12.6, last item on page 16 (Trees--->PhyML)  The default window size 
+for the dialog is too small and appears to be gibberish until the window is 
+enlarged.  For some reason the window has no scroll bar and it tries to print 
+everything overlapping (may be specific to Mac version)
+
+Section 12.7 item 1:  change Networks -->NeighborNet to Networks -->NNet
+
+????
+Section 12.7, last iem:  The Networks-->RecombinationNetwork item is not 
+present.  Coming later?
+
+???
+Section 12.10, first item is under SplitsTree4 menu in Mac version
+
+Section 13:  Begin with "The Pipline window is accessed from the 
+Analysis-->Configure Pipeline menu."
+
+Section 13,First sentence: Change Tue to The
+
+Section 13.7, page 21 under Confidence Threshold : change "removes all splits" 
+to "removes any split"
+
+
+???
+Section 15, first tiem:  Under SplitsTree4 menu in the MAcintosh version
+
+Section 15, in Maintain Edge Lengths descriptions:  change "we what the 
+network" to "we want the menu"
+
+Section 16., under Nodes and Edges:Edges:  insert a comma after splits ids on 
+the last line.
+
+???
+Section 16.8:  The About menu item is under the SplitsTree4 menu in the Mac 
+version
+
+Section 17, line 4:  Change "However. this algorithm" to "However, the 
+algorithm"
+
+???
+Section 21 (Examples)  I was unable to find an Examples folder installed 
+anywhere.  Is this not yet implemented?
+
+References [8]  The current version of Phylip is 3.63 for which the citation is 
+Felsenstein, J. 2004. PHYLIP (Phylogeny Inference Package) version 3.6. 
+Distributed by the author. Department of Genome Sciences, University of 
+Washington, Seattle.
+
+
+	That's it.  All I've got at this time.
+
+Thanks again for a well written manual.
+
+Barry
+
+
+

@@ -2817,6 +2817,21 @@ QUIT - exit program
 To begin or end a multi-line input, enter a backslash '\'
 \end{verbatim}
 
+Launching the program with option {\tt -g} will make the program run
+in a \pconcept{command-line mode}, first excuting any
+command given with the {\tt -x} option and then reading
+commands from the file specified using the {\tt -c} command.
+If no such file is given, additional commands are read from standard input.
+
+Please note that windows will still open when in command-line mode, but should not be used interactively.
+To prevent windows from opening, or to use the command-line mode on a server, please use the linux \iit{virtual frame buffer command},
+as shown here:
+
+\begin{verbatim}
+xvfb-run --auto-servernum --server-num=1 Dendroscope +g
+\end{verbatim}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mysection{Examples}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

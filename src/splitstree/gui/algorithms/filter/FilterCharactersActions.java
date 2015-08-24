@@ -37,7 +37,7 @@ import java.util.List;
  */
 public class FilterCharactersActions implements UpdateableActions {
     private Director dir;
-    private List all = new LinkedList();
+    private List<Action> all = new LinkedList<>();
     public static final String JCHECKBOX = "JCHECKBOX";
     public static final String JTEXTAREA = "JTEXTAREA";
     public static final String JSLIDER = "JSLIDER";
@@ -115,11 +115,11 @@ public class FilterCharactersActions implements UpdateableActions {
             return codon1;
         AbstractAction action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                if (!((JCheckBox) codon1.getValue(JCHECKBOX)).isSelected() && !((JCheckBox) codon2.getValue(JCHECKBOX)).isSelected()
-                        && !((JCheckBox) codon3.getValue(JCHECKBOX)).isSelected()) {
-                    ((JCheckBox) codon1.getValue(JCHECKBOX)).setSelected(true);
-                    ((JCheckBox) codon2.getValue(JCHECKBOX)).setSelected(true);
-                    ((JCheckBox) codon3.getValue(JCHECKBOX)).setSelected(true);
+                if (((JCheckBox) codon1.getValue(JCHECKBOX)).isSelected() && ((JCheckBox) codon2.getValue(JCHECKBOX)).isSelected()
+                        && ((JCheckBox) codon3.getValue(JCHECKBOX)).isSelected()) {
+                    ((JCheckBox) codon1.getValue(JCHECKBOX)).setSelected(false);
+                    ((JCheckBox) codon2.getValue(JCHECKBOX)).setSelected(false);
+                    ((JCheckBox) codon3.getValue(JCHECKBOX)).setSelected(false);
                 }
             }
         };
@@ -142,11 +142,11 @@ public class FilterCharactersActions implements UpdateableActions {
             return codon2;
         AbstractAction action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                if (!((JCheckBox) codon1.getValue(JCHECKBOX)).isSelected() && !((JCheckBox) codon2.getValue(JCHECKBOX)).isSelected()
-                        && !((JCheckBox) codon3.getValue(JCHECKBOX)).isSelected()) {
-                    ((JCheckBox) codon1.getValue(JCHECKBOX)).setSelected(true);
-                    ((JCheckBox) codon2.getValue(JCHECKBOX)).setSelected(true);
-                    ((JCheckBox) codon3.getValue(JCHECKBOX)).setSelected(true);
+                if (((JCheckBox) codon1.getValue(JCHECKBOX)).isSelected() && ((JCheckBox) codon2.getValue(JCHECKBOX)).isSelected()
+                        && ((JCheckBox) codon3.getValue(JCHECKBOX)).isSelected()) {
+                    ((JCheckBox) codon1.getValue(JCHECKBOX)).setSelected(false);
+                    ((JCheckBox) codon2.getValue(JCHECKBOX)).setSelected(false);
+                    ((JCheckBox) codon3.getValue(JCHECKBOX)).setSelected(false);
                 }
             }
         };
@@ -169,11 +169,11 @@ public class FilterCharactersActions implements UpdateableActions {
             return codon3;
         AbstractAction action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                if (!((JCheckBox) codon1.getValue(JCHECKBOX)).isSelected() && !((JCheckBox) codon2.getValue(JCHECKBOX)).isSelected()
-                        && !((JCheckBox) codon3.getValue(JCHECKBOX)).isSelected()) {
-                    ((JCheckBox) codon1.getValue(JCHECKBOX)).setSelected(true);
-                    ((JCheckBox) codon2.getValue(JCHECKBOX)).setSelected(true);
-                    ((JCheckBox) codon3.getValue(JCHECKBOX)).setSelected(true);
+                if (((JCheckBox) codon1.getValue(JCHECKBOX)).isSelected() && ((JCheckBox) codon2.getValue(JCHECKBOX)).isSelected()
+                        && ((JCheckBox) codon3.getValue(JCHECKBOX)).isSelected()) {
+                    ((JCheckBox) codon1.getValue(JCHECKBOX)).setSelected(false);
+                    ((JCheckBox) codon2.getValue(JCHECKBOX)).setSelected(false);
+                    ((JCheckBox) codon3.getValue(JCHECKBOX)).setSelected(false);
                 }
             }
         };
@@ -241,13 +241,13 @@ public class FilterCharactersActions implements UpdateableActions {
                 if (!excludeConstant.isSelected())
                     cmd += " no";
                 cmd += " constant";
-                if (((JCheckBox) codon1.getValue(JCHECKBOX)).isSelected())
+                if (!((JCheckBox) codon1.getValue(JCHECKBOX)).isSelected())
                     cmd += " no";
                 cmd += " codon1";
-                if (((JCheckBox) codon2.getValue(JCHECKBOX)).isSelected())
+                if (!((JCheckBox) codon2.getValue(JCHECKBOX)).isSelected())
                     cmd += " no";
                 cmd += " codon2";
-                if (((JCheckBox) codon3.getValue(JCHECKBOX)).isSelected())
+                if (!((JCheckBox) codon3.getValue(JCHECKBOX)).isSelected())
                     cmd += " no";
                 cmd += " codon3";
                 int missingVal =  missingSlider.getValue();

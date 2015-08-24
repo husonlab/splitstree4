@@ -1,0 +1,198 @@
+\begin{thebibliography}{10}
+
+\bibitem{Ayling2008}
+Sarah~C. Ayling and Terence~A. Brown.
+\newblock Novel methodology for construction and pruning of quasi-median
+  networks.
+\newblock {\em BMC Bioinformatics}, 9:115, 2008.
+
+\bibitem{BandeltDress92}
+H.-J. Bandelt and A.~W.~M. Dress.
+\newblock A canonical decomposition theory for metrics on a finite set.
+\newblock {\em Advances in Mathematics}, 92:47--105, 1992.
+
+\bibitem{MedianNetworks}
+H.-J. Bandelt, P.~Forster, B.~C. Sykes, and M.~B. Richards.
+\newblock Mitochondrial portraits of human population using median networks.
+\newblock {\em Genetics}, 141:743--753, 1995.
+
+\bibitem{Bandelt1999}
+Hans-J\"{u}rgen Bandelt, Peter Forster, and Arne R\"{o}hl.
+\newblock Median-joining networks for inferring intraspecific phylogenies.
+\newblock {\em Molecular Biology and Evolution}, 16:37--48, 1999.
+
+\bibitem{RefinedBuneman2003}
+G.S. Brodal, R.~Fagerberg, A.~\"Ostlin, C.N.S.Pedersen, and S.S. Rao.
+\newblock Computing refined buneman trees in cubic time.
+\newblock {\em Lecture Notes in Computer Science}, 2812:259--270, 2003.
+\newblock Springer Verlag.
+
+\bibitem{Bruen05}
+T.~Bruen, H.~Philippe, and D.~Bryant.
+\newblock A quick and robust statistical test to detect the presence of
+  recombination.
+\newblock {\em Genetics}, (in press), 2005.
+
+\bibitem{BryantMoulton2002}
+D.~Bryant and V.~Moulton.
+\newblock {NeighborNet}: An agglomerative method for the construction of planar
+  phylogenetic networks.
+\newblock In R.~Guig{\'o} and D.~Gusfield, editors, {\em Algorithms in
+  Bioinformatics, WABI 2002}, volume LNCS 2452, pages 375--391, 2002.
+
+\bibitem{buneman.dist}
+P.~Buneman.
+\newblock The recovery of trees from measures of dissimilarity.
+\newblock In F.~R. Hodson, D.~G. Kendall, and P.~Tautu, editors, {\em
+  Mathematics in the Archaeological and Historical Sciences}, pages 387--395.
+  Edinburgh University Press, 1971.
+
+\bibitem{DressHuson2004}
+A.~W.~M. Dress and D.H. Huson.
+\newblock Constructing splits graphs.
+\newblock {\em IEEE/ACM Transactions in Computational Biology and
+  Bioinformatics}, 1(3):109--115, 2004.
+
+\bibitem{Muscle}
+R.C. Edgar.
+\newblock {MUSCLE}: multiple sequence alignment with high accuracy and high
+  throughput.
+\newblock {\em Nucleic Acids Research}, 32(5):1792--97, 2004.
+
+\bibitem{Excoffier:1994p186}
+L~Excoffier and P~Smouse.
+\newblock Using allele frequencies and geographic subdivision to reconstruct
+  gene trees within a species: {\ldots}.
+\newblock {\em Genetics}, Jan 1994.
+
+\bibitem{Faith92}
+D.P. Faith.
+\newblock Conservation evaluation and phylogenetic diversity.
+\newblock {\em Biol. Conserv.}, 61:1--10, 1992.
+
+\bibitem{Phylip}
+J.~Felsenstein.
+\newblock {PHYLIP} -- phylogeny inference package (version 3.2).
+\newblock {\em Cladistics}, 5:164--166, 1989.
+
+\bibitem{GambetteHuson2005}
+P.~Gambette and D.H. Huson.
+\newblock Improved layout of phylogenetic networks.
+\newblock To appear in: TCBB, 2008.
+
+\bibitem{bio-nj}
+O.~Gascuel.
+\newblock {BIONJ}: An improved version of the {NJ} algorithm based on a simple
+  model of sequence data.
+\newblock {\em Mol. Biol. Evol.}, 14:685--695, 1997.
+
+\bibitem{PhyML}
+S.~Guindon and O.~Gascuel.
+\newblock A simple, fast, and accurate algorithm to estimate large phylogenies
+  by maximum likelihood.
+\newblock {\em Syst Biol.}, 52(5):696--704, 2003.
+
+\bibitem{HendyPenny93}
+M.D. Hendy and D.~Penny.
+\newblock Spectral analysis of phylogentic data.
+\newblock {\em Journal of Classification}, 10:5--24, 1993.
+
+\bibitem{HollandMoulton2003}
+B.~Holland and V.~Moulton.
+\newblock Consensus networks: A method for visualizing incompatibilities in
+  collections of trees.
+\newblock In G.~Benson and R.~Page, editors, {\em Proceedings of ``Workshop on
+  Algorithms in Bioinformatics''}, volume 2812 of {\em LNBI}, pages 165--176.
+  Springer, 2003.
+
+\bibitem{Holland2002Delta}
+B.~R. Holland, K.~T. Huber, A.~Dress, and V.~Moulton.
+\newblock {delta} plots: A tool for analyzing phylogenetic distance data.
+\newblock {\em Mol Biol Evol}, 19(12):2051--2059, December 2002.
+
+\bibitem{SplitsTree98}
+D.H. Huson.
+\newblock {SplitsTree}: A program for analyzing and visualizing evolutionary
+  data.
+\newblock {\em Bioinformatics}, 14(10):68--73, 1998.
+
+\bibitem{Tutorial2005}
+D.H. Huson.
+\newblock Introduction to phylogenetic networks.
+\newblock Tutorial presented at ISMB, 2005.
+
+\bibitem{jsplits}
+D.H. Huson and D.~Bryant.
+\newblock Application of phylogenetic networks in evolutionary studies.
+\newblock {\em Molecular Biology and Evolution}, 23:254--267, 2006.
+\newblock Software available from {\tt www.splitstree.org}.
+
+\bibitem{zclosure}
+D.H. Huson, T.~Dezulian, T.~Kloepper, and M.~A. Steel.
+\newblock Phylogenetic super-networks from partial trees.
+\newblock {\em IEEE/ACM Transactions in Computational Biology and
+  Bioinformatics}, 1(4):151--158, 2004.
+
+\bibitem{HusonSteel2003b}
+D.H. Huson and M.~Steel.
+\newblock Phylogenetic trees based on gene content.
+\newblock {\em Bioinformatics}, 20(13):2044--9, 2004.
+
+\bibitem{HusonSteelWhitfield2006}
+D.H. Huson, M.A. Steel, and J.~Whitfield.
+\newblock Reducing distortion in phylogenetic networks.
+\newblock In P.~B\"ucher and B.M.E. Moret, editors, {\em Algorithms in
+  Bioinformatics}, LNBI 4175, pages 150--161, 2006.
+
+\bibitem{Lockhart2000a}
+P.~J. Lockhart, M.~A. Steel, and D.H. Huson.
+\newblock Invariable site models and their uses in phylogeny reconstruction.
+\newblock {\em Syst. Biol.}, 49(2):225--232, 2000.
+
+\bibitem{NEXUS}
+D.R. Maddison, D.L. Swofford, and W.P. Maddison.
+\newblock {NEXUS}: an extendible file format for systematic information.
+\newblock {\em System. Bio.}, 46(4):590--621, 1997.
+
+\bibitem{MosselSteel2003}
+E.~Mossel and M.~Steel.
+\newblock A phase transition for a random cluster model on phylogenetic trees.
+\newblock Submitted, 2003.
+
+\bibitem{NeiMiller1990}
+M.~Nei and J.C. Miller.
+\newblock A simple method for estimating average number of nucleotide
+  substitutions within and between populations from restriction data.
+\newblock {\em Genetics}, 125:873--879, 1990.
+
+\bibitem{NJ}
+N.~Saitou and M.~Nei.
+\newblock The {Neighbor-Joining} method: a new method for reconstructing
+  phylogenetic trees.
+\newblock {\em Molecular Biology and Evolution}, 4:406--425, 1987.
+
+\bibitem{upgma_sokal1958}
+R.~R. Sokal and C.~D. Michener.
+\newblock A statistical method for evaluating systematic relationships.
+\newblock {\em University of Kansas Scientific Bulletin}, 28:1409--1438, 1958.
+
+\bibitem{Steel94}
+M.A. Steel.
+\newblock Recovering a tree from the leaf colorations it generates under a
+  {Markov} model.
+\newblock {\em Appl. Math. Lett.}, 7(2):19--24, 1994.
+
+\bibitem{SOWH1996}
+D.~L. Swofford, G.~J. Olsen, P.~J. Waddell, and D.~M. Hillis.
+\newblock Chapter 11: Phylogenetic inference.
+\newblock In D.~M. Hillis, C.~Moritz, and B.~K. Mable, editors, {\em Molecular
+  Systematics}, pages 407--514. Sinauer Associates, Inc., 2nd edition, 1996.
+
+\bibitem{ClustalW}
+J.D. Thompson, D.G. Higgins, and T.J. Gibson.
+\newblock {CLUSTAL W}: improving the sensitivity of progressive multiple
+  sequence alignment through sequence weighting, position-specific gap
+  penalties and weight matrix choice.
+\newblock {\em Nucl. Acids Res.}, 22:4673--4680, 1994.
+
+\end{thebibliography}

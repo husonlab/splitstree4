@@ -82,7 +82,7 @@ public class StatusBar extends jloda.gui.StatusBar {
                     status += " Taxa=" + doc.getTaxa().getNtax();
                     Taxa original = doc.getTaxa().getOriginalTaxa();
                     if (original != null && original.getNtax() > doc.getTaxa().getNtax())
-                        status += "(of " + original.getNtax() + ")";
+                        status += " (of " + original.getNtax() + ")";
                 }
 
                 if (chars && doc.isValidByName(Characters.NAME)) {
@@ -91,7 +91,7 @@ public class StatusBar extends jloda.gui.StatusBar {
                     else {
                         status += " Chars=" + doc.getCharacters().getNactive();
                         if (doc.getCharacters().getNchar() > doc.getCharacters().getNactive())
-                            status += "(of " + doc.getCharacters().getNchar() + ")";
+                            status += " (of " + doc.getCharacters().getNchar() + ")";
                     }
                 }
 
@@ -99,14 +99,14 @@ public class StatusBar extends jloda.gui.StatusBar {
                     status += " Trees=" + doc.getTrees().getNtrees();
                     Trees original = doc.getTrees().getOriginal();
                     if (original != null && original.getNtrees() != doc.getTrees().getNtrees())
-                        status += "(of " + original.getNtrees() + ")";
+                        status += " (of " + original.getNtrees() + ")";
                 }
 
                 if (splits && doc.isValidByName(Splits.NAME)) {
                     status += " Splits=" + doc.getSplits().getNsplits();
                     Splits original = doc.getSplits().getOriginal();
                     if (original != null && original.getNsplits() > doc.getSplits().getNsplits())
-                        status += "(of " + original.getNsplits() + ")";
+                        status += " (of " + original.getNsplits() + ")";
                 }
 
                 if (assumptions && doc.isValidByName(Assumptions.NAME)) {
@@ -141,7 +141,7 @@ public class StatusBar extends jloda.gui.StatusBar {
                             if (assumptions.getTreesTransformName().equals(Basic.getShortName(TreeSelector.class))) {
                                 int which = ((TreeSelector) assumptions.getTreesTransform()).getOptionWhich();
                                 if (which > 0)
-                                    status += "(" + which + ")";
+                                    status += " (" + which + ")";
                             }
                             first = false;
                         }
