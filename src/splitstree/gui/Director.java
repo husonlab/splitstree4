@@ -60,6 +60,8 @@ public class Director implements IDirector {
 
     private Thread executionWorkerThread = null;
 
+    private boolean isInternalDocument = false;
+
     /**
      * construct a new director with associated doc and actions.
      */
@@ -938,4 +940,14 @@ public class Director implements IDirector {
         return getMainViewer().getCommandManager();
     }
 
+    @Override
+    public boolean isInternalDocument() {
+        return isInternalDocument;
+    }
+
+    @Override
+    public void setInternalDocument(boolean isInternalDocument) {
+        this.isInternalDocument = isInternalDocument;
+
+    }
 }
