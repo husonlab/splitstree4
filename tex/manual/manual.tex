@@ -183,7 +183,8 @@ version 1.7 or newer, freely available from \href{http://www.java.org}{www.java.
 from \href{http://www.splitstree.org}{www.splitstree.org}.
 There are four different installers, targeting different operating systems:
 \begin{itemize}
-\item \itt{splitstree\_windows\_\VERSION.exe} provides an installer for \irm{Windows}.
+\item \itt{splitstree\_windows-x64\_\VERSION.exe} provides an installer for \irm{Windows} 64-bit (newer systems).
+\item \itt{splitstree\_windows\_\VERSION.exe} provides an installer for \irm{Windows} 32-bit (older systems).
 \item \itt{splitstree\_macos\_\VERSION.dmg} provides an installer for \irm{Mac OS}.
 \item \itt{splitstree\_unix\_\VERSION.sh} provides a shell installer for \irm{Linux}.
 \end{itemize}
@@ -230,16 +231,16 @@ is based on the \concept{Nexus} format, as introduced in
 \item \block{Trees}: list of (possibly partial) trees.
 \item \block{Splits}: (possibly weighted) splits.
 \item \block{Network}: phylogenetic tree or network.
-\item \block{ST\_Assumptions}: contains all methods and options
+\item \block{ST-Assumptions}: contains all methods and options
 used to compute data.
-\item \block{ST\_Bootstrap}: bootstrap support of splits.
+\item \block{ST-Bootstrap}: bootstrap support of splits.
 \end{itemize}
 
 The first eight blocks \block{Taxa}, \block{Unaligned}, \block{Characters},
 \block{Distances}, \block{Quartets}, \block{Trees}, \block{Splits}
 and \block{Network} are organized as a \pconcept{pipeline} and data is processed
 from left-to-right along this pipeline. Any non-empty document must contain
-a \block{Taxa} block and will usually contain an \block{ST\_Assumptions}
+a \block{Taxa} block and will usually contain an \block{ST-Assumptions}
 block. All other blocks are optional and the presence or absence of
 some block depends on the set of computations that the user has selected.
 
@@ -1164,23 +1165,36 @@ set of selected input trees.
 \mysubsection{Window Menu}
 The \pmenu{Window} menu contains the following items:
 \begin{itemize}
-\item The \pmenuitem{Window}{About} item
-shows information about the version of \SplitsTree.
-Under MacOS, this item is found in the SplitsTree menu.
-\item The \pmenuitem{Window}{How to Cite} item
-gives instructions on how to cite the program.
-\item The \pmenuitem{Window}{Nexus Syntax} submenu
-provides the syntax of all \concept{Nexus} blocks that \SplitsTree can process.
-\item The \pmenuitem{Window}{Command Syntax} item
-summarizes the syntax of the commands that can be used with the
-\concept{command-line mode}
-version of the program, or which can be present in an input file.
+\item The \pmenuitem{Window}{Set Window Size} item allows one to set the width and height of the window.
 \item The \pmenuitem{Window}{Enter a Command} item
 allows entry of a single command.
 \item The \pmenuitem{Window}{Message Window} item
 opens the message window.
 \end{itemize}
 The bottom of the \menu{Window} menu contains a list of all open windows.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mysubsection{Help Menu}
+The \pmenu{Help} menu contains the following items:
+\begin{itemize}
+\item The \pmenuitem{Help}{About} item
+shows information about the version of \SplitsTree.
+Under MacOS, this item is found in the SplitsTree menu.
+\item The \pmenuitem{Help}{How to Cite} item
+gives instructions on how to cite the program.
+\item The \pmenuitem{Help}{Nexus Syntax} submenu
+provides the syntax of all \concept{Nexus} blocks that \SplitsTree can process.
+\item The \pmenuitem{Help}{Command Syntax} item
+summarizes the syntax of the commands that can be used with the
+\concept{command-line mode}
+version of the program, or which can be present in an input file.
+\item The \pmenuitem{Help}{Website...} item opens the program's website in a web browser.
+\item The \pmenuitem{Help}{Reference Manual...} item opens the program's reference manual in a web browser.
+\item The \pmenuitem{Help}{Check For Updates...} item checks for a new update to the program.
+\end{itemize}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mysubsection{Configuring Methods}
@@ -1387,7 +1401,7 @@ The \ptabtab{Pipeline}{Characters}{Select} sub-tab is used to
 select certain sites in the \block{Characters} block for
 \irm{display of sites} in the network.
 If you have selected a split in the main viewer, and if you
-press \pbutton{Select Supporting Characters}, then SplitsTree will
+press \button{Select Supporting Characters}, then SplitsTree will
 fill the text box on the left of the dialog with all sites that
 support the selected split. These are all characters for which
 the set of character states on the one side of the split is
@@ -1780,7 +1794,7 @@ The program writes all messages to this window.
 \mysubsection{About Window}
 
 The \pwindow{About} Window is opened using the
-\menuitem{Window}{About} item. It reports the version of the program.
+\menuitem{Help}{About} item. It reports the version of the program.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2019,7 +2033,7 @@ END;
 
 \mysubsection{Bootstrap Block}
 
-The \pblock{ST\_Bootstrap} block contains the results of a bootstrap analysis.
+The \pblock{ST-Bootstrap} block contains the results of a bootstrap analysis.
 It has the following syntax:
 \begin{verbatim}
 BEGIN ST_BOOTSTRAP;
@@ -2065,7 +2079,7 @@ END;
 
 \mysubsection{ST Assumptions Block}
 
-The \pblock{ST\_Assumptions} block controls the processing of the data along
+The \pblock{ST-Assumptions} block controls the processing of the data along
 the \concept{pipeline}. It contains all choices made by the user that affect
 computations.
 It has the following syntax:
@@ -2818,7 +2832,7 @@ To begin or end a multi-line input, enter a backslash '\'
 \end{verbatim}
 
 Launching the program with option {\tt -g} will make the program run
-in a \pconcept{command-line mode}, first excuting any
+in a \concept{command-line mode}, first excuting any
 command given with the {\tt -x} option and then reading
 commands from the file specified using the {\tt -c} command.
 If no such file is given, additional commands are read from standard input.

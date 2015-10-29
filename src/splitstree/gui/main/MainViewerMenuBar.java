@@ -25,25 +25,33 @@
 package splitstree.gui.main;
 
 
+import com.install4j.api.launcher.ApplicationLauncher;
+import com.install4j.api.update.ApplicationDisplayMode;
+import com.install4j.api.update.UpdateChecker;
+import com.install4j.api.update.UpdateDescriptor;
+import com.install4j.api.update.UpdateDescriptorEntry;
 import jloda.gui.AppleStuff;
 import jloda.gui.director.ProjectManager;
-import jloda.util.MenuMnemonics;
-import jloda.util.ProgramProperties;
-import jloda.util.PropertiesListListener;
-import jloda.util.ResourceManager;
+import jloda.util.*;
 import splitstree.algorithms.characters.*;
 import splitstree.algorithms.distances.*;
 import splitstree.algorithms.splits.*;
+import splitstree.algorithms.splits.ConvexHull;
 import splitstree.algorithms.trees.*;
+import splitstree.core.Document;
 import splitstree.gui.Director;
-import splitstree.gui.DirectorUtilities;
 import splitstree.gui.algorithms.AlgorithmsWindow;
 import splitstree.main.SplitsTreeProperties;
 import splitstree.nexus.*;
 import splitstree.util.PluginClassLoader;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,9 +88,12 @@ public class MainViewerMenuBar extends JMenuBar {
 
         add(getWindowMenu());
 
+        add(getHelpMenu());
+
         for (int i = 0; i < this.getMenuCount(); i++)
             MenuMnemonics.setMnemonics(this.getMenu(i));
     }
+
 
     private JMenu fileMenu;
 
@@ -694,9 +705,6 @@ public class MainViewerMenuBar extends JMenuBar {
     private JMenu analysisMenu;
 
     public JMenu getAnalysisMenu() {
-
-        JCheckBoxMenuItem cbox;
-
         if (analysisMenu != null)
             return analysisMenu;
         JMenu menu = new JMenu(dir.getActions().getMenuTitleAction("Analysis", 'A'));
@@ -810,9 +818,146 @@ public class MainViewerMenuBar extends JMenuBar {
      * @return windows menu
      */
     public JMenu getWindowMenu() {
-        if (windowMenu == null)
-            windowMenu = DirectorUtilities.makeWindowMenu(dir, mainViewer);
-        return windowMenu;
+        if (windowMenu != null)
+            return windowMenu;
+
+        JMenu menu = new JMenu(dir.getActions().getMenuTitleAction("Window", 'W'));
+
+        menu.add(mainViewer.getActions().getWindowSize());
+
+        menu.addSeparator();
+
+        menu.add(dir.getActions().getRunCommand());
+        menu.add(dir.getActions().getMessageWindow());
+
+        menu.addSeparator();
+        menu.add(mainViewer.getActions().getNodeEdgeFormatterAction());
+        menu.add(mainViewer.getActions().getFindReplaceAction());
+
+        return windowMenu = menu;
     }
 
+    private JMenu helpMenu;
+
+    public JMenu getHelpMenu() {
+        if (helpMenu != null)
+            return drawMenu;
+        JMenu menu = new JMenu(dir.getActions().getMenuTitleAction("Help", 'H'));
+
+        if (ProgramProperties.isMacOS()) {
+            if (!AppleStuff.getInstance().isAboutDefined())
+                AppleStuff.getInstance().setAboutAction(dir.getActions().getAboutWindow());
+        } else {
+            menu.add(dir.getActions().getAboutWindow());
+            menu.addSeparator();
+        }
+
+        menu.add(dir.getActions().getHowToCite());
+        menu.addSeparator();
+
+
+        JMenu subMenu = new JMenu("Nexus Syntax");
+        subMenu.setMnemonic('N');
+        subMenu.setIcon(ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Help16.gif"));
+
+        Iterator it = Document.getListOfBlockNames().iterator();
+        ArrayList<Integer> mnemonics = new ArrayList<>();
+
+        while (it.hasNext()) {
+            String name = (String) it.next();
+            Integer mnemonic = null;
+            for (int i = 0; i < name.length(); i++) {
+
+                if (Character.isLetter(name.charAt(i))) {
+                    Integer cMnemonic = (int) Character.toUpperCase(name.charAt(i));
+                    if (!mnemonics.contains(cMnemonic)) {
+                        mnemonic = cMnemonic;
+                        mnemonics.add(cMnemonic);
+                        break;
+                    }
+                }
+            }
+            subMenu.add(dir.getActions().getSyntaxAction(name, mnemonic));
+        }
+        menu.add(subMenu);
+
+        menu.add(dir.getActions().getCommandHelp());
+
+        menu.addSeparator();
+
+        JMenuItem webSite = new JMenuItem(new AbstractAction("Web Site...") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Basic.openWebPage(new URL("http://ab.inf.uni-tuebingen.de/software/splitstree4/welcome.html"));
+                } catch (MalformedURLException ex) {
+                    Basic.caught(ex);
+                }
+            }
+        });
+        webSite.setIcon(ResourceManager.getIcon("sun/toolbarButtonGraphics/development/WebComponent16.gif"));
+        menu.add(webSite);
+
+        JMenuItem ref = new JMenuItem(new AbstractAction("Reference Manual...") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Basic.openWebPage(new URL("http://ab.inf.uni-tuebingen.de/data/software/splitstree4/download/manual.pdf"));
+                } catch (MalformedURLException ex) {
+                    Basic.caught(ex);
+                }
+            }
+        });
+        ref.setIcon(ResourceManager.getIcon("sun/toolbarButtonGraphics/development/WebComponent16.gif"));
+        menu.add(ref);
+
+        menu.addSeparator();
+
+        menu.add(new AbstractAction("Check For Updates...") {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param ae
+             */
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ApplicationDisplayMode applicationDisplayMode = ProgramProperties.isUseGUI() ? ApplicationDisplayMode.GUI : ApplicationDisplayMode.CONSOLE;
+                UpdateDescriptor updateDescriptor;
+                try {
+                    updateDescriptor = UpdateChecker.getUpdateDescriptor("http://www-ab.informatik.uni-tuebingen.de/data/software/splitstree4/download/updates.xml", applicationDisplayMode);
+                } catch (Exception ex) {
+                    Basic.caught(ex);
+                    new Alert(mainViewer.getFrame(), "Installed version is up-to-date");
+                    return;
+                }
+                if (updateDescriptor.getEntries().length > 0) {
+                    if (!ProgramProperties.isUseGUI()) {
+                        UpdateDescriptorEntry entry = updateDescriptor.getEntries()[0];
+                        new Alert(mainViewer.getFrame(), "New version available: " + entry.getNewVersion()
+                                + "\nPlease download from: http://www-ab.informatik.uni-tuebingen.de/data/software/splitstree4/download/");
+                        return;
+                    }
+                } else {
+                    new Alert(mainViewer.getFrame(), "Installed version is up-to-date");
+                    return;
+                }
+
+
+                // This will return immediately if you call it from the EDT,
+// otherwise it will block until the installer application exits
+                ApplicationLauncher.launchApplicationInProcess("1691242391", null, new ApplicationLauncher.Callback() {
+                    public void exited(int exitValue) {
+                        //TODO add your code here (not invoked on event dispatch thread)
+                    }
+
+                    public void prepareShutdown() {
+                        ProgramProperties.store();
+                    }
+                }, ApplicationLauncher.WindowMode.FRAME, null);
+            }
+        });
+
+
+        return helpMenu = menu;
+    }
 }
