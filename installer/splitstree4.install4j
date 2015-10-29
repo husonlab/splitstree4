@@ -88,7 +88,7 @@
           <versionLine x="17" y="10" text="SplitsTree ${compiler:sys.version}" fontSize="12" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="splitstree.main.SplitsTree" vmParameters="-Dapple.laf.useScreenMenuBar=true -server  -Duser.language=en -Duser.region=US -XX:+UseParallelGC" arguments="-d" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true">
+      <java mainClass="splitstree4.main.SplitsTree" vmParameters="-Dapple.laf.useScreenMenuBar=true -server  -Duser.language=en -Duser.region=US -XX:+UseParallelGC" arguments="-d" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true">
         <classPath>
           <scanDirectory location="jars" failOnError="false" />
           <scanDirectory location="jars/batik-1.8" failOnError="false" />
@@ -121,7 +121,7 @@
           <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="splitstree.main.SplitsTree" vmParameters="-server -Xmx400M -Duser.language=en -Duser.region=US" arguments="-g +s" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true">
+      <java mainClass="splitstree4.main.SplitsTree" vmParameters="-server -Xmx400M -Duser.language=en -Duser.region=US" arguments="-g +s" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true">
         <classPath>
           <scanDirectory location="jars" failOnError="false" />
           <scanDirectory location="jars/batik-1.8" failOnError="false" />
@@ -154,7 +154,7 @@
           <versionLine x="17" y="10" text="SplitsTree ${compiler:sys.version}" fontSize="12" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="splitstree.main.SplitsTree" vmParameters="-server  -Duser.language=en -Duser.region=US -Xmx600M" arguments="-d" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true">
+      <java mainClass="splitstree4.main.SplitsTree" vmParameters="-server  -Duser.language=en -Duser.region=US -Xmx600M" arguments="-d" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true">
         <classPath>
           <scanDirectory location="jars" failOnError="false" />
           <scanDirectory location="jars/batik-1.8" failOnError="false" />

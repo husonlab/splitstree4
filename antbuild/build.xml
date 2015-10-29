@@ -10,7 +10,7 @@
     <property name="srcDir" value="src"/>
     <property name="classDir" value="classes"/>
     <property name="jar" value="${project_name}.jar"/>
-    <property name="mainclass" value="splitstree.main.SplitsTree"/>
+    <property name="mainclass" value="splitstree4.main.SplitsTree"/>
 
     <!-- class path -->
 
@@ -60,7 +60,7 @@
     <target name="jar" depends="compile">
         <jar jarfile="${jar}"
              basedir="${classDir}"
-             includes="jloda/** splitstree/** resources/**">
+             includes="jloda/** splitstree4/** resources/**">
         </jar>
     </target>
 
