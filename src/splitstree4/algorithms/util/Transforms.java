@@ -71,7 +71,7 @@ public class Transforms {
                     try {
                         String block = str.toLowerCase();
 
-                        String fullName = "splitstree.algorithms." + block + "." + name;
+                        String fullName = "splitstree4.algorithms." + block + "." + name;
                         if (name2trans.get(fullName) == null) {
                             Class theClass = Class.forName(fullName);
                             Transformation trans = (Transformation) theClass.newInstance();

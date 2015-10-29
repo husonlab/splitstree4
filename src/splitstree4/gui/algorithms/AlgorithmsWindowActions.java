@@ -323,7 +323,7 @@ public class
                 SplitsTreeProperties.addRecentMethod(Unaligned.NAME,
                         transform.getClass().getName());
 
-                dir.execute("assume unaligntransform=" + command);
+                dir.execute("assume unalignTransform=" + command);
             }
         };
         action.putValue(AbstractAction.NAME, "Apply");
@@ -352,7 +352,7 @@ public class
                 Transformation transform = (Transformation) selectedAction.getValue(DirectorActions.TRANSFORM);
                 String command = Configurator.getOptions(transform);
                 SplitsTreeProperties.addRecentMethod(Characters.NAME, transform.getClass().getName());
-                dir.execute("assume chartransform=" + command);
+                dir.execute("assume charTransform=" + command);
             }
         };
         action.putValue(AbstractAction.NAME, "Apply");
@@ -384,7 +384,7 @@ public class
                 SplitsTreeProperties.addRecentMethod(Distances.NAME,
                         transform.getClass().getName());
                 String command = Configurator.getOptions(transform);
-                dir.execute("assume disttransform=" + command);
+                dir.execute("assume distTransform=" + command);
             }
         };
         action.putValue(AbstractAction.NAME, "Apply");
@@ -415,7 +415,7 @@ public class
                 SplitsTreeProperties.addRecentMethod(Quartets.NAME,
                         transform.getClass().getName());
                 String command = Configurator.getOptions(transform);
-                dir.execute("assume quarttransform=" + command);
+                dir.execute("assume quartTransform=" + command);
             }
         };
         action.putValue(AbstractAction.NAME, "Apply");
@@ -446,7 +446,7 @@ public class
                 SplitsTreeProperties.addRecentMethod(Trees.NAME,
                         transform.getClass().getName());
                 String command = Configurator.getOptions(transform);
-                dir.execute("assume treestransform=" + command);
+                dir.execute("assume treesTransform=" + command);
             }
         };
         action.putValue(AbstractAction.NAME, "Apply");
@@ -478,7 +478,7 @@ public class
                 SplitsTreeProperties.addRecentMethod(Splits.NAME,
                         transform.getClass().getName());
                 String command = Configurator.getOptions(transform);
-                dir.execute("assume splitstransform=" + command);
+                dir.execute("assume splitsTransform=" + command);
             }
         };
         action.putValue(AbstractAction.NAME, "Apply");
@@ -508,7 +508,7 @@ public class
                 SplitsTreeProperties.addRecentMethod(Reticulate.NAME,
                         transform.getClass().getName());
                 String command = Configurator.getOptions(transform);
-                dir.execute("assume reticulatetransform=" + command);
+                dir.execute("assume reticulateTransform=" + command);
             }
         };
         action.putValue(AbstractAction.NAME, "Apply");
@@ -617,7 +617,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.unaligned", UnalignedTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree4.algorithms.unaligned", UnalignedTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = String.valueOf(transform.getClass());
@@ -629,7 +629,7 @@ public class
             AbstractAction action = new AbstractAction() {
                 public void actionPerformed(ActionEvent event) {
                     String command = Configurator.getOptions(transform);
-                    dir.execute("assume unaligntransform=" + command);
+                    dir.execute("assume unalignTransform=" + command);
                 }
             };
             action.putValue(AbstractAction.NAME, name);
@@ -668,7 +668,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.characters", CharactersTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree4.algorithms.characters", CharactersTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
 
@@ -681,7 +681,7 @@ public class
             AbstractAction action = new AbstractAction() {
                 public void actionPerformed(ActionEvent event) {
                     String command = Configurator.getOptions(transform);
-                    dir.execute("assume chartransform=" + command);
+                    dir.execute("assume charTransform=" + command);
                 }
             };
 
@@ -721,7 +721,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.distances", DistancesTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree4.algorithms.distances", DistancesTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = String.valueOf(transform.getClass());
@@ -733,7 +733,7 @@ public class
             AbstractAction action = new AbstractAction() {
                 public void actionPerformed(ActionEvent event) {
                     String command = Configurator.getOptions(transform);
-                    dir.execute("assume disttransform=" + command);
+                    dir.execute("assume distTransform=" + command);
                 }
             };
 
@@ -774,7 +774,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.quartets", QuartetsTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree4.algorithms.quartets", QuartetsTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = String.valueOf(transform.getClass());
@@ -786,7 +786,7 @@ public class
             AbstractAction action = new AbstractAction() {
                 public void actionPerformed(ActionEvent event) {
                     String command = Configurator.getOptions(transform);
-                    dir.execute("assume quarttransform=" + command);
+                    dir.execute("assume quartTransform=" + command);
                 }
             };
 
@@ -826,7 +826,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.trees", TreesTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree4.algorithms.trees", TreesTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = String.valueOf(transform.getClass());
@@ -837,7 +837,7 @@ public class
             AbstractAction action = new AbstractAction() {
                 public void actionPerformed(ActionEvent event) {
                     String command = Configurator.getOptions(transform);
-                    dir.execute("assume treetransform=" + command);
+                    dir.execute("assume treeTransform=" + command);
                 }
             };
 
@@ -876,7 +876,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.splits", SplitsTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree4.algorithms.splits", SplitsTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = String.valueOf(transform.getClass());
@@ -888,7 +888,7 @@ public class
             AbstractAction action = new AbstractAction() {
                 public void actionPerformed(ActionEvent event) {
                     String command = Configurator.getOptions(transform);
-                    dir.execute("assume splittransform=" + command);
+                    dir.execute("assume splitsTransform=" + command);
                 }
             };
 
@@ -926,7 +926,7 @@ public class
         if (actions != null)
             return actions;
         actions = new LinkedList();
-        List transforms = PluginClassLoader.getInstancesSorted("splitstree.algorithms.reticulate", ReticulateTransform.class);
+        List transforms = PluginClassLoader.getInstancesSorted("splitstree4.algorithms.reticulate", ReticulateTransform.class);
         for (Object transform1 : transforms) {
             final Transformation transform = (Transformation) transform1;
             String name = transform.getClass().getName();
@@ -938,7 +938,7 @@ public class
             AbstractAction action = new AbstractAction() {
                 public void actionPerformed(ActionEvent event) {
                     String command = Configurator.getOptions(transform);
-                    dir.execute("assume reticulatetransform=" + command);
+                    dir.execute("assume reticulateTransform=" + command);
                 }
             };
 

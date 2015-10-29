@@ -517,7 +517,7 @@ public class AlgorithmsTab extends JPanel {
                     actions.add(action);
                     break;
                 }
-                case "splitstree.algorithms.util.StateMatrix":
+                case "splitstree4.algorithms.util.StateMatrix":
 
                     // 	java.io.File > show current File in a TextField,
                     //	show browse button

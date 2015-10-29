@@ -261,7 +261,7 @@ public class Trees extends NexusBlock {
         names.add(ntrees - 1, name);
         taxasets.add(ntrees - 1, (this.getTaxaInTree(taxa, ntrees)));
         // these taxa sets are only set so that we can easily tell whether set of trees
-        // is partial. This is done in splitstree.analysis.trees.Stats
+        // is partial. This is done in splitstree4.analysis.trees.Stats
     }
 
     /**

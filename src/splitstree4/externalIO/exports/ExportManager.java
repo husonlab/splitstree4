@@ -40,7 +40,7 @@ import java.util.*;
  */
 public class ExportManager {
 
-    static String packageName = "splitstree.externalIO.exports";
+    static String packageName = "splitstree4.externalIO.exports";
 
     /**
      * gets the list of exporters

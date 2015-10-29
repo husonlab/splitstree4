@@ -325,7 +325,7 @@ class Analyzer {
      * @param taxa the taxa
      */
     String apply(Document doc, Taxa taxa) throws Exception {
-        String prefix = "splitstree.analysis." + kind.toLowerCase() + ".";
+        String prefix = "splitstree4.analysis." + kind.toLowerCase() + ".";
         Class theClass;
         if (!getName().contains("."))
             theClass = Class.forName(prefix + getName());

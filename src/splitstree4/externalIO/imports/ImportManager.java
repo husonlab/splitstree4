@@ -49,7 +49,7 @@ import java.util.ArrayList;
  */
 public class ImportManager {
 
-    static String packageName = "splitstree.externalIO.imports";
+    static String packageName = "splitstree4.externalIO.imports";
 
     public ImportManager() {
 

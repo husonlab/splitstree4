@@ -47,14 +47,14 @@ public class AnalysisDialog extends JDialog {
     public AnalysisDialog() {
         final SortedSet<AnalysisMethod> methods = new TreeSet<>();
 
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.bootstrap", BootstrapAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.characters", CharactersAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.distances", DistancesAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.network", NetworkAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.quartets", QuartetsAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.splits", SplitsAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.trees", TreesAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree.analysis.unaligned", UnalignedAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.bootstrap", BootstrapAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.characters", CharactersAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.distances", DistancesAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.network", NetworkAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.quartets", QuartetsAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.splits", SplitsAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.trees", TreesAnalysisMethod.class));
+        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.unaligned", UnalignedAnalysisMethod.class));
         jList.setModel(new MyListModel(methods));
 
     }
