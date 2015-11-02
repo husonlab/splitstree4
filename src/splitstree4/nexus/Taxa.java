@@ -317,7 +317,7 @@ public class Taxa extends NexusBlock {
 
         if (getOriginalTaxa() == null)
             setOriginalTaxa((Taxa) clone()); // set the original taxa
-        
+
         if (!getMustDetectLabels()) {
             checkLabelsAreUnique();
         }
