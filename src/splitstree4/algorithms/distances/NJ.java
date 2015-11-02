@@ -77,10 +77,10 @@ public class NJ implements Distances2Trees {
 
         try {
 
-            HashMap TaxaHashMap = new HashMap();
+            HashMap<String, Node> TaxaHashMap = new HashMap<>();
             int nbNtax = dist.getNtax();
             StringBuffer tax[] = new StringBuffer[nbNtax + 1];
-            //Taxalabes are saved as a StringBuffer array
+            //Taxa labels are saved as a StringBuffer array
 
             for (int i = 1; i <= nbNtax; i++) {
                 tax[i] = new StringBuffer();
@@ -187,9 +187,9 @@ public class NJ implements Distances2Trees {
                 TaxaHashMap.put(tax[i_min].toString(), v);
 
                 // generate Edges from two Taxa that are merged to one:
-                e = tree.newEdge((Node) TaxaHashMap.get(tax_old_i.toString()), v);
+                e = tree.newEdge(TaxaHashMap.get(tax_old_i.toString()), v);
                 tree.setWeight(e, Math.max(dist_e, 0.0));
-                f = tree.newEdge((Node) TaxaHashMap.get(tax_old_j.toString()), v);
+                f = tree.newEdge(TaxaHashMap.get(tax_old_j.toString()), v);
                 tree.setWeight(f, Math.max(dist_f, 0.0));
                 if (doc != null)
                     doc.notifySetProgress(0);
@@ -219,8 +219,7 @@ public class NJ implements Distances2Trees {
 
             // generate new Node for merged Taxa:
             // generate Edges from two Taxa that are merged to one:
-            e = tree.newEdge((Node) TaxaHashMap.get
-                    (tax_old_i.toString()), (Node) TaxaHashMap.get(tax_old_j.toString()));
+            e = tree.newEdge(TaxaHashMap.get(tax_old_i.toString()), TaxaHashMap.get(tax_old_j.toString()));
             tree.setWeight(e, Math.max(h[i_min][j_min], 0.0));
         } catch (Exception ex) {
             Basic.caught(ex);

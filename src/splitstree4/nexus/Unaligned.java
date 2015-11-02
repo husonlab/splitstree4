@@ -331,8 +331,7 @@ public class Unaligned extends NexusBlock {
      * @param taxa the taxa
      */
 
-    public void read(NexusStreamParser np, Taxa taxa)
-            throws SplitsException, IOException {
+    public void read(NexusStreamParser np, Taxa taxa) throws SplitsException, IOException {
         np.matchBeginBlock(NAME);
 
         if (matrix == null) // haven's got a matrix yet, need dimensions
@@ -344,15 +343,12 @@ public class Unaligned extends NexusBlock {
             np.matchIgnoreCase(";");
         }
         if (np.peekMatchIgnoreCase("FORMAT")) {
-            List tokens = np.getTokensLowerCase("format", ";");
+            List<String> tokens = np.getTokensLowerCase("format", ";");
 
-            getFormat().datatype = np.findIgnoreCase(tokens,
-                    "datatype=", "STANDARD DNA RNA PROTEIN", getFormat().datatype);
+            getFormat().datatype = np.findIgnoreCase(tokens, "datatype=", "STANDARD DNA RNA PROTEIN", getFormat().datatype);
             getFormat().setDatatype(getFormat().datatype);
-            getFormat().respectCase = np.findIgnoreCase(tokens,
-                    "respectcase", true, getFormat().respectCase);
-            getFormat().respectCase = np.findIgnoreCase(tokens,
-                    "no respectcase", false, getFormat().respectCase);
+            getFormat().respectCase = np.findIgnoreCase(tokens, "respectcase", true, getFormat().respectCase);
+            getFormat().respectCase = np.findIgnoreCase(tokens, "no respectcase", false, getFormat().respectCase);
             getFormat().missing = np.findIgnoreCase(tokens, "missing=", null, getFormat().missing);
             getFormat().setMissing(getFormat().missing);
 
@@ -368,8 +364,7 @@ public class Unaligned extends NexusBlock {
             getFormat().labels = np.findIgnoreCase(tokens, "labels", true, getFormat().labels);
 
             if (taxa.getMustDetectLabels() && !getFormat().getLabels())
-                throw new IOException("line " + np.lineno() +
-                        ": no labels invalid: no taxlabels given in TAXA block");
+                throw new IOException("line " + np.lineno() + ": no labels invalid: no taxlabels given in TAXA block");
 
             if (tokens.size() != 0)
                 throw new IOException("line " + np.lineno() + ": `" + tokens + "' unexpected in FORMAT");
@@ -385,9 +380,6 @@ public class Unaligned extends NexusBlock {
         }
 
         np.matchEndBlock();
-
-        if (taxa.getMustDetectLabels())
-            taxa.setMustDetectLabels(false);
     }
 
     /**
@@ -423,6 +415,10 @@ public class Unaligned extends NexusBlock {
                 matrix[t][i] = ch;
             }
 
+        }
+        if (taxa.getMustDetectLabels()) {
+            taxa.checkLabelsAreUnique();
+            taxa.setMustDetectLabels(false);
         }
     }
 

@@ -559,8 +559,10 @@ public class Distances extends NexusBlock {
 
         isSet = true;
 
-        if (taxa.getMustDetectLabels())
+        if (taxa.getMustDetectLabels()) {
+            taxa.checkLabelsAreUnique();
             taxa.setMustDetectLabels(false);
+        }
     }
 
     /**

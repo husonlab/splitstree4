@@ -45,8 +45,8 @@ import java.util.*;
  */
 public class Taxa extends NexusBlock {
     private int ntax = 0;
-    private Vector taxLabels;
-    private Vector taxInfos;
+    private Vector<String> taxLabels;
+    private Vector<String> taxInfos;
     private boolean mustDetectLabels = false;
     /**
      * Identification string
@@ -82,8 +82,8 @@ public class Taxa extends NexusBlock {
      */
     public void clear() {
         mustDetectLabels = false;
-        this.taxLabels = new Vector();
-        this.taxInfos = new Vector();
+        this.taxLabels = new Vector<>();
+        this.taxInfos = new Vector<>();
     }
 
     /**
@@ -153,7 +153,7 @@ public class Taxa extends NexusBlock {
      * @return the taxon label
      */
     public String getLabel(int i) {
-        return (String) taxLabels.get(i);
+        return taxLabels.get(i);
     }
 
     /**
@@ -194,7 +194,7 @@ public class Taxa extends NexusBlock {
      * @return the taxon label
      */
     public String getInfo(int i) {
-        return (String) taxInfos.get(i);
+        return taxInfos.get(i);
     }
 
     /**
@@ -317,8 +317,10 @@ public class Taxa extends NexusBlock {
 
         if (getOriginalTaxa() == null)
             setOriginalTaxa((Taxa) clone()); // set the original taxa
-
-
+        
+        if (!getMustDetectLabels()) {
+            checkLabelsAreUnique();
+        }
     }
 
     /**
@@ -478,8 +480,7 @@ public class Taxa extends NexusBlock {
                 }
             }
         }
-        if (hiddenTaxa != null && additionalO != null &&
-                hiddenTaxa.intersects(additionalO))
+        if (hiddenTaxa != null && hiddenTaxa.intersects(additionalO))
             throw new SplitsException("hidden <" + hiddenTaxa + "> and additional <"
                     + additionalO + "> intersect");
 
@@ -511,7 +512,7 @@ public class Taxa extends NexusBlock {
      * @return all taxa labels
      */
     public List getAllLabels() {
-        List all = new LinkedList();
+        List<String> all = new LinkedList<>();
         for (int t = 1; t <= getNtax(); t++)
             all.add(getLabel(t));
         return all;
@@ -586,6 +587,21 @@ public class Taxa extends NexusBlock {
         for (int i = taxaSet.getBits().nextSetBit(0); i != -1; i = taxaSet.getBits().nextSetBit(i + 1))
             labels.add(getLabel(i));
         return labels;
+    }
+
+    /**
+     * check that all labels are unique
+     *
+     * @throws IOException
+     */
+    public void checkLabelsAreUnique() throws IOException {
+        Set<String> set = new HashSet<>();
+        for (String label : taxLabels) {
+            if (set.contains(label))
+                throw new IOException("Taxon label appears multiple times: " + label);
+            else
+                set.add(label);
+        }
     }
 }
 

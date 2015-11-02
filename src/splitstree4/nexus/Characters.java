@@ -1346,8 +1346,7 @@ public class Characters extends NexusBlock {
             getFormat().labels = np.findIgnoreCase(tokens, "labels", true, getFormat().labels);
 
             if (taxa.getMustDetectLabels() && !getFormat().getLabels())
-                throw new IOException("line " + np.lineno() +
-                        ": 'no labels' invalid because no taxlabels given in TAXA block");
+                throw new IOException("line " + np.lineno() + ": 'no labels' invalid because no taxlabels given in TAXA block");
 
             getFormat().transpose = np.findIgnoreCase(tokens, "transpose=no", false, getFormat().transpose);
             getFormat().transpose = np.findIgnoreCase(tokens, "transpose=yes", true, getFormat().transpose);
@@ -1451,9 +1450,6 @@ public class Characters extends NexusBlock {
         // if the data type is DNA or RNA, remove all ambiguity characters
         if (getFormat().isNucleotideType())
             replaceAmbiguityStates(taxa);
-
-        if (taxa.getMustDetectLabels())
-            taxa.setMustDetectLabels(false);
 
         if (unknownStates.cardinality() > 0)  // warn that stuff has been replaced!
         {
@@ -1560,12 +1556,10 @@ public class Characters extends NexusBlock {
      * @throws IOException       if there are file errors
      * @throws CanceledException if user presses cancel during the read
      */
-    private void readMatrix(NexusStreamParser np, Taxa taxa, Document doc)
-            throws IOException, SplitsException, CanceledException {
+    private void readMatrix(NexusStreamParser np, Taxa taxa, Document doc) throws IOException, SplitsException, CanceledException {
         matrix = new char[getNtax() + 1][getNchar() + 1];
 
         for (int t = 1; t <= getNtax(); t++) {
-
             if (taxa.getMustDetectLabels()) {
                 taxa.setLabel(t, np.getLabelRespectCase());
             } else if (getFormat().labels)
@@ -1574,13 +1568,13 @@ public class Characters extends NexusBlock {
             String str = "";
             int length = 0;
 
-            List tokenList = null;
+            List<String> tokenList = null;
             if (matrixIsTokens)
-                tokenList = new LinkedList();
+                tokenList = new LinkedList<>();
 
             while (length < getNchar()) {
                 String tmp = np.getWordRespectCase();
-                if (matrixIsTokens) {
+                if (tokenList != null) {
                     tokenList.add(tmp);
                     length++;
                 } else {
@@ -1588,7 +1582,7 @@ public class Characters extends NexusBlock {
                     str += tmp;
                 }
             }
-            if (matrixIsTokens) {
+            if (tokenList != null) {
                 str = stateLabeler.parseSequence(tokenList, 1, false);
             }
 
@@ -1601,7 +1595,7 @@ public class Characters extends NexusBlock {
                 // @todo: until we know that respectcase works, fold all characters to lower-case
                 //TODo clean this up.
                 char ch;
-                if (!matrixIsTokens)
+                if (tokenList == null)
                     ch = Character.toLowerCase(str.charAt(i - 1));
                 else
                     ch = str.charAt(i - 1);
@@ -1625,7 +1619,10 @@ public class Characters extends NexusBlock {
                     }
                 }
             }
-
+        }
+        if (taxa.getMustDetectLabels()) {
+            taxa.checkLabelsAreUnique();
+            taxa.setMustDetectLabels(false);
         }
 
         if (doc != null) doc.notifyProgress(np);
@@ -1644,6 +1641,7 @@ public class Characters extends NexusBlock {
      */
     private void readMatrixTransposed(NexusStreamParser np, Taxa taxa, Document doc)
             throws java.io.IOException, SplitsException, CanceledException {
+
         if (getFormat().getLabels()) {
             for (int t = 1; t <= getNtax(); t++) {
                 if (taxa.getMustDetectLabels()) {
@@ -1652,19 +1650,23 @@ public class Characters extends NexusBlock {
                     np.matchLabelRespectCase(taxa.getLabel(t));
                 }
             }
+            if (taxa.getMustDetectLabels()) {
+                taxa.checkLabelsAreUnique();
+                taxa.setMustDetectLabels(false);
+            }
         }
         // read the matrix:
         matrix = new char[getNtax() + 1][getNchar() + 1];
         for (int i = 1; i <= getNchar(); i++) {
             String str = "";
             int length = 0;
-            List tokenList = null;
+            List<String> tokenList = null;
             if (matrixIsTokens)
-                tokenList = new LinkedList();
+                tokenList = new LinkedList<>();
 
             while (length < getNtax()) {
                 String tmp = np.getWordRespectCase();
-                if (matrixIsTokens) {
+                if (tokenList != null) {
                     tokenList.add(tmp);
                     length++;
                 } else {
@@ -1673,7 +1675,7 @@ public class Characters extends NexusBlock {
                 }
             }
 
-            if (matrixIsTokens) {
+            if (tokenList != null) {
                 str = stateLabeler.parseSequence(tokenList, i, true);
             }
 
@@ -1684,7 +1686,7 @@ public class Characters extends NexusBlock {
                 //char ch = str.getRowSubset(t - 1);
                 // @todo: until we now that respectcase works, fold all characters to lower-case
                 char ch;
-                if (!matrixIsTokens)
+                if (tokenList == null)
                     ch = Character.toLowerCase(str.charAt(t - 1));
                 else
                     ch = str.charAt(t - 1);
@@ -1746,9 +1748,9 @@ public class Characters extends NexusBlock {
                     }
 
                     String str = "";
-                    LinkedList tokenList;
+                    LinkedList<String> tokenList;
                     if (matrixIsTokens) {
-                        tokenList = new LinkedList();
+                        tokenList = new LinkedList<>();
                         while (np.peekNextToken() != StreamTokenizer.TT_EOL && np.peekNextToken() != StreamTokenizer.TT_EOF) {
                             tokenList.add(np.getWordRespectCase());
                         }
@@ -1802,6 +1804,10 @@ public class Characters extends NexusBlock {
                 }
                 if (doc != null) doc.notifyProgress(np);
                 c += linelength;
+            }
+            if (taxa.getMustDetectLabels()) {
+                taxa.checkLabelsAreUnique();
+                taxa.setMustDetectLabels(false);
             }
         } finally {
             np.setEolIsSignificant(false);
@@ -1967,8 +1973,7 @@ public class Characters extends NexusBlock {
      * @throws SplitsException if there are syntax errors
      * @throws IOException     if there are file errors
      */
-    private void writeMatrixTranposed(Writer w, Taxa taxa)
-            throws java.io.IOException {
+    private void writeMatrixTranposed(Writer w, Taxa taxa) throws java.io.IOException {
 
         //Get the max width of a column, given taxa and token labels
 
@@ -2025,8 +2030,7 @@ public class Characters extends NexusBlock {
      * @throws SplitsException if there are syntax errors
      * @throws IOException     if there are file errors
      */
-    private void writeMatrixInterleaved(Writer w, Taxa taxa)
-            throws IOException {
+    private void writeMatrixInterleaved(Writer w, Taxa taxa) throws IOException {
         int c = 0;
 
         //Determine width of matrix columns (if appropriate) and taxa column (if appropriate)

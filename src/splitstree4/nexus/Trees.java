@@ -453,10 +453,12 @@ public class Trees extends NexusBlock {
                 for (int i = 0; i < list.length; i++) taxa.setLabel(i + 1, (String) list[i]);
                 System.err.println("Reset taxa labels from trees-translate command");
             }
-            taxa.setMustDetectLabels(false);
+            if (taxa.getMustDetectLabels()) {
+                taxa.checkLabelsAreUnique();
+                taxa.setMustDetectLabels(false);
+            }
         } else if (taxa.getMustDetectLabels()) {
-            throw new SplitsException("line " + np.lineno() +
-                    ": Taxon labels not given in taxa block, thus TRANSLATE-statement required");
+            throw new SplitsException("line " + np.lineno() + ": Taxon labels not given in taxa block, thus TRANSLATE-statement required");
         } else {
             // set the translation table from the taxa:
             translate.clear();
@@ -504,8 +506,10 @@ public class Trees extends NexusBlock {
             if (translate.size() == 0 && taxa.getMustDetectLabels()) {
                 int count = 1;
                 for (Node n = tree.getFirstNode(); n != null; n = tree.getNextNode(n)) {
-
                     if (tree.getLabel(n) != null) taxa.setLabel(count++, tree.getLabel(n));
+                }
+                if (taxa.getMustDetectLabels()) {
+                    taxa.checkLabelsAreUnique();
                 }
             }
             addTree(name, tree, taxa);

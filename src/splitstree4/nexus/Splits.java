@@ -708,8 +708,7 @@ public class Splits extends NexusBlock implements Cloneable {
      */
     public void read(NexusStreamParser np, Taxa taxa) throws IOException {
         if (taxa.getMustDetectLabels())
-            throw new IOException("line " + np.lineno() +
-                    ": Can't read SPLITS block because no taxlabels given in TAXA block");
+            throw new IOException("line " + np.lineno() + ": Can't read SPLITS block because no taxlabels given in TAXA block");
 
         int[] cycle = new int[getNtax() + 1];
         setNtax(taxa.getNtax());

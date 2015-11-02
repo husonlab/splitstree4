@@ -694,8 +694,7 @@ public class Sets extends NexusBlock implements Cloneable {
      */
     public void read(NexusStreamParser np, Taxa taxa, Characters chars) throws IOException {
         if (taxa.getMustDetectLabels())
-            throw new IOException("line " + np.lineno() +
-                    ": Can't read SETS block because no taxlabels given in TAXA block");
+            throw new IOException("line " + np.lineno() + ": Can't read SETS block because no taxlabels given in TAXA block");
         np.matchBeginBlock(NAME);
 
         np.pushPunctuationCharacters(NexusStreamParser.STRICT_PUNCTUATION);
