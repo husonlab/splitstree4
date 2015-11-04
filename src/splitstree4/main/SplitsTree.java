@@ -1,22 +1,22 @@
 /**
- * SplitsTree.java 
+ * SplitsTree.java
  * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
- *
+ * <p/>
  * (Some files contain contributions from other authors, who are then mentioned separately.)
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 package splitstree4.main;
 
 import jloda.util.ArgsOptions;
@@ -28,10 +28,7 @@ import splitstree4.gui.Director;
 import splitstree4.util.NexusFileFilter;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
+import java.io.*;
 
 /**
  * Runs the splits tree program
@@ -76,18 +73,22 @@ public class SplitsTree {
         ProgramProperties.setProgramName(SplitsTreeProperties.getVersion());
         ProgramProperties.setProgramVersion(SplitsTreeProperties.getVersion());
 
-        final ArgsOptions options= new ArgsOptions(args, this, "SplitsTree4", "Analyze and visualize phylogenetic data");
-        options.setAuthors("Daniel H. Huson and David J. Bryant and David J. Bryant");
+        final ArgsOptions options = new ArgsOptions(args, this, "SplitsTree4", "Analyze and visualize phylogenetic data");
+        options.setAuthors("Daniel H. Huson and David J. Bryant");
 
         options.comment("Input:");
-        final String fileName = options.getOption("-i","input","Input file", "");
+        final String fileName = options.getOption("-i", "input", "Input file", "");
 
         options.comment("Commands:");
         ProgramProperties.setUseGUI(!options.getOption("-g", "commandLineMode", "Run SplitsTree in commandline mode", false) && !options.isDoHelp());
-        final String initCommand = options.getOption("-x","initCommand","Execute this command at startup", "");
+        if (!ProgramProperties.isUseGUI())
+            Basic.sendSystemErrToSystemOut();
+
+        final String initCommand = options.getOption("-x", "initCommand", "Execute this command at startup", "");
+        final String commandFileName = options.getOption("-c", "commandFile", "File of commands to execute in command-line mode", "");
 
         options.comment("Configuration:");
-        final boolean showMessages = options.getOption("-m","hideMessageWindow","Hide the message window", false);
+        final boolean showMessages = options.getOption("-m", "hideMessageWindow", "Hide the message window", false);
         String defaultPreferenceFile;
         if (ProgramProperties.isMacOS())
             defaultPreferenceFile = System.getProperty("user.home") + "/Library/Preferences/SplitsTreePrefs.def";
@@ -98,7 +99,7 @@ public class SplitsTree {
         final boolean silentMode = options.getOption("-S", "silentMode", "Silent mode", false);
         Basic.setDebugMode(options.getOption("-d", "debug", "Debug mode", false));
         final boolean showSplash = !options.getOption("-s", "hideSplash", "Hide startup splash screen", false);
-        SplitsTreeProperties.setExpertMode(options.getOption("-X", "expert","!expert mode", false));
+        SplitsTreeProperties.setExpertMode(options.getOption("-X", "expert", "!expert mode", false));
         options.done();
 
         if (silentMode) {
@@ -110,7 +111,6 @@ public class SplitsTree {
 
         if (ProgramProperties.isUseGUI())  // run in GUI mode
         {
-            // TODO: fix space-in-filename problem for phylipdnaparsimony, then uncomment this:
             System.setProperty("user.dir", System.getProperty("user.home"));
             SplitsTreeProperties.initializeProperties(propertiesFile);
             if (showSplash)
@@ -155,7 +155,7 @@ public class SplitsTree {
             Document doc = new Document();
             doc.setProgressListener(new ProgressCmdLine());
 
-            System.out.println(SplitsTreeProperties.getVersion());
+            System.err.println(SplitsTreeProperties.getVersion());
 
             String command;
             if (!fileName.equals("")) {
@@ -175,34 +175,43 @@ public class SplitsTree {
                     System.err.println(ex.getMessage());
                 }
             }
-            LineNumberReader inp = new LineNumberReader
-                    (new BufferedReader(new InputStreamReader(System.in)));
-            boolean inMultiLineMode = false;
-            command = "";
-            while (true) // process commands from standard input:
-            {
-                if (!inMultiLineMode)
-                    System.err.print("SplitsTree: ");
-                else
-                    System.err.print("+ ");
-                System.err.flush();
-                try {
-                    String aline = inp.readLine();
-                    if (aline == null)
-                        break;
-                    if (aline.equals("\\")) {
-                        inMultiLineMode = !inMultiLineMode;
-                    } else
-                        command += aline;
-                    if (!inMultiLineMode && command.length() > 0) {
-                        doc.execute(command + ";");
+            final boolean fromFile = (commandFileName.length() > 0);
+            final LineNumberReader inp;
+            if (fromFile)
+                inp = new LineNumberReader(new BufferedReader(new FileReader(commandFileName)));
+            else
+                inp = new LineNumberReader(new BufferedReader(new InputStreamReader(System.in)));
+            try {
+                boolean inMultiLineMode = false;
+                command = "";
+                while (true) { // process commands from standard input
+                    if (!fromFile) {
+                        if (!inMultiLineMode)
+                            System.err.print("SplitsTree: ");
+                        else
+                            System.err.print("+ ");
+                        System.err.flush();
+                    }
+                    try {
+                        String aline = inp.readLine();
+                        if (aline == null)
+                            break;
+                        if (aline.equals("\\")) {
+                            inMultiLineMode = !inMultiLineMode;
+                        } else
+                            command += aline;
+                        if (!inMultiLineMode && command.length() > 0) {
+                            doc.execute(command + ";");
+                            command = "";
+                        }
+                    } catch (Exception ex) {
+                        System.err.println(command + ": failed");
+                        Basic.caught(ex);
                         command = "";
                     }
-                } catch (Exception ex) {
-                    System.err.println(command + ": failed");
-                    Basic.caught(ex);
-                    command = "";
                 }
+            } finally {
+                inp.close();
             }
         }
     }
