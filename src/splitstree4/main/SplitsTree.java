@@ -106,8 +106,10 @@ public class SplitsTree {
             Basic.hideSystemErr();
             Basic.hideSystemOut();
         }
-        if (showVersion)
+        if (showVersion) {
             System.err.println(SplitsTreeProperties.getVersion());
+            System.err.println("Java version: " + System.getProperty("java.version"));
+        }
 
         if (ProgramProperties.isUseGUI())  // run in GUI mode
         {

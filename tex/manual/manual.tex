@@ -2747,6 +2747,7 @@ Output: Trees
 \begin{verbatim}
 	-i, --input [string]                 Input file. 
 	-g, --commandLineMode                Run SplitsTree in commandline mode. Default value: false.
+	-c, --commandFile                    File of commands to execute in command-line mode
 	-x, --initCommand [string]           Execute this command at startup. 
 	-m, --hideMessageWindow              Hide the message window. Default value: false.
 	-p, --propertiesFile [string]        Properties file. Default: OS specific default location.
@@ -2842,7 +2843,7 @@ To prevent windows from opening, or to use the command-line mode on a server, pl
 as shown here:
 
 \begin{verbatim}
-xvfb-run --auto-servernum --server-num=1 Dendroscope +g
+xvfb-run --auto-servernum --server-num=1 SplitsTree -g
 \end{verbatim}
 
 
