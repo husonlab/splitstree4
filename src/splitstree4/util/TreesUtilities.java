@@ -472,5 +472,44 @@ public class TreesUtilities {
 
     }
 
+    /**
+     * are there any labeled internal nodes and are all such labels numbers?
+     *
+     * @param tree
+     * @return true, if some internal nodes labeled by numbers
+     */
+    public static boolean hasNumbersOnInternalNodes(PhyloTree tree) {
+        boolean hasNumbersOnInternalNodes = false;
+        for (Node v = tree.getFirstNode(); v != null; v = v.getNext()) {
+            if (v.getOutDegree() != 0 && v.getInDegree() != 0) {
+                String label = tree.getLabel(v);
+                if (label != null) {
+                    if (Basic.isDouble(label))
+                        hasNumbersOnInternalNodes = true;
+                    else
+                        return false;
+                }
+            }
+        }
+        return hasNumbersOnInternalNodes;
+    }
 
+    /**
+     * reinterpret an numerical label of an internal node as the confidence associated with the incoming edge
+     *
+     * @param tree
+     */
+    public static void changeNumbersOnInternalNodesToEdgeConfidencies(PhyloTree tree) {
+        for (Node v = tree.getFirstNode(); v != null; v = v.getNext()) {
+            if (v.getOutDegree() != 0 && v.getInDegree() == 1) {
+                String label = tree.getLabel(v);
+                if (label != null) {
+                    if (Basic.isDouble(label)) {
+                        tree.setConfidence(v.getFirstInEdge(), Basic.parseDouble(label));
+                        tree.setLabel(v, null);
+                    }
+                }
+            }
+        }
+    }
 }
