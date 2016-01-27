@@ -70,11 +70,15 @@ public class SplitsTree {
      * @throws java.lang.Exception
      */
     public void parseArguments(String[] args) throws Exception {
+        Basic.startCollectionStdErr();
+
         ProgramProperties.setProgramName(SplitsTreeProperties.getVersion());
         ProgramProperties.setProgramVersion(SplitsTreeProperties.getVersion());
 
         final ArgsOptions options = new ArgsOptions(args, this, "SplitsTree4", "Analyze and visualize phylogenetic data");
         options.setAuthors("Daniel H. Huson and David J. Bryant");
+        options.setLicense("Copyright (C) 2016 Daniel H. Huson and David J. Bryant. This program comes with ABSOLUTELY NO WARRANTY.");
+
 
         options.comment("Input:");
         final String fileName = options.getOption("-i", "input", "Input file", "");
@@ -127,7 +131,9 @@ public class SplitsTree {
                     if (showMessages) {
                         dir.getActions().getMessageWindow().actionPerformed(null);
                         dir.getMainViewerFrame().toFront(); // keep main viewer in front
-                    }
+                    } else
+                        System.err.println(Basic.stopCollectingStdErr());
+
                     if (!fileName.equals("")) {// initial file given
                         File file = new File(fileName);
                         SplitsTreeProperties.addRecentFile(file);
