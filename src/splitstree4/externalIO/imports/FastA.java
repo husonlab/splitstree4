@@ -114,8 +114,9 @@ public class FastA extends FileFilter implements Importer {
 
                 if (aLine.startsWith(">")) { // new sequence
                     if (taxonNames.size() > 0) {
-                        if (buf.toString().length() > 0)
+                        if (buf.toString().length() > 0) {
                             sequences.add(buf.toString());
+                        }
                         else
                             throw new IOException("Zero sequence at end of file");
                     }
@@ -135,8 +136,9 @@ public class FastA extends FileFilter implements Importer {
             }
         }
         // last sequence:
-        if (buf.toString().length() > 0)
+        if (buf.toString().length() > 0) {
             sequences.add(buf.toString());
+        }
         else
             throw new IOException("Zero sequence at end of file");
 
