@@ -882,7 +882,7 @@ public class Network extends NexusBlock {
             ed.weight = (float) graph.getWeight(e);
             ed.internal = graphView.getInternalPoints(e);
             ed.line = graphView.getLineWidth(e);
-            ed.label = graphView.getLabel(e);
+            ed.label = ev.getLabel();
             if (ed.label != null && ed.label.equals("null"))
                 Basic.caught(new Exception("null"));
 
@@ -903,13 +903,12 @@ public class Network extends NexusBlock {
             if (ev.getLabelBackgroundColor() != null) {
                 ed.labelBgc = ev.getLabelBackgroundColor();
             }
-            if (graph.getLabel(e) != null && graph.getLabel(e).length() > 0) {
+            if ((ed.label == null || ed.label.length() == 0) && graph.getLabel(e) != null && graph.getLabel(e).length() > 0) {
                 ed.label = graph.getLabel(e);
                 if (ed.label != null && ed.label.equals("null"))
                     Basic.caught(new Exception("null"));
                 ev.setLabel(ed.label); // fix this
             }
-
             ei++;
         }
         newick = graphView.getNewick(true);

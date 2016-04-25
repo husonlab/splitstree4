@@ -43,6 +43,7 @@ import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 import splitstree4.nexus.Trees;
 import splitstree4.util.NotMultiLabeledException;
+import splitstree4.util.TreesUtilities;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.*;
@@ -127,6 +128,8 @@ public class NewickTree extends FileFilter implements Importer {
                 PhyloTree tree = new PhyloTree();
                 try {
                     tree.parseBracketNotation(Basic.removeComments(str, '[', ']'), true);
+                    if (TreesUtilities.hasNumbersOnInternalNodes(tree))
+                        TreesUtilities.changeNumbersOnInternalNodesToEdgeConfidencies(tree);
                 } catch (Exception ex) {
                     System.err.println(ex.getMessage());
                     throw ex;

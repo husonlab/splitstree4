@@ -503,6 +503,10 @@ public class Trees extends NexusBlock {
             }
 
             PhyloTree tree = PhyloTree.valueOf(buf.toString(), isRooted);
+
+            if (TreesUtilities.hasNumbersOnInternalNodes(tree))
+                TreesUtilities.changeNumbersOnInternalNodesToEdgeConfidencies(tree);
+
             if (translate.size() == 0 && taxa.getMustDetectLabels()) {
                 int count = 1;
                 for (Node n = tree.getFirstNode(); n != null; n = tree.getNextNode(n)) {
