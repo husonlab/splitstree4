@@ -60,7 +60,6 @@ public class SplitsTree {
             if (!ArgsOptions.hasMessageWindow())
                 System.exit(1);
         }
-
     }
 
     /**
