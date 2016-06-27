@@ -855,14 +855,14 @@ public class Network extends NexusBlock {
             }
             setTranslate(taxa, vi, graph.getNode2Taxa(v));
 
-            if (nv.getLabel() != null && nv.getLabel().length() > 0) {
+            if (nv.isLabelVisible() && nv.getLabel() != null && nv.getLabel().length() > 0) {
                 vd.label = nv.getLabel();
                 vd.labelOffset = nv.getLabelOffset();
                 vd.labelLayout = nv.getLabelLayout();
                 vd.labelAngle = nv.getLabelAngle();
             }
             // overwrite with graph label, if present...
-            else if (graph.getLabel(v) != null && graph.getLabel(v).length() > 0) {
+            else if (nv.isLabelVisible() && graph.getLabel(v) != null && graph.getLabel(v).length() > 0) {
                 vd.label = graph.getLabel(v);
                 nv.setLabel(vd.label); // TODO: fix this
             }
@@ -883,7 +883,7 @@ public class Network extends NexusBlock {
             ed.internal = graphView.getInternalPoints(e);
             ed.line = graphView.getLineWidth(e);
             ed.label = ev.getLabel();
-            if (ed.label != null && ed.label.equals("null"))
+            if (ev.isLabelVisible() && ed.label != null && ed.label.equals("null"))
                 Basic.caught(new Exception("null"));
 
             ed.labelOffset = ev.getLabelOffset();
@@ -903,7 +903,7 @@ public class Network extends NexusBlock {
             if (ev.getLabelBackgroundColor() != null) {
                 ed.labelBgc = ev.getLabelBackgroundColor();
             }
-            if ((ed.label == null || ed.label.length() == 0) && graph.getLabel(e) != null && graph.getLabel(e).length() > 0) {
+            if (ev.isLabelVisible() && (ed.label == null || ed.label.length() == 0) && graph.getLabel(e) != null && graph.getLabel(e).length() > 0) {
                 ed.label = graph.getLabel(e);
                 if (ed.label != null && ed.label.equals("null"))
                     Basic.caught(new Exception("null"));
@@ -1100,10 +1100,10 @@ public class Network extends NexusBlock {
      * @param GV the viewer
      */
     public void syncNetworkToNodeLabels(PhyloGraphView GV) {
-        PhyloGraph G = GV.getPhyloGraph();
-
-        if (G == null || GV == null)
+        if (GV == null || GV.getPhyloGraph() == null)
             return;
+
+        final PhyloGraph G = GV.getPhyloGraph();
 
         try {
             for (int vi = 1; vi <= getNvertices(); vi++) {
@@ -1126,10 +1126,10 @@ public class Network extends NexusBlock {
      * @param GV the viewer
      */
     public void syncNetworkToEdgeLabels(PhyloGraphView GV) {
-        PhyloGraph G = GV.getPhyloGraph();
-
-        if (G == null || GV == null)
+        if (GV == null || GV.getPhyloGraph() == null)
             return;
+
+        final PhyloGraph G = GV.getPhyloGraph();
 
         try {
             for (int ei = 1; ei <= getNedges(); ei++) {
@@ -1167,7 +1167,6 @@ public class Network extends NexusBlock {
     public void modifyNodeLabels(boolean showNames, boolean showIDs, Taxa taxa, PhyloGraphView graphView, boolean selectedOnly) {
         for (int vi = 1; vi <= getNvertices(); vi++) {
             try {
-
                 VertexDescription vd = vertices[vi];
                 if (graphView != null && selectedOnly && !graphView.getSelected(vd.v))
                     continue;

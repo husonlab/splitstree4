@@ -1147,7 +1147,7 @@ public class Characters extends NexusBlock {
         if (masked && !this.mask[p]) {
             this.nactive--;
             this.mask[p] = true;
-        } else if (masked && this.mask != null && this.mask[p]) {
+        } else if (masked && this.mask[p]) {
             this.nactive++;
             if (this.mask != null)
                 this.mask[p] = false;
@@ -1588,8 +1588,7 @@ public class Characters extends NexusBlock {
 
 
             if (str.length() != getNchar())
-                throw new IOException("line " + np.lineno() +
-                        ": wrong number of chars: " + str.length());
+                throw new IOException("line " + np.lineno() + ": wrong number of chars: " + str.length());
 
             for (int i = 1; i <= str.length(); i++) {
                 // @todo: until we know that respectcase works, fold all characters to lower-case
@@ -1639,8 +1638,7 @@ public class Characters extends NexusBlock {
      * @throws IOException       if there are file errors
      * @throws CanceledException if user presses cancel during the read
      */
-    private void readMatrixTransposed(NexusStreamParser np, Taxa taxa, Document doc)
-            throws java.io.IOException, SplitsException, CanceledException {
+    private void readMatrixTransposed(NexusStreamParser np, Taxa taxa, Document doc) throws java.io.IOException, SplitsException, CanceledException {
 
         if (getFormat().getLabels()) {
             for (int t = 1; t <= getNtax(); t++) {
@@ -1726,8 +1724,7 @@ public class Characters extends NexusBlock {
      * @throws IOException       if there are file errors
      * @throws CanceledException if user presses cancel during the read
      */
-    private void readMatrixInterleaved(NexusStreamParser np, Taxa taxa, Document doc)
-            throws java.io.IOException, SplitsException, CanceledException {
+    private void readMatrixInterleaved(NexusStreamParser np, Taxa taxa, Document doc) throws java.io.IOException, SplitsException, CanceledException {
         matrix = new char[getNtax() + 1][getNchar() + 1];
         try {
             int c = 0;
@@ -1825,18 +1822,7 @@ public class Characters extends NexusBlock {
         w.write("\nBEGIN " + Characters.NAME + ";\n");
         w.write("DIMENSIONS nchar=" + getNchar() + ";\n");
         w.write("FORMAT\n");
-        if (getFormat().getDatatype().equalsIgnoreCase(Datatypes.STANDARD))
-            w.write("\tdatatype=STANDARD");
-        else if (getFormat().getDatatype().equalsIgnoreCase(Datatypes.DNA))
-            w.write(" datatype=DNA");
-        else if (getFormat().getDatatype().equalsIgnoreCase(Datatypes.RNA))
-            w.write(" datatype=RNA");
-        else if (getFormat().getDatatype().equalsIgnoreCase(Datatypes.PROTEIN))
-            w.write(" datatype=PROTEIN");
-        else if (getFormat().getDatatype().equalsIgnoreCase(Datatypes.MICROSAT))
-            w.write(" datatype=MICROSAT");
-        else
-            w.write(" datatype='" + getFormat().getDatatype() + "'");
+        w.write("\tdatatype='" + getFormat().getDatatype() + "'");
 
         if (getFormat().getRespectCase())
             w.write(" respectcase");
@@ -1891,7 +1877,7 @@ public class Characters extends NexusBlock {
             w.write("CHARSTATELABELS\n");
 
             for (int i = 1; i <= getNchar(); i++) {
-                if (charLabeler.containsKey(new Integer(i)) || stateLabeler.hasStates(i)) {
+                if (charLabeler.containsKey(i) || stateLabeler.hasStates(i)) {
                     w.write("\t" + i + " ");
                     String label = charLabeler.get(i);
                     if (label != null)
@@ -2238,7 +2224,7 @@ public class Characters extends NexusBlock {
             if (oldCharWeights != null)
                 charWeights[newPos] = oldCharWeights[oldPos];
             if (oldLabelTable != null)
-                charLabeler.put(newPos, oldLabelTable.get(new Integer(oldPos)));
+                charLabeler.put(newPos, oldLabelTable.get(oldPos));
             for (int t = 1; t <= getNtax(); t++) {
                 matrix[t][newPos] = oldMatrix[t][oldPos];
             }
@@ -2276,7 +2262,7 @@ public class Characters extends NexusBlock {
 
         int count = 0;
         for (int t = 1; t <= origTaxa.getNtax(); t++) {
-            if (hiddenTaxa == null || !hiddenTaxa.get(t)) {
+            if (!hiddenTaxa.get(t)) {
                 count++;
                 matrix[count] = originalCharacters.matrix[t];
             }
@@ -2384,7 +2370,7 @@ public class Characters extends NexusBlock {
                     availableChars += "" + ch;
 
                 //Now remove characters that are forbidden
-                String forbidden = ";\\[\\],()/"; //punctuation characters  // todo: there is a problem with this expression
+                String forbidden = ";\\[\\],\\(\\)/"; //punctuation characters  // todo: there is a problem with this expression
                 forbidden += regString(characters.getFormat().getMissing());
                 forbidden += regString(characters.getFormat().getMatchchar());
                 forbidden += regString(characters.getFormat().getGap());
@@ -2445,10 +2431,10 @@ public class Characters extends NexusBlock {
          */
         protected String char2token(int site, char ch) {
             if (proteins)
-                return char2tokenMaps[0].get(new Character(ch));
+                return char2tokenMaps[0].get(ch);
             if (microsat)
                 return (new Integer((int) ch - OFFSET)).toString();
-            return char2tokenMaps[site].get(new Character(ch));
+            return char2tokenMaps[site].get(ch);
         }
 
         /**
@@ -2493,8 +2479,8 @@ public class Characters extends NexusBlock {
             String[] stateArray = new String[size];
             int i = 0;
             char ch = availableChars.charAt(i);
-            while (char2tokenMaps[site].containsKey(new Character(ch))) {
-                stateArray[i] = char2tokenMaps[site].get(new Character(ch));
+            while (char2tokenMaps[site].containsKey(ch)) {
+                stateArray[i] = char2tokenMaps[site].get(ch);
                 i++;
                 ch = availableChars.charAt(i);
             }
@@ -2571,6 +2557,4 @@ public class Characters extends NexusBlock {
         }
 
     }
-
-
 }
