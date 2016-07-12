@@ -57,21 +57,35 @@ public class CircularSplitWeights {
 
         /* Construct the splits with the appropriate weights */
         Splits splits = new Splits(ntax);
-        int index = 0;
         for (int i = 0; i < ntax; i++) {
             TaxaSet t = new TaxaSet();
             for (int j = i + 1; j < ntax; j++) {
                 t.set(ordering[j + 1]);
                 splits.add(t, (float) weight);
-                index++;
             }
         }
         return splits;
     }
 
-
+    
+/**
+ * Compute optimal weight squares under least squares for Splits compatitble with a circular ordering.
+ * 
+ * This version carries out adaptive L1 regularisation, controlled by the parameter lambdaFraction
+ * 
+ * That is, it minimizes  0.5*||Ax - d||^2_2  +  \lambda ||x||_1 
+ *
+ * @param ordering   Circular ordering 
+ * @param dist  Input distance
+ * @param var   string determining variance model
+ * @param constrained     True if enforcing a non-negativity constraint (usually the case)
+ * @param cutoff    Threshold  - will only include splits with estimated weights greater than this value.
+ * @param lambdaFraction   (Normalised) regularisation parameter. 0 = force no split. 1 = un-regularised. 
+ * @return  Splits  splits with the estimated weights.
+ */
+    
     static public Splits getWeightedSplits(int[] ordering,
-                                           Distances dist, String var, boolean constrained, double cutoff) {
+                                           Distances dist, String var, boolean constrained, double cutoff, double lambdaFraction) {
         int ntax = dist.getNtax();
         int npairs = (ntax * (ntax - 1)) / 2;
 
@@ -107,7 +121,8 @@ public class CircularSplitWeights {
                     W[k] = 1.0 / v[k];
             }
             /* Find the constrained optimal values for x */
-            runActiveConjugate(ntax, d, W, x);
+            
+            runActiveConjugate(ntax, d, W, x,lambdaFraction);
         }
 
         /* Construct the splits with the appropriate weights */
@@ -126,6 +141,19 @@ public class CircularSplitWeights {
         return splits;
     }
 
+    /**
+     * Compute optimal weight squares under least squares for Splits compatitble with a circular ordering.
+     * @param ordering   Circular ordering 
+     * @param dist  Input distance
+     * @param var   string determining variance model
+     * @param constrained     True if enforcing a non-negativity constraint (usually the case)
+     * @param cutoff    Threshold  - will only include splits with estimated weights greater than this value.
+     * @return
+     */
+    static public Splits getWeightedSplits(int[] ordering,
+            Distances dist, String var, boolean constrained, double cutoff)
+            { return getWeightedSplits(ordering,dist,var,constrained,cutoff,1.0);}
+    
     /**
      * setup working distance so that ordering is trivial.
      * Note the the code assumes that taxa are labeled 0..ntax-1 and
@@ -262,7 +290,8 @@ public class CircularSplitWeights {
     }
 
 
-    static private void printvec(String msg, double[] x) {
+    @SuppressWarnings("unused")
+	static private void printvec(String msg, double[] x) {
         int n = x.length;
         DecimalFormat fmt = new DecimalFormat("#0.00000");
 
@@ -275,19 +304,23 @@ public class CircularSplitWeights {
     /**
      * Uses an active set method with the conjugate gradient algorithm to find x that minimises
      * <p/>
-     * (Ax - d)W(Ax-d)
+     * 0.5 * (Ax - d)'W(Ax-d) + \lambda 1'x   s.t. x \geq 0
      * <p/>
      * Here, A is the design matrix for the set of cyclic splits with ordering 0,1,2,...,n-1
      * d is the distance vector, with pairs in order (0,1),(0,2),...,(0,n-1),(1,2),(1,3),...,(1,n-1), ...,(n-1,n)
      * W is a vector of variances for d, with pairs in same order as d.
      * x is a vector of split weights, with pairs in same order as d. The split (i,j), for i<j, is {i,i+1,...,j-1}| rest
+     * lambda is the regularisation parameter, given by lambda = max_i (A'Wd)_i   * ( 1 - lambdaFraction)
+     * 
+     *   Note that lambdaFraction = 1 => lambda = 0, and lambdaFraction = 0 => x = 0.
      *
      * @param ntax The number of taxa
      * @param d    the distance matrix
      * @param W    the weight matrix
      * @param x    the split weights
+     * @param lambdaFraction fraction parameter for lambda regularisation
      */
-    static private void runActiveConjugate(int ntax, double[] d, double[] W, double[] x) {
+    static private void runActiveConjugate(int ntax, double[] d, double[] W, double[] x,double lambdaFraction) {
         final boolean collapse_many_negs = true;
 
         int npairs = d.length;
@@ -314,7 +347,9 @@ public class CircularSplitWeights {
 
         /* Initialise active - originally no variables are active (held to 0.0) */
         boolean[] active = new boolean[npairs];
+        boolean[] fixedActive = new boolean[npairs];
         Arrays.fill(active, false);
+        Arrays.fill(fixedActive, false);
 
         /* Allocate and compute AtWd */
         double[] AtWd = new double[npairs];
@@ -322,6 +357,18 @@ public class CircularSplitWeights {
             y[k] = W[k] * d[k];
         CircularSplitWeights.calculateAtx(ntax, y, AtWd);
 
+        /* Compute lambda parameter */
+        double maxAtWd = 0.0;
+        for (double val:AtWd) 
+        	if (val > maxAtWd)
+        		maxAtWd = val;
+        double lambda = maxAtWd * (1.0 - lambdaFraction);
+        
+        /* Replace AtWd with AtWd = lambda. This has same effect as regularisation term */
+        for (int k = 0; k<npairs; k++)
+        	AtWd[k] -= lambda;
+        boolean computeRegularised = (lambdaFraction<1.0); 
+        
         boolean first_pass = true; //This is the first time through the loops.
         while (true) {
             while (true) /* Inner loop: find the next feasible optimum */ {
@@ -333,7 +380,6 @@ public class CircularSplitWeights {
                                                 pass of the algorithm we add the worst 60% to the active set */
                     int[] entriesToContract = worstIndices(x, 0.6);
                     if (entriesToContract != null) {
-                        int numToContract = entriesToContract.length;
                         for (int index : entriesToContract) {
                             x[index] = 0.0;
                             active[index] = true;
@@ -366,7 +412,7 @@ public class CircularSplitWeights {
                 }
             }
 
-            /* Find i,j that minimizes the gradient over all i,j in the active set. Note that grad = 2(AtWAb-AtWd) */
+            /* Find i,j that minimizes the gradient over all i,j in the active set. Note that grad = (AtWAb-AtWd)  */
             calculateAb(ntax, x, y);
             for (int i = 0; i < npairs; i++)
                 y[i] *= W[i];
@@ -379,8 +425,8 @@ public class CircularSplitWeights {
             double min_grad = 1.0;
             for (int i = 0; i < npairs; i++) {
                 r[i] -= AtWd[i];
-                r[i] *= 2.0;
-                if (active[i]) {
+                //r[i] *= 2.0;
+                if (active[i] && !fixedActive[i]) {
                     double grad_ij = r[i];
                     if ((min_i == -1) || (grad_ij < min_grad)) {
                         min_i = i;
@@ -390,8 +436,19 @@ public class CircularSplitWeights {
                 }
             }
 
-            if ((min_i == -1) || (min_grad > -0.0001))
-                return; /* We have arrived at the constrained optimum */
+            if ((min_i == -1) || (min_grad > -0.0001))  {
+//            	if (computeRegularised) {
+//            		/* Return to the main loop, without the regularisation term, and fixing active all variables currently active */
+//            		for (int k = 0; k < npairs; k++)
+//                        y[k] = W[k] * d[k];
+//            		CircularSplitWeights.calculateAtx(ntax, y, AtWd);
+//            		for(int k=0; k<npairs; k++)
+//            			fixedActive[k] = active[k];
+//            		computeRegularised = false;         		
+//            	}
+//            	else
+            	    return; /* We have arrived at the constrained optimum */
+            }
             else
                 active[min_i] = false;
 
@@ -525,7 +582,6 @@ public class CircularSplitWeights {
      * @return sum of squares of the lower triangle
      */
     static private double norm(double[] x) {
-        int n = x.length;
         double ss = 0.0;
         double xk;
         for (double aX : x) {

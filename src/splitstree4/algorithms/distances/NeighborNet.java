@@ -51,6 +51,7 @@ import java.util.Stack;
  */
 public class NeighborNet implements Distances2Splits {
     private double optionThreshold = 0.000001; // min weight of split that we consider
+    private double optionLambdaFrac = 1.0; 
     private boolean makeSplits = true;
     private String optionVarianceName = "Ordinary_Least_Squares";
     private boolean optionConstrain = true;
@@ -89,7 +90,7 @@ public class NeighborNet implements Distances2Splits {
             doc.notifySubtask("edge weights");
 
 
-        Splits splits = CircularSplitWeights.getWeightedSplits(ordering, dist, var, optionConstrain, optionThreshold);
+        Splits splits = CircularSplitWeights.getWeightedSplits(ordering, dist, var, optionConstrain, optionThreshold, optionLambdaFrac);
 
         if (SplitsUtilities.isCompatible(splits))
             splits.getProperties().setCompatibility(Splits.Properties.COMPATIBLE);
@@ -209,7 +210,14 @@ public class NeighborNet implements Distances2Splits {
     }
     */
 
-
+    public double getOptionLambdaFrac() {
+    	return optionLambdaFrac;
+    }
+    
+    public void setOptionLambdaFrac(double optionLambdaFrac) {
+    	this.optionLambdaFrac = optionLambdaFrac;
+    }
+    
     /**
      * Sets up the working matrix. The original distance matrix is enlarged to
      * handle the maximum number of nodes
