@@ -54,7 +54,7 @@ public class NeighborNet implements Distances2Splits {
     private double optionLambdaFrac = 1.0; 
     private boolean makeSplits = true;
     private String optionVarianceName = "Ordinary_Least_Squares";
-    private boolean optionConstrain = true;
+    //private boolean optionConstrain = true;
     private int[] ordering = null; // the computed ordering
     public final static String DESCRIPTION = "Computes the Neighbor-Net network (Bryant and Moulton 2004)";
 
@@ -89,8 +89,8 @@ public class NeighborNet implements Distances2Splits {
         if (doc != null)
             doc.notifySubtask("edge weights");
 
-
-        Splits splits = CircularSplitWeights.getWeightedSplits(ordering, dist, var, optionConstrain, optionThreshold, optionLambdaFrac);
+        CircularSplitWeights.Options options = new CircularSplitWeights.Options(var,optionThreshold);
+        Splits splits = CircularSplitWeights.getWeightedSplits(ordering, dist, options);
 
         if (SplitsUtilities.isCompatible(splits))
             splits.getProperties().setCompatibility(Splits.Properties.COMPATIBLE);
@@ -187,18 +187,18 @@ public class NeighborNet implements Distances2Splits {
      *
      * @param flag set the constrained option?
      */
-    public void setConstrain(boolean flag) {
-        this.optionConstrain = flag;
-    }
+//    public void setConstrain(boolean flag) {
+//        this.optionConstrain = flag;
+//    }
 
     /**
      * Gets the constrained option for least squares
      *
      * @return true, if will use the constrained least squares
      */
-    public boolean getConstrain() {
-        return optionConstrain;
-    }
+//    public boolean getConstrain() {
+//        return optionConstrain;
+//    }
 
     /*
     public  double getOptionThreshold() {
@@ -304,7 +304,7 @@ public class NeighborNet implements Distances2Splits {
         //System.err.println("agglomNodes");
 
         NetNode p, q, Cx, Cy, x, y;
-        double Qpq, best;
+        double Qpq=0.0, best;
         int num_active = num_nodes;
         int num_clusters = num_nodes;
         int m;
@@ -361,7 +361,7 @@ public class NeighborNet implements Distances2Splits {
                         doc.getProgressListener().checkForCancel();
                 }
             }
-
+            
             Cx = Cy = null;
             /* Now minimize (m-2) D[C_i,C_k] - Sx - Sy */
             best = 0;
@@ -382,6 +382,7 @@ public class NeighborNet implements Distances2Splits {
                     else
                         Dpq = (D[p.id][q.id] + D[p.id][q.nbr.id] + D[p.nbr.id][q.id] + D[p.nbr.id][q.nbr.id]) / 4.0;
                     Qpq = ((double) num_clusters - 2.0) * Dpq - p.Sx - q.Sx;
+                    
                     /* Check if this is the best so far */
                     if ((Cx == null || (Qpq < best)) && (p.nbr != q)) {
                         Cx = p;
