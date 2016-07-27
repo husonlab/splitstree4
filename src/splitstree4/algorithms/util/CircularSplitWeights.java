@@ -68,8 +68,58 @@ public class CircularSplitWeights {
     }
 
     
+    /**
+     * Class  CircularSplitWeights.Options
+     *      * @author dbryant
+	 *
+     * A utility class for passing sets of options to the least squares optimizer (and within the procedure).
+     * 
+     * Options are:
+     * @param cutoff			Threshold for split weights
+     * @param regularization	Enumerated type for selecting method used
+     * @param lambdaFraction	Regularization parameter. (WILL CHANGE TO: lambda = 0 -> no regularization; lambda = 1-> complete regularization.)
+     * @param lassoWeights		Weights used when compute the lasso penalty function
+     * @param var				String used to describe variance options.
+     *
+     */
+    static public class Options {  	
+    	public enum Regularization {NNLS,  //non-negative least squares (standard)
+    								LASSO,  //lasso
+    								NORMLASSO,   //lasso, weighted by norms of columns in X matrix
+    								INTERNALLASSO  //partial lasso applied only to internal splits, weighted by norms
+    								};
+    	
+    	public Options(String var, double cutoff) {
+    		this.var = var;
+    		this.cutoff = cutoff;
+    		this.regularization = Regularization.NNLS;
+    	}
+    	public Options(String var, boolean constrained, double cutoff, Regularization regularization) {
+    		this.var = var;
+    		this.cutoff = cutoff;
+    		this.regularization = regularization;
+    	}
+    	
+    	public void setLambdaFraction(double lambdaFraction) {
+    		this.lambdaFraction = lambdaFraction;
+    	}
+    	
+    	public void setLassoWeights(double[] lassoWeights) {
+    		this.lassoWeights = lassoWeights.clone();
+    	}
+    	
+    	//boolean constrained = true; //Constrain non-negative weights
+    	double cutoff = 0.0; //Threshold for split weights
+    	Regularization regularization = Regularization.NNLS;
+    	double lambdaFraction = 1.0; //L1 regularization parameter 
+    	double [] lassoWeights = null;
+    	String var = null;
+    };
+    
+    
+    
 /**
- * Compute optimal weight squares under least squares for Splits compatitble with a circular ordering.
+ * Compute optimal weight squares under least squares for Splits compatible with a circular ordering.
  * 
  * This version carries out adaptive L1 regularisation, controlled by the parameter lambdaFraction
  * 
@@ -77,15 +127,12 @@ public class CircularSplitWeights {
  *
  * @param ordering   Circular ordering 
  * @param dist  Input distance
- * @param var   string determining variance model
- * @param constrained     True if enforcing a non-negativity constraint (usually the case)
- * @param cutoff    Threshold  - will only include splits with estimated weights greater than this value.
- * @param lambdaFraction   (Normalised) regularisation parameter. 0 = force no split. 1 = un-regularised. 
+ * @param options  parameters for the optimization and model
  * @return  Splits  splits with the estimated weights.
  */
     
-    static public Splits getWeightedSplits(int[] ordering,
-                                           Distances dist, String var, boolean constrained, double cutoff, double lambdaFraction) {
+   
+    static public Splits getWeightedSplits(int[] ordering, Distances dist, Options options) {
         int ntax = dist.getNtax();
         int npairs = (ntax * (ntax - 1)) / 2;
 
@@ -105,14 +152,14 @@ public class CircularSplitWeights {
 
         /* Re-order taxa so that the ordering is 0,1,2,...,n-1 */
         double[] d = setupD(dist, ordering);
-        double[] v = setupV(dist, var, ordering);
+        double[] v = setupV(dist, options.var, ordering);
         double[] x = new double[npairs];
 
-        if (!constrained)
-            CircularSplitWeights.runUnconstrainedLS(ntax, d, x);
-        else // do constrained optimization
-        {
-            /* Initialise the weight matrix */
+        //if (!options.constrained)
+       //     CircularSplitWeights.runUnconstrainedLS(ntax, d, x);
+        //else // do constrained optimization
+        //{
+            /* Initialize the weight matrix */
             double[] W = new double[npairs];
             for (int k = 0; k < npairs; k++) {
                 if (v[k] == 0.0)
@@ -122,8 +169,8 @@ public class CircularSplitWeights {
             }
             /* Find the constrained optimal values for x */
             
-            runActiveConjugate(ntax, d, W, x,lambdaFraction);
-        }
+            runActiveConjugate(ntax, d, W, x,options);
+        //}
 
         /* Construct the splits with the appropriate weights */
         Splits splits = new Splits(ntax);
@@ -132,7 +179,7 @@ public class CircularSplitWeights {
             TaxaSet t = new TaxaSet();
             for (int j = i + 1; j < ntax; j++) {
                 t.set(ordering[j + 1]);
-                if (x[index] > cutoff)
+                if (x[index] > options.cutoff)
                     splits.add(t, (float) (x[index]));
                 index++;
 
@@ -142,7 +189,7 @@ public class CircularSplitWeights {
     }
 
     /**
-     * Compute optimal weight squares under least squares for Splits compatitble with a circular ordering.
+     * Compute optimal weight squares under least squares for Splits compatible with a circular ordering.
      * @param ordering   Circular ordering 
      * @param dist  Input distance
      * @param var   string determining variance model
@@ -150,9 +197,9 @@ public class CircularSplitWeights {
      * @param cutoff    Threshold  - will only include splits with estimated weights greater than this value.
      * @return
      */
-    static public Splits getWeightedSplits(int[] ordering,
-            Distances dist, String var, boolean constrained, double cutoff)
-            { return getWeightedSplits(ordering,dist,var,constrained,cutoff,1.0);}
+//    static public Splits getWeightedSplits(int[] ordering,
+//            Distances dist, String var, Options options)
+//            { return getWeightedSplits(ordering,dist,var,options);}
     
     /**
      * setup working distance so that ordering is trivial.
@@ -320,7 +367,7 @@ public class CircularSplitWeights {
      * @param x    the split weights
      * @param lambdaFraction fraction parameter for lambda regularisation
      */
-    static private void runActiveConjugate(int ntax, double[] d, double[] W, double[] x,double lambdaFraction) {
+    static private void runActiveConjugate(int ntax, double[] d, double[] W, double[] x, Options options) {
         final boolean collapse_many_negs = true;
 
         int npairs = d.length;
@@ -358,16 +405,20 @@ public class CircularSplitWeights {
         CircularSplitWeights.calculateAtx(ntax, y, AtWd);
 
         /* Compute lambda parameter */
-        double maxAtWd = 0.0;
-        for (double val:AtWd) 
-        	if (val > maxAtWd)
-        		maxAtWd = val;
-        double lambda = maxAtWd * (1.0 - lambdaFraction);
+        boolean computeRegularised = (options.regularization!=CircularSplitWeights.Options.Regularization.NNLS); 
+        double lambda = 0.0;
         
-        /* Replace AtWd with AtWd = lambda. This has same effect as regularisation term */
-        for (int k = 0; k<npairs; k++)
-        	AtWd[k] -= lambda;
-        boolean computeRegularised = (lambdaFraction<1.0); 
+        if (computeRegularised) {
+        	double maxAtWd = 0.0;
+        	for (double val:AtWd) 
+        		if (val > maxAtWd)
+        			maxAtWd = val;
+        	lambda = maxAtWd * (1.0 - options.lambdaFraction);
+
+        	/* Replace AtWd with AtWd = lambda. This has same effect as regularisation term */
+        	for (int k = 0; k<npairs; k++)
+        		AtWd[k] -= lambda;
+        }
         
         boolean first_pass = true; //This is the first time through the loops.
         while (true) {
