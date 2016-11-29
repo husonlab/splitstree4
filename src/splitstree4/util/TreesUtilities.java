@@ -128,10 +128,9 @@ public class TreesUtilities {
      * @return
      * @throws SplitsException
      */
-    public static PhyloTree treeFromSplits(Taxa taxa, Splits splits, Map node2taxon)
-            throws SplitsException {
+    public static PhyloTree treeFromSplits(Taxa taxa, Splits splits, Map<String, String> node2taxon) throws SplitsException {
         if (node2taxon == null)
-            node2taxon = new HashMap();
+            node2taxon = new HashMap<>();
 
         if (node2taxon.size() == 0) {
             for (int t = 1; t <= taxa.getNtax(); t++)

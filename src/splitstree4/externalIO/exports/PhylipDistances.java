@@ -37,7 +37,8 @@ import java.util.Map;
  */
 public class PhylipDistances extends ExporterAdapter implements Exporter {
     private String[] taxon2phylip;
-    private Map phylip2taxon;
+    private Map<String, String> phylip2taxon;
+    private boolean useFullNames = false;
 
     public PhylipDistances() {
     }
@@ -66,22 +67,25 @@ public class PhylipDistances extends ExporterAdapter implements Exporter {
         Distances distances = doc.getDistances();
 
         taxon2phylip = new String[taxa.getNtax() + 1];
-        phylip2taxon = new HashMap();
+        phylip2taxon = new HashMap<>();
 
         for (int t = 1; t <= taxa.getNtax(); t++) {
             String name = taxa.getLabel(t);
-            if (name.length() > 10)
-                name = name.substring(0, 10);
-            int n = 1;
-            while (phylip2taxon.containsKey(name)) {
-                if (n < 10)
-                    name = name.substring(0, 7) + "00" + n;
-                else if (n < 100)
-                    name = name.substring(0, 7) + "0" + n;
-                else if (n < 1000)
-                    name = name.substring(0, 7) + n;
-                else
-                    throw new Exception("Can't resolve name conflicts");
+            if (!useFullNames) {
+                if (name.length() > 10)
+                    name = name.substring(0, 10);
+                int n = 1;
+                while (phylip2taxon.containsKey(name)) {
+                    if (n < 10)
+                        name = name.substring(0, 7) + "00" + n;
+                    else if (n < 100)
+                        name = name.substring(0, 7) + "0" + n;
+                    else if (n < 1000)
+                        name = name.substring(0, 7) + n;
+                    else
+                        throw new Exception("Can't resolve name conflicts");
+                    n++;
+                }
             }
             phylip2taxon.put(name, taxa.getLabel(t));
             taxon2phylip[t] = name;
@@ -89,7 +93,10 @@ public class PhylipDistances extends ExporterAdapter implements Exporter {
 
         w.write(" " + taxa.getNtax() + "\n");
         for (int t = 1; t <= taxa.getNtax(); t++) {
-            w.write(PhylipUtils.padLabel(taxon2phylip[t], 10));
+            if (!useFullNames)
+                w.write(PhylipUtils.padLabel(taxon2phylip[t], 10));
+            else
+                w.write(taxon2phylip[t]);
             for (int t2 = 1; t2 <= taxa.getNtax(); t2++) {
                 if (t2 > 1)
                     w.write(" ");
@@ -127,4 +134,11 @@ public class PhylipDistances extends ExporterAdapter implements Exporter {
         return Description;
     }
 
+    public boolean isUseFullNames() {
+        return useFullNames;
+    }
+
+    public void setUseFullNames(boolean useFullNames) {
+        this.useFullNames = useFullNames;
+    }
 }
