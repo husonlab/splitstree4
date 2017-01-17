@@ -148,7 +148,7 @@ public class SimulationExperiments {
                                 Splits nnSplits = nnet.apply(simDoc, taxa, distances);
 
                                 //Get all NNET splits
-                                int[] ordering = nnet.getOrdering();
+                                int[] ordering = nnet.getCycle();
 
                                 /*
                                 FileWriter outdata = new FileWriter(filename + "Chars4000" + ".nex");
@@ -779,7 +779,7 @@ public class SimulationExperiments {
 
                                 NeighborNet nnet = new NeighborNet();
                                 Splits nnSplits = nnet.apply(null, taxa, dist);
-                                int[] ordering = nnet.getOrdering();
+                                int[] ordering = nnet.getCycle();
 
 
                                 Splits allSplits = new Splits(ntax);

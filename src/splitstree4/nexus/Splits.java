@@ -640,9 +640,14 @@ public class Splits extends NexusBlock implements Cloneable {
         w.write(";\n");
         if (getThreshold() != 0)
             w.write("THRESHOLD=" + getThreshold() + "; \n");
-        w.write("PROPERTIES fit=" + getProperties().getFit());
-        if (getProperties().isLeastSquares())
-            w.write(" leastsquares");
+        if (getProperties().isLeastSquares()) {
+            w.write(String.format("PROPERTIES fit=%.2f", getProperties().getLSFit()));
+            if (getProperties().isLeastSquares())
+                w.write(" leastsquares");
+        } else {
+            w.write(String.format("PROPERTIES fit=%.2f", getProperties().getFit()));
+        }
+
         switch (getProperties().getCompatibility()) {
             case Properties.COMPATIBLE:
                 w.write(" compatible");

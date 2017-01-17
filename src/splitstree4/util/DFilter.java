@@ -324,31 +324,6 @@ public class DFilter {
     }
 
     /**
-     * returns the highest degree node (of lowest weight)
-     *
-     * @param graph
-     * @return higest degree node
-     * @throws NotOwnerException
-     */
-    Node getHighestDegreeNode(Graph graph) throws NotOwnerException {
-        Node vMax = null;
-        int minWeight = 0;
-
-        for (Node v = graph.getFirstNode(); v != null; v = graph.getNextNode(v)) {
-            int vWeight = ((Pair) graph.getInfo(v)).getSecondInt();
-            if (vMax == null) {
-                vMax = v;
-                minWeight = ((Pair) graph.getInfo(v)).getSecondInt();
-            } else if ((graph.getDegree(v) > graph.getDegree(vMax))
-                    || (graph.getDegree(v) == graph.getDegree(vMax) && minWeight > vWeight)) {
-                vMax = v;
-                minWeight = vWeight;
-            }
-        }
-        return vMax;
-    }
-
-    /**
      * return the filtered set of splits
      *
      * @param splits

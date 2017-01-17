@@ -163,7 +163,7 @@ public class SplitsUtilities {
         // PrintStream pse = jloda.util.Basic.hideSystemErr();
 
         Distances dist = SplitsUtilities.splitsToDistances(splits);
-        return (new NeighborNet()).computeNeighborNetOrdering(dist);
+        return NeighborNet.computeNeighborNetOrdering(dist);
     }
 
 

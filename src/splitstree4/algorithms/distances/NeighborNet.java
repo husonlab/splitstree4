@@ -34,15 +34,15 @@
 package splitstree4.algorithms.distances;
 
 import jloda.util.CanceledException;
-import splitstree4.algorithms.util.CircularSplitWeights;
+import splitstree4.algorithms.util.NeighborNetSplitWeightOptimizer;
 import splitstree4.core.Document;
 import splitstree4.nexus.Distances;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 import splitstree4.util.SplitsUtilities;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
@@ -55,7 +55,7 @@ public class NeighborNet implements Distances2Splits {
     private boolean makeSplits = true;
     private String optionVarianceName = "Ordinary_Least_Squares";
     //private boolean optionConstrain = true;
-    private int[] ordering = null; // the computed ordering
+    private int[] cycle = null; // the computed cycle
     public final static String DESCRIPTION = "Computes the Neighbor-Net network (Bryant and Moulton 2004)";
 
 
@@ -83,25 +83,29 @@ public class NeighborNet implements Distances2Splits {
             doc.notifySetMaximumProgress(-1);    //initialize maximum progress
         }
 
-        ordering = runNeighborNet(doc, dist);
+        cycle = runNeighborNet(doc, dist);
 
         String var = selectVariance(this.optionVarianceName);
         if (doc != null)
             doc.notifySubtask("edge weights");
 
-        CircularSplitWeights.Options options = new CircularSplitWeights.Options(var,optionThreshold);
-        Splits splits = CircularSplitWeights.getWeightedSplits(ordering, dist, options);
+        NeighborNetSplitWeightOptimizer.Options options = new NeighborNetSplitWeightOptimizer.Options(var, optionThreshold);
+        Splits splits = NeighborNetSplitWeightOptimizer.computeWeightedSplits(cycle, dist, options);
 
         if (SplitsUtilities.isCompatible(splits))
             splits.getProperties().setCompatibility(Splits.Properties.COMPATIBLE);
         else
             splits.getProperties().setCompatibility(Splits.Properties.CYCLIC);
+
+        SplitsUtilities.computeFits(true, splits, dist, doc);
+        splits.getProperties().setLeastSquares(true);
+
         return splits;
 
     }
 
     /**
-     * A scaled down version of NeighborNet that only returns the ordering, and does not
+     * A scaled down version of NeighborNet that only returns the cycle, and does not
      * access the document or progress bar.
      *
      * @param dist Distance matrix
@@ -133,12 +137,12 @@ public class NeighborNet implements Distances2Splits {
     }
 
     /**
-     * gets a cyclic ordering computed by the algorithm
+     * gets a cyclic cycle computed by the algorithm
      *
-     * @return a cyclic ordering
+     * @return a cyclic cycle
      */
-    public int[] getOrdering() {
-        return ordering;
+    public int[] getCycle() {
+        return cycle;
     }
 
 
@@ -160,8 +164,8 @@ public class NeighborNet implements Distances2Splits {
         return optionVarianceName;
     }
 
-    public List selectionOptionVariance(Document doc) {
-        List models = new LinkedList();
+    public List<String> selectionOptionVariance(Document doc) {
+        List<String> models = new ArrayList<>();
         models.add("OrdinaryLeastSquares");
         models.add("FitchMargoliash1");
         models.add("FitchMargoliash2");
@@ -247,7 +251,7 @@ public class NeighborNet implements Distances2Splits {
 
         int ntax = dist.getNtax();
 
-        //Special cases. When ntax<=3, the default circular ordering will work.
+        //Special cases. When ntax<=3, the default circular cycle will work.
         if (ntax <= 3) // nnet can't do small data sets, so let's use split decomp
         {
             int[] ordering = new int[ntax + 1];
@@ -292,7 +296,7 @@ public class NeighborNet implements Distances2Splits {
         num_nodes = agglomNodes(doc, amalgs, D, netNodes, num_nodes);
         if (doc != null)
             doc.notifySubtask("expansion");
-        // System.err.println("Ordering: "+ Basic.toString(ordering));
+        // System.err.println("Ordering: "+ Basic.toString(cycle));
 
         return expandNodes(doc, num_nodes, ntax, amalgs, netNodes);
     }
@@ -586,7 +590,7 @@ public class NeighborNet implements Distances2Splits {
     }
 
     /**
-     * Expands the net nodes to obtain the ordering, quickly
+     * Expands the net nodes to obtain the cycle, quickly
      *
      * @param num_nodes number of nodes
      * @param ntax      number of taxa
@@ -609,7 +613,7 @@ public class NeighborNet implements Distances2Splits {
 /* Now do the rest of the expansions */
         while (!amalgs.empty()) {
 /* Find the three elements replacing u and v. Swap u and v around if v comes before u in the
-          circular ordering being built up */
+          circular cycle being built up */
             u = (NetNode) (amalgs.pop());
             // System.err.println("POP: u="+u);
             v = u.nbr;
@@ -644,7 +648,7 @@ public class NeighborNet implements Distances2Splits {
             x = x.next;
         }
 
-/* extract the ordering */
+/* extract the cycle */
         a = x;
         int t = 0;
         do {

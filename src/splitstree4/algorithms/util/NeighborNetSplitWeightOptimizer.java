@@ -40,10 +40,9 @@ import java.util.Arrays;
  * <p/>
  * x[i][j] is the split {i+1,i+2,...,j} | -------
  */
-public class CircularSplitWeights {
+public class NeighborNetSplitWeightOptimizer {
     /* Epsilon constant for the conjugate gradient algorithm */
     static final double CG_EPSILON = 0.0001;
-
 
     /**
      * Create the set of all circular splits for a given ordering
@@ -75,11 +74,11 @@ public class CircularSplitWeights {
      * A utility class for passing sets of options to the least squares optimizer (and within the procedure).
      * 
      * Options are:
-     * @param cutoff			Threshold for split weights
-     * @param regularization	Enumerated type for selecting method used
-     * @param lambdaFraction	Regularization parameter. (WILL CHANGE TO: lambda = 0 -> no regularization; lambda = 1-> complete regularization.)
-     * @param lassoWeights		Weights used when compute the lasso penalty function
-     * @param var				String used to describe variance options.
+     * cutoff			Threshold for split weights
+     * regularization	Enumerated type for selecting method used
+     * lambdaFraction	Regularization parameter. (WILL CHANGE TO: lambda = 0 -> no regularization; lambda = 1-> complete regularization.)
+     * lassoWeights		Weights used when compute the lasso penalty function
+     * var				String used to describe variance options.
      *
      */
     static public class Options {  	
@@ -130,9 +129,9 @@ public class CircularSplitWeights {
  * @param options  parameters for the optimization and model
  * @return  Splits  splits with the estimated weights.
  */
-    
-   
-    static public Splits getWeightedSplits(int[] ordering, Distances dist, Options options) {
+
+
+static public Splits computeWeightedSplits(int[] ordering, Distances dist, Options options) {
         int ntax = dist.getNtax();
         int npairs = (ntax * (ntax - 1)) / 2;
 
@@ -155,11 +154,7 @@ public class CircularSplitWeights {
         double[] v = setupV(dist, options.var, ordering);
         double[] x = new double[npairs];
 
-        //if (!options.constrained)
-       //     CircularSplitWeights.runUnconstrainedLS(ntax, d, x);
-        //else // do constrained optimization
-        //{
-            /* Initialize the weight matrix */
+             /* Initialize the weight matrix */
             double[] W = new double[npairs];
             for (int k = 0; k < npairs; k++) {
                 if (v[k] == 0.0)
@@ -170,7 +165,6 @@ public class CircularSplitWeights {
             /* Find the constrained optimal values for x */
             
             runActiveConjugate(ntax, d, W, x,options);
-        //}
 
         /* Construct the splits with the appropriate weights */
         Splits splits = new Splits(ntax);
@@ -197,9 +191,9 @@ public class CircularSplitWeights {
      * @param cutoff    Threshold  - will only include splits with estimated weights greater than this value.
      * @return
      */
-//    static public Splits getWeightedSplits(int[] ordering,
+//    static public Splits computeWeightedSplits(int[] ordering,
 //            Distances dist, String var, Options options)
-//            { return getWeightedSplits(ordering,dist,var,options);}
+//            { return computeWeightedSplits(ordering,dist,var,options);}
     
     /**
      * setup working distance so that ordering is trivial.
@@ -365,7 +359,7 @@ public class CircularSplitWeights {
      * @param d    the distance matrix
      * @param W    the weight matrix
      * @param x    the split weights
-     * @param lambdaFraction fraction parameter for lambda regularisation
+     * @param options fraction parameter for lambda regularisation
      */
     static private void runActiveConjugate(int ntax, double[] d, double[] W, double[] x, Options options) {
         final boolean collapse_many_negs = true;
@@ -375,7 +369,7 @@ public class CircularSplitWeights {
             throw new IllegalArgumentException("Vectors d,W,x have different dimensions");
 
         /* First evaluate the unconstrained optima. If this is feasible then we don't have to do anything more! */
-        CircularSplitWeights.runUnconstrainedLS(ntax, d, x);
+        NeighborNetSplitWeightOptimizer.runUnconstrainedLS(ntax, d, x);
         boolean all_positive = true;
         for (int k = 0; k < npairs && all_positive; k++)
             if (x[k] < 0.0)
@@ -402,10 +396,10 @@ public class CircularSplitWeights {
         double[] AtWd = new double[npairs];
         for (int k = 0; k < npairs; k++)
             y[k] = W[k] * d[k];
-        CircularSplitWeights.calculateAtx(ntax, y, AtWd);
+        NeighborNetSplitWeightOptimizer.calculateAtx(ntax, y, AtWd);
 
         /* Compute lambda parameter */
-        boolean computeRegularised = (options.regularization!=CircularSplitWeights.Options.Regularization.NNLS); 
+        boolean computeRegularised = (options.regularization != NeighborNetSplitWeightOptimizer.Options.Regularization.NNLS);
         double lambda = 0.0;
         
         if (computeRegularised) {
@@ -424,7 +418,7 @@ public class CircularSplitWeights {
         while (true) {
             while (true) /* Inner loop: find the next feasible optimum */ {
                 if (!first_pass)  /* The first time through we use the unconstrained branch lengths */
-                    CircularSplitWeights.circularConjugateGrads(ntax, npairs, r, w, p, y, W, AtWd, active, x);
+                    NeighborNetSplitWeightOptimizer.circularConjugateGrads(ntax, npairs, r, w, p, y, W, AtWd, active, x);
                 first_pass = false;
 
                 if (collapse_many_negs) { /* Typically, a large number of edges are negative, so on the first
@@ -435,7 +429,7 @@ public class CircularSplitWeights {
                             x[index] = 0.0;
                             active[index] = true;
                         }
-                        CircularSplitWeights.circularConjugateGrads(ntax, npairs, r, w, p, y, W, AtWd, active, x); /* Re-optimise, so that the current x is always optimal */
+                        NeighborNetSplitWeightOptimizer.circularConjugateGrads(ntax, npairs, r, w, p, y, W, AtWd, active, x); /* Re-optimise, so that the current x is always optimal */
                     }
                 }
                 int min_i = -1;

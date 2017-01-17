@@ -275,7 +275,6 @@ public class Distances extends NexusBlock {
      * @return the variance estimate on the matrix[i][j];
      */
     public double getVar(int i, int j) {
-        double vij = -1.0;
         String varType = getFormat().getVarType();
         if (varType.equalsIgnoreCase("ols"))
             return 1.0;

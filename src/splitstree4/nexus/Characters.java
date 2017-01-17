@@ -32,7 +32,7 @@ import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
 import splitstree4.core.TaxaSet;
 import splitstree4.util.CharactersUtilities;
-import splitstree4.util.SparseArray;
+import splitstree4.util.SparseTable;
 import splitstree4.util.TaxaUtilities;
 
 import java.io.*;
@@ -626,13 +626,13 @@ public class Characters extends NexusBlock {
      * Stores a string of symbols for each position in the matrix with ambiguities, giving
      * the possible symbols
      */
-    private SparseArray ambigStates;
+    private SparseTable<String> ambigStates;
 
     /**
      * Currently, we replace ambiguous states with a missing character - this stores the original
      * state that was replaced.
      */
-    private SparseArray replacedStates;
+    private SparseTable<String> replacedStates;
 
 
     /**
@@ -999,7 +999,6 @@ public class Characters extends NexusBlock {
         this.matrix[seq][site] = val;
     }
 
-
     /**
      * Ambiguous states are replaced by the missing character, but stored in replacedStates.
      * This routine returns the state that was in this sequence at this position in the original
@@ -1014,7 +1013,7 @@ public class Characters extends NexusBlock {
         if (!hasAmbigStates() || ch != getFormat().getMissing() || !replacedStates.hasEntry(seq, site))
             return ch;
         else
-            return (replacedStates.getString(seq, site).charAt(0));
+            return (replacedStates.get(seq, site).charAt(0));
     }
 
 
@@ -1090,7 +1089,7 @@ public class Characters extends NexusBlock {
      * @return string containing original states, or null if there are no ambiguity characters stored.
      */
     public String getAmbigString(int seq, int c) {
-        return ambigStates.getString(seq, c);
+        return ambigStates.get(seq, c);
     }
 
     /**
@@ -1478,8 +1477,8 @@ public class Characters extends NexusBlock {
             return;
 
 
-        replacedStates = new SparseArray();
-        ambigStates = new SparseArray();
+        replacedStates = new SparseTable<>();
+        ambigStates = new SparseTable<>();
 
         for (int t = 1; t <= getNtax(); t++) {
             int ambigCount = 0;
@@ -1489,8 +1488,8 @@ public class Characters extends NexusBlock {
                 if (i >= 0) {
                     hasAmbigStates = true;
                     ambigCount++;
-                    replacedStates.setString(t, c, "" + ch);
-                    ambigStates.setString(t, c, Datatypes.AMBIGDNACODES[i]);
+                    replacedStates.set(t, c, "" + ch);
+                    ambigStates.set(t, c, Datatypes.AMBIGDNACODES[i]);
                     set(t, c, getFormat().getMissing());
                 }
             }
@@ -1508,10 +1507,8 @@ public class Characters extends NexusBlock {
         if (!getFormat().isNucleotideType() || replacedStates == null)
             return;
 
-        SparseArray.ArrayIterator iter = replacedStates.arrayIterator();
-        while (iter.hasNext()) {
-            iter.getNext();
-            set(iter.i, iter.j, ((String) iter.o).charAt(0));
+        for (SparseTable.Key key : replacedStates.keyset()) {
+            set(key.get1(), key.get2(), replacedStates.get(key).charAt(0));
         }
     }
 

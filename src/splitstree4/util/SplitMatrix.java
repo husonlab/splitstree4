@@ -41,7 +41,7 @@ public class SplitMatrix {
 
 
     private int nblocks;   //Number of Split sets
-    SparseArray matrix;     //Split weights, indexed by split and then split set.
+    SparseTable<Double> matrix;     //Split weights, indexed by split and then split set.
 
     private Map splitIndices; // Map from splits to indices
     private Splits allSplits; //Splits block containing all splits
@@ -52,7 +52,7 @@ public class SplitMatrix {
      * @param ntax
      */
     public SplitMatrix(int ntax) {
-        matrix = new SparseArray();
+        matrix = new SparseTable<>();
         allSplits = new Splits(ntax);
         splitIndices = new HashMap();
     }
@@ -64,7 +64,7 @@ public class SplitMatrix {
      * @param ntax
      */
     public SplitMatrix(int ntax, Splits splits) {
-        matrix = new SparseArray();
+        matrix = new SparseTable();
         allSplits = new Splits(ntax);
         splitIndices = new HashMap();
         addSplitsWithoutBlock(splits);
@@ -78,7 +78,7 @@ public class SplitMatrix {
      * @param taxa
      */
     public SplitMatrix(Trees trees, Taxa taxa) {
-        matrix = new SparseArray();
+        matrix = new SparseTable();
         splitIndices = new HashMap();
         allSplits = new Splits(taxa.getNtax());
 
@@ -172,7 +172,7 @@ public class SplitMatrix {
      * @return weight
      */
     public double get(int split, int blockNum) {
-        return matrix.getDouble(split, blockNum);
+        return matrix.get(split, blockNum);
     }
 
 
@@ -184,7 +184,7 @@ public class SplitMatrix {
      * @return
      */
     public double getOriginal(int split) {
-        return matrix.getDouble(split, 0);
+        return matrix.get(split, 0);
     }
 
     //ToDo: Delete this
@@ -206,7 +206,7 @@ public class SplitMatrix {
      * @param val
      */
     public void set(int splitNum, int blockNum, double val) {
-        matrix.setDouble(splitNum, blockNum, val);
+        matrix.set(splitNum, blockNum, val);
     }
 
     /**

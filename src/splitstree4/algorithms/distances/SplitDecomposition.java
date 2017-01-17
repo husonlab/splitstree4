@@ -35,6 +35,7 @@ import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Distances;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
+import splitstree4.util.SplitsUtilities;
 
 /**
  * Implements the split decomposition method of Bandelt and Dress (1992).
@@ -57,10 +58,10 @@ public class SplitDecomposition implements Distances2Splits {
      * Applies the method to the given data
      *
      * @param taxa the taxa
-     * @param d    the input distances
+     * @param distances    the input distances
      * @return the computed set of splits
      */
-    public Splits apply(Document doc, Taxa taxa, Distances d) throws CanceledException {
+    public Splits apply(Document doc, Taxa taxa, Distances distances) throws CanceledException {
         SplitsSet previous = new SplitsSet(); // list of previously computed splits
         SplitsSet current; // current list of splits
         TaxaSet taxa_prev = new TaxaSet(); // taxa already processed
@@ -70,7 +71,7 @@ public class SplitDecomposition implements Distances2Splits {
         doc.notifySetMaximumProgress(taxa.getNtax());    //initialize maximum progress
         doc.notifySetProgress(0);
 
-        for (int t = 1; t <= d.getNtax(); t++) {
+        for (int t = 1; t <= distances.getNtax(); t++) {
             // initally, just add 1 to set of previous taxa
             if (t == 1) {
                 taxa_prev.set(t);
@@ -83,7 +84,7 @@ public class SplitDecomposition implements Distances2Splits {
             TaxaSet At = new TaxaSet();
             At.set(t);
 
-            float wgt = getIsolationIndex(t, At, taxa_prev, d);
+            float wgt = getIsolationIndex(t, At, taxa_prev, distances);
             if (wgt > 0) {
                 current.add((TaxaSet) (At.clone()), wgt);
             }
@@ -95,7 +96,7 @@ public class SplitDecomposition implements Distances2Splits {
 
                 // is Au{t} vs B a split?
                 A.set(t);
-                wgt = Math.min(previous.getWeight(s), getIsolationIndex(t, A, B, d));
+                wgt = Math.min(previous.getWeight(s), getIsolationIndex(t, A, B, distances));
                 if (wgt > 0) {
                     current.add((TaxaSet) (A.clone()), wgt);
                 }
@@ -103,7 +104,7 @@ public class SplitDecomposition implements Distances2Splits {
 
                 // is A vs Bu{t} a split?
                 B.set(t);
-                wgt = Math.min(previous.getWeight(s), getIsolationIndex(t, B, A, d));
+                wgt = Math.min(previous.getWeight(s), getIsolationIndex(t, B, A, distances));
                 if (wgt > 0) {
                     current.add((TaxaSet) (B.clone()), wgt);
                 }
@@ -121,6 +122,9 @@ public class SplitDecomposition implements Distances2Splits {
         doc.notifySetProgress(taxa.getNtax());   //set progress to 100%
 // pd.close();								//get rid of the progress listener
 // // doc.setProgressListener(null);
+
+        SplitsUtilities.computeFits(true, splits, distances, doc);
+        splits.getProperties().setLeastSquares(false);
 
         return splits;
     }

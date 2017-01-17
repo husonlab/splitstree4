@@ -600,7 +600,7 @@ public class Trees extends NexusBlock {
      * @param ps the print stream
      */
     public static void showUsage(PrintStream ps) {
-        ps.println("BEGIN " + Trees.NAME);
+        ps.println("BEGIN " + Trees.NAME + ";");
         ps.println("[PROPERTIES PARTIALTREES={YES|NO} ROOTED={YES|NO};]");
         ps.println("[TRANSLATE");
         ps.println("    nodeLabel1 taxon1,");
