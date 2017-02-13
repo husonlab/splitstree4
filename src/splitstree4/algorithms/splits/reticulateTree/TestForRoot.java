@@ -62,7 +62,7 @@ public class TestForRoot {
         HashSet seenNodes = new HashSet();
         seenNodes.add(root);
         RecMakeRootTestGraph(testGraph, seenRTaxa, treeGraph, treeSplits, rTaxa2Node, treeTaxa2OrgTaxa, root, ret, seenNodes, orgTaxa, rTaxa);
-        return findCycle(testGraph, testGraph.nodeIterator().next());
+        return findCycle(testGraph, testGraph.getFirstNode());
     }
 
     /**

@@ -597,7 +597,7 @@ public class Characters extends NexusBlock {
      */
     private int nactive;
     /**
-     * char matrix wich holds the alignment.
+     * char matrix that holds the alignment.
      */
     private char[][] matrix;
     /**
@@ -632,7 +632,7 @@ public class Characters extends NexusBlock {
      * Currently, we replace ambiguous states with a missing character - this stores the original
      * state that was replaced.
      */
-    private SparseTable<String> replacedStates;
+    private SparseTable<Character> replacedStates;
 
 
     /**
@@ -1013,7 +1013,7 @@ public class Characters extends NexusBlock {
         if (!hasAmbigStates() || ch != getFormat().getMissing() || !replacedStates.hasEntry(seq, site))
             return ch;
         else
-            return (replacedStates.get(seq, site).charAt(0));
+            return (replacedStates.get(seq, site));
     }
 
 
@@ -1366,10 +1366,8 @@ public class Characters extends NexusBlock {
             getFormat().diploid = np.findIgnoreCase(tokens, "diploid=yes", true, getFormat().diploid);
             getFormat().diploid = np.findIgnoreCase(tokens, "diploid", true, getFormat().diploid);
 
-
             if (tokens.size() != 0)
                 throw new IOException("line " + np.lineno() + ": `" + tokens + "' unexpected in FORMAT");
-
 
         }
         if (doc != null)
@@ -1488,7 +1486,7 @@ public class Characters extends NexusBlock {
                 if (i >= 0) {
                     hasAmbigStates = true;
                     ambigCount++;
-                    replacedStates.set(t, c, "" + ch);
+                    replacedStates.set(t, c, ch);
                     ambigStates.set(t, c, Datatypes.AMBIGDNACODES[i]);
                     set(t, c, getFormat().getMissing());
                 }
@@ -1508,7 +1506,7 @@ public class Characters extends NexusBlock {
             return;
 
         for (SparseTable.Key key : replacedStates.keyset()) {
-            set(key.get1(), key.get2(), replacedStates.get(key).charAt(0));
+            set(key.get1(), key.get2(), replacedStates.get(key));
         }
     }
 
@@ -1598,16 +1596,14 @@ public class Characters extends NexusBlock {
 
                 if (ch == getFormat().getMatchchar()) {
                     if (t == 1)
-                        throw new IOException("line " + np.lineno() +
-                                " matchchar illegal in first sequence");
+                        throw new IOException("line " + np.lineno() + " matchchar illegal in first sequence");
                     else
                         matrix[t][i] = matrix[1][i];
                 } else {
                     if (!this.checkStates || isValidState(ch))
                         matrix[t][i] = ch;
                     else if (treatUnknownAsError)
-                        throw new IOException("line " + np.lineno() +
-                                " invalid character: " + ch);
+                        throw new IOException("line " + np.lineno() + " invalid character: " + ch);
                     else  // don't know this, replace by gap
                     {
                         matrix[t][i] = getFormat().getGap();
@@ -1778,16 +1774,14 @@ public class Characters extends NexusBlock {
 
                         if (ch == getFormat().getMatchchar()) {
                             if (t == 1) {
-                                throw new IOException("line " + np.lineno() +
-                                        ": matchchar illegal in first sequence");
+                                throw new IOException("line " + np.lineno() + ": matchchar illegal in first sequence");
                             } else
                                 matrix[t][i] = matrix[1][i];
                         } else {
                             if (!this.checkStates || isValidState(ch))
                                 matrix[t][i] = ch;
                             else if (treatUnknownAsError)
-                                throw new IOException("line " + np.lineno() +
-                                        " invalid character: " + ch);
+                                throw new IOException("line " + np.lineno() + " invalid character: " + ch);
                             else  // don't know this, replace by gap
                             {
                                 matrix[t][i] = getFormat().getGap();
@@ -2028,7 +2022,6 @@ public class Characters extends NexusBlock {
         }
 
         int maxColumns = 60 / columnWidth; //Maximum number of sites to print on one line.
-
 
         while (c < getNchar()) {
             for (int t = 1; t <= taxa.getNtax(); t++) {
