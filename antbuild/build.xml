@@ -38,8 +38,8 @@
     <!-- copy sources -->
     <target name="copy_sources" depends="copy_resources">
         <copy todir="${srcDir}">
-            <fileset dir="${jlodaSrcDir}" excludes=".svn/**"/>
-            <fileset dir="${splitsTreeSrcDir}" excludes=".svn/**"/>
+            <fileset dir="${jlodaSrcDir}" excludes="com/apple/**"/>
+            <fileset dir="${splitsTreeSrcDir}"/>
         </copy>
     </target>
 
