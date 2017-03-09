@@ -96,6 +96,7 @@ public class GapDist implements Characters2Distances {
                 double v = 1.0;
                 if (sim != 0 && len != 0) v = (1.0 - sim / len);
                 gapDist.set(s, t, v);
+                gapDist.set(t, s, v);
             }
             doc.notifySetProgress(t * 100 / ntax);
         }
