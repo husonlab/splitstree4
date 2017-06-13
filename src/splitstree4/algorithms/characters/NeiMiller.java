@@ -57,7 +57,7 @@ public class NeiMiller implements Characters2Distances {
      */
     public Distances apply(Document doc, Taxa taxa, Characters characters) throws CanceledException {
 
-        Distances neiMiller = new Distances();
+        Distances neiMiller = new Distances(taxa.getNtax());
 
         int nchar = characters.getNchar();
         int ntax = characters.getNtax();
@@ -69,7 +69,7 @@ public class NeiMiller implements Characters2Distances {
 
         double[] class_value = new double[nchar];     // Value for given enzyme class
         int[] class_size = new int[nchar];                  // number of positions for class
-        int[] char2class = new int[nchar];        // Maps characters to enzyme classes
+        int[] char2class = new int[nchar + 1];        // Maps characters to enzyme classes
         int num_classes = 0;                    // Number of different classes
 
         // ProgressDialog pd = new ProgressDialog("Nei-Miller Distance...",""); //Set new progress bar.
@@ -104,7 +104,7 @@ public class NeiMiller implements Characters2Distances {
 
 // Compute mij_k:
 
-        int[][][] mij_k = new int[ntax][ntax][num_classes];
+        int[][][] mij_k = new int[ntax + 1][ntax + 1][num_classes + 1];
 
         for (i = 1; i <= ntax; i++) {
             for (j = i; j <= ntax; j++) {
@@ -122,7 +122,7 @@ public class NeiMiller implements Characters2Distances {
 
         // Compute sij_k  (equation 2):
 
-        double[][][] sij_k = new double[ntax][ntax][num_classes];
+        double[][][] sij_k = new double[ntax + 1][ntax + 1][num_classes + 1];
         for (i = 1; i <= ntax; i++) {
             for (j = i + 1; j <= ntax; j++) {
                 for (k = 1; k <= num_classes; k++) {
@@ -145,7 +145,7 @@ public class NeiMiller implements Characters2Distances {
 
         // Compute dhij_k (i.e. dij_k_hat in equation (3)):
 
-        double[][][] dhij_k = new double[ntax][ntax][num_classes];
+        double[][][] dhij_k = new double[ntax + 1][ntax + 1][num_classes + 1];
 
         for (i = 1; i <= ntax; i++) {
             for (j = i + 1; j <= ntax; j++) {
@@ -167,7 +167,7 @@ public class NeiMiller implements Characters2Distances {
 
         // Compute mk_k (mk_bar=(mii_k+mjj_k)/2):
 
-        double[][][] mk_k = new double[ntax][ntax][num_classes];
+        double[][][] mk_k = new double[ntax + 1][ntax + 1][num_classes + 1];
 
         for (i = 1; i <= ntax; i++) {
             for (j = i; j <= ntax; j++) {
