@@ -110,8 +110,8 @@ public abstract class NucleotideModel implements SubstitutionModel {
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j <= i; j++) {
-                double x = sqrtf[i] * Q[i][j] / sqrtf[j];
-                double y = sqrtf[j] * Q[j][i] / sqrtf[i];
+                double x = sqrtf[i] * Qmatrix[i][j] / sqrtf[j];
+                double y = sqrtf[j] * Qmatrix[j][i] / sqrtf[i];
                 M.set(i, j, (x + y) / 2.0);
                 if (i != j)
                     M.set(j, i, (x + y) / 2.0);
@@ -297,7 +297,7 @@ public abstract class NucleotideModel implements SubstitutionModel {
 
         double r = 0.0;
         for (int i = 0; i < 4; i++)
-            r += freqs[i] * Qmatrix[i][i];
+            r -= freqs[i] * Qmatrix[i][i];
 
         //Normalise so rate is one.
         for (int i = 0; i < 4; i++) {
