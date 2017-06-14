@@ -54,6 +54,7 @@ public class NeighborNet implements Distances2Splits {
     private double optionLambdaFrac = 1.0; 
     private boolean makeSplits = true;
     private String optionVarianceName = "Ordinary_Least_Squares";
+    private String optionRegularization = "NNLS";
     //private boolean optionConstrain = true;
     private int[] cycle = null; // the computed cycle
     public final static String DESCRIPTION = "Computes the Neighbor-Net network (Bryant and Moulton 2004)";
@@ -88,9 +89,16 @@ public class NeighborNet implements Distances2Splits {
         String var = selectVariance(this.optionVarianceName);
         if (doc != null)
             doc.notifySubtask("edge weights");
+<<<<<<< HEAD
+        String reg = selectRegularization(this.optionRegularization);
+        
+        CircularSplitWeights.Options options = new CircularSplitWeights.Options(var,optionThreshold,reg);
+        Splits splits = CircularSplitWeights.getWeightedSplits(ordering, dist, options);
+=======
 
         NeighborNetSplitWeightOptimizer.Options options = new NeighborNetSplitWeightOptimizer.Options(var, optionThreshold);
         Splits splits = NeighborNetSplitWeightOptimizer.computeWeightedSplits(cycle, dist, options);
+>>>>>>> 3c03da38cb56bfa1af111c7dca6270e6e78c9bb9
 
         if (SplitsUtilities.isCompatible(splits))
             splits.getProperties().setCompatibility(Splits.Properties.COMPATIBLE);
@@ -145,7 +153,42 @@ public class NeighborNet implements Distances2Splits {
         return cycle;
     }
 
-
+    
+    /** Sets the method used for regularization
+     * 
+     * @param regName
+     */
+    public void setOptionRegularization(String regName) {
+    	this.optionRegularization = regName;
+    }
+    
+    public String getOptionRegularization() {
+    	return optionRegularization;
+    }
+    
+    public List selectionOptionRegularization(Document doc) {
+    	List models = new LinkedList();
+    	models.add("NNLS");
+    	models.add("FullLasso");
+    	models.add("WeightedLasso");
+    	models.add("InternalLasso");
+    	return models;
+   	}
+    
+    public String selectRegularization(String regName) {
+    	if (regName.equalsIgnoreCase("NNLS"))
+    		return "nnls";
+    	else if (regName.equalsIgnoreCase("FullLasso"))
+    		return "lasso";
+    	else if (regName.equalsIgnoreCase("WeightedLasso"))
+    		return "normlasso";
+    	else if (regName.equalsIgnoreCase("InternalLasso"))
+    		return "internallasso";
+    	else
+    		return "nnls";
+    }
+    
+    
     /**
      * Sets the power for least squares
      *
