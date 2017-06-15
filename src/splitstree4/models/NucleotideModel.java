@@ -39,18 +39,18 @@ import java.util.Random;
  */
 public abstract class NucleotideModel implements SubstitutionModel {
 
-    final static double EPSILON = 1e-6; //Threshold for round-off error when checking matrices
+    private final static double EPSILON = 1e-6; //Threshold for round-off error when checking matrices
 
-    double[] freqs; /* base frequencies */
-    double[] sqrtf; /* Square roots of frequencies */
-    double[] evals; /* evalues of Pi^(1/2) Q Pi^(-1/2) */
-    double[][] evecs; /* evectors of Pi^(1/2) Q Pi^(-1/2) */
+    private double[] freqs; /* base frequencies */
+    private double[] sqrtf; /* Square roots of frequencies */
+    private double[] evals; /* evalues of Pi^(1/2) Q Pi^(-1/2) */
+    private double[][] evecs; /* evectors of Pi^(1/2) Q Pi^(-1/2) */
 
-    double[][] Pmatrix; /* Current P matrix */
-    double[][] Qmatrix; /* Current Q matrix */
-    double tval;
-    double pinv; /* Proportion of invariant sites */
-    double gamma = 0.0;
+    private double[][] Pmatrix; /* Current P matrix */
+    private double[][] Qmatrix; /* Current Q matrix */
+    private double tval;
+    private double pinv; /* Proportion of invariant sites */
+    private double gamma = 0.0;
 
     /*------------Constructors-----------------------*/
     NucleotideModel() {

@@ -1,4 +1,4 @@
-/**
+/*
  * CircularSplitWeights.java
  * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
  * <p/>
@@ -28,7 +28,7 @@ import java.util.Arrays;
 
 /**
  * Given a circular ordering and a distance matrix,
- * computes the unconstrained or constrained least square weighted splits, with or without a lasso penalty
+ * computes the unconstrained or constrained least square weighted splits
  * <p/>
  * For all vectors, the canonical ordering of pairs is (0,1),(0,2),...,(0,n-1),(1,2),(1,3),...,(1,n-1), ...,(n-1,n)
  * <p/>
@@ -40,14 +40,9 @@ import java.util.Arrays;
  * <p/>
  * x[i][j] is the split {i+1,i+2,...,j} | -------
  */
-<<<<<<< HEAD:src/splitstree4/algorithms/util/CircularSplitWeights.java
-
-public class CircularSplitWeights {
-=======
 public class NeighborNetSplitWeightOptimizer {
->>>>>>> 3c03da38cb56bfa1af111c7dca6270e6e78c9bb9:src/splitstree4/algorithms/util/NeighborNetSplitWeightOptimizer.java
     /* Epsilon constant for the conjugate gradient algorithm */
-    static final double CG_EPSILON = 0.0001;
+    private static final double CG_EPSILON = 0.0001;
 
     /**
      * Create the set of all circular splits for a given ordering
@@ -58,7 +53,6 @@ public class NeighborNetSplitWeightOptimizer {
      * @return set of ntax*(ntax-1)/2 circular splits
      */
     static public Splits getAllSplits(int ntax, int[] ordering, double weight) {
-
         /* Construct the splits with the appropriate weights */
         Splits splits = new Splits(ntax);
         for (int i = 0; i < ntax; i++) {
@@ -71,80 +65,74 @@ public class NeighborNetSplitWeightOptimizer {
         return splits;
     }
 
-    
+
     /**
      * Class  CircularSplitWeights.Options
-     *      * @author dbryant
-	 *
+     * @author dbryant
+     *
      * A utility class for passing sets of options to the least squares optimizer (and within the procedure).
-     * 
+     *
      * Options are:
-<<<<<<< HEAD:src/splitstree4/algorithms/util/CircularSplitWeights.java
-     * @param cutoff			Threshold for split weights
-     * @param regularization	Enumerated type for selecting method used
-     * @param lambdaFraction	Regularization parameter. (WILL CHANGE TO: lambda = 0 -> no regularization; lambda = 1-> complete regularization.)
-     * @param columnWeights		Weights used when compute the lasso penalty function
-     * @param var				String used to describe variance options.
-=======
      * cutoff			Threshold for split weights
      * regularization	Enumerated type for selecting method used
      * lambdaFraction	Regularization parameter. (WILL CHANGE TO: lambda = 0 -> no regularization; lambda = 1-> complete regularization.)
      * lassoWeights		Weights used when compute the lasso penalty function
      * var				String used to describe variance options.
->>>>>>> 3c03da38cb56bfa1af111c7dca6270e6e78c9bb9:src/splitstree4/algorithms/util/NeighborNetSplitWeightOptimizer.java
      *
      */
-    static public class Options {  	
-    	
-    	public Options(String var, double cutoff) {
-    		this.var = var;
-    		this.cutoff = cutoff;
-    		this.regularization = "nnls";
-    	}
-    	public Options(String var, double cutoff, String regularization) {
-    		this.var = var;
-    		this.cutoff = cutoff;
-    		this.regularization = regularization;
-    	}
-    	
-    	public void setLambdaFraction(double lambdaFraction) {
-    		this.lambdaFraction = lambdaFraction;
-    	}
-    	
-    	public void setLassoWeights(double[] lassoWeights) {
-    		this.columnWeights = lassoWeights.clone();
-    	}
-    	
-    	//boolean constrained = true; //Constrain non-negative weights
-    	double cutoff = 0.0; //Threshold for split weights
-    	String regularization = "nnls";
-    	double lambdaFraction = 1.0; //L1 regularization parameter 
-    	double [] columnWeights = null;
-    	String var = null;
-    };
-    
-    
-    
-/**
- * Compute optimal weight squares under least squares for Splits compatible with a circular ordering.
- * 
- * This version carries out adaptive L1 regularisation, controlled by the parameter lambdaFraction
- * 
- * That is, it minimizes  0.5*||Ax - d||^2_2  +  \lambda ||x||_1 
- *
- * @param ordering   Circular ordering 
- * @param dist  Input distance
- * @param options  parameters for the optimization and model
- * @return  Splits  splits with the estimated weights.
- */
+    static public class Options {
+        public enum Regularization {
+            NNLS,  //non-negative least squares (standard)
+            LASSO,  //lasso
+            NORMLASSO,   //lasso, weighted by norms of columns in X matrix
+            INTERNALLASSO  //partial lasso applied only to internal splits, weighted by norms
+        }
 
+        //private boolean constrained = true; //Constrain non-negative weights
+        private double cutoff = 0.0; //Threshold for split weights
+        private Regularization regularization = Regularization.NNLS;
+        private double lambdaFraction = 1.0; //L1 regularization parameter
+        private double[] lassoWeights = null;
+        private String var = null;
+        
+        public Options(String var, double cutoff) {
+            this.var = var;
+            this.cutoff = cutoff;
+            this.regularization = Regularization.NNLS;
+        }
 
-static public Splits computeWeightedSplits(int[] ordering, Distances dist, Options options) {
+        public Options(String var, boolean constrained, double cutoff, Regularization regularization) {
+            this.var = var;
+            this.cutoff = cutoff;
+            this.regularization = regularization;
+        }
+
+        public void setLambdaFraction(double lambdaFraction) {
+            this.lambdaFraction = lambdaFraction;
+        }
+
+        public void setLassoWeights(double[] lassoWeights) {
+            this.lassoWeights = lassoWeights.clone();
+        }
+    }
+
+    /**
+     * Compute optimal weight squares under least squares for Splits compatible with a circular ordering.
+     * <p>
+     * This version carries out adaptive L1 regularisation, controlled by the parameter lambdaFraction
+     * <p>
+     * That is, it minimizes  0.5*||Ax - d||^2_2  +  \lambda ||x||_1
+     *
+     * @param ordering Circular ordering
+     * @param dist     Input distance
+     * @param options  parameters for the optimization and model
+     * @return Splits  splits with the estimated weights.
+     */
+    static public Splits computeWeightedSplits(int[] ordering, Distances dist, Options options) {
         int ntax = dist.getNtax();
         int npairs = (ntax * (ntax - 1)) / 2;
 
         //Handle n=1,2 separately.
-        
         if (ntax == 1)
             return new Splits(1);
         if (ntax == 2) {
@@ -153,52 +141,27 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
             if (d_ij > 0.0) {
                 TaxaSet a = new TaxaSet();
                 a.set(ordering[1]);
-                //If there is lasso or normed lasso, then this affects the 2 taxa case as well!
-                //No effect when using internal lasso
-                if (options.regularization.equalsIgnoreCase("lasso") || options.regularization.equalsIgnoreCase("normlasso"))               		
-                	smallSplits.add(a,(float)(d_ij*(1.0-options.lambdaFraction)));
-                else
-                	smallSplits.add(a, d_ij);
+                smallSplits.add(a, d_ij);
             }
             return smallSplits;
         }
 
-        
-        /* Re-order taxa so that the ordering is 0,1,2,...,n-1, and copy into a column vector */
+        /* Re-order taxa so that the ordering is 0,1,2,...,n-1 */
         double[] d = setupD(dist, ordering);
         double[] v = setupV(dist, options.var, ordering);
         double[] x = new double[npairs];
 
-<<<<<<< HEAD:src/splitstree4/algorithms/util/CircularSplitWeights.java
-
-        /* Initialize the weight matrix (reciprocal of variances) */
+             /* Initialize the weight matrix */
         double[] W = new double[npairs];
         for (int k = 0; k < npairs; k++) {
-        	if (v[k] == 0.0)
-        		W[k] = 10E10;
-        	else
-        		W[k] = 1.0 / v[k];
+            if (v[k] == 0.0)
+                W[k] = 10E10;
+            else
+                W[k] = 1.0 / v[k];
         }
-        
-        /* Initialize the regularization weights */
-        options.columnWeights = setupColWeights(ntax,options.regularization);
-     
-        /* Find the constrained optimal values for x */
-        runActiveConjugate(ntax, d, W, x,options);
-
-=======
-             /* Initialize the weight matrix */
-            double[] W = new double[npairs];
-            for (int k = 0; k < npairs; k++) {
-                if (v[k] == 0.0)
-                    W[k] = 10E10;
-                else
-                    W[k] = 1.0 / v[k];
-            }
             /* Find the constrained optimal values for x */
-            
-            runActiveConjugate(ntax, d, W, x,options);
->>>>>>> 3c03da38cb56bfa1af111c7dca6270e6e78c9bb9:src/splitstree4/algorithms/util/NeighborNetSplitWeightOptimizer.java
+
+        runActiveConjugate(ntax, d, W, x, options);
 
         /* Construct the splits with the appropriate weights */
         Splits splits = new Splits(ntax);
@@ -218,7 +181,7 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
 
     /**
      * Compute optimal weight squares under least squares for Splits compatible with a circular ordering.
-     * @param ordering   Circular ordering 
+     * @param ordering   Circular ordering
      * @param dist  Input distance
      * @param var   string determining variance model
      * @param constrained     True if enforcing a non-negativity constraint (usually the case)
@@ -228,7 +191,7 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
 //    static public Splits computeWeightedSplits(int[] ordering,
 //            Distances dist, String var, Options options)
 //            { return computeWeightedSplits(ordering,dist,var,options);}
-    
+
     /**
      * setup working distance so that ordering is trivial.
      * Note the the code assumes that taxa are labeled 0..ntax-1 and
@@ -270,48 +233,10 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
         return v;
     }
 
-    /**
-     * Compute the column sums in the X matrix, according to the scheme used for lasso.
-     * When applying the Lasso, it is standard to reweight the columns by dividing each by the columnSum.
-     * @param ntax
-     * @param regularization
-     * @return
-     */
-    static private double[] setupColWeights(int ntax,String regularization) {
-    	int npairs = (ntax*(ntax-1))/2;
-    	double[] w = new double[npairs];
-    	int index;
-    	if (regularization.equalsIgnoreCase("lasso"))
-    		Arrays.fill(w, 1.0);
-    	else if (regularization.equalsIgnoreCase("normlasso")) {
-    		index = 0;
-    		for (int i=0;i<ntax;i++) 
-    			for (int j=i+1;j<ntax;j++) {
-    				double colSum = (j-i)*(ntax - (j-i));  //Sum of column in X matrix
-    				w[index] = colSum;
-    				index++;
-    			}
-    	}
-    	else if (regularization.equalsIgnoreCase("internallasso")) {
-    		index = 0;
-    		for (int i=0;i<ntax;i++)  {
-    			for (int j=i+1;j<ntax;j++) {
-    				if (j-i!=1 && j-i!= (ntax-1)) {
-    					double colSum = (j-i)*(ntax - (j-i));  //Sum of column in X matrix
-    					w[index] = colSum;
-    				}
-    				index++;
-    			}
-    		}
-    	}
-    	
-    	
-    	return w;
-    }
-    
+
     /**
      * Compute the branch lengths for unconstrained least squares using
-     * the formula of Chepoi and Fichet (this takes O(N^2) time only).
+     * the formula of Chepoi and Fichet (this takes O(N^2) time only!).
      *
      * @param n the number of taxa
      * @param d the distance matrix
@@ -402,9 +327,8 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
         return result;
     }
 
-
     @SuppressWarnings("unused")
-	static private void printvec(String msg, double[] x) {
+    static private void printvec(String msg, double[] x) {
         int n = x.length;
         DecimalFormat fmt = new DecimalFormat("#0.00000");
 
@@ -413,29 +337,23 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
         System.out.println();
     }
 
-
     /**
      * Uses an active set method with the conjugate gradient algorithm to find x that minimises
      * <p/>
-     * 0.5 * (Ax - d)'W(Ax-d) + \lambda \sum w_i x_i   s.t. x \geq 0
+     * 0.5 * (Ax - d)'W(Ax-d) + \lambda 1'x   s.t. x \geq 0
      * <p/>
      * Here, A is the design matrix for the set of cyclic splits with ordering 0,1,2,...,n-1
      * d is the distance vector, with pairs in order (0,1),(0,2),...,(0,n-1),(1,2),(1,3),...,(1,n-1), ...,(n-1,n)
      * W is a vector of variances for d, with pairs in same order as d.
      * x is a vector of split weights, with pairs in same order as d. The split (i,j), for i<j, is {i,i+1,...,j-1}| rest
-     * lambda is the regularisation parameter, given by lambda = max_i (A'Wd)_i   * lambdaFraction
-     * 
-     *   Note that lambdaFraction = 1 => lambda = 0, and lambdaFraction = 0 => x_i = 0  (for all i, or for internal i in INTERNALLASSO).
+     * lambda is the regularisation parameter, given by lambda = max_i (A'Wd)_i   * ( 1 - lambdaFraction)
+     * Note that lambdaFraction = 1 => lambda = 0, and lambdaFraction = 0 => x = 0.
      *
      * @param ntax The number of taxa
      * @param d    the distance matrix
      * @param W    the weight matrix
      * @param x    the split weights
-<<<<<<< HEAD:src/splitstree4/algorithms/util/CircularSplitWeights.java
-     * @param options options for least squares and regularisation
-=======
      * @param options fraction parameter for lambda regularisation
->>>>>>> 3c03da38cb56bfa1af111c7dca6270e6e78c9bb9:src/splitstree4/algorithms/util/NeighborNetSplitWeightOptimizer.java
      */
     static private void runActiveConjugate(int ntax, double[] d, double[] W, double[] x, Options options) {
         final boolean collapse_many_negs = true;
@@ -444,19 +362,14 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
         if (W.length != npairs || x.length != npairs)
             throw new IllegalArgumentException("Vectors d,W,x have different dimensions");
 
-<<<<<<< HEAD:src/splitstree4/algorithms/util/CircularSplitWeights.java
-        /* First evaluate the unconstrained optima. If this is feasible and we are not regularizing then we don't have to do anything more! */
-        CircularSplitWeights.runUnconstrainedLS(ntax, d, x);
-=======
         /* First evaluate the unconstrained optima. If this is feasible then we don't have to do anything more! */
         NeighborNetSplitWeightOptimizer.runUnconstrainedLS(ntax, d, x);
->>>>>>> 3c03da38cb56bfa1af111c7dca6270e6e78c9bb9:src/splitstree4/algorithms/util/NeighborNetSplitWeightOptimizer.java
         boolean all_positive = true;
         for (int k = 0; k < npairs && all_positive; k++)
             if (x[k] < 0.0)
                 all_positive = false;
 
-        if (all_positive && options.regularization.equalsIgnoreCase("nnls")) /* If the unconstrained optimum is feasible then it is also the constrained optimum */
+        if (all_positive) /* If the unconstrained optimum is feasible then it is also the constrained optimum */
             return;
 
         /* Allocate memory for the "utility" vectors */
@@ -480,25 +393,21 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
         NeighborNetSplitWeightOptimizer.calculateAtx(ntax, y, AtWd);
 
         /* Compute lambda parameter */
-<<<<<<< HEAD:src/splitstree4/algorithms/util/CircularSplitWeights.java
-        boolean computeRegularised = (!options.regularization.equalsIgnoreCase("nnls")); 
-=======
         boolean computeRegularised = (options.regularization != NeighborNetSplitWeightOptimizer.Options.Regularization.NNLS);
->>>>>>> 3c03da38cb56bfa1af111c7dca6270e6e78c9bb9:src/splitstree4/algorithms/util/NeighborNetSplitWeightOptimizer.java
         double lambda = 0.0;
-        
-        if (computeRegularised) {
-        	double maxAtWd = 0.0;
-        	for (double val:AtWd) 
-        		if (val > maxAtWd)
-        			maxAtWd = val;
-        	lambda = maxAtWd * (options.lambdaFraction);
 
-        	/* Replace AtWd with AtWd - lambda . This has same effect as regularisation term */
-        	for (int k = 0; k<npairs; k++)
-        		AtWd[k] -= lambda*options.columnWeights[k];
+        if (computeRegularised) {
+            double maxAtWd = 0.0;
+            for (double val : AtWd)
+                if (val > maxAtWd)
+                    maxAtWd = val;
+            lambda = maxAtWd * (1.0 - options.lambdaFraction);
+
+        	/* Replace AtWd with AtWd = lambda. This has same effect as regularisation term */
+            for (int k = 0; k < npairs; k++)
+                AtWd[k] -= lambda;
         }
-        
+
         boolean first_pass = true; //This is the first time through the loops.
         while (true) {
             while (true) /* Inner loop: find the next feasible optimum */ {
@@ -566,23 +475,18 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
                 }
             }
 
-            if ((min_i == -1) || (min_grad > -0.0001))  {
-            	if (!options.regularization.equalsIgnoreCase("nnls")) {
-            		/* The use of regularisation induces a bias in the parameter estimates. 
-            		 * To help address this, we re-optimize split weights, under the constraint that
-            		 * variables which are zero under regularisation remain zero.
-            		 * 
-            		 * In practice, we do this by returning to the main loop.
-            		 */
-            		for (int k = 0; k < npairs; k++)
-                        y[k] = W[k] * d[k];
-            		CircularSplitWeights.calculateAtx(ntax, y, AtWd);
-            		for(int k=0; k<npairs; k++)
-            			fixedActive[k] = active[k];
-            		computeRegularised = false;         		
-            	}
-            	else
-            	    return; /* We have arrived at the constrained optimum */
+            if ((min_i == -1) || (min_grad > -0.0001)) {
+//            	if (computeRegularised) {
+//            		/* Return to the main loop, without the regularisation term, and fixing active all variables currently active */
+//            		for (int k = 0; k < npairs; k++)
+//                        y[k] = W[k] * d[k];
+//            		CircularSplitWeights.calculateAtx(ntax, y, AtWd);
+//            		for(int k=0; k<npairs; k++)
+//            			fixedActive[k] = active[k];
+//            		computeRegularised = false;
+//            	}
+//            	else
+                return; /* We have arrived at the constrained optimum */
             }
             else
                 active[min_i] = false;
@@ -697,7 +601,6 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
             index += 1 + (n - i - 2);
         }
 
-
         for (int k = 3; k <= n - 1; k++) {
             index = k - 1;
             for (int i = 0; i <= n - k - 1; i++) {
@@ -708,7 +611,6 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
             }
         }
     }
-
 
     /**
      * Computes sum of squares of the lower triangle of the matrix x
@@ -726,86 +628,80 @@ static public Splits computeWeightedSplits(int[] ordering, Distances dist, Optio
         return ss;
     }
 
-
     /**
-	     * Conjugate gradient algorithm solving A^tWA x = b (where b = AtWd)
-	     * such that all x[i][j] for which active[i][j] = true are set to zero.
-	     * We assume that x[i][j] is zero for all active i,j, and use the given
-	     * values for x as our starting vector.
-	     *
-	     * @param ntax   the number of taxa
-	     * @param npairs dimension of b and x
-	     * @param r      stratch matrix
-	     * @param w      stratch matrix
-	     * @param p      stratch matrix
-	     * @param y      stratch matrix
-	     * @param W      the W matrix
-	     * @param b      the b matrix
-	     * @param active the active constraints
-	     * @param x      the x matrix
-	     */
-	    static private void circularConjugateGrads(int ntax, int npairs,
-	                                               double[] r, double[] w, double[] p, double[] y,
-	                                               double[] W, double[] b,
-	                                               boolean[] active, double[] x) {
-	        int kmax = ntax * (ntax - 1) / 2;
-	/* Maximum number of iterations of the cg algorithm (probably too many) */
-	
-	        calculateAb(ntax, x, y);
-	
-	        for (int k = 0; k < npairs; k++)
-	            y[k] = W[k] * y[k];
-	        calculateAtx(ntax, y, r); /*r = AtWAx */
-	
-	        for (int k = 0; k < npairs; k++)
-	            if (!active[k])
-	                r[k] = b[k] - r[k];
-	            else
-	                r[k] = 0.0;
-	
-	        double rho = norm(r);
-	        double rho_old = 0;
-	
-	        double e_0 = CG_EPSILON * Math.sqrt(norm(b));
-	        int k = 0;
-	
-	        while ((rho > e_0 * e_0) && (k < kmax)) {
-	
-	            k = k + 1;
-	            if (k == 1) {
-	                System.arraycopy(r, 0, p, 0, npairs);
-	
-	            } else {
-	                double beta = rho / rho_old;
-	                //System.out.println("bbeta = " + beta);
-	                for (int i = 0; i < npairs; i++)
-	                    p[i] = r[i] + beta * p[i];
-	
-	            }
-	
-	            calculateAb(ntax, p, y);
-	            for (int i = 0; i < npairs; i++)
-	                y[i] *= W[i];
-	
-	            calculateAtx(ntax, y, w); /*w = AtWAp */
-	            for (int i = 0; i < npairs; i++)
-	                if (active[i])
-	                    w[i] = 0.0;
-	
-	            double alpha = 0.0;
-	            for (int i = 0; i < npairs; i++)
-	                alpha += p[i] * w[i];
-	            alpha = rho / alpha;
-	
-	/* Update x and the residual, r */
-	            for (int i = 0; i < npairs; i++) {
-	                x[i] += alpha * p[i];
-	                r[i] -= alpha * w[i];
-	            }
-	            rho_old = rho;
-	            rho = norm(r);
-	        }
-	    }
+     * Conjugate gradient algorithm solving A^tWA x = b (where b = AtWd)
+     * such that all x[i][j] for which active[i][j] = true are set to zero.
+     * We assume that x[i][j] is zero for all active i,j, and use the given
+     * values for x as our starting vector.
+     *
+     * @param ntax   the number of taxa
+     * @param npairs dimension of b and x
+     * @param r      stratch matrix
+     * @param w      stratch matrix
+     * @param p      stratch matrix
+     * @param y      stratch matrix
+     * @param W      the W matrix
+     * @param b      the b matrix
+     * @param active the active constraints
+     * @param x      the x matrix
+     */
+    static private void circularConjugateGrads(int ntax, int npairs, double[] r, double[] w, double[] p, double[] y,
+                                               double[] W, double[] b, boolean[] active, double[] x) {
+        int kmax = ntax * (ntax - 1) / 2; /* Maximum number of iterations of the cg algorithm (probably too many) */
 
+        calculateAb(ntax, x, y);
 
+        for (int k = 0; k < npairs; k++)
+            y[k] = W[k] * y[k];
+        calculateAtx(ntax, y, r); /*r = AtWAx */
+
+        for (int k = 0; k < npairs; k++)
+            if (!active[k])
+                r[k] = b[k] - r[k];
+            else
+                r[k] = 0.0;
+
+        double rho = norm(r);
+        double rho_old = 0;
+
+        double e_0 = CG_EPSILON * Math.sqrt(norm(b));
+        int k = 0;
+
+        while ((rho > e_0 * e_0) && (k < kmax)) {
+
+            k = k + 1;
+            if (k == 1) {
+                System.arraycopy(r, 0, p, 0, npairs);
+
+            } else {
+                double beta = rho / rho_old;
+                //System.out.println("bbeta = " + beta);
+                for (int i = 0; i < npairs; i++)
+                    p[i] = r[i] + beta * p[i];
+
+            }
+
+            calculateAb(ntax, p, y);
+            for (int i = 0; i < npairs; i++)
+                y[i] *= W[i];
+
+            calculateAtx(ntax, y, w); /*w = AtWAp */
+            for (int i = 0; i < npairs; i++)
+                if (active[i])
+                    w[i] = 0.0;
+
+            double alpha = 0.0;
+            for (int i = 0; i < npairs; i++)
+                alpha += p[i] * w[i];
+            alpha = rho / alpha;
+
+/* Update x and the residual, r */
+            for (int i = 0; i < npairs; i++) {
+                x[i] += alpha * p[i];
+                r[i] -= alpha * w[i];
+            }
+            rho_old = rho;
+            rho = norm(r);
+        }
+    }
 }

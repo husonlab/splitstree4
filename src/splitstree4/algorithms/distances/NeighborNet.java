@@ -51,7 +51,7 @@ import java.util.Stack;
  */
 public class NeighborNet implements Distances2Splits {
     private double optionThreshold = 0.000001; // min weight of split that we consider
-    private double optionLambdaFrac = 1.0; 
+    private double optionLambdaFrac = 1.0;
     private boolean makeSplits = true;
     private String optionVarianceName = "Ordinary_Least_Squares";
     //private boolean optionConstrain = true;
@@ -215,13 +215,13 @@ public class NeighborNet implements Distances2Splits {
     */
 
     public double getOptionLambdaFrac() {
-    	return optionLambdaFrac;
+        return optionLambdaFrac;
     }
-    
+
     public void setOptionLambdaFrac(double optionLambdaFrac) {
-    	this.optionLambdaFrac = optionLambdaFrac;
+        this.optionLambdaFrac = optionLambdaFrac;
     }
-    
+
     /**
      * Sets up the working matrix. The original distance matrix is enlarged to
      * handle the maximum number of nodes
@@ -365,7 +365,7 @@ public class NeighborNet implements Distances2Splits {
                         doc.getProgressListener().checkForCancel();
                 }
             }
-            
+
             Cx = Cy = null;
             /* Now minimize (m-2) D[C_i,C_k] - Sx - Sy */
             best = 0;
