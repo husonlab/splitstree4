@@ -20,7 +20,7 @@
 package splitstree4.algorithms.trees;
 
 import jloda.gui.HistogramPanel;
-import jloda.phylo.HomoplasyScore;
+import jloda.phylo.Distortion;
 import jloda.phylo.PhyloTree;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
@@ -135,7 +135,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
                     if (treeTaxaAndA.cardinality() > 1 && treeTaxaAndB.cardinality() > 1) {
                         try {
                             PhyloTree tree = trees.getTree(t);
-                            totalScore += HomoplasyScore.computeBestHomoplasyScoreForSplit(tree, A, B);
+                            totalScore += Distortion.computeDistortionForSplit(tree, A, B);
                         } catch (IOException ex) {
                             Basic.caught(ex);
                         }
@@ -162,7 +162,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
                     if (treeTaxaAndA.cardinality() > 1 && treeTaxaAndB.cardinality() > 1) {
                         try {
                             PhyloTree tree = trees.getTree(t);
-                            int score = HomoplasyScore.computeBestHomoplasyScoreForSplit(tree, A, B);
+                            int score = Distortion.computeDistortionForSplit(tree, A, B);
                             //System.err.print(" " + score);
                             if (score <= getOptionMaxDistortionScore())
                                 count++;
@@ -554,7 +554,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
                 if (treeTaxaAndA.cardinality() > 1 && treeTaxaAndB.cardinality() > 1) {
                     try {
                         PhyloTree tree = trees.getTree(t);
-                        int score = HomoplasyScore.computeBestHomoplasyScoreForSplit(tree, A, B);
+                        int score = Distortion.computeDistortionForSplit(tree, A, B);
                         scores[t - 1] = score;
                     } catch (IOException e) {
                         Basic.caught(e);
@@ -629,7 +629,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
                 if (treeTaxaAndA.cardinality() > 1 && treeTaxaAndB.cardinality() > 1) {
                     try {
                         PhyloTree tree = trees.getTree(t);
-                        totalScore += HomoplasyScore.computeBestHomoplasyScoreForSplit(tree, A, B);
+                        totalScore += Distortion.computeDistortionForSplit(tree, A, B);
                     } catch (IOException e) {
                         Basic.caught(e);
                     }
@@ -693,7 +693,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
                 if (treeTaxaAndA.cardinality() > 1 && treeTaxaAndB.cardinality() > 1) {
                     try {
                         PhyloTree tree = trees.getTree(t);
-                        int score = HomoplasyScore.computeBestHomoplasyScoreForSplit(tree, A, B);
+                        int score = Distortion.computeDistortionForSplit(tree, A, B);
                         scores[t - 1] = score;
                     } catch (IOException e) {
                         Basic.caught(e);

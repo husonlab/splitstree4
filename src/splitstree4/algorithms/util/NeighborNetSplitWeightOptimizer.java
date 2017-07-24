@@ -94,7 +94,7 @@ public class NeighborNetSplitWeightOptimizer {
         private double lambdaFraction = 1.0; //L1 regularization parameter
         private double[] lassoWeights = null;
         private String var = null;
-        
+
         public Options(String var, double cutoff) {
             this.var = var;
             this.cutoff = cutoff;
