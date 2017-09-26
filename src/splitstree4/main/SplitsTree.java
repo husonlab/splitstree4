@@ -83,8 +83,6 @@ public class SplitsTree {
 
         options.comment("Commands:");
         ProgramProperties.setUseGUI(!options.getOption("-g", "commandLineMode", "Run SplitsTree in commandline mode", false) && !options.isDoHelp());
-        if (!ProgramProperties.isUseGUI())
-            Basic.sendSystemErrToSystemOut();
 
         final String initCommand = options.getOption("-x", "initCommand", "Execute this command at startup", "");
         final String commandFileName = options.getOption("-c", "commandFile", "File of commands to execute in command-line mode", "");
@@ -105,6 +103,7 @@ public class SplitsTree {
         options.done();
 
         if (silentMode) {
+            Basic.stopCollectingStdErr();
             Basic.hideSystemErr();
             Basic.hideSystemOut();
         }
@@ -129,8 +128,10 @@ public class SplitsTree {
                     if (showMessages) {
                         dir.getActions().getMessageWindow().actionPerformed(null);
                         dir.getMainViewerFrame().toFront(); // keep main viewer in front
-                    } else
-                        System.err.println(Basic.stopCollectingStdErr());
+                    }
+
+                    Basic.restoreSystemOut(System.err); // send system out to system err
+                    System.err.println(Basic.stopCollectingStdErr());
 
                     if (!fileName.equals("")) {// initial file given
                         File file = new File(fileName);
@@ -157,20 +158,21 @@ public class SplitsTree {
             });
         } else // command line mode
         {
+            SplitsTreeProperties.initializeProperties(propertiesFile);
+
             Basic.restoreSystemErr(System.out); // send system err to system out
             System.err.println(Basic.stopCollectingStdErr());
 
-            SplitsTreeProperties.initializeProperties(propertiesFile);
             Document doc = new Document();
             doc.setProgressListener(new ProgressCmdLine());
 
             System.err.println(SplitsTreeProperties.getVersion());
 
-            String command;
+            StringBuilder command;
             if (!fileName.equals("")) {
-                command = "load file=" + fileName;
+                command = new StringBuilder("load file=" + fileName);
                 try {
-                    doc.execute(command);
+                    doc.execute(command.toString());
                 } catch (Exception ex) {
                     System.err.println(command + ": failed");
                     System.err.println(ex.getMessage());
@@ -192,14 +194,14 @@ public class SplitsTree {
                 inp = new LineNumberReader(new BufferedReader(new InputStreamReader(System.in)));
             try {
                 boolean inMultiLineMode = false;
-                command = "";
+                command = new StringBuilder();
                 while (true) { // process commands from standard input
                     if (!fromFile) {
                         if (!inMultiLineMode)
-                            System.err.print("SplitsTree: ");
+                            System.out.print("SplitsTree: ");
                         else
-                            System.err.print("+ ");
-                        System.err.flush();
+                            System.out.print("+ ");
+                        System.out.flush();
                     }
                     try {
                         String aline = inp.readLine();
@@ -208,15 +210,15 @@ public class SplitsTree {
                         if (aline.equals("\\")) {
                             inMultiLineMode = !inMultiLineMode;
                         } else
-                            command += aline;
+                            command.append(aline);
                         if (!inMultiLineMode && command.length() > 0) {
                             doc.execute(command + ";");
-                            command = "";
+                            command = new StringBuilder();
                         }
                     } catch (Exception ex) {
                         System.err.println(command + ": failed");
                         Basic.caught(ex);
-                        command = "";
+                        command = new StringBuilder();
                     }
                 }
             } finally {
