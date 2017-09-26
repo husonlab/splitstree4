@@ -157,6 +157,9 @@ public class SplitsTree {
             });
         } else // command line mode
         {
+            Basic.restoreSystemErr(System.out); // send system err to system out
+            System.err.println(Basic.stopCollectingStdErr());
+
             SplitsTreeProperties.initializeProperties(propertiesFile);
             Document doc = new Document();
             doc.setProgressListener(new ProgressCmdLine());
