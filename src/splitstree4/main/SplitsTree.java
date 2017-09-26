@@ -71,12 +71,14 @@ public class SplitsTree {
     public void parseArguments(String[] args) throws Exception {
         Basic.startCollectionStdErr();
 
-        ProgramProperties.setProgramName(SplitsTreeProperties.getVersion());
-        ProgramProperties.setProgramVersion(SplitsTreeProperties.getVersion());
+        ProgramProperties.setProgramName(Version.NAME);
+        ProgramProperties.setProgramVersion(Version.SHORT_DESCRIPTION);
+        ProgramProperties.setUseGUI(true);
 
-        final ArgsOptions options = new ArgsOptions(args, this, "SplitsTree4", "Analyze and visualize phylogenetic data");
+        final ArgsOptions options = new ArgsOptions(args, this, "Interactive analysis and visualization of phylogenetic data");
         options.setAuthors("Daniel H. Huson and David J. Bryant");
         options.setLicense("Copyright (C) 2017 Daniel H. Huson and David J. Bryant. This program comes with ABSOLUTELY NO WARRANTY.");
+        options.setVersion(ProgramProperties.getProgramVersion());
 
         options.comment("Input:");
         final String fileName = options.getOption("-i", "input", "Input file", "");
@@ -165,8 +167,6 @@ public class SplitsTree {
 
             Document doc = new Document();
             doc.setProgressListener(new ProgressCmdLine());
-
-            System.err.println(SplitsTreeProperties.getVersion());
 
             StringBuilder command;
             if (!fileName.equals("")) {
