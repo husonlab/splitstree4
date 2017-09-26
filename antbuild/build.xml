@@ -71,6 +71,7 @@
             <classpath> <pathelement location="${jar}"/>
             </classpath>
             <arg value="-d"/>
+            <arg value="-g"/>
             <jvmarg value="-Dapple.laf.useScreenMenuBar=true"/>
             <jvmarg value="-server"/>
             <jvmarg value="-Xmx500M"/>
