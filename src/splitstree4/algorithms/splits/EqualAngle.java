@@ -108,7 +108,7 @@ public class EqualAngle implements Splits2Network {
         EdgeSet selected = currentGraphView.getSelectedEdges();
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
             //System.out.println(graph.getSplit(e) + " " + new Integer(graph.getSplit(e)));
-            if (!forbiddenSplits.contains(new Integer(graph.getSplit(e))) && (selected.contains(e))) {
+            if (!forbiddenSplits.contains(graph.getSplit(e)) && (selected.contains(e))) {
                 double oldAngle = Geometry.computeAngle(new Point2D.Double(phyloGraphView.getLocation(e.getTarget()).getX() - phyloGraphView.getLocation(e.getSource()).getX(), phyloGraphView.getLocation(e.getTarget()).getY() - phyloGraphView.getLocation(e.getSource()).getY()));
                 forbiddenSplits.add(graph.getSplit(e));
                 System.out.println(graph.getSplit(e) + " forbidden split : " + oldAngle);
@@ -792,10 +792,7 @@ public class EqualAngle implements Splits2Network {
      * @param graphView
      * @throws jloda.util.NotOwnerException
      */
-    private void runOptimizeDayLight
-    (Taxa
-             taxa, PhyloGraphView
-             graphView) throws NotOwnerException {
+    private void runOptimizeDayLight(Taxa taxa, PhyloGraphView graphView) throws NotOwnerException {
 
         PhyloGraph graph = graphView.getPhyloGraph();
         NodeSet ignore = new NodeSet(graph);
@@ -833,12 +830,7 @@ public class EqualAngle implements Splits2Network {
      * @param v
      * @param graphView
      */
-    private boolean optimizeDaylightNode
-    (Taxa
-             taxa, Node
-             v,
-     PhyloGraphView
-             graphView) throws NotOwnerException, CanceledException {
+    private boolean optimizeDaylightNode(Taxa taxa, Node v, PhyloGraphView graphView) throws NotOwnerException, CanceledException {
         PhyloGraph graph = graphView.getPhyloGraph();
 
         int numComp = 0;
@@ -1175,7 +1167,6 @@ public class EqualAngle implements Splits2Network {
             return new Pair<>(Geometry.moduloTwoPI(CurrentTrig - SplitAngle), -Geometry.moduloTwoPI(SplitAngle - CurrentClock));
         }
     }
-
 
     /**
      * returns a HashMap which gives for each split the list of its edges.

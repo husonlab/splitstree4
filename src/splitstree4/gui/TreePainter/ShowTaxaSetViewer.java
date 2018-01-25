@@ -581,9 +581,8 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
 
         Vector descendantNodes = new Vector();
 
-        for (Iterator outEdges = phyloTree.getOutEdges(groupNode); outEdges.hasNext(); ) {
-            Node childNode = ((Edge) outEdges.next()).getOpposite(groupNode);
-
+        for (Edge e = groupNode.getFirstOutEdge(); e != null; e = groupNode.getNextOutEdge(e)) {
+            final Node childNode = e.getTarget();
             if (childNode.getOutDegree() > 0) {
                 descendantNodes.addAll(getDescendantNodes(childNode, phyloTree));
             } else {
@@ -674,9 +673,8 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     private Vector getDescendantNodesPhyloTree(Node groupNode, PhyloTree taxonomy) {
 
         Vector descendantNodes = new Vector();
-        for (Iterator outEdges = taxonomy.getOutEdges(groupNode); outEdges.hasNext(); ) {
-            Node childNode = ((Edge) outEdges.next()).getOpposite(groupNode);
-
+        for (Edge e = groupNode.getFirstOutEdge(); e != null; e = groupNode.getNextOutEdge(e)) {
+            Node childNode = e.getTarget();
             if (childNode.getOutDegree() > 0) {
                 descendantNodes.addAll(getDescendantNodesPhyloTree(childNode, taxonomy));
             } else {
