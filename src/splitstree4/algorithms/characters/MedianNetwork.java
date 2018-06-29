@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * computes splits from binary data  and draws them using the convex hull algorithm
+ * computes splits from binary data and draws them using the convex hull algorithm
  *
  * @author huson
  *         Date: 16-Feb-2004

@@ -988,14 +988,14 @@ public class EqualAngle implements Splits2Network {
 
                 //Iterator allSplits=SplitsSet.iterator();
                 for (Object aSplitsSet : SplitsSet) {
-                    int CurrentSplit = (Integer) aSplitsSet;
-                    if (!forbiddenSplits.contains(new Integer(CurrentSplit))) {
+                    int currentSplit = (Integer) aSplitsSet;
+                    if (!forbiddenSplits.contains(currentSplit)) {
                         //We can move this split as it's is not in the forbidden list.
 
                         //If the split is improvable, it will have more chances to be improved:
                         counter++;
                         doc.notifySetProgress(counter);
-                        currentEdges = (List) EdgeSplits.get(new Integer(CurrentSplit));
+                        currentEdges = (List) EdgeSplits.get(currentSplit);
                         currentEdge = (Edge) currentEdges.get(0);
                         Iterator CurrentEdgesIt;
 
@@ -1007,20 +1007,28 @@ public class EqualAngle implements Splits2Network {
                         //Choose a new angle for the split between those two critical angles :
                         double trigAngle = oldAngle + CurrentExtremeAngles.getFirstDouble();
                         double clockAngle = oldAngle + CurrentExtremeAngles.getSecondDouble();
-                        //Good System.out.println("\n Split "+CurrentSplit+" Angle : "+oldAngle+" - Edge: "+CurrentEdge);
+
+
                         Pair newTrigClock = CreatesCollisions(trigAngle, clockAngle, oldAngle, currentEdges, oldAngle, phyloGraphView);
+
+                        System.err.println("createsCollisions returned: " + newTrigClock);
 
                         trigAngle = newTrigClock.getFirstDouble();
                         clockAngle = newTrigClock.getSecondDouble();
 
                         if (currentEdges.size() > 1) {
-                            Pair Optimized = maximizeArea(currentEdges, graph, clockAngle, trigAngle);
+                            System.err.println("\n Split " + currentSplit + " Angle : " + oldAngle + " - Edge: " + currentEdge);
+
+                            Pair optimized = maximizeArea(currentEdges, graph, clockAngle, trigAngle);
                             CurrentEdgesIt = currentEdges.iterator();
                             while (CurrentEdgesIt.hasNext()) {
                                 currentEdge = (Edge) CurrentEdgesIt.next();
-                                graph.setAngle(currentEdge, Optimized.getSecondDouble());
+
+                                System.err.println("Changing: " + graph.getAngle(currentEdge) + " -> " + optimized.getSecond());
+
+                                graph.setAngle(currentEdge, optimized.getSecondDouble());
                             }
-                            totalSize += Optimized.getFirstDouble();
+                            totalSize += optimized.getFirstDouble();
                         } else {
                             //The split only has one edge, we do not move it
                         }
@@ -1045,10 +1053,12 @@ public class EqualAngle implements Splits2Network {
      * @param maxAngle
      */
     public Pair<Double, Double> maximizeArea(List SplitEdges, PhyloGraph graph, double minAngle, double maxAngle) {
+        if (minAngle < maxAngle)
+            System.err.println(">> " + minAngle + " ... " + maxAngle);
         //We will first express the area of the split as A cos x + B sin x, x being the split angle
         double A = 0;
         double B = 0;
-        double Area = 0;
+        double area = 0;
 
         Iterator EdgesIt = SplitEdges.iterator();
         Edge CurrentEdge = (Edge) EdgesIt.next();
@@ -1096,17 +1106,20 @@ public class EqualAngle implements Splits2Network {
                 }
             }
             resultAngle = shiftedD;
-            Area = C * Math.cos(resultAngle - D);
+            area = C * Math.cos(resultAngle - D);
         }
 
         if (!(resultAngle == resultAngle)) {
             //The angle found is not a Number : we don't move the split. This is the case where all edges of the split
             // are in the same place so we could choose a more clever angle? Let's leave the old angle right now.
             resultAngle = splitAngle;
-            Area = 0;
+            area = 0;
         }
 
-        return new Pair<>(Area, resultAngle);
+        if (area != 0)
+            System.err.println("area " + area + " result " + resultAngle);
+
+        return new Pair<>(area, resultAngle);
     }
 
 
