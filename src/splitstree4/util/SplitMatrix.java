@@ -172,7 +172,8 @@ public class SplitMatrix {
      * @return weight
      */
     public double get(int split, int blockNum) {
-        return matrix.get(split, blockNum);
+        Double value = matrix.get(split, blockNum);
+        return value != null ? value : 0;
     }
 
 
@@ -184,7 +185,8 @@ public class SplitMatrix {
      * @return
      */
     public double getOriginal(int split) {
-        return matrix.get(split, 0);
+        Double value = matrix.get(split, 0);
+        return value != null ? value : 0;
     }
 
     //ToDo: Delete this

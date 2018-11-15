@@ -838,7 +838,7 @@ public class Document extends DocumentData {
 
             DFilter.applyFilter(this, splits, assumptions.getSplitsPostProcess().getDimensionValue());
             //DANIEL: I think the following would be a better (heuristic) filter.
-            // CircularDFilter.applyFilter(this, splits, assumptions.getSplitsPostProcess().getDimensionValue());
+            //CircularDFilter.applyFilter(this, splits, assumptions.getSplitsPostProcess().getDimensionValue());
 
         }
         if (splits.getNsplits() != origNSplits && assumptions.getLayoutStrategy() == Assumptions.RECOMPUTE)

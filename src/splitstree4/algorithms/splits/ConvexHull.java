@@ -156,7 +156,6 @@ public class ConvexHull implements Splits2Network {
         doc.notifySetMaximumProgress(order.length);    //initialize maximum progress
         try {
             for (int z = 0; z < order.length; z++) {
-
                 doc.notifySetProgress(z);
 
                 TaxaSet currentSplitPartA = splits.get(order[z]);
