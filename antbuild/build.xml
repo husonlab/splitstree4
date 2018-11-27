@@ -27,24 +27,32 @@
         <mkdir dir="${classDir}/resources"/>
     </target>
 
+    <!-- copy resources -->
+
+    <target name="copy_resources" depends="init">
+        <copy todir="${classDir}/resources">
+            <fileset dir="../src/resources" excludes=".svn/**"/>
+        </copy>
+    </target>
+
     <!-- copy sources -->
-    <target name="copy_sources" depends="init">
+    <target name="copy_sources" depends="copy_resources">
         <copy todir="${srcDir}">
-            <fileset dir="${jlodaSrcDir}" excludes="com/apple/**"/>
+            <fileset dir="${jlodaSrcDir}" excludes="com/** resources/**"/>
             <fileset dir="${splitsTreeSrcDir}"/>
         </copy>
     </target>
 
     <!-- compile  -->
     <target name="compile" depends="copy_sources">
-	    <javac includeantruntime="false"
-		    srcdir="${srcDir}"
-		    destdir="${classDir}"
-		    debug="on"
-		    source="1.7"
-		    target="1.7"
-		    classpathref="build.classpath">
-		    <compilerarg value="-XDignore.symbol.file=true"/> 
+        <javac includeantruntime="false"
+               srcdir="${srcDir}"
+               destdir="${classDir}"
+               debug="on"
+               source="1.7"
+               target="1.7"
+               classpathref="build.classpath">
+            <compilerarg value="-XDignore.symbol.file=true"/>
         </javac>
     </target>
 
@@ -59,7 +67,7 @@
 
     <!-- run project -->
     <target name="run" depends="jar">
-	    <java classname="${mainclass}" fork="true" classpathref="build.classpath">
+        <java classname="${mainclass}" fork="true" classpathref="build.classpath">
             <classpath> <pathelement location="${jar}"/>
             </classpath>
             <arg value="-d"/>
@@ -74,8 +82,8 @@
     <!-- removes all that has been built -->
     <target name="clean">
         <delete dir="${classDir}" includeEmptyDirs="true"/>
-	<delete dir="${srcDir}" includeEmptyDirs="true"/>
-	<delete file="${jar}"/>
+        <delete dir="${srcDir}" includeEmptyDirs="true"/>
+        <delete file="${jar}"/>
     </target>
 </project>
 
