@@ -778,6 +778,30 @@ public class NeighborNet implements Distances2Splits {
 }
 
 
+	/**
+	Given a boolean array, returns an array containing the list of 
+	indices for which the array is true**/
+	
+	static int[] findTruths(boolean[] mask) {
+		int n = mask.length;
+		int m=0;
+		for(int i=0;i<n;i++)
+			if (mask[i])
+				m++;
+		int[] indices = new int[m];
+		int newi = 0;
+		for(int i=0;i<n;i++)
+			if (mask[i]) {
+				indices[newi] = i;
+				newi++;
+			}
+		
+		return indices;
+	}
+	
+	
+	
+
 	static private Matrix getVectorRows(boolean[] mask, double[] v) {
 		int m=0;
 		for (int i=0;i<mask.length;i++)
@@ -793,34 +817,51 @@ public class NeighborNet implements Distances2Splits {
 		}
 		return Matrix(subv);
 	}
-	
-	
+
 	
 	/**
-	Extract the submatrix of X with rows specified by the mask.
-	**/
-	static private Matrix getMatrixRows(boolean[] mask, double[][] X) {
+	getKKTMatrix
+	@param mask   Boolean 6x1 array.
+	@param X      6x3 array of doubles.
 	
-		//assert (mask.length == X.length)
-			 
+	
+	Returns the matrix 
+	  M = [2*I  Y^T;Y 0]
+	where Y is the matrix formed from the rows of X for which the mask is true.
+	
+	At present, this will only work when X is 6x3. 
+	**/
+	
+	static private double[] solveEQ(boolean[] mask, Matrix X, Matrix yhat, Matrix b) {
+		
+		//Count number of rows in mask
 		int m=0;
 		for (int i=0;i<mask.length;i++)
-			if (mask(i))
+			if (mask[i])
 				m++;
-		int n = X[0].length;
-		double[][] subX = new double[m][n];
+				
+		M = new Matrix(3 + m, 3+m);
+		c = new Matrix(3+m,1);
 		
-		int newi = 0;
-		for(int i=0;i<X.length;i++) {
-			if (mask(i)) {
-				for(int j=0;j<n;j++)
-					subX[newi][j] = X[i][j];
-				newi++;
+		newi = 3;
+		for(int i=0;i<3;i++) {
+			M.set(i,i,2);
+			c.set(i,0,yhat[i]);
+		}
+		for (int i=0;i<6;i++) {
+			if (mask[i]) {
+				for(j=0;j<3;j++) {
+					M.set(newi,j,X[i][j]);
+					M.set(j,newi,X[i][j]);
+					c.set(newi,0,b[i]);
+					newi++;
+				}
 			}
 		}
 		
-		return Matrix(subX);
+		return (M.solve(c)).getRowPackedCopy();
 	}
+	
 	
 	
 			
@@ -831,51 +872,120 @@ public class NeighborNet implements Distances2Splits {
 		double EPSILON = 1e-15;
 		
 		//Set up constraints: these are Xy - b \leq 0.
-		double[][] X = double[6][3];
-		Arrays.fill(X,0.0);
-		X[0][0] = 2; X[0][1] = 1;
-		X[1][0] = -2; X[1][1] = -1;
-		X[2][1] = 1; X[2][2] = 2;
-		X[3][0] = X[4][1] = X[5][2] = -1;
+		double[][] xarray = {{2,1,0},{-2,-1,2},{0,1,2},{-1,0,0},{0,-1,0},{0,0,-1}};
 		
-		double[] b = double[6];
-		Arrays.fill(b,0.0);
-		b[0] = 3*w[0]; b[1] = 6*w[1] - 3*w[0]; b[2] = 3*w[2];
+			
+		Matrix X = new Matrix(xarray);
+		
+		Matrix b = new Matrix(6,1);
+		b.set(0,0,3*w[0]); b.set(1,0,6*w[1] - 3*w[0]); b.set(2,0,3*w[2]);
+		//remaining entries of b are zero.
+		
 		
 		//Initial solution (always feasible for this problem)
-		double[] y = double[3];
-		Arrays.fill(y,0.0);
-		y[0] = 3*w[0];
+		Matrix y = new Matrix(3,1);
+		y.set(0,0,3*w[0]);
 		
 		boolean[] active = boolean[6]; //active set. 
 		int nactive = 0;
-		double[] lambda = double[6];
+		Matrix lambda = new Matrix(6,1);
 		
 		
 		boolean outer = true;
 		while(outer) {
 			boolean inner = true;
-			double[] ynext = double[3];
+			Matrix ynext = new Matrix(3,1);
 			
 			while(inner) {
 				//Set ynext so that it solves the equality constrained optimization 
 				if (nactive == 0) {
-					System.arraycopy(yhat,0,ynext,0,3);  //ynext = yhat.
-					Arrays.fill(lambda,0.0);  //lambda = 0.
-				else if (nactive == 3) {
-					Matrix Xsub = getMatrixRows(active,X);
-					Matrix bsub = getMatrixRows(
-					y = arrayLeftDivide(bsub).getColumnPackedCopy();
+					ynext.getArrayCopy(yhat);
+					lambda.timesEquals(0.0); 
+				}
 				else {
-					
 				
+					//These arrays used to specify submatrices
+					int[] A = new int[nactive];
+					int newi=0;
+					for (int i=0;i<6;i++) {
+						if (active[i]) {
+							A[newi] = i;
+							newi++;
+						}
+					}					
+					int[] B0 = {0};
+					int[] B1 = {0,1,2};
+					int[] B2 = new int[nActive];
+					for(int i=0;i<nActive;i++)
+						B2[i] = 3+i;
+					
+					Matrix Xtilde = X.getMatrix(findTruths(active),allCols);
+					Matrix btilde = b.getMatrix(findTruths(active),singleCol);
+					
+					Matrix M = new Matrix(3+nactive,3+nactive);
+					for(int i=0;i<3;i++)
+						M.set(i,i,2);
+					M.setMatrix(B1,B2,Xtilde.transpose());
+					M.setMatrix(B2,B1,Xtilde);
+					
+					Matrix c = new Matrix(3+nactive,1);
+					c.setMatrix(B1,B0,yhat);
+					c.setMatrix(B2,B0,btilde);
+					
+					Matrix ylambda = M.solve(c);
+					Matrix ynext = ylambda.getMatrix(B1,B0);
+					lambda.timesEquals(0.0); 
+					lambda.setMatrix(activeIndices,B0,ylambda.getMatrix(B2,B0));
+					
+				}	
+					
+				//Check feasibility
+				Matrix gy = (X.times(y)).minus(b);
+				Matrix gny = (X.times(ynext)).minus(b);
+				
+				double tmin = Double.MAX_VALUE;
+				int imin = -1;
+				
+				for(int i=0;i<6;i++) {
+					if (!active[i] && gny.get(i,0)>0.0) {
+						double ti = -gy[i] / (gny[i]-gy[i]);
+						if (ti<tmin) {
+							imin = i;
+							tmin = ti;
+						}
+					}
+				}
+				
+				if (imin==0 || nactive == 3) {
+					inner = false;
+					y.getArrayCopy(ynext);
+				} else {
+					y = (y.times(1.0 - tmin)).plus(ynext.times(tmin));
+					active[imin]=true;
+					nactive++;
+				}
 				
 				
 			}
-		
+				
+			//Check optimality of feasible optimum.
+			double lmin = -EPSILON;
+			int imin = 0;
+			for (int i = 0;i<6;i++) {
+				if (active[i] && lambda.get(i,0) < lmin) {
+					lmin = lambda.get(i,0);
+					imin = i;
+				}
+			}
+			if (imin==0) {
+				outer=false;
+				return y;
+			}
+			else {
+				active[imin] = false;
+				nactive--;
+			}
 		}
-	
-
 
 
 
