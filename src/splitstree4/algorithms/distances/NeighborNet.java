@@ -250,7 +250,8 @@ public class NeighborNet implements Distances2Splits {
     private static int[] runNeighborNet(Document doc, Distances dist) throws CanceledException {
 
         int ntax = dist.getNtax();
-
+		int max_num_nodes = 3 * ntax - 5;
+		
         //Special cases. When ntax<=3, the default circular cycle will work.
         if (ntax <= 3) // nnet can't do small data sets, so let's use split decomp
         {
@@ -297,8 +298,10 @@ public class NeighborNet implements Distances2Splits {
         if (doc != null)
             doc.notifySubtask("expansion");
         // System.err.println("Ordering: "+ Basic.toString(cycle));
-
-        return expandNodes(doc, num_nodes, ntax, amalgs, netNodes);
+        
+		double[][] W = new double[max_num_nodes][max_num_nodes];  //Weights matrix
+		int[] ordering = expandNodesGetWeights(doc, num_nodes, ntax, amalgs, netNodes,D,W);
+        return ordering;
     }
 
     /**
@@ -592,11 +595,122 @@ public class NeighborNet implements Distances2Splits {
     /**
      * Expands the net nodes to obtain the cycle, quickly
      *
-     * @param num_nodes number of nodes
      * @param ntax      number of taxa
      * @param amalgs    stack of amalagations
      * @param netNodes  the net nodes
      */
+    static private int[] expandNodesGetWeights(Document doc, int ntax, Stack amalgs, NetNode netNodes, double[][] D, double[][] W) throws CanceledException {
+
+        int[] ordering = new int[ntax + 1];
+		int max_num_nodes = 3 * ntax - 5;
+
+        //System.err.println("expandNodes");
+        NetNode x, y, z, u, v, a;
+        int nnodes;
+
+/* Set up the circular order for the first three nodes */
+        x = netNodes.next;
+        y = x.next;
+        z = y.next;
+        z.next = x;
+        x.prev = z;
+
+		W[x.id][y.id] = Math.max(0,0.5*(D[x.id][y.id] + D[x.id][z.id] - D[y.id][z.id]));
+		W[y.id][x.id] = W[x.id][y.id];
+		W[x.id][z.id] = Math.max(0,0.5*(D[x.id][z.id] + D[y.id][z.id] - D[x.id][y.id]));
+		W[z.id][x.id] = W[x.id][z.id];
+		W[y.id][z.id] = Math.max(0,0.5*(D[x.id][y.id] + D[y.id][z.id] - D[x.id][z.id]));
+		W[z.id][y.id] = W[y.id,z.id];
+		nnodes = 3;
+
+/* Initialisation for the weight estimation. */
+		double[] yhat = new double[max_num_nodes];
+		
+
+
+
+/* Now do the rest of the expansions */
+        while (!amalgs.empty()) {
+/* Find the three elements replacing u and v. Swap u and v around if v comes before u in the
+          circular cycle being built up */
+            u = (NetNode) (amalgs.pop());
+            // System.err.println("POP: u="+u);
+            v = u.nbr;
+            
+          
+            
+            
+            
+            
+            
+            x = u.ch1;
+            y = u.ch2;
+            z = v.ch2;
+            if (v != u.next) {
+                NetNode tmp = u;
+                u = v;
+                v = tmp;
+                tmp = x;
+                x = z;
+                z = tmp;
+            }
+
+  //Compute \tp_{uv}
+            double p_uv = W[u.id][v.id];
+            for (NetNode k = v.next; k!=u; k = k.next) {
+            	p_uv += W[v.id][k.id];
+            }
+            
+/* Insert x,y,z into the circular order */
+            x.prev = u.prev;
+            x.prev.next = x;
+            x.next = y;
+            y.prev = x;
+            y.next = z;
+            z.prev = y;
+            z.next = v.next;
+            z.next.prev = z;
+            
+            /* Update the weights
+            */
+            
+            //Compute yhat
+            yhat[x.id] = 1/3*D[x.id][y.id] - 1/6*D[y.id][z.id]-1/6*D[x.id][z.id] 
+            			+ 1/4*D[x.id][x.prev.id] - 1/2*D[y.id][x.prev.id]+1/4*D[z.id][x.prev.id]
+            			+3/4*W[u.id][v.id] + 1/8*p_uv; 
+            yhat[y.id] = 1/3*D[x.id][y.id] + 1/3*D[y.id][z.id] - 2/3*D[x.id][z.id]+1/2*p_uv;
+            yhat[z.id] = 1/2*D[x.id][z.id]-1/4*D[x.id][z.next.id]-1/2*D[y.id][z.id]
+            			+1/2*D[x.id][z.id]-1/4*D[y.id][z.id]+3/4*W[v.id][v.next.id] - 3/8*p_uv;
+            for(NetNode k = z.next;!k=x;k=k.next) {
+               yhat[k.id] = 1/4*D[x.id][k.prev.id]-1/4*D[x.id][k.id]-1/2*D[y.id][k.prev.id]
+               			+1/2*D[y.id][k.id]+1/4*D[z.id][k.prev.id]-1/4*D[z.id][k.id]+3/4*W[v.id][k.prev.id];
+        	}
+        	
+            
+            
+            
+            
+            if (doc != null)
+                doc.getProgressListener().checkForCancel();
+        }
+
+/* When we exit, we know that the point x points to a node in the circular order */
+/* We loop through until we find the node after taxa zero */
+        while (x.id != 1) {
+            x = x.next;
+        }
+
+/* extract the cycle */
+        a = x;
+        int t = 0;
+        do {
+            // System.err.println("a="+a);
+            ordering[++t] = a.id;
+            a = a.next;
+        } while (a != x);
+        return ordering;
+    }
+
     static private int[] expandNodes(Document doc, int num_nodes, int ntax, Stack amalgs, NetNode netNodes) throws CanceledException {
 
         int[] ordering = new int[ntax + 1];
@@ -658,6 +772,111 @@ public class NeighborNet implements Distances2Splits {
         } while (a != x);
         return ordering;
     }
+
+
+
+}
+
+
+	static private Matrix getVectorRows(boolean[] mask, double[] v) {
+		int m=0;
+		for (int i=0;i<mask.length;i++)
+			if (mask(i))
+				m++;
+		double[][] subv = new double[m][1];
+		int newi = 0;
+		for(int i=0;i<X.length;i++) {
+			if (mask(i)) {
+				subv[newi] = v[i];
+				newi++;
+			}
+		}
+		return Matrix(subv);
+	}
+	
+	
+	
+	/**
+	Extract the submatrix of X with rows specified by the mask.
+	**/
+	static private Matrix getMatrixRows(boolean[] mask, double[][] X) {
+	
+		//assert (mask.length == X.length)
+			 
+		int m=0;
+		for (int i=0;i<mask.length;i++)
+			if (mask(i))
+				m++;
+		int n = X[0].length;
+		double[][] subX = new double[m][n];
+		
+		int newi = 0;
+		for(int i=0;i<X.length;i++) {
+			if (mask(i)) {
+				for(int j=0;j<n;j++)
+					subX[newi][j] = X[i][j];
+				newi++;
+			}
+		}
+		
+		return Matrix(subX);
+	}
+	
+	
+			
+	
+	
+	static private double[] optimizeThreeys(double[] yhat, double[] w) {
+	
+		double EPSILON = 1e-15;
+		
+		//Set up constraints: these are Xy - b \leq 0.
+		double[][] X = double[6][3];
+		Arrays.fill(X,0.0);
+		X[0][0] = 2; X[0][1] = 1;
+		X[1][0] = -2; X[1][1] = -1;
+		X[2][1] = 1; X[2][2] = 2;
+		X[3][0] = X[4][1] = X[5][2] = -1;
+		
+		double[] b = double[6];
+		Arrays.fill(b,0.0);
+		b[0] = 3*w[0]; b[1] = 6*w[1] - 3*w[0]; b[2] = 3*w[2];
+		
+		//Initial solution (always feasible for this problem)
+		double[] y = double[3];
+		Arrays.fill(y,0.0);
+		y[0] = 3*w[0];
+		
+		boolean[] active = boolean[6]; //active set. 
+		int nactive = 0;
+		double[] lambda = double[6];
+		
+		
+		boolean outer = true;
+		while(outer) {
+			boolean inner = true;
+			double[] ynext = double[3];
+			
+			while(inner) {
+				//Set ynext so that it solves the equality constrained optimization 
+				if (nactive == 0) {
+					System.arraycopy(yhat,0,ynext,0,3);  //ynext = yhat.
+					Arrays.fill(lambda,0.0);  //lambda = 0.
+				else if (nactive == 3) {
+					Matrix Xsub = getMatrixRows(active,X);
+					Matrix bsub = getMatrixRows(
+					y = arrayLeftDivide(bsub).getColumnPackedCopy();
+				else {
+					
+				
+				
+				
+			}
+		
+		}
+	
+
+
 
 
 }
