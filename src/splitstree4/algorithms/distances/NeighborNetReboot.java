@@ -1,6 +1,6 @@
 /**
- * NeighborNet.java
- * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
+ * NeighborNetReboot.java
+ * Copyright (C) 2015 Daniel H. Huson and David J. Bryant, with Vince Moulton and Kathi Huber
  * <p/>
  * (Some files contain contributions from other authors, who are then mentioned separately.)
  * <p/>
@@ -20,15 +20,14 @@
  * Implements neighbor net
  *
  * @version $Id:
- * @author David Bryant
+ * @author David Bryant and Daniel Huson
  * Adapted to Java by Daniel Huson and David Bryant 1.03
  */
 /**
- * Implements neighbor net
+ * Implements neighbor net reboot
  * @version $Id:
  *
  * @author David Bryant
- * Adapted to Java by Daniel Huson and David Bryant 1.03
  *
  */
 package splitstree4.algorithms.distances;
@@ -49,14 +48,12 @@ import java.util.Stack;
 /**
  * Implements Neighbor Net method of Bryant and Moulton (2004).
  */
-public class NeighborNet implements Distances2Splits {
+public class NeighborNetReboot implements Distances2Splits {
     private double optionThreshold = 0.000001; // min weight of split that we consider
-    private double optionLambdaFrac = 1.0;
     private boolean makeSplits = true;
-    private String optionVarianceName = "Ordinary_Least_Squares";
     //private boolean optionConstrain = true;
     private int[] cycle = null; // the computed cycle
-    public final static String DESCRIPTION = "Computes the Neighbor-Net network (Bryant and Moulton 2004)";
+    public final static String DESCRIPTION = "Computes the Neighbor-Net network (Bryant and Moulton 2004) using the revised algorithm of (Bryant, Huber and Moulton, 2019)";
 
 
     /**
@@ -79,18 +76,13 @@ public class NeighborNet implements Distances2Splits {
      */
     public Splits apply(Document doc, Taxa taxa, Distances dist) throws CanceledException {
         if (doc != null) {
-            doc.notifyTasks("Neighbor-Net", null);
+            doc.notifyTasks("Neighbor-Net (reboot)", null);
             doc.notifySetMaximumProgress(-1);    //initialize maximum progress
         }
+        Splits splits = runNeighborNet(doc, dist);
 
-        cycle = runNeighborNet(doc, dist);
-
-        String var = selectVariance(this.optionVarianceName);
         if (doc != null)
             doc.notifySubtask("edge weights");
-
-        NeighborNetSplitWeightOptimizer.Options options = new NeighborNetSplitWeightOptimizer.Options(var, optionThreshold);
-        Splits splits = NeighborNetSplitWeightOptimizer.computeWeightedSplits(cycle, dist, options);
 
         if (SplitsUtilities.isCompatible(splits))
             splits.getProperties().setCompatibility(Splits.Properties.COMPATIBLE);
@@ -102,29 +94,6 @@ public class NeighborNet implements Distances2Splits {
 
         return splits;
 
-    }
-
-    /**
-     * A scaled down version of NeighborNet that only returns the cycle, and does not
-     * access the document or progress bar.
-     *
-     * @param dist Distance matrix
-     */
-    static public int[] computeNeighborNetOrdering(Distances dist) {
-        int ntax = dist.getNtax();
-        int[] ordering;
-        if (ntax < 4) {
-            ordering = new int[ntax + 1];
-            for (int i = 1; i <= ntax; i++)
-                ordering[i] = i;
-        } else {
-            try {
-                ordering = runNeighborNet(null, dist);
-            } catch (CanceledException e) {
-                ordering = null;
-            }
-        }
-        return ordering;
     }
 
     /**
@@ -145,86 +114,11 @@ public class NeighborNet implements Distances2Splits {
         return cycle;
     }
 
-
-    /**
-     * Sets the power for least squares
-     *
-     * @param varName 0, 1 or 2
-     */
-    public void setOptionVariance(String varName) {
-        this.optionVarianceName = varName;
-    }
-
-    /**
-     * Gets the power for least squares
-     *
-     * @return the power
-     */
-    public String getOptionVariance() {
-        return optionVarianceName;
-    }
-
-    public List<String> selectionOptionVariance(Document doc) {
-        List<String> models = new ArrayList<>();
-        models.add("OrdinaryLeastSquares");
-        models.add("FitchMargoliash1");
-        models.add("FitchMargoliash2");
-        models.add("Estimated");
-        return models;
-    }
-
-    public String selectVariance(String varianceName) {
-        if (varianceName.equalsIgnoreCase("OrdinaryLeastSquares"))
-            return "ols";
-        else if (varianceName.equalsIgnoreCase("FitchMargoliash1"))
-            return "fm1";
-        else if (varianceName.equalsIgnoreCase("FitchMargoliash2"))
-            return "fm2";
-        else if (varianceName.equalsIgnoreCase("Estimated"))
-            return "user";
-        else
-            return "ols"; //In case of uncertainty, do OLS
-    }
-
-    /**
-     * Sets the constrained option for least squares
-     *
-     * @param flag set the constrained option?
-     */
-//    public void setConstrain(boolean flag) {
-//        this.optionConstrain = flag;
-//    }
-
-    /**
-     * Gets the constrained option for least squares
-     *
-     * @return true, if will use the constrained least squares
-     */
-//    public boolean getConstrain() {
-//        return optionConstrain;
-//    }
-
-    /*
-    public  double getOptionThreshold() {
-        return optionThreshold;
-    }
-
-    public  void setOptionThreshold(double optionThreshold) {
-        this.optionThreshold = optionThreshold;
-    }
-    */
-
-    public double getOptionLambdaFrac() {
-        return optionLambdaFrac;
-    }
-
-    public void setOptionLambdaFrac(double optionLambdaFrac) {
-        this.optionLambdaFrac = optionLambdaFrac;
-    }
-
     /**
      * Sets up the working matrix. The original distance matrix is enlarged to
-     * handle the maximum number of nodes
+     * handle the maximum number of nodes.
+     *
+     * TODO: Implement this as upper triangular, to save memory?
      *
      * @param dist Distance block
      * @return a working matrix of appropriate cardinality
@@ -247,58 +141,58 @@ public class NeighborNet implements Distances2Splits {
     /**
      * Run the neighbor net algorithm
      */
-    private static int[] runNeighborNet(Document doc, Distances dist) throws CanceledException {
+    private static Splits runNeighborNet(Document doc, Distances dist) throws CanceledException {
 
         int ntax = dist.getNtax();
-
-        //Special cases. When ntax<=3, the default circular cycle will work.
-        if (ntax <= 3) // nnet can't do small data sets, so let's use split decomp
+		int max_num_nodes = 3 * ntax - 5;
+		
+        //Special case. When ntax<=3, the default circular cycle will work.
+        if (ntax <= 3)
         {
             int[] ordering = new int[ntax + 1];
             for (int i = 0; i <= ntax; i++)
                 ordering[i] = i;
+            //DOTHIS
             return ordering;
-
         }
 
         double[][] D = setupMatrix(dist);
 
-        /*
-        if (D != null) {
-            System.err.println("Matrix: ");
-            for (int i = 0; i < D.length; i++) {
-                for (int j = 0; j < D.length; j++)
-                    System.err.print(" " + D[i][j]);
-                System.err.println();
-            }
-        }
-        */
-
-        NetNode netNodes = new NetNode();
 
         /* Nodes are stored in a doubly linked list that we set up here */
+        NetNode netNodes = new NetNode();
         for (int i = ntax; i >= 1; i--) /* Initially, all singleton nodes are active */ {
             NetNode taxNode = new NetNode();
             taxNode.id = i;
             taxNode.next = netNodes.next;
             netNodes.next = taxNode;
         }
-
         /* Set up links in other direction */
         for (NetNode taxNode = netNodes; taxNode.next != null; taxNode = taxNode.next)
             taxNode.next.prev = taxNode;
 
+        
         /* Perform the agglomeration step */
         Stack amalgs = new Stack();
-        int num_nodes = ntax;
         if (doc != null)
             doc.notifySubtask("agglomeration");
-        num_nodes = agglomNodes(doc, amalgs, D, netNodes, num_nodes);
+        int num_nodes = agglomNodes(doc, amalgs, D, netNodes, num_nodes);
         if (doc != null)
             doc.notifySubtask("expansion");
         // System.err.println("Ordering: "+ Basic.toString(cycle));
-
-        return expandNodes(doc, num_nodes, ntax, amalgs, netNodes);
+        
+        /* Perform the expansion step, computing weights in the process */
+        if (doc!=null)
+        	doc.notifySubtask("Estimating weights");
+        	
+		double[][] W = new double[max_num_nodes][max_num_nodes];  //Weights matrix
+		int[] ordering = expandNodesGetWeights(doc, num_nodes, ntax, amalgs, netNodes,D,W);
+         
+         /* Extract the splits, using the given weights. */
+        
+        Splits splits getWeightedSplits(ordering, W);
+         
+        return ordering;
     }
 
     /**
@@ -316,8 +210,7 @@ public class NeighborNet implements Distances2Splits {
 
         while (num_active > 3) {
 
-            /* Special case
-            If we let this one go then we get a divide by zero when computing Qpq */
+            /* Special case If we let this one go then we get a divide by zero when computing Qpq */
             if (num_active == 4 && num_clusters == 2) {
                 p = netNodes.next;
                 if (p.next != p.nbr)
@@ -334,9 +227,8 @@ public class NeighborNet implements Distances2Splits {
                 break;
             }
 
-            /* Compute the "averaged" sums s_i from each cluster to every other cluster.
-
-      To Do: 2x speedup by using symmetry*/
+            /* Compute the "averaged" sums s_i from each cluster to every other cluster.*/
+      //TODO To Do: 2x speedup by using symmetry
 
             for (p = netNodes.next; p != null; p = p.next)
                 p.Sx = 0.0;
@@ -589,19 +481,25 @@ public class NeighborNet implements Distances2Splits {
         return Rx;
     }
 
+    
+    
+    
+    
     /**
      * Expands the net nodes to obtain the cycle, quickly
      *
-     * @param num_nodes number of nodes
      * @param ntax      number of taxa
      * @param amalgs    stack of amalagations
      * @param netNodes  the net nodes
      */
-    static private int[] expandNodes(Document doc, int num_nodes, int ntax, Stack amalgs, NetNode netNodes) throws CanceledException {
+    static private int[] expandNodesGetWeights(Document doc, int ntax, Stack amalgs, NetNode netNodes, double[][] D, double[][] W) throws CanceledException {
 
         int[] ordering = new int[ntax + 1];
+		int max_num_nodes = 3 * ntax - 5;
+
         //System.err.println("expandNodes");
         NetNode x, y, z, u, v, a;
+        int nnodes;
 
 /* Set up the circular order for the first three nodes */
         x = netNodes.next;
@@ -610,13 +508,27 @@ public class NeighborNet implements Distances2Splits {
         z.next = x;
         x.prev = z;
 
+		W[x.id][y.id] = Math.max(0,0.5*(D[x.id][y.id] + D[x.id][z.id] - D[y.id][z.id]));
+		W[y.id][x.id] = W[x.id][y.id];
+		W[x.id][z.id] = Math.max(0,0.5*(D[x.id][z.id] + D[y.id][z.id] - D[x.id][y.id]));
+		W[z.id][x.id] = W[x.id][z.id];
+		W[y.id][z.id] = Math.max(0,0.5*(D[x.id][y.id] + D[y.id][z.id] - D[x.id][z.id]));
+		W[z.id][y.id] = W[y.id,z.id];
+		nnodes = 3;
+
+/* Initialisation for the weight estimation. */
+		double[] yhat = new double[max_num_nodes];
+		
+
+
+
 /* Now do the rest of the expansions */
         while (!amalgs.empty()) {
 /* Find the three elements replacing u and v. Swap u and v around if v comes before u in the
           circular cycle being built up */
             u = (NetNode) (amalgs.pop());
             // System.err.println("POP: u="+u);
-            v = u.nbr;
+            v = u.nbr;            
             x = u.ch1;
             y = u.ch2;
             z = v.ch2;
@@ -629,6 +541,12 @@ public class NeighborNet implements Distances2Splits {
                 z = tmp;
             }
 
+  //Compute \tp_{uv}
+            double p_uv = W[u.id][v.id];
+            for (NetNode k = v.next; k!=u; k = k.next) {
+            	p_uv += W[v.id][k.id];
+            }
+            
 /* Insert x,y,z into the circular order */
             x.prev = u.prev;
             x.prev.next = x;
@@ -638,6 +556,54 @@ public class NeighborNet implements Distances2Splits {
             z.prev = y;
             z.next = v.next;
             z.next.prev = z;
+            
+            /* Update the weights
+            */
+            
+            //Compute yhat
+            yhat[x.id] = 1/3*D[x.id][y.id] - 1/6*D[y.id][z.id]-1/6*D[x.id][z.id] 
+            			+ 1/4*D[x.id][x.prev.id] - 1/2*D[y.id][x.prev.id]+1/4*D[z.id][x.prev.id]
+            			+3/4*W[u.id][v.id] + 1/8*p_uv; 
+            yhat[y.id] = 1/3*D[x.id][y.id] + 1/3*D[y.id][z.id] - 2/3*D[x.id][z.id]+1/2*p_uv;
+            yhat[z.id] = 1/2*D[x.id][z.id]-1/4*D[x.id][z.next.id]-1/2*D[y.id][z.id]
+            			+1/2*D[x.id][z.id]-1/4*D[y.id][z.id]+3/4*W[v.id][v.next.id] - 3/8*p_uv;
+            for(NetNode k = z.next;!k=x;k=k.next) {
+               yhat[k.id] = 1/4*D[x.id][k.prev.id]-1/4*D[x.id][k.id]-1/2*D[y.id][k.prev.id]
+               			+1/2*D[y.id][k.id]+1/4*D[z.id][k.prev.id]-1/4*D[z.id][k.id]+3/4*W[v.id][k.prev.id];
+        	}
+        	
+            double[] yhat3 = new double[3];
+            yhat3[0]=yhat[x.id]; yhat3[1]=yhat[y.id]; yhat3[2]=yhat[z.id];
+            double[] y3 = optimize3y(yhat3,W[u.id][v.id],W[u.id][v.next.id],W[v.id][v.next.id]);
+            
+            double[] yvec = new double[max_num_nodes];	
+           
+            
+            for(int k=v.next.next;(nnodes>3 && k!=x);k=k.next) {
+            	double yk = yhat[k.id];
+            	yk = Math.max(yk,Math.max(0.0,3.0/2.0 * W[v.id][k.id] - 3*W[v.next.id][k.id]));
+            	yk = Math.min(yk,Math.min(3.0*W[u.id][k.id],3.0/2.0*W[v.next.id][k.id]));
+            	yvec[k.id] = yk;
+            }
+            
+            W[x.id][y.id] = W[y.id][x.id] = y3[0];
+            W[y.id][z.id] = W[z.id][y.id] = y3[1];
+            W[y.id][z.next.id] = W[z.next.id][y.id] = y3[2];
+            W[x.id][z.id] = W[z.id][x.id] = 1.5*W[u.id][v.id]-y3[0]-0.5*y3[1];
+            W[x.id][z.next.id] = -0.5*W[u.id][v.id]+W[u.id][v.next.id] 
+            						+ (1.0/3)*y3[0] + 1.0/6*y3[1] - 1.0/3*y3[2];
+        	W[z.next.id][x.id] = W[x.id][z.next.id];
+        	W[z.id][z.next.id] = W[z.next.id][z.id] = 1.5*W[v.id][v.next.id]-0.5*y3[1]-y3[2];
+        	
+        	if (nnodes>3) {
+        		for(NetNode j = z.next.next.id;!j=x;j=j.next) {
+        			W[x.id][j.id]=W[j.id][x.id]=W[u.id][j.id] - (1.0/3)*yvec[j.id];
+        			W[y.id][j.id]=W[j.id][y.id]=yvec[j.id];
+        			W[z.id][j.id]=W[j.id][z.id]=1.5*W[v.id][j.id]-yvec[j.id];
+        			W[z.next.id][j.id]=W[j.id][z.next.id]=-0.5*W[v.id][j.id] + W[v.next.id][j.id]+(1.0/3.0)*yvec[j.id];
+        		}
+        	}
+        	           
             if (doc != null)
                 doc.getProgressListener().checkForCancel();
         }
@@ -650,13 +616,165 @@ public class NeighborNet implements Distances2Splits {
 
 /* extract the cycle */
         a = x;
-        int t = 0;
+        int t = 1;
         do {
             // System.err.println("a="+a);
-            ordering[++t] = a.id;
+            ordering[t] = a.id;
             a = a.next;
+            t++;
         } while (a != x);
         return ordering;
+    }
+
+   
+
+    /** Solve the 3x3 constrained optimization problem:
+     min || y - yhat ||
+     s.t. X y \leq b
+     where X = [{2,1,0},{-2,-1,2},{0,1,2},{-1,0,0},{0,-1,0},{0,0,-1}]
+     b = [3w12,6w13-3w12,3w23,0,0,0]'
+     **/
+	static private double[] optimize3y(double[] yhat, double w12, double w13, double w23) {
+	
+		double EPSILON = 1e-15;
+		
+		//Set up constraints: these are Xy - b \leq 0.
+		Matrix X = new Matrix(new double[][]
+               {{2,1,0},{-2,-1,2},{0,1,2},{-1,0,0},{0,-1,0},{0,0,-1}});
+		Matrix b = new Matrix(new double[][]
+                              {{3*w12},{6*w13 - 3*w12},{3*w23},{0},{0},{0}});
+		//Initial solution (always feasible for this problem)
+        Matrix y = new Matrix(new double[][]{{1.5*w12},{0},{0}});
+		
+		boolean[] active = boolean[6]; //active set. Initially all false
+        int nactive = 0;
+
+		Matrix lambda;
+		
+		boolean outer = true;
+		while(outer) {
+			boolean inner = true;
+			
+			while(inner) {
+				//Set ynext so that it solves the equality constrained optimization 
+				Matrix ynext = new Matrix(3,1);
+				if (nactive == 0) {
+					ynext.copy(yhat);
+					lambda = new Matrix(6,1); //lambda=0.
+				}
+				else {
+					//These arrays used to specify submatrices
+					int[] A = new int[nactive]; //Array of active indices
+					int newi=0;
+					for (int i=0;i<6;i++) {
+						if (active[i]) {
+							A[newi] = i;
+							newi++;
+						}
+					}					
+					int[] B0 = {0};
+					int[] B1 = {0,1,2};
+					int[] B2 = new int[nActive]; //B2 = 3:(3+nactive)
+					for(int i=0;i<nActive;i++)
+						B2[i] = 3+i;
+					
+					Matrix Y = X.getMatrix(A,allCols);
+					Matrix btilde = b.getMatrix(A,singleCol);
+					
+					//M = [2I  Y'; Y 0] 
+					Matrix M = new Matrix(3+nactive,3+nactive);
+					for(int i=0;i<3;i++)
+						M.set(i,i,2);
+					M.setMatrix(B1,B2,Y.transpose());
+					M.setMatrix(B2,B1,Y);
+					
+					//c = [yhat; btilde]
+					Matrix c = new Matrix(3+nactive,1);
+					c.setMatrix(B1,B0,yhat);
+					c.setMatrix(B2,B0,btilde);
+					
+					Matrix ylambda = M.solve(c);
+					Matrix ynext = ylambda.getMatrix(B1,B0);
+					lambda.timesEquals(0.0);  //lambda = 0
+					lambda.setMatrix(A,B0,ylambda.getMatrix(B2,B0));				
+				}	
+					
+				//Check feasibility
+				Matrix gy = (X.times(y)).minus(b);
+				Matrix gny = (X.times(ynext)).minus(b);
+				
+				double tmin = Double.MAX_VALUE;
+				int imin = -1;
+				
+				for(int i=0;i<6;i++) {
+					if (!active[i] && gny.get(i,0)>0.0) {
+						double ti = -gy.get(i,0) / (gny.get(i,0)-gy.get(i,0));
+						if (ti<tmin) {
+							imin = i;
+							tmin = ti;
+						}
+					}
+				}
+				
+				if (imin==0 || nactive == 3) {
+					inner = false;
+					y=ynext;
+				} else {
+					for(int i=0;i<3;i++) 
+						y.set(i,0,(1.0 - tmin)*y.get(i,0) + tmin * ynext.get(i,0));
+					active[imin]=true;
+					nactive++;
+				}
+				
+				
+			}
+				
+			//Check optimality of feasible optimum.
+			double lmin = -EPSILON;
+			int imin = 0;
+			for (int i = 0;i<6;i++) {
+				if (active[i] && lambda.get(i,0) < lmin) {
+					lmin = lambda.get(i,0);
+					imin = i;
+				}
+			}
+			if (imin==0) {
+				outer=false;
+				return y.getColumnPackedCopy();
+			}
+			else {
+				active[imin] = false;
+				nactive--;
+			}
+		}
+
+	}
+
+
+ 	/**
+     * Create the set of all circular splits for a given ordering
+     *
+     * @param ntax     Number of taxa
+     * @param ordering circular ordering
+     * @param weight   weight to give each split
+     * @return set of ntax*(ntax-1)/2 circular splits
+     */
+    static public Splits getSplits(int[] ordering, double W, double threshold) {
+        /* Construct the splits with the appropriate weights */
+        Splits splits = new Splits(ordering.length-1);
+        for (int i = 1; i <= ntax; i++) {
+        	int id1 = ordering[i]        	
+            TaxaSet t = new TaxaSet();
+            for(j=i+1;j<=ntax;j++) {
+            	t.set(ordering[j-1]);
+            	id2 = ordering[j];
+
+            	if (W[id1][id2]>threshold)
+            		splits.add(t,(float)weight);
+            		
+            }
+        }
+    	return splits;
     }
 
 
