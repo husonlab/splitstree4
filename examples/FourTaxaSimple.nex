@@ -1,0 +1,19 @@
+#NEXUS
+
+begin taxa;
+dimensions ntax = 4;
+taxlabels A B C D;
+end;
+
+begin distances;
+format 
+	triangle = lower
+	no diagonal
+	labels = no
+;
+matrix
+3
+3 4
+4 3 3
+;
+end;
