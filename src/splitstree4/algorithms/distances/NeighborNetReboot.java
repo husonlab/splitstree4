@@ -32,9 +32,12 @@
  */
 package splitstree4.algorithms.distances;
 
+import Jama.Matrix;
+
 import jloda.util.CanceledException;
 import splitstree4.algorithms.util.NeighborNetSplitWeightOptimizer;
 import splitstree4.core.Document;
+import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Distances;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
@@ -79,7 +82,7 @@ public class NeighborNetReboot implements Distances2Splits {
             doc.notifyTasks("Neighbor-Net (reboot)", null);
             doc.notifySetMaximumProgress(-1);    //initialize maximum progress
         }
-        Splits splits = runNeighborNet(doc, dist);
+        Splits splits = runNeighborNet(doc, dist,optionThreshold);
 
         if (doc != null)
             doc.notifySubtask("edge weights");
@@ -141,7 +144,7 @@ public class NeighborNetReboot implements Distances2Splits {
     /**
      * Run the neighbor net algorithm
      */
-    private static Splits runNeighborNet(Document doc, Distances dist) throws CanceledException {
+    private static Splits runNeighborNet(Document doc, Distances dist, double threshold) throws CanceledException {
 
         int ntax = dist.getNtax();
 		int max_num_nodes = 3 * ntax - 5;
@@ -153,7 +156,13 @@ public class NeighborNetReboot implements Distances2Splits {
             for (int i = 0; i <= ntax; i++)
                 ordering[i] = i;
             //DOTHIS
-            return ordering;
+            double[][] W = new double[ntax+1][ntax+1];
+            W[1][2] = W[2][1]=0.5*(dist.get(1,2)+dist.get(1,3)-dist.get(2,3));
+            W[2][3] = W[3][2]=0.5*(dist.get(1,2)+dist.get(2,3)-dist.get(1,3));
+			W[1][3] = W[3][1]=0.5*(dist.get(1,3)+dist.get(2,3)-dist.get(1,2));
+            
+            
+            return getSplits(ordering,W,threshold);
         }
 
         double[][] D = setupMatrix(dist);
@@ -176,23 +185,18 @@ public class NeighborNetReboot implements Distances2Splits {
         Stack amalgs = new Stack();
         if (doc != null)
             doc.notifySubtask("agglomeration");
-        int num_nodes = agglomNodes(doc, amalgs, D, netNodes, num_nodes);
+        int num_nodes = agglomNodes(doc, amalgs, D, netNodes, ntax);
+       
+       
+        /* Expansion step */
         if (doc != null)
             doc.notifySubtask("expansion");
-        // System.err.println("Ordering: "+ Basic.toString(cycle));
-        
-        /* Perform the expansion step, computing weights in the process */
-        if (doc!=null)
-        	doc.notifySubtask("Estimating weights");
         	
 		double[][] W = new double[max_num_nodes][max_num_nodes];  //Weights matrix
-		int[] ordering = expandNodesGetWeights(doc, num_nodes, ntax, amalgs, netNodes,D,W);
+		int[] ordering = expandNodesGetWeights(doc, ntax, amalgs, netNodes,D,W); 
+        Splits splits = getSplits(ordering, W,threshold);
          
-         /* Extract the splits, using the given weights. */
-        
-        Splits splits getWeightedSplits(ordering, W);
-         
-        return ordering;
+        return splits;
     }
 
     /**
@@ -428,6 +432,7 @@ public class NeighborNetReboot implements Distances2Splits {
             D[u.id][p.id] = D[p.id][u.id] = (2.0 / 3.0) * D[x.id][p.id] + D[y.id][p.id] / 3.0;
             D[v.id][p.id] = D[p.id][v.id] = (2.0 / 3.0) * D[z.id][p.id] + D[y.id][p.id] / 3.0;
         }
+        D[u.id][v.id] = D[v.id][u.id] = (1.0/3.0)*(D[x.id][y.id]+D[x.id][z.id]+D[y.id][z.id]);
         D[u.id][u.id] = D[v.id][v.id] = 0.0;
 
         amalgs.push(u);
@@ -513,9 +518,28 @@ public class NeighborNetReboot implements Distances2Splits {
 		W[x.id][z.id] = Math.max(0,0.5*(D[x.id][z.id] + D[y.id][z.id] - D[x.id][y.id]));
 		W[z.id][x.id] = W[x.id][z.id];
 		W[y.id][z.id] = Math.max(0,0.5*(D[x.id][y.id] + D[y.id][z.id] - D[x.id][z.id]));
-		W[z.id][y.id] = W[y.id,z.id];
+		W[z.id][y.id] = W[y.id][z.id];
 		nnodes = 3;
 
+			System.err.println("Ordering and W matrix\n");
+        	System.err.print(x.id);
+        	for(NetNode j=x.next;j!=x;j=j.next)
+        		System.err.print("\t"+j.id);
+        	System.err.println();
+        	for(NetNode i=x;i!=x.prev;i=i.next) {
+        		for(NetNode j=i.next;j!=x;j=j.next) {
+        			System.err.print("\tX["+i.id+"]["+j.id+"] = "+W[i.id][j.id]);
+        		}
+        		System.err.println();
+        	}
+        	for(NetNode i=x;i!=x.prev;i=i.next) {
+        		for(NetNode j=i.next;j!=x;j=j.next) {
+        			System.err.print("\tD["+i.id+"]["+j.id+"] = "+D[i.id][j.id]);
+        		}
+        		System.err.println();
+        	}
+        	
+        	
 /* Initialisation for the weight estimation. */
 		double[] yhat = new double[max_num_nodes];
 		
@@ -567,7 +591,7 @@ public class NeighborNetReboot implements Distances2Splits {
             yhat[y.id] = 1/3*D[x.id][y.id] + 1/3*D[y.id][z.id] - 2/3*D[x.id][z.id]+1/2*p_uv;
             yhat[z.id] = 1/2*D[x.id][z.id]-1/4*D[x.id][z.next.id]-1/2*D[y.id][z.id]
             			+1/2*D[x.id][z.id]-1/4*D[y.id][z.id]+3/4*W[v.id][v.next.id] - 3/8*p_uv;
-            for(NetNode k = z.next;!k=x;k=k.next) {
+            for(NetNode k = z.next;k!=x;k=k.next) {
                yhat[k.id] = 1/4*D[x.id][k.prev.id]-1/4*D[x.id][k.id]-1/2*D[y.id][k.prev.id]
                			+1/2*D[y.id][k.id]+1/4*D[z.id][k.prev.id]-1/4*D[z.id][k.id]+3/4*W[v.id][k.prev.id];
         	}
@@ -579,7 +603,7 @@ public class NeighborNetReboot implements Distances2Splits {
             double[] yvec = new double[max_num_nodes];	
            
             
-            for(int k=v.next.next;(nnodes>3 && k!=x);k=k.next) {
+            for(NetNode k=v.next.next;(nnodes>3 && k!=x);k=k.next) {
             	double yk = yhat[k.id];
             	yk = Math.max(yk,Math.max(0.0,3.0/2.0 * W[v.id][k.id] - 3*W[v.next.id][k.id]));
             	yk = Math.min(yk,Math.min(3.0*W[u.id][k.id],3.0/2.0*W[v.next.id][k.id]));
@@ -596,13 +620,29 @@ public class NeighborNetReboot implements Distances2Splits {
         	W[z.id][z.next.id] = W[z.next.id][z.id] = 1.5*W[v.id][v.next.id]-0.5*y3[1]-y3[2];
         	
         	if (nnodes>3) {
-        		for(NetNode j = z.next.next.id;!j=x;j=j.next) {
+        		for(NetNode j = z.next.next;j!=x;j=j.next) {
         			W[x.id][j.id]=W[j.id][x.id]=W[u.id][j.id] - (1.0/3)*yvec[j.id];
         			W[y.id][j.id]=W[j.id][y.id]=yvec[j.id];
         			W[z.id][j.id]=W[j.id][z.id]=1.5*W[v.id][j.id]-yvec[j.id];
         			W[z.next.id][j.id]=W[j.id][z.next.id]=-0.5*W[v.id][j.id] + W[v.next.id][j.id]+(1.0/3.0)*yvec[j.id];
         		}
         	}
+        	
+        	System.err.println("Ordering and W matrix\n");
+        	System.err.print(x.id);
+        	for(NetNode j=x.next;j!=x;j=j.next)
+        		System.err.print("\t"+j.id);
+        	System.err.println();
+        	for(NetNode i=x;i!=x.prev;i=i.next) {
+        		for(NetNode j=i.next;j!=x;j=j.next) {
+        			System.err.print("\tX["+i.id+"]["+j.id+"] = "+W[i.id][j.id]);
+        		}
+        		System.err.println();
+        	}
+        	
+        
+        	
+        	
         	           
             if (doc != null)
                 doc.getProgressListener().checkForCancel();
@@ -634,7 +674,7 @@ public class NeighborNetReboot implements Distances2Splits {
      where X = [{2,1,0},{-2,-1,2},{0,1,2},{-1,0,0},{0,-1,0},{0,0,-1}]
      b = [3w12,6w13-3w12,3w23,0,0,0]'
      **/
-	static private double[] optimize3y(double[] yhat, double w12, double w13, double w23) {
+	static private double[] optimize3y(double[] yhatArray, double w12, double w13, double w23) {
 	
 		double EPSILON = 1e-15;
 		
@@ -646,10 +686,12 @@ public class NeighborNetReboot implements Distances2Splits {
 		//Initial solution (always feasible for this problem)
         Matrix y = new Matrix(new double[][]{{1.5*w12},{0},{0}});
 		
-		boolean[] active = boolean[6]; //active set. Initially all false
+		Matrix yhat = new Matrix(new double[][] {{yhatArray[0]},{yhatArray[1]},{yhatArray[2]}}); 
+		
+		boolean[] active = new boolean[6]; //active set. Initially all false
         int nactive = 0;
 
-		Matrix lambda;
+		Matrix lambda = new Matrix(6,1);  //lambda = 0.
 		
 		boolean outer = true;
 		while(outer) {
@@ -659,7 +701,7 @@ public class NeighborNetReboot implements Distances2Splits {
 				//Set ynext so that it solves the equality constrained optimization 
 				Matrix ynext = new Matrix(3,1);
 				if (nactive == 0) {
-					ynext.copy(yhat);
+					ynext = yhat.copy();
 					lambda = new Matrix(6,1); //lambda=0.
 				}
 				else {
@@ -674,12 +716,12 @@ public class NeighborNetReboot implements Distances2Splits {
 					}					
 					int[] B0 = {0};
 					int[] B1 = {0,1,2};
-					int[] B2 = new int[nActive]; //B2 = 3:(3+nactive)
-					for(int i=0;i<nActive;i++)
+					int[] B2 = new int[nactive]; //B2 = 3:(3+nactive)
+					for(int i=0;i<nactive;i++)
 						B2[i] = 3+i;
 					
-					Matrix Y = X.getMatrix(A,allCols);
-					Matrix btilde = b.getMatrix(A,singleCol);
+					Matrix Y = X.getMatrix(A,B1);
+					Matrix btilde = b.getMatrix(A,B0);
 					
 					//M = [2I  Y'; Y 0] 
 					Matrix M = new Matrix(3+nactive,3+nactive);
@@ -694,8 +736,8 @@ public class NeighborNetReboot implements Distances2Splits {
 					c.setMatrix(B2,B0,btilde);
 					
 					Matrix ylambda = M.solve(c);
-					Matrix ynext = ylambda.getMatrix(B1,B0);
-					lambda.timesEquals(0.0);  //lambda = 0
+					ynext = ylambda.getMatrix(B1,B0);
+					lambda = new Matrix(6,1);  //lambda = 0
 					lambda.setMatrix(A,B0,ylambda.getMatrix(B2,B0));				
 				}	
 					
@@ -716,7 +758,7 @@ public class NeighborNetReboot implements Distances2Splits {
 					}
 				}
 				
-				if (imin==0 || nactive == 3) {
+				if (imin==-1 || nactive == 3) {
 					inner = false;
 					y=ynext;
 				} else {
@@ -747,7 +789,7 @@ public class NeighborNetReboot implements Distances2Splits {
 				nactive--;
 			}
 		}
-
+		return null; //Should never get here.
 	}
 
 
@@ -759,18 +801,19 @@ public class NeighborNetReboot implements Distances2Splits {
      * @param weight   weight to give each split
      * @return set of ntax*(ntax-1)/2 circular splits
      */
-    static public Splits getSplits(int[] ordering, double W, double threshold) {
+    static public Splits getSplits(int[] ordering, double[][] W, double threshold) {
         /* Construct the splits with the appropriate weights */
         Splits splits = new Splits(ordering.length-1);
+        int ntax = ordering.length-1;
         for (int i = 1; i <= ntax; i++) {
-        	int id1 = ordering[i]        	
+        	int id1 = ordering[i];        	
             TaxaSet t = new TaxaSet();
-            for(j=i+1;j<=ntax;j++) {
+            for(int j=i+1;j<=ntax;j++) {
             	t.set(ordering[j-1]);
-            	id2 = ordering[j];
+            	int id2 = ordering[j];
 
             	if (W[id1][id2]>threshold)
-            		splits.add(t,(float)weight);
+            		splits.add(t,(float)W[id1][id2]);
             		
             }
         }
@@ -778,32 +821,33 @@ public class NeighborNetReboot implements Distances2Splits {
     }
 
 
-}
+
 
 /* A node in the net */
 
-class NetNode {
-    int id = 0;
-    NetNode nbr = null; // adjacent node
-    NetNode ch1 = null; // first child
-    NetNode ch2 = null; // second child
-    NetNode next = null; // next in list of active nodes
-    NetNode prev = null; // prev in list of active nodes
-    double Rx = 0;
-    double Sx = 0;
+//  class NetNode {
+// 	int id = 0;
+// 	NetNode nbr = null; // adjacent node
+// 	NetNode ch1 = null; // first child
+// 	NetNode ch2 = null; // second child
+// 	NetNode next = null; // next in list of active nodes
+// 	NetNode prev = null; // prev in list of active nodes
+// 	double Rx = 0;
+// 	double Sx = 0;
+// 
+// 	public String toString() {
+// 		String str = "[id=" + id;
+// 		str += " nbr=" + (nbr == null ? "null" : ("" + nbr.id));
+// 		str += " ch1=" + (ch1 == null ? "null" : ("" + ch1.id));
+// 		str += " ch2=" + (ch2 == null ? "null" : ("" + ch2.id));
+// 		str += " prev=" + (prev == null ? "null" : ("" + prev.id));
+// 		str += " next=" + (next == null ? "null" : ("" + next.id));
+// 		str += " Rx=" + Rx;
+// 		str += " Sx=" + Sx;
+// 		str += "]";
+// 		return str;
+// 	}
+//  }
 
-    public String toString() {
-        String str = "[id=" + id;
-        str += " nbr=" + (nbr == null ? "null" : ("" + nbr.id));
-        str += " ch1=" + (ch1 == null ? "null" : ("" + ch1.id));
-        str += " ch2=" + (ch2 == null ? "null" : ("" + ch2.id));
-        str += " prev=" + (prev == null ? "null" : ("" + prev.id));
-        str += " next=" + (next == null ? "null" : ("" + next.id));
-        str += " Rx=" + Rx;
-        str += " Sx=" + Sx;
-        str += "]";
-        return str;
-    }
 }
-
 // EOF
