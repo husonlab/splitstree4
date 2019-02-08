@@ -581,6 +581,8 @@ public class NeighborNetReboot implements Distances2Splits {
             z.next = v.next;
             z.next.prev = z;
             
+            System.err.println("[u,v] = " + u.id + ", "+v.id+"\tp_uv = " + p_uv+ "\t [x,y,z] = "+x.id+", "+y.id+", "+z.id);
+
             /* Update the weights
             */
             
@@ -588,14 +590,29 @@ public class NeighborNetReboot implements Distances2Splits {
             yhat[x.id] = 1/3*D[x.id][y.id] - 1/6*D[y.id][z.id]-1/6*D[x.id][z.id] 
             			+ 1/4*D[x.id][x.prev.id] - 1/2*D[y.id][x.prev.id]+1/4*D[z.id][x.prev.id]
             			+3/4*W[u.id][v.id] + 1/8*p_uv; 
-            yhat[y.id] = 1/3*D[x.id][y.id] + 1/3*D[y.id][z.id] - 2/3*D[x.id][z.id]+1/2*p_uv;
-            yhat[z.id] = 1/2*D[x.id][z.id]-1/4*D[x.id][z.next.id]-1/2*D[y.id][z.id]
-            			+1/2*D[x.id][z.id]-1/4*D[y.id][z.id]+3/4*W[v.id][v.next.id] - 3/8*p_uv;
+
+            System.err.println("yhat[xid] = " +(1.0/3.0*D[x.id][y.id] - 1.0/6*D[y.id][z.id]-1.0/6*D[x.id][z.id] 
+            			+ 1.0/4*D[x.id][x.prev.id] - 1.0/2.0*D[y.id][x.prev.id]+1.0/4*D[z.id][x.prev.id]
+            			+3.0/4*W[u.id][v.id] + 1.0/8*p_uv));
+
+            yhat[y.id] = 1.0/3.0*D[x.id][y.id] + 1.0/3.0*D[y.id][z.id] - 2.0/3*D[x.id][z.id]+1.0/2*p_uv;
+            yhat[z.id] = 1.0/2.0*D[x.id][z.id]-1.0/4*D[x.id][z.next.id]-1.0/2*D[y.id][z.id]
+            			+1.0/2*D[x.id][z.id]-1.0/4*D[y.id][z.id]+3.0/4*W[v.id][v.next.id] - 3.0/8*p_uv;
             for(NetNode k = z.next;k!=x;k=k.next) {
-               yhat[k.id] = 1/4*D[x.id][k.prev.id]-1/4*D[x.id][k.id]-1/2*D[y.id][k.prev.id]
-               			+1/2*D[y.id][k.id]+1/4*D[z.id][k.prev.id]-1/4*D[z.id][k.id]+3/4*W[v.id][k.prev.id];
+               yhat[k.id] = 1.0/4*D[x.id][k.prev.id]-1.0/4*D[x.id][k.id]-1.0/2*D[y.id][k.prev.id]
+               			+1.0/2*D[y.id][k.id]+1.0/4*D[z.id][k.prev.id]-1.0/4*D[z.id][k.id]+3.0/4*W[v.id][k.prev.id];
         	}
         	
+            System.err.println("yhat");
+            NetNode kk=x;
+            do {
+                System.err.println("yhat["+kk.id+"] = "+yhat[kk.id]);
+                kk = kk.next;
+            } while(kk!=x);
+
+
+
+
             double[] yhat3 = new double[3];
             yhat3[0]=yhat[x.id]; yhat3[1]=yhat[y.id]; yhat3[2]=yhat[z.id];
             double[] y3 = optimize3y(yhat3,W[u.id][v.id],W[u.id][v.next.id],W[v.id][v.next.id]);
@@ -635,10 +652,17 @@ public class NeighborNetReboot implements Distances2Splits {
         	System.err.println();
         	for(NetNode i=x;i!=x.prev;i=i.next) {
         		for(NetNode j=i.next;j!=x;j=j.next) {
-        			System.err.print("\tX["+i.id+"]["+j.id+"] = "+W[i.id][j.id]);
+        			System.err.print("\tX["+i.id+"]["+j.id+"] = "+W[j.id][i.id]);
         		}
         		System.err.println();
         	}
+            for(NetNode i=x;i!=x.prev;i=i.next) {
+        		for(NetNode j=i.next;j!=x;j=j.next) {
+        			System.err.print("\tD["+i.id+"]["+j.id+"] = "+D[j.id][i.id]);
+        		}
+        		System.err.println();
+        	}
+
         	
         
         	
