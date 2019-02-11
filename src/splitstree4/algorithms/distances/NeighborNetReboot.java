@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Implements Neighbor Net method of Bryant and Moulton (2004).
@@ -82,7 +83,13 @@ public class NeighborNetReboot implements Distances2Splits {
             doc.notifyTasks("Neighbor-Net (reboot)", null);
             doc.notifySetMaximumProgress(-1);    //initialize maximum progress
         }
+
+        long timeStart = System.nanoTime();
+
         Splits splits = runNeighborNet(doc, dist,optionThreshold);
+
+        long timeElapsed  = (System.nanoTime() - timeStart)/1000000000;
+        System.out.println("Time elapsed = "+ timeElapsed);
 
         if (doc != null)
             doc.notifySubtask("edge weights");
@@ -504,7 +511,6 @@ public class NeighborNetReboot implements Distances2Splits {
 
         //System.err.println("expandNodes");
         NetNode x, y, z, u, v, a;
-        int nnodes;
 
 /* Set up the circular order for the first three nodes */
         x = netNodes.next;
@@ -519,8 +525,7 @@ public class NeighborNetReboot implements Distances2Splits {
 		W[z.id][x.id] = W[x.id][z.id];
 		W[y.id][z.id] = Math.max(0,0.5*(D[x.id][y.id] + D[y.id][z.id] - D[x.id][z.id]));
 		W[z.id][y.id] = W[y.id][z.id];
-		nnodes = 3;
-
+/*
 			System.err.println("Ordering and W matrix\n");
         	System.err.print(x.id);
         	for(NetNode j=x.next;j!=x;j=j.next)
@@ -538,10 +543,15 @@ public class NeighborNetReboot implements Distances2Splits {
         		}
         		System.err.println();
         	}
-        	
+        	*/
         	
 /* Initialisation for the weight estimation. */
-		double[] yhat = new double[max_num_nodes];
+        //After each expansion, yhat[k.id] is the optimal value
+        //for split w_{y.id,k.id} such that give the same induced weights
+        //as the iteration before, but without the constraint that the 
+        //weights are non-negative.
+        //Note that yhat[y.id] = 0.0 by definition.
+ 		double[] yhat = new double[max_num_nodes];
 		
 
 
@@ -581,71 +591,88 @@ public class NeighborNetReboot implements Distances2Splits {
             z.next = v.next;
             z.next.prev = z;
             
-            System.err.println("[u,v] = " + u.id + ", "+v.id+"\tp_uv = " + p_uv+ "\t [x,y,z] = "+x.id+", "+y.id+", "+z.id);
+            //System.err.println("[u,v] = " + u.id + ", "+v.id+"\tp_uv = " + p_uv+ "\t [x,y,z] = "+x.id+", "+y.id+", "+z.id);
 
             /* Update the weights
             */
             
             //Compute yhat
-            yhat[x.id] = 1/3*D[x.id][y.id] - 1/6*D[y.id][z.id]-1/6*D[x.id][z.id] 
-            			+ 1/4*D[x.id][x.prev.id] - 1/2*D[y.id][x.prev.id]+1/4*D[z.id][x.prev.id]
-            			+3/4*W[u.id][v.id] + 1/8*p_uv; 
+            //yhat[x.id] is the same as \yhat_1 in the notes.
+            yhat[x.id] = 1.0/3.0*D[x.id][y.id] - 1.0/6.0*D[y.id][z.id]-1.0/6.0*D[x.id][z.id] 
+            			+ 1.0/4.0*D[x.id][x.prev.id] - 1.0/2.0*D[y.id][x.prev.id]+1.0/4.0*D[z.id][x.prev.id]
+            			+3.0/4.0*W[u.id][v.id] + 1.0/8.0*p_uv; 
 
-            System.err.println("yhat[xid] = " +(1.0/3.0*D[x.id][y.id] - 1.0/6*D[y.id][z.id]-1.0/6*D[x.id][z.id] 
-            			+ 1.0/4*D[x.id][x.prev.id] - 1.0/2.0*D[y.id][x.prev.id]+1.0/4*D[z.id][x.prev.id]
-            			+3.0/4*W[u.id][v.id] + 1.0/8*p_uv));
+            //System.err.println("yhat[xid] = " +(1.0/3.0*D[x.id][y.id] - 1.0/6*D[y.id][z.id]-1.0/6.0*D[x.id][z.id] 
+            	//		+ 1.0/4*D[x.id][x.prev.id] - 1.0/2.0*D[y.id][x.prev.id]+1.0/4.0*D[z.id][x.prev.id]
+            	//		+3.0/4.0*W[u.id][v.id] + 1.0/8.0*p_uv));
 
-            yhat[y.id] = 1.0/3.0*D[x.id][y.id] + 1.0/3.0*D[y.id][z.id] - 2.0/3*D[x.id][z.id]+1.0/2*p_uv;
-            yhat[z.id] = 1.0/2.0*D[x.id][z.id]-1.0/4*D[x.id][z.next.id]-1.0/2*D[y.id][z.id]
-            			+1.0/2*D[x.id][z.id]-1.0/4*D[y.id][z.id]+3.0/4*W[v.id][v.next.id] - 3.0/8*p_uv;
-            for(NetNode k = z.next;k!=x;k=k.next) {
-               yhat[k.id] = 1.0/4*D[x.id][k.prev.id]-1.0/4*D[x.id][k.id]-1.0/2*D[y.id][k.prev.id]
-               			+1.0/2*D[y.id][k.id]+1.0/4*D[z.id][k.prev.id]-1.0/4*D[z.id][k.id]+3.0/4*W[v.id][k.prev.id];
+            yhat[z.id] = 1.0/3.0*D[x.id][y.id] + 1.0/3.0*D[y.id][z.id] - 2.0/3*D[x.id][z.id]+1.0/2.0*p_uv;
+            yhat[z.next.id] = 1.0/2.0*D[x.id][z.id]-1.0/4.0*D[x.id][z.next.id]-1.0/2.0*D[y.id][z.id]
+            			+1.0/2.0*D[y.id][z.next.id]-1.0/4.0*D[z.id][z.next.id]+3.0/4.0*W[v.id][v.next.id] - 3.0/8.0*p_uv;
+            
+            //Note: if we get here then there are at least 4 nodes. If there are 4 nodes then 
+            //z.next.next = x, and the following loop is skipped.
+            for(NetNode k = z.next.next;k!=x;k=k.next) {
+               yhat[k.id] = 0.25*D[x.id][k.prev.id]-0.25*D[x.id][k.id]-0.5*D[y.id][k.prev.id]
+               			+0.5*D[y.id][k.id]+0.25*D[z.id][k.prev.id]-0.25*D[z.id][k.id]+0.75*W[v.id][k.id];
         	}
         	
-            System.err.println("yhat");
+            /*System.err.println("yhat");
             NetNode kk=x;
             do {
                 System.err.println("yhat["+kk.id+"] = "+yhat[kk.id]);
                 kk = kk.next;
             } while(kk!=x);
-
+            */
 
 
 
             double[] yhat3 = new double[3];
-            yhat3[0]=yhat[x.id]; yhat3[1]=yhat[y.id]; yhat3[2]=yhat[z.id];
+            yhat3[0]=yhat[x.id]; yhat3[1]=yhat[z.id]; yhat3[2]=yhat[z.next.id];
             double[] y3 = optimize3y(yhat3,W[u.id][v.id],W[u.id][v.next.id],W[v.id][v.next.id]);
             
             double[] yvec = new double[max_num_nodes];	
-           
+            yvec[x.id]=yhat3[0];
+            yvec[z.id]=yhat3[1];
+            yvec[z.next.id]=yhat3[2];
             
-            for(NetNode k=v.next.next;(nnodes>3 && k!=x);k=k.next) {
-            	double yk = yhat[k.id];
-            	yk = Math.max(yk,Math.max(0.0,3.0/2.0 * W[v.id][k.id] - 3*W[v.next.id][k.id]));
-            	yk = Math.min(yk,Math.min(3.0*W[u.id][k.id],3.0/2.0*W[v.next.id][k.id]));
+            for(NetNode k=z.next.next;k!=x;k=k.next) {
+                double yk = yhat[k.id];
+                double upperBound = Math.min(3.0*W[u.id][k.id],1.5*W[v.next.id][k.id]);
+                double lowerBound = Math.max(0.0,1.5 * W[v.id][k.id] - 3.0*W[v.next.id][k.id]);
+                yk = Math.min(yk,upperBound);
+                yk = Math.max(yk,lowerBound);
             	yvec[k.id] = yk;
             }
             
-            W[x.id][y.id] = W[y.id][x.id] = y3[0];
-            W[y.id][z.id] = W[z.id][y.id] = y3[1];
-            W[y.id][z.next.id] = W[z.next.id][y.id] = y3[2];
-            W[x.id][z.id] = W[z.id][x.id] = 1.5*W[u.id][v.id]-y3[0]-0.5*y3[1];
-            W[x.id][z.next.id] = -0.5*W[u.id][v.id]+W[u.id][v.next.id] 
-            						+ (1.0/3)*y3[0] + 1.0/6*y3[1] - 1.0/3*y3[2];
+            /* System.err.println("y");
+            kk = x;
+            do {
+                System.err.println("y["+kk.id+"] = "+yvec[kk.id]);
+                kk = kk.next;
+            } while(kk!=x); */
+
+            W[x.id][y.id] = W[y.id][x.id] = yvec[x.id];
+            W[y.id][z.id] = W[z.id][y.id] = yvec[z.id];
+            W[y.id][z.next.id] = W[z.next.id][y.id] = yvec[z.next.id];
+            W[x.id][z.id] = W[z.id][x.id] = Math.max(0.0,1.5*W[u.id][v.id]-yvec[x.id]-0.5*yvec[z.id]);
+            W[x.id][z.next.id] = Math.max(-0.5*W[u.id][v.id]+W[u.id][v.next.id] 
+            						+ (1.0/3.0)*yvec[x.id] + 1.0/6.0*yvec[z.id] - 1.0/3.0*yvec[z.next.id],0.0);
         	W[z.next.id][x.id] = W[x.id][z.next.id];
-        	W[z.id][z.next.id] = W[z.next.id][z.id] = 1.5*W[v.id][v.next.id]-0.5*y3[1]-y3[2];
+        	W[z.id][z.next.id] = W[z.next.id][z.id] = Math.max(1.5*W[v.id][v.next.id]-0.5*yvec[z.id]-yvec[z.next.id],0.0);
+            
         	
-        	if (nnodes>3) {
-        		for(NetNode j = z.next.next;j!=x;j=j.next) {
-        			W[x.id][j.id]=W[j.id][x.id]=W[u.id][j.id] - (1.0/3)*yvec[j.id];
-        			W[y.id][j.id]=W[j.id][y.id]=yvec[j.id];
-        			W[z.id][j.id]=W[j.id][z.id]=1.5*W[v.id][j.id]-yvec[j.id];
-        			W[z.next.id][j.id]=W[j.id][z.next.id]=-0.5*W[v.id][j.id] + W[v.next.id][j.id]+(1.0/3.0)*yvec[j.id];
-        		}
+        	for(NetNode j = z.next.next;j!=x;j=j.next) {
+        		W[x.id][j.id]=W[j.id][x.id]=Math.max(0.0,W[u.id][j.id] - (1.0/3.0)*yvec[j.id]);
+        		W[y.id][j.id]=W[j.id][y.id]=yvec[j.id];
+        		W[z.id][j.id]=W[j.id][z.id]=Math.max(0.0,1.5*W[v.id][j.id]-yvec[j.id]);
+        		W[z.next.id][j.id]=W[j.id][z.next.id]=Math.max(-0.5*W[v.id][j.id] + W[v.next.id][j.id]+(1.0/3.0)*yvec[j.id],0.0);
         	}
         	
-        	System.err.println("Ordering and W matrix\n");
+            //TODO: Figure out if we need the max(0,w_ij) here.
+            
+
+        	/* System.err.println("Ordering and W matrix\n");
         	System.err.print(x.id);
         	for(NetNode j=x.next;j!=x;j=j.next)
         		System.err.print("\t"+j.id);
@@ -662,7 +689,7 @@ public class NeighborNetReboot implements Distances2Splits {
         		}
         		System.err.println();
         	}
-
+            */
         	
         
         	
@@ -699,14 +726,41 @@ public class NeighborNetReboot implements Distances2Splits {
      b = [3w12,6w13-3w12,3w23,0,0,0]'
      **/
 	static private double[] optimize3y(double[] yhatArray, double w12, double w13, double w23) {
-	
+    
+        System.out.println("w12 = "+w12+" w13 = "+w13+ " w23 = "+w23);
+        System.out.println("yh[0] = "+yhatArray[0]+"yh[1] = "+yhatArray[1]+"yh[2] = "+yhatArray[2]);
+
+        /* Special cases. We handle these separately for efficiency (e.g. when there are lots of 
+        zero weights) and also to avoid degenerate active constraints in the active set algorithm. */
+        if (w12==0) {
+            double[] y = new double[3];
+            double lower = 0.0;
+            double upper = Math.min(1.5*w23,3.0*w13);
+            y[2] = Math.max(lower,Math.min(yhatArray[2],upper));
+            return y;
+        } else if (w23==0) {
+            double[] y = new double[3];
+            double lower = Math.max(0.0,1.5*w12-3.0*w13);
+            double upper = 1.5*w12;
+            y[0] = Math.max(lower,Math.min(yhatArray[0],upper));
+            return y;
+        } else if (w13==0) {
+            double[] y = new double[3];
+            double upper = Math.min(3.0*w12,3.0*w23);
+            double lower = 0.0;
+            y[1] = Math.max(lower,Math.min(0.6*w12 - 0.4*yhatArray[0] + 0.8*yhatArray[1],upper));
+            y[0] = 1.5*w12 - 0.5*y[1];
+            return y;
+        }
+
+
 		double EPSILON = 1e-15;
 		
 		//Set up constraints: these are Xy - b \leq 0.
 		Matrix X = new Matrix(new double[][]
                {{2,1,0},{-2,-1,2},{0,1,2},{-1,0,0},{0,-1,0},{0,0,-1}});
 		Matrix b = new Matrix(new double[][]
-                              {{3*w12},{6*w13 - 3*w12},{3*w23},{0},{0},{0}});
+                              {{3*w12},{6.0*w13 - 3.0*w12},{3.0*w23},{0},{0},{0}});
 		//Initial solution (always feasible for this problem)
         Matrix y = new Matrix(new double[][]{{1.5*w12},{0},{0}});
 		
@@ -720,7 +774,7 @@ public class NeighborNetReboot implements Distances2Splits {
 		boolean outer = true;
 		while(outer) {
 			boolean inner = true;
-			
+			//System.out.println("Outer loop");
 			while(inner) {
 				//Set ynext so that it solves the equality constrained optimization 
 				Matrix ynext = new Matrix(3,1);
@@ -757,9 +811,19 @@ public class NeighborNetReboot implements Distances2Splits {
 					//c = [yhat; btilde]
 					Matrix c = new Matrix(3+nactive,1);
 					c.setMatrix(B1,B0,yhat);
-					c.setMatrix(B2,B0,btilde);
+                    c.setMatrix(B2,B0,btilde);
+                   
+                    if (Math.abs(M.det()) < 1e-10) {
+                        M.print(5,5);
+                        c.print(5,5);
+                        for(int i=0;i<6;i++) {
+                            if (active[i]) System.out.print("\tTrue"); else System.out.print("\tFalse");
+                        }
+                    } 
+
 					
-					Matrix ylambda = M.solve(c);
+                    Matrix ylambda = M.solve(c);
+                    
 					ynext = ylambda.getMatrix(B1,B0);
 					lambda = new Matrix(6,1);  //lambda = 0
 					lambda.setMatrix(A,B0,ylambda.getMatrix(B2,B0));				
@@ -773,7 +837,7 @@ public class NeighborNetReboot implements Distances2Splits {
 				int imin = -1;
 				
 				for(int i=0;i<6;i++) {
-					if (!active[i] && gny.get(i,0)>0.0) {
+					if (!active[i] && gny.get(i,0)>EPSILON) {
 						double ti = -gy.get(i,0) / (gny.get(i,0)-gy.get(i,0));
 						if (ti<tmin) {
 							imin = i;
@@ -788,7 +852,11 @@ public class NeighborNetReboot implements Distances2Splits {
 				} else {
 					for(int i=0;i<3;i++) 
 						y.set(i,0,(1.0 - tmin)*y.get(i,0) + tmin * ynext.get(i,0));
-					active[imin]=true;
+                    active[imin]=true;
+                   System.out.println("Adding constraint " + imin + "with tmin = "+tmin);
+                    System.out.println("y = "); 
+                    System.out.println("gy min = "+ gy.get(imin,0) + "gyn min = " + gny.get(imin,0));
+                    y.print(5,5);
 					nactive++;
 				}
 				
