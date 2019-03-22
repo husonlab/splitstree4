@@ -31,7 +31,7 @@
  */
 package splitstree4.externalIO.imports;
 
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import splitstree4.nexus.Characters;
 import splitstree4.util.CharactersUtilities;

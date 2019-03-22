@@ -41,7 +41,7 @@ public class NodeLabelRotateCommand extends ICommandAdapter implements ICommand 
         this.viewer = viewer;
         angles = new NodeArray(viewer.getGraph());
         for (Node v : viewer.getSelectedNodes()) {
-            angles.set(v, viewer.getNV(v).getLabelAngle() + delta);
+            angles.put(v, viewer.getNV(v).getLabelAngle() + delta);
         }
     }
 

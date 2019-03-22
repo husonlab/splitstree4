@@ -21,9 +21,9 @@ package splitstree4.util;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
+import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloTree;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import splitstree4.algorithms.trees.TreeSelector;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
@@ -191,14 +191,11 @@ public class TreesUtilities {
      */
     private static void addSplit(Node v, Edge e, TaxaSet split, float wgt, PhyloTree tree) {
         try {
-            List farSide = new LinkedList();
-            Iterator it = tree.getAdjacentEdges(v);
-            while (it.hasNext()) {
-                Edge f = (Edge) it.next();
+            List<Edge> farSide = new ArrayList<>();
+            for (Edge f : v.adjacentEdges()) {
                 if (f != e) {
-                    Node w = tree.getOpposite(v, f);
-
-                    TaxaSet wSet = (TaxaSet) tree.getInfo(w);
+                    final Node w = tree.getOpposite(v, f);
+                    final TaxaSet wSet = (TaxaSet) tree.getInfo(w);
 
                     if (wSet.contains(split)) {  // move further down tree
                         addSplit(w, f, split, wgt, tree);
@@ -214,8 +211,7 @@ public class TreesUtilities {
             Node u = tree.newNode(uSet);
             Edge vu = tree.newEdge(v, u);
             tree.setWeight(vu, wgt);
-            for (Object aFarSide : farSide) {
-                Edge vw = (Edge) aFarSide;
+            for (Edge vw : farSide) {
                 Node w = tree.getOpposite(v, vw);
                 Edge uw = tree.newEdge(u, w);
                 tree.setWeight(uw, tree.getWeight(vw));
@@ -272,15 +268,14 @@ public class TreesUtilities {
      * @param taxa
      */
     public static void setNode2taxa(PhyloTree tree, Taxa taxa) {
-        tree.clearTaxon2Node();
+        tree.clearTaxa();
         for (Node v = tree.getFirstNode(); v != null; v = v.getNext()) {
-            tree.clearNode2Taxa(v);
+            tree.clearTaxa(v);
             String label = tree.getLabel(v);
             if (label != null) {
                 int id = taxa.indexOf(label);
                 if (id > 0) {
-                    tree.setNode2Taxa(v, id);
-                    tree.setTaxon2Node(id, v);
+                    tree.addTaxon(v, id);
                 }
             }
         }
@@ -408,10 +403,7 @@ public class TreesUtilities {
         PhyloTree tree = trees.getTree(which);
         TaxaSet e_taxa = trees.getTaxaForLabel(taxa, tree.getLabel(v));
 
-        Iterator edges = tree.getAdjacentEdges(v);
-        while (edges.hasNext()) {
-            Edge f = (Edge) edges.next();
-
+        for (Edge f : v.adjacentEdges()) {
             if (f != e) {
                 TaxaSet f_taxa = tree2splitsRec(tree.getOpposite(v, f), f, trees, which, taxa, splits, skipNegativeSplitIds);
                 if (tree.getConfidence(f) != 1)

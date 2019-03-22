@@ -21,11 +21,11 @@ package splitstree4.algorithms.trees;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
+import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloTree;
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
-import jloda.util.NotOwnerException;
 import splitstree4.algorithms.additional.LeastSquaresWeights;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
@@ -347,9 +347,7 @@ public class SuperNetwork implements Trees2Splits {
         TaxaSet e_taxa = trees.getTaxaForLabel(taxa, tree.getLabel(v));
         seen.or(e_taxa);
 
-        Iterator edges = tree.getAdjacentEdges(v);
-        while (edges.hasNext()) {
-            Edge f = (Edge) edges.next();
+        for (Edge f : v.adjacentEdges()) {
             if (f != e) {
                 TaxaSet f_taxa = computePSplitsFromTreeRecursively(tree.getOpposite(v, f), f, trees,
                         taxa, list, which, seen);

@@ -19,7 +19,7 @@
  */
 package splitstree4.nexus;
 
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.algorithms.Transformation;

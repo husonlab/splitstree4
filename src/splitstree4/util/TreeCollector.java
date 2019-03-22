@@ -20,10 +20,9 @@
 package splitstree4.util;
 
 import jloda.graph.*;
-import jloda.graphview.GraphView;
 import jloda.phylo.PhyloTree;
+import jloda.swing.graphview.GraphView;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import splitstree4.algorithms.trees.ConsensusNetwork;
 import splitstree4.algorithms.trees.PartialSplit;
 import splitstree4.core.Document;
@@ -34,8 +33,8 @@ import splitstree4.nexus.Trees;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * collect trees in sets
@@ -275,9 +274,7 @@ public class TreeCollector {
         TaxaSet e_taxa = trees.getTaxaForLabel(taxa, tree.getLabel(v));
         seen.or(e_taxa);
 
-        Iterator edges = tree.getAdjacentEdges(v);
-        while (edges.hasNext()) {
-            Edge f = (Edge) edges.next();
+        for (Edge f : v.adjacentEdges()) {
             if (f != e) {
                 TaxaSet f_taxa = computePSplitsFromTreeRecursively(tree.getOpposite(v, f), f, trees,
                         taxa, list, which, seen);

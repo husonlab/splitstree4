@@ -19,8 +19,8 @@
  */
 package splitstree4.gui.main;
 
-import jloda.phylo.PhyloGraphView;
-import jloda.util.ProgramProperties;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.ProgramProperties;
 import splitstree4.core.Document;
 import splitstree4.main.SplitsTreeProperties;
 import splitstree4.nexus.Assumptions;

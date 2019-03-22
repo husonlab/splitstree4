@@ -21,8 +21,8 @@ package splitstree4.algorithms.splits.reticulateTree;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.ProgressSilent;
 import splitstree4.algorithms.splits.EqualAngle;
 import splitstree4.core.Document;
@@ -130,7 +130,7 @@ public class HybridFinderWithTree {
         EqualAngle ea = new EqualAngle();
         ea.apply(doc, treeTaxa, treeSplits);
         PhyloGraphView graphView = ea.getPhyloGraphView();
-        PhyloGraph treeGraph = graphView.getPhyloGraph();
+        PhyloSplitsGraph treeGraph = graphView.getPhyloGraph();
         // for each rTaxa  r check if the graph  consisting of the leafs taxa- rTaxa +r is a simple Gall
         for (int i = 0; i < ret.getReticulates().length; i++) {
             if (!isSimpleGall(treeGraph, treeTaxa, treeSplits, inducedSplits, inducedTaxa2treeTaxa, rTaxa, i, ret)) {
@@ -209,7 +209,7 @@ public class HybridFinderWithTree {
      * @return
      * @throws Exception
      */
-    private boolean isSimpleGall(PhyloGraph treeGraph, Taxa treeTaxa, Splits treeSplits, Splits inducedSplits, int[] inducedTaxa2treeTaxa, TaxaSet rTaxa, int reticulation, ReticulationTree ret) throws Exception {
+    private boolean isSimpleGall(PhyloSplitsGraph treeGraph, Taxa treeTaxa, Splits treeSplits, Splits inducedSplits, int[] inducedTaxa2treeTaxa, TaxaSet rTaxa, int reticulation, ReticulationTree ret) throws Exception {
 
         // the map I of the inducedSplits wich are mapped onto the tree (normally there are more than one inducedSplit mapped onto one treeSplit
         HashMap treeSplits2rSplits = new HashMap();
@@ -286,7 +286,7 @@ public class HybridFinderWithTree {
      * @return true if we the map I gives a path in the tree
      * @throws Exception
      */
-    private boolean isPath(PhyloGraph treeGraph, Splits treeSplits, Taxa treeTaxa, TaxaSet rTaxa, int gallTaxa, int reticulation, HashMap treeSplits2rSplits, ReticulationTree ret) throws Exception {
+    private boolean isPath(PhyloSplitsGraph treeGraph, Splits treeSplits, Taxa treeTaxa, TaxaSet rTaxa, int gallTaxa, int reticulation, HashMap treeSplits2rSplits, ReticulationTree ret) throws Exception {
         // find a start Point for the search
         Iterator it = treeSplits2rSplits.keySet().iterator();
         TaxaSet start = null;
@@ -429,13 +429,11 @@ public class HybridFinderWithTree {
      * @param treeSplits2rSplits
      * @return edge
      */
-    private Edge RecCheckPath(Node startNode, HashSet seen, PhyloGraph treeGraph, Splits treeSplits, HashMap treeSplits2rSplits) {
+    private Edge RecCheckPath(Node startNode, HashSet seen, PhyloSplitsGraph treeGraph, Splits treeSplits, HashMap treeSplits2rSplits) {
         seen.add(startNode);
         // iterate for all edges connected to the  source of the startEdge
-        Iterator edgeIt = treeGraph.getAdjacentEdges(startNode);
         Node knownNode = null;
-        while (edgeIt.hasNext()) {
-            Edge nextEdge = (Edge) edgeIt.next();
+        for (Edge nextEdge : startNode.adjacentEdges()) {
             TaxaSet nextSplit = treeSplits.get(treeGraph.getSplit(nextEdge));
             if (!seen.contains(treeGraph.getOpposite(startNode, nextEdge))) {
                 HashSet map = (HashSet) treeSplits2rSplits.get(nextSplit);

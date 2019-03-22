@@ -68,7 +68,7 @@ public class NodeFontCommand extends ICommandAdapter implements ICommand {
 
                 Font font = new Font((family != null ? family : familyE), style,
                         (size == -1 ? sizeE : size));
-                fonts.set(v, font);
+                fonts.put(v, font);
             }
         }
     }

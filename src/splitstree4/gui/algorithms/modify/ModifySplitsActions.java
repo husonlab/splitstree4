@@ -19,7 +19,7 @@
  */
 package splitstree4.gui.algorithms.modify;
 
-import jloda.gui.HistogramPanel;
+import jloda.swing.util.HistogramPanel;
 import jloda.util.Basic;
 import splitstree4.gui.Director;
 import splitstree4.gui.DirectorActions;

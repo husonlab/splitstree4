@@ -22,9 +22,9 @@ package splitstree4.algorithms.distances;
 import Jama.EigenvalueDecomposition;
 import Jama.Matrix;
 import jloda.graph.Node;
-import jloda.graphview.NodeView;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.NodeView;
+import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
 import jloda.util.ProgressListener;
 import splitstree4.core.Document;
@@ -199,7 +199,7 @@ public class PCoA implements Distances2Network {
             }
         }
         done = true;
-        final PhyloGraph graph = graphView.getPhyloGraph();
+        final PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
         System.err.println("Stress: " + getStress(getOptionFirstCoordinate(), getOptionSecondCoordinate()));
         for (int t = 1; t <= taxa.getNtax(); t++) {

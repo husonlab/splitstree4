@@ -30,12 +30,13 @@
 package splitstree4.nexus;
 
 import jloda.graph.*;
-import jloda.graphview.EdgeView;
-import jloda.graphview.NodeView;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.EdgeView;
+import jloda.swing.graphview.NodeView;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.BasicSwing;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
+import jloda.util.IterationUtils;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.core.TaxaSet;
 import splitstree4.util.Interval;
@@ -47,8 +48,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * NexusBlock network class
@@ -790,7 +791,7 @@ public class Network extends NexusBlock {
      * syncronizes the phylograph object to the Network representation of the graph
      */
     public void syncPhyloGraphView2Network(Taxa taxa, PhyloGraphView graphView) {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
         // getDraw().setZoom(graphView.trans.getZoom());
         getDraw().setRotate(graphView.trans.getAngle());
@@ -834,9 +835,9 @@ public class Network extends NexusBlock {
             }
 
             if (nv.getFont() != null)
-                vd.font = Basic.getCode(nv.getFont());
+                vd.font = BasicSwing.getCode(nv.getFont());
             else
-                vd.font = Basic.getCode(graphView.getFont());
+                vd.font = BasicSwing.getCode(graphView.getFont());
             if (vd.font != null && vd.font.length() > 0) {
                 fonts.put(vd.font, nv.getFont());
             }
@@ -853,7 +854,7 @@ public class Network extends NexusBlock {
             if (nv.getLabelBackgroundColor() != null) {
                 vd.labelBgc = nv.getLabelBackgroundColor();
             }
-            setTranslate(taxa, vi, graph.getNode2Taxa(v));
+            setTranslate(taxa, vi, IterationUtils.asList(graph.getTaxa(v)));
 
             if (nv.isLabelVisible() && nv.getLabel() != null && nv.getLabel().length() > 0) {
                 vd.label = nv.getLabel();
@@ -890,7 +891,7 @@ public class Network extends NexusBlock {
             ed.labelLayout = ev.getLabelLayout();
             ed.labelAngle = ev.getLabelAngle();
             if (ev.getFont() != null)
-                ed.font = Basic.getCode(ev.getFont());
+                ed.font = BasicSwing.getCode(ev.getFont());
             if (ed.font != null && ed.font.length() > 0) {
                 fonts.put(ed.font, ev.getFont());
             }
@@ -921,7 +922,7 @@ public class Network extends NexusBlock {
      * @param graphView
      */
     public void syncNetwork2PhyloGraphView(Taxa taxa, Splits splits, PhyloGraphView graphView) {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         graph.clear();
         boolean allowMove = true; // disallow, if edges contain internal points
 
@@ -987,16 +988,15 @@ public class Network extends NexusBlock {
                 for (String label : labels) {
                     int t = taxa.indexOf(label);
                     if (t > 0) {
-                        graph.setNode2Taxa(v, t);
-                        graph.setTaxon2Node(t, v);
+                        graph.addTaxon(v, t);
                     } else
                         System.err.println("taxon " + label + " no t");
                 }
             }
             // set info for tool tip text:
-            if (graph.getNode2Taxa(v) != null) {
+            if (graph.getTaxa(v) != null) {
                 StringBuilder buf = new StringBuilder();
-                for (Integer t : graph.getNode2Taxa(v)) {
+                for (Integer t : graph.getTaxa(v)) {
                     String info = (taxa.getInfo(t) != null ? taxa.getInfo(t) : taxa.getLabel(t) + " (" + t + ")");
                     if (buf.toString().length() > 0)
                         buf.append(", ");
@@ -1103,7 +1103,7 @@ public class Network extends NexusBlock {
         if (GV == null || GV.getPhyloGraph() == null)
             return;
 
-        final PhyloGraph G = GV.getPhyloGraph();
+        final PhyloSplitsGraph G = GV.getPhyloGraph();
 
         try {
             for (int vi = 1; vi <= getNvertices(); vi++) {
@@ -1129,7 +1129,7 @@ public class Network extends NexusBlock {
         if (GV == null || GV.getPhyloGraph() == null)
             return;
 
-        final PhyloGraph G = GV.getPhyloGraph();
+        final PhyloSplitsGraph G = GV.getPhyloGraph();
 
         try {
             for (int ei = 1; ei <= getNedges(); ei++) {
@@ -1312,7 +1312,7 @@ public class Network extends NexusBlock {
                     ed.fgc = new Color(c, c, c);
                 } else
                     ed.fgc = EdgeDescription.FGC;
-                colors.set(ed.e, ed.fgc);
+                colors.put(ed.e, ed.fgc);
                 if (edgeWidth) {
                     float confidence = splits.getConfidence(ed.eclass);
                     if (confidence <= 0.5)
@@ -1341,8 +1341,8 @@ public class Network extends NexusBlock {
         for (int ei = 1; ei <= getNedges(); ei++) {
             EdgeDescription ed = edges[ei];
 
-            if (widths.get(ed.e) != null) {
-                ed.line = widths.getValue(ed.e);
+            if (widths.getValue(ed.e) != null) {
+                ed.line = widths.get(ed.e);
                 graphView.setLineWidth(ed.e, ed.line);
             }
             if (colors.get(ed.e) != null) {

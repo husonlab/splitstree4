@@ -67,7 +67,7 @@ public class EdgeFontCommand extends ICommandAdapter implements ICommand {
 
                 Font font = new Font((family != null ? family : familyE), style,
                         (size == -1 ? sizeE : size));
-                fonts.set(e, font);
+                fonts.put(e, font);
             }
         }
     }

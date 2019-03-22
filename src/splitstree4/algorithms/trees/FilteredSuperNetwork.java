@@ -19,9 +19,9 @@
  */
 package splitstree4.algorithms.trees;
 
-import jloda.gui.HistogramPanel;
 import jloda.phylo.Distortion;
 import jloda.phylo.PhyloTree;
+import jloda.swing.util.HistogramPanel;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
 import jloda.util.ProgressCmdLine;

@@ -21,9 +21,9 @@ package splitstree4.algorithms.characters;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.graphview.NodeView;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.NodeView;
+import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
 import jloda.util.ProgressListener;
@@ -33,8 +33,8 @@ import splitstree4.nexus.Network;
 import splitstree4.nexus.Taxa;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * base class for algorithms that produce quasi-median-type networks
@@ -103,7 +103,7 @@ public abstract class QuasiMedianBase {
         Set condensedInputSet = new TreeSet();
         Collections.addAll(condensedInputSet, condensedCharacters);
 
-        PhyloGraph graph = computeGraph(doc.getProgressListener(), condensedInputSet, weights);
+        PhyloSplitsGraph graph = computeGraph(doc.getProgressListener(), condensedInputSet, weights);
 
         PhyloGraphView view = new PhyloGraphView(graph, 400, 400);
         view.setMaintainEdgeLengths(false);
@@ -115,20 +115,18 @@ public abstract class QuasiMedianBase {
                 for (int t = 1; t <= taxa.getNtax(); t++) {
                     int o = orig2CondensedTaxa[t];
                     if (condensedCharacters[o].equals(condensed)) {
-                        graph.setTaxon2Node(t, v);
-                        graph.setNode2Taxa(v, t);
+                        graph.addTaxon(v, t);
                     }
                 }
 
-                List vTaxa = graph.getNode2Taxa(v);
                 StringBuilder buf = new StringBuilder();
                 boolean first = true;
-                for (Object aVTaxa : vTaxa) {
+                for (Integer t : graph.getTaxa(v)) {
                     if (first)
                         first = false;
                     else
                         buf.append(",");
-                    buf.append(taxa.getLabel((Integer) aVTaxa));
+                    buf.append(taxa.getLabel(t));
                 }
                 view.setLabel(v, buf.toString());
             } else {
@@ -147,9 +145,8 @@ public abstract class QuasiMedianBase {
         if (getOptionScaleNodesByTaxa()) {
             for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
                 {
-                    List vTaxa = graph.getNode2Taxa(v);
-                    if (vTaxa != null && vTaxa.size() > 0) {
-                        int size = (int) (4 + 10 * (Math.log(vTaxa.size())));
+                    if (graph.getNumberOfTaxa(v) > 0) {
+                        int size = (int) (4 + 10 * (Math.log(graph.getNumberOfTaxa(v))));
                         view.setHeight(v, size);
                         view.setBackgroundColor(v, Color.WHITE);
                         view.setWidth(v, size);
@@ -296,7 +293,7 @@ public abstract class QuasiMedianBase {
      * @param weights
      * @return median joining network
      */
-    public abstract PhyloGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException;
+    public abstract PhyloSplitsGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException;
 
     /**
      * computes all original positions at which the two sequences differ in display coordinates 1--length

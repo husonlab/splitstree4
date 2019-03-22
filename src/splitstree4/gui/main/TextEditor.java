@@ -19,7 +19,7 @@
  */
 package splitstree4.gui.main;
 
-import jloda.util.Basic;
+import jloda.swing.util.BasicSwing;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -271,7 +271,7 @@ public class TextEditor extends JFrame {
      * @param lineno
      */
     public void setEditSelectLine(int lineno) {
-        Basic.selectLine(inputTextArea, lineno);
+        BasicSwing.selectLine(inputTextArea, lineno);
         selectedLineInInputText = lineno;
     }
 

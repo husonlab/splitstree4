@@ -21,16 +21,16 @@ package splitstree4.gui.TreePainter;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.gui.WindowListenerAdapter;
-import jloda.gui.commands.CommandManager;
-import jloda.gui.director.IDirectableViewer;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
 import jloda.phylo.PhyloTree;
-import jloda.util.Alert;
+import jloda.swing.commands.CommandManager;
+import jloda.swing.director.IDirectableViewer;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.Alert;
+import jloda.swing.util.Geometry;
+import jloda.swing.util.ResourceManager;
+import jloda.swing.util.WindowListenerAdapter;
 import jloda.util.Basic;
-import jloda.util.Geometry;
-import jloda.util.ResourceManager;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
 import splitstree4.gui.DirectorActions;
@@ -71,7 +71,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     private Sets sets = null;
     private Document doc = null;
     private PhyloGraphView phyloGraphView = null;
-    private PhyloGraph phyloGraph;
+    private PhyloSplitsGraph phyloGraph;
 
     private JPanel button;
 
@@ -652,11 +652,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
 
         Node oppositeNode = new Node(taxonomy);
         while (oppositeNode != taxonomy.getRoot()) {
-
-            Iterator inEdges = taxonomy.getInEdges(selectedNode);
-            Edge e = (Edge) inEdges.next();
-            oppositeNode = taxonomy.getOpposite(selectedNode, e);
-
+            oppositeNode = taxonomy.getOpposite(selectedNode, selectedNode.getFirstInEdge());
             selectedNode = oppositeNode;
             depth++;
         }
@@ -1306,7 +1302,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
             Point2D.Double schwerpunkt = new Point2D.Double(allPoints.getX() / phyloGraph.getNodeLabels().size(), allPoints.getY() / phyloGraph.getNodeLabels().size());
 
             for (int i = 0; i < labelCycle.length; i++) {
-                labelCycle[i] = (Integer) phyloGraph.getNode2Taxa((Node) nodes.get(0)).get(0);
+                labelCycle[i] = (Integer) phyloGraph.getTaxa((Node) nodes.get(0)).iterator().next();
                 Node currentNodeI = (Node) nodes.get(0);
                 Point2D currentPointI = phyloGraphView.getLocation(currentNodeI);
                 for (int j = 1; j < nodes.size(); j++) {
@@ -1314,7 +1310,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
                     Point2D currentPointJ = phyloGraphView.getLocation(currentNodeJ);
                     if (this.getAngle(schwerpunkt, new Point2D.Double(currentPointJ.getX(), currentPointJ.getY())) >
                             (this.getAngle(schwerpunkt, new Point2D.Double(currentPointI.getX(), currentPointI.getY())))) {
-                        labelCycle[i] = (Integer) phyloGraph.getNode2Taxa((Node) nodes.get(j)).get(0);
+                        labelCycle[i] = (Integer) phyloGraph.getTaxa((Node) nodes.get(j)).iterator().next();
                         currentNodeI = currentNodeJ;
                         currentPointI = currentPointJ;
                     }
@@ -1548,11 +1544,9 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
      * @return the next node
      */
     private Node getNextNodeInCylce(Node node) {
-        Node nextNode = new Node(phyloGraph);
-
         int[] taxaInCyclicOrder = this.getCycle();
 
-        int positionOfTaxa = ((Integer) phyloGraph.getNode2Taxa(node).toArray()[0]);
+        int positionOfTaxa = phyloGraph.getTaxa(node).iterator().next();
 
         // find pos of taxaId in taxaInCyclicOrder
         for (int j = 0; j < taxaInCyclicOrder.length; j++) {
@@ -1563,9 +1557,8 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
         }
         //first taxa in cyclic order --> last element is next
         if (positionOfTaxa == 0) positionOfTaxa = taxaInCyclicOrder.length;
-        nextNode = phyloGraph.getTaxon2Node(taxaInCyclicOrder[positionOfTaxa - 1]);
 
-        return nextNode;
+        return phyloGraph.getTaxon2Node(taxaInCyclicOrder[positionOfTaxa - 1]);
     }
 
 
@@ -1576,11 +1569,9 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
      * @return the previous node
      */
     private Node getPreviousNodeInCylce(Node node) {
-        Node previousNode = new Node(phyloGraph);
-
         int[] taxaInCyclicOrder = this.getCycle();
 
-        int positionOfTaxa = ((Integer) phyloGraph.getNode2Taxa(node).toArray()[0]);
+        int positionOfTaxa = phyloGraph.getTaxa(node).iterator().next();
 
         // find pos of taxaId in taxaInCyclicOrder
         for (int j = 0; j < taxaInCyclicOrder.length; j++) {
@@ -1592,9 +1583,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
         //last taxa in cyclic order --> first element is previous
         if (positionOfTaxa == taxaInCyclicOrder.length - 1) positionOfTaxa = 0;
 
-        previousNode = phyloGraph.getTaxon2Node(taxaInCyclicOrder[positionOfTaxa + 1]);
-
-        return previousNode;
+        return phyloGraph.getTaxon2Node(taxaInCyclicOrder[positionOfTaxa + 1]);
     }
 
     /**

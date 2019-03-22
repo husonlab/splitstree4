@@ -19,8 +19,8 @@
  */
 package splitstree4.algorithms.characters;
 
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import splitstree4.algorithms.splits.GalledNetwork;
 import splitstree4.analysis.splits.Stats;
 import splitstree4.core.Document;
@@ -66,7 +66,7 @@ public class ReticulationNetwork2 extends GalledNetwork implements Characters2Ne
         Network net = apply(doc, taxa, splits);
         PhyloGraphView graphView = new PhyloGraphView();
         net.syncNetwork2PhyloGraphView(doc.getTaxa(), doc.getSplits(), graphView);
-        PhyloGraph graph = (PhyloGraph) graphView.getGraph();
+        PhyloSplitsGraph graph = (PhyloSplitsGraph) graphView.getGraph();
         //writeLabels2Edges(graphView, graph,doc.getSplits());
         return net;
     }

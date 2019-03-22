@@ -19,15 +19,11 @@
  */
 package splitstree4.gui.main;
 
-import jloda.gui.ActionJList;
-import jloda.gui.WindowListenerAdapter;
-import jloda.gui.commands.CommandManager;
-import jloda.gui.director.IDirectableViewer;
-import jloda.phylo.PhyloGraphView;
-import jloda.util.Alert;
+import jloda.swing.commands.CommandManager;
+import jloda.swing.director.IDirectableViewer;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.*;
 import jloda.util.Basic;
-import jloda.util.ProgramProperties;
-import jloda.util.ResourceManager;
 import splitstree4.core.Document;
 import splitstree4.externalIO.exports.ExportManager;
 import splitstree4.externalIO.exports.ExporterAdapter;
@@ -46,8 +42,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * the export window

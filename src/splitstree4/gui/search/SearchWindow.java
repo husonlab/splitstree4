@@ -34,13 +34,13 @@ package splitstree4.gui.search;
  *  -- Changed the the whole look of the DialogBox with new options.
  */
 
-import jloda.gui.WindowListenerAdapter;
-import jloda.gui.commands.CommandManager;
-import jloda.gui.director.IDirectableViewer;
-import jloda.gui.director.IDirector;
+import jloda.swing.commands.CommandManager;
+import jloda.swing.director.IDirectableViewer;
+import jloda.swing.director.IDirector;
+import jloda.swing.util.ProgramProperties;
+import jloda.swing.util.RememberingComboBox;
+import jloda.swing.util.WindowListenerAdapter;
 import jloda.util.CanceledException;
-import jloda.util.ProgramProperties;
-import jloda.util.RememberingComboBox;
 import splitstree4.gui.Director;
 
 import javax.swing.*;

@@ -25,7 +25,7 @@ import splitstree4.core.Document;
 import splitstree4.nexus.*;
 import splitstree4.util.SplitsUtilities;
 
-public class StatusBar extends jloda.gui.StatusBar {
+public class StatusBar extends jloda.swing.util.StatusBar {
 
     private boolean fit, lsFit, taxa, chars, trees, splits, assumptions,
             vertices, edges;

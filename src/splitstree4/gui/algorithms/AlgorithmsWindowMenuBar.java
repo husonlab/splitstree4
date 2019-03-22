@@ -19,7 +19,7 @@
  */
 package splitstree4.gui.algorithms;
 
-import jloda.util.ResourceManager;
+import jloda.swing.util.ResourceManager;
 import splitstree4.gui.Director;
 
 import javax.swing.*;

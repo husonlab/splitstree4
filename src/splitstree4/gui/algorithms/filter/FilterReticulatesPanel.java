@@ -19,8 +19,8 @@
  */
 package splitstree4.gui.algorithms.filter;
 
-import jloda.gui.ActionJList;
-import jloda.gui.director.IUpdateableView;
+import jloda.swing.director.IUpdateableView;
+import jloda.swing.util.ActionJList;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
 import splitstree4.gui.DirectorActions;

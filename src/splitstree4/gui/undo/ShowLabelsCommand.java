@@ -23,7 +23,7 @@ import jloda.graph.Edge;
 import jloda.graph.EdgeArray;
 import jloda.graph.Node;
 import jloda.graph.NodeArray;
-import jloda.phylo.PhyloGraph;
+import jloda.phylo.PhyloSplitsGraph;
 import splitstree4.gui.main.MainViewer;
 
 /**
@@ -49,20 +49,20 @@ public class ShowLabelsCommand extends ICommandAdapter implements ICommand {
         this.selectedOnly = selectedOnly;
         this.show = show;
 
-        PhyloGraph graph = viewer.getPhyloGraph();
+        PhyloSplitsGraph graph = viewer.getPhyloGraph();
         showNodeLabels = new NodeArray(graph);
         showEdgeLabels = new EdgeArray(graph);
 
         for (Node a = graph.getFirstNode(); a != null; a = a.getNext()) {
             if (!selectedOnly || viewer.getSelected(a)) {
                 if (viewer.getLabelVisible(a) != show)
-                    showNodeLabels.set(a, show);
+                    showNodeLabels.put(a, show);
             }
         }
         for (Edge a = graph.getFirstEdge(); a != null; a = a.getNext()) {
             if (!selectedOnly || viewer.getSelected(a)) {
                 if (viewer.getLabelVisible(a) != show)
-                    showEdgeLabels.set(a, show);
+                    showEdgeLabels.put(a, show);
             }
         }
 

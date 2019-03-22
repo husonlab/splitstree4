@@ -20,9 +20,9 @@
 package splitstree4.gui.algorithms.select;
 
 import jloda.graph.Edge;
-import jloda.phylo.PhyloGraph;
+import jloda.graph.NotOwnerException;
+import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import jloda.util.Pair;
 import splitstree4.algorithms.trees.TreeSelector;
 import splitstree4.core.Document;
@@ -148,7 +148,7 @@ public class SelectTreesActions implements UpdateableActions {
                 Splits splits = doc.getSplits();
                 if (!doc.isValid(trees) || !doc.isValid(splits))
                     return;
-                PhyloGraph graph = viewer.getPhyloGraph();
+                PhyloSplitsGraph graph = viewer.getPhyloGraph();
 
                 Set<Pair<TaxaSet, TaxaSet>> selectedTreesSplits = new HashSet<>(); // splits to select
                 TreeSelector treeSelector = new TreeSelector();

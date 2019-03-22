@@ -20,10 +20,9 @@
 package splitstree4.algorithms.splits;
 
 import jloda.graph.*;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import jloda.util.Pair;
 import splitstree4.algorithms.splits.reticulate.AlgorithmRECOMB2005;
 import splitstree4.algorithms.splits.reticulate.Reticulation;
@@ -37,8 +36,8 @@ import splitstree4.nexus.Taxa;
 import splitstree4.util.SplitsUtilities;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * framework for generating reticulate evolution graphs from splits
@@ -141,7 +140,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
 
         // 5. build graph
         PhyloGraphView graphView;
-        PhyloGraph graph;
+        PhyloSplitsGraph graph;
 
         if (getOptionLayout().startsWith(ReticulateNetwork.EQUALANGLE_PREFIX) &&
                 taxa.indexOf(getOptionOutGroup()) > 0) {
@@ -266,13 +265,11 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
      * @param comp
      * @param graph
      * @param graphView
-     * @throws jloda.util.NotOwnerException
+     * @throws NotOwnerException
      */
-    private void colorComponent(NodeSet comp, PhyloGraph graph, PhyloGraphView graphView) throws NotOwnerException {
+    private void colorComponent(NodeSet comp, PhyloSplitsGraph graph, PhyloGraphView graphView) throws NotOwnerException {
         for (Node v : comp) {
-            Iterator it2 = graph.getAdjacentEdges(v);
-            while (it2.hasNext()) {
-                Edge e = (Edge) it2.next();
+            for (Edge e : v.adjacentEdges()) {
                 Node w = graph.getOpposite(v, e);
                 if (comp.contains(w)) {
                     graphView.setColor(e, Color.BLUE);
@@ -410,7 +407,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
         while (unvisited.size() > 0) {
             Node v = unvisited.getFirstElement();
             NodeSet comp = new NodeSet(incompGraph);
-            visitComponentRec(v, unvisited, incompGraph, comp);
+            visitComponentRec(v, unvisited, comp);
             if (comp.size() > 1) {
                 components.add(comp);
                 int ncomp = components.size();
@@ -431,17 +428,15 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
      *
      * @param v
      * @param unvisited
-     * @param graph
      * @param comp
-     * @throws jloda.util.NotOwnerException
+     * @throws NotOwnerException
      */
-    private void visitComponentRec(Node v, NodeSet unvisited, Graph graph, NodeSet comp) throws NotOwnerException {
+    private void visitComponentRec(Node v, NodeSet unvisited, NodeSet comp) throws NotOwnerException {
         if (unvisited.contains(v)) {
             unvisited.remove(v);
             comp.add(v);
-            Iterator it = graph.getAdjacentNodes(v);
-            while (it.hasNext()) {
-                visitComponentRec((Node) it.next(), unvisited, graph, comp);
+            for (Node w : v.adjacentNodes()) {
+                visitComponentRec(w, unvisited, comp);
             }
         }
     }
@@ -543,7 +538,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
      * @param gateNodes
      * @return the components
      */
-    private NodeSet[] computeNettedComps(int[] split2incomp, PhyloGraph graph, NodeSet gateNodes) throws NotOwnerException {
+    private NodeSet[] computeNettedComps(int[] split2incomp, PhyloSplitsGraph graph, NodeSet gateNodes) throws NotOwnerException {
 
         int ncomps = 0;
         for (int aSplit2incomp : split2incomp)
@@ -588,9 +583,9 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
      * @param split2incomp
      * @param graph
      * @param components
-     * @throws jloda.util.NotOwnerException
+     * @throws NotOwnerException
      */
-    private void computeNettedCompsRec(Node v, int ncomp, EdgeSet seen, int[] split2incomp, PhyloGraph graph,
+    private void computeNettedCompsRec(Node v, int ncomp, EdgeSet seen, int[] split2incomp, PhyloSplitsGraph graph,
                                        NodeSet[] components) throws NotOwnerException {
         for (Edge e = graph.getFirstAdjacentEdge(v); e != null; e = graph.getNextAdjacentEdge(e, v)) {
 
@@ -611,7 +606,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
      */
     private NodeArray computeGate2ExternalTaxa(NodeSet allGateNodes,
                                                NodeSet compNodes,
-                                               PhyloGraph graph) throws NotOwnerException {
+                                               PhyloSplitsGraph graph) throws NotOwnerException {
 
         // make set of component gate nodes:
         NodeSet compGateNodes = new NodeSet(graph);
@@ -629,7 +624,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
         it = compGateNodes.iterator();
         while (it.hasNext()) {
             Node v = (Node) it.next();
-            gate2externalTaxa.set(v, computeGate2ExternalTaxaNode(v, compNodes, graph));
+            gate2externalTaxa.put(v, computeGate2ExternalTaxaNode(v, compNodes, graph));
         }
         return gate2externalTaxa;
     }
@@ -642,24 +637,15 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
      * @param graph
      * @return set of taxa reachable from component by gate node
      */
-    private TaxaSet computeGate2ExternalTaxaNode(Node v, NodeSet componentNodes,
-                                                 PhyloGraph graph) throws NotOwnerException {
+    private TaxaSet computeGate2ExternalTaxaNode(Node v, NodeSet componentNodes, PhyloSplitsGraph graph) throws NotOwnerException {
         NodeSet visited = new NodeSet(graph);
-        Iterator it = graph.getAdjacentNodes(v);
-        while (it.hasNext()) {
-            Node w = (Node) it.next();
+        for (Node w : v.adjacentNodes()) {
             computeGate2ExternalTaxaRec(w, componentNodes, graph, visited);
         }
         TaxaSet result = new TaxaSet();
-        it = visited.iterator();
-        while (it.hasNext()) {
-            Node u = (Node) it.next();
-            List taxaList = graph.getNode2Taxa(u);
-            if (taxaList != null) {
-                for (Object aTaxaList : taxaList) {
-                    int tt = (Integer) aTaxaList;
-                    result.set(tt);
-                }
+        for (Node u : visited) {
+            for (Integer t : graph.getTaxa(u)) {
+                result.set(t);
             }
         }
         return result;
@@ -673,13 +659,11 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
      * @param graph
      * @param visited
      */
-    private void computeGate2ExternalTaxaRec(Node v, NodeSet compNodes, PhyloGraph graph, NodeSet visited)
+    private void computeGate2ExternalTaxaRec(Node v, NodeSet compNodes, PhyloSplitsGraph graph, NodeSet visited)
             throws NotOwnerException {
         if (!compNodes.contains(v) && !visited.contains(v)) {
             visited.add(v);
-            Iterator it = graph.getAdjacentNodes(v);
-            while (it.hasNext()) {
-                Node w = (Node) it.next();
+            for (Node w : v.adjacentNodes()) {
                 computeGate2ExternalTaxaRec(w, compNodes, graph, visited);
             }
 
@@ -699,7 +683,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
     private Node[] computeInduced2GateNodes(Reticulation ret,
                                             TaxaSet[] induced2origTaxa, NodeSet gateNodes,
                                             NodeArray gate2externalTaxa,
-                                            PhyloGraph graph) throws NotOwnerException {
+                                            PhyloSplitsGraph graph) throws NotOwnerException {
 
         //System.err.println("# Attempting to match reticulation with graph:");
         //if (ret == null || ret.getBackbone() == null)
@@ -777,7 +761,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
      * @param node2Sequence
      */
     private void modifyGraph(Reticulation ret, Node[] induced2gateNode, NodeSet gateNodes, NodeSet nettedComp,
-                             PhyloGraph graph, PhyloGraphView graphView, NodeArray node2Sequence) throws NotOwnerException {
+                             PhyloSplitsGraph graph, PhyloGraphView graphView, NodeArray node2Sequence) throws NotOwnerException {
 
         //System.err.println("# Modify graph:");
         // delete all non-gate nodes in the netted component:
@@ -795,12 +779,8 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
         // delete edges that lie between two taxa in the netted component:
         toDelete.clear();
         BitSet seen = new BitSet();
-        it = nettedComp.iterator();
-        while (it.hasNext()) {
-            Node v = (Node) it.next();
-            Iterator it2 = graph.getAdjacentEdges(v);
-            while (it2.hasNext()) {
-                Edge e = (Edge) it2.next();
+        for (Node v : nettedComp) {
+            for (Edge e : v.adjacentEdges()) {
                 Node w = graph.getOpposite(v, e);
                 if (nettedComp.contains(w) && !seen.get(graph.getId(e))) {
                     toDelete.add(e);
@@ -865,7 +845,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
                         System.err.println("Replaced: " + oldSequence + "\n"
                                 + "by:       " + pConsensus);
                 }
-                node2Sequence.set(pAttach, pConsensus);
+                node2Sequence.put(pAttach, pConsensus);
             }
 
             final Node qa = backbonePos2node[lastPosCovered + 1];
@@ -887,7 +867,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
                         System.err.println("Replaced: " + oldSequence + "\n"
                                 + "by:       " + qConsensus);
                 }
-                node2Sequence.set(qAttach, qConsensus);
+                node2Sequence.put(qAttach, qConsensus);
             }
 
             Edge e = graph.newEdge(pAttach, r);
@@ -917,11 +897,10 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
      *
      * @param graph
      */
-    private void removeDivertices(PhyloGraph graph) throws NotOwnerException {
-        List toDelete = new LinkedList();
+    private void removeDivertices(PhyloSplitsGraph graph) throws NotOwnerException {
+        List<Node> toDelete = new ArrayList<>();
         for (Node v = graph.getFirstNode(); v != null; v = graph.getNextNode(v)) {
-            if (graph.getDegree(v) == 2
-                    && (graph.getNode2Taxa(v) == null || graph.getNode2Taxa(v).size() == 0))
+            if (v.getDegree() == 2 && graph.getNumberOfTaxa(v) == 0)
                 toDelete.add(v);
         }
         for (Object aToDelete : toDelete) {
@@ -993,8 +972,8 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
      *
      * @return methods
      */
-    public List selectionOptionLayout(Document doc) {
-        List list = new LinkedList();
+    public List<String> selectionOptionLayout(Document doc) {
+        List<String> list = new LinkedList<>();
         list.add(ReticulateNetwork.EQUALANGLE60);
         list.add(ReticulateNetwork.EQUALANGLE120);
         list.add(ReticulateNetwork.EQUALANGLE180);

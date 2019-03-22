@@ -20,10 +20,9 @@
 package splitstree4.algorithms.splits;
 
 import jloda.graph.*;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import jloda.util.Pair;
 import splitstree4.algorithms.splits.reticulateTree.HybridFinderWithTree;
 import splitstree4.algorithms.splits.reticulateTree.LabelGraph;
@@ -39,8 +38,8 @@ import splitstree4.nexus.Taxa;
 import splitstree4.util.SplitsUtilities;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * deprecated
@@ -146,7 +145,7 @@ public class GalledNetwork implements Splits2Network {
         }
 
         PhyloGraphView graphView;
-        PhyloGraph graph;
+        PhyloSplitsGraph graph;
         if (getOptionLayout().startsWith(ReticulateNetwork.EQUALANGLE_PREFIX) &&
                 taxa.indexOf(getOptionOutGroup()) > 0) {
             RootedEqualAngle ea = new RootedEqualAngle();
@@ -337,20 +336,14 @@ public class GalledNetwork implements Splits2Network {
      * @param unvisited
      * @param graph
      * @param comp
-     * @throws jloda.util.NotOwnerException
+     * @throws NotOwnerException
      */
-    private void visitComponentRec
-    (Node
-             v, NodeSet
-             unvisited, Graph
-             graph, NodeSet
-             comp) throws NotOwnerException {
+    private void visitComponentRec(Node v, NodeSet unvisited, Graph graph, NodeSet comp) {
         if (unvisited.contains(v)) {
             unvisited.remove(v);
             comp.add(v);
-            Iterator it = graph.getAdjacentNodes(v);
-            while (it.hasNext()) {
-                visitComponentRec((Node) it.next(), unvisited, graph, comp);
+            for (Node w : v.adjacentNodes()) {
+                visitComponentRec(w, unvisited, graph, comp);
             }
         }
     }
@@ -366,15 +359,7 @@ public class GalledNetwork implements Splits2Network {
      * @param inducedSplits
      * @return map from induced taxa to original taxa
      */
-    private TaxaSet[] computeInducedProblem
-    (Taxa
-             taxa, Splits
-             splits, NodeSet
-             component, Graph
-             incompGraph,
-     Taxa
-             inducedTaxa, Splits
-             inducedSplits) throws NotOwnerException, SplitsException {
+    private TaxaSet[] computeInducedProblem(Taxa taxa, Splits splits, NodeSet component, Graph incompGraph, Taxa inducedTaxa, Splits inducedSplits) throws SplitsException {
 
         // compute the matrix: sepMatrix[i][j] equals the number of splits in component
         // that separate i and j
@@ -459,7 +444,7 @@ public class GalledNetwork implements Splits2Network {
      * @param gateNodes
      * @return the components
      */
-    private NodeSet[] computeNettedComps(int[] split2incomp, PhyloGraph graph, NodeSet gateNodes, int nComps) throws NotOwnerException {
+    private NodeSet[] computeNettedComps(int[] split2incomp, PhyloSplitsGraph graph, NodeSet gateNodes, int nComps) throws NotOwnerException {
         if (verbose) System.out.println("ncomps: " + (nComps - 1));
         // components start at one (!!!!)
         NodeSet[] components = new NodeSet[nComps];
@@ -507,9 +492,9 @@ public class GalledNetwork implements Splits2Network {
      * @param split2incomp
      * @param graph
      * @param components
-     * @throws jloda.util.NotOwnerException
+     * @throws NotOwnerException
      */
-    private void computeNettedCompsRec(Node v, int ncomp, EdgeSet seen, int[] split2incomp, PhyloGraph graph, NodeSet[] components) throws NotOwnerException {
+    private void computeNettedCompsRec(Node v, int ncomp, EdgeSet seen, int[] split2incomp, PhyloSplitsGraph graph, NodeSet[] components) throws NotOwnerException {
         for (Edge e = graph.getFirstAdjacentEdge(v); e != null; e = graph.getNextAdjacentEdge(e, v)) {
             if (!seen.contains(e) && split2incomp[graph.getSplit(e)] == ncomp) {
                 seen.add(e);

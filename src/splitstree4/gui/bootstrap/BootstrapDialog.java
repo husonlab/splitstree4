@@ -19,7 +19,7 @@
  */
 package splitstree4.gui.bootstrap;
 
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import splitstree4.nexus.Bootstrap;
 
 import javax.swing.*;

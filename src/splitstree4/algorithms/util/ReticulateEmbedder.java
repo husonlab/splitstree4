@@ -23,18 +23,19 @@ import jloda.graph.Edge;
 import jloda.graph.EdgeArray;
 import jloda.graph.EdgeDoubleArray;
 import jloda.graph.Node;
-import jloda.graphview.EdgeView;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
-import jloda.util.Geometry;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.EdgeView;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.Geometry;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.*;
 import java.util.List;
+import java.util.Queue;
+import java.util.*;
 
 /**
  * New algorithms for computing embeddings of reticulate networks
@@ -63,7 +64,7 @@ public class ReticulateEmbedder {
             smallDistance = Math.max(smallDistance, splits.getWeight(s));
         smallDistance = (percentOffset / 100.0) * smallDistance;
 
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         Node root = graph.getTaxon2Node(outgroupIndex);
         if (root.getDegree() > 0)
             root = root.getFirstAdjacentEdge().getOpposite(root);
@@ -131,7 +132,7 @@ public class ReticulateEmbedder {
         }
 
         // assign coordinates:
-        List queue = new LinkedList();
+        List<Node> queue = new ArrayList<>();
         queue.add(root);
         while (queue.size() > 0) // breath-first assignment
         {
@@ -140,7 +141,7 @@ public class ReticulateEmbedder {
             boolean ok = true;
             if (v.getInDegree() == 1) // is regular in edge
             {
-                Edge e = v.getInEdges().next();
+                Edge e = v.getFirstInEdge();
                 Node w = e.getSource();
                 int splitId = graph.getSplit(e);
                 if (splitId >= 0) {
@@ -166,9 +167,8 @@ public class ReticulateEmbedder {
                             x += 0.5 * (rand.nextFloat() - 0.5) * smallDistance;
 
                         graphView.setLocation(e.getTarget(), x, y);
-                        List internalPoints = new LinkedList();
-                        internalPoints.add(new Point2D.Double(location.getX(),
-                                graphView.getLocation(v).getY()));
+                        List<Point2D> internalPoints = new ArrayList<>();
+                        internalPoints.add(new Point2D.Double(location.getX(), graphView.getLocation(v).getY()));
                         graphView.setInternalPoints(e, internalPoints);
                     }
                 } else
@@ -178,8 +178,8 @@ public class ReticulateEmbedder {
                 double x = 0;
                 double y = 0;
                 int count = 0;
-                for (Iterator it = v.getInEdges(); ok && it.hasNext(); ) {
-                    Edge e = (Edge) it.next();
+                for (Edge e : v.inEdges()) {
+                    ;
                     Node w = e.getSource();
                     Point2D location = graphView.getLocation(w);
                     if (location == null) {
@@ -194,20 +194,20 @@ public class ReticulateEmbedder {
                     y /= count;
                     if (v.getOutDegree() == 1) // should always have a single out edge
                     {
-                        Edge f = v.getOutEdges().next();
+                        Edge f = v.getFirstOutEdge();
                         y = (Double) cluster2height.get(edge2cluster.get(f));
                     } else // weird, if there is a cluster associated with the edge, use it
                     {
-                        Edge e = v.getInEdges().next();
+                        Edge e = v.getFirstInEdge();
                         TaxaSet cluster = (TaxaSet) edge2cluster.get(e);
                         if (cluster != null) {
                             y = computeHeight(cluster, cycleInverse, ntax);
                         }
                     }
 
-                    x = graphView.getLocation(v.getInEdges().next().getSource()).getX();
-                    for (Iterator it = v.getInEdges(); it.hasNext(); ) {
-                        Point2D apt = graphView.getLocation(((Edge) it.next()).getSource());
+                    x = graphView.getLocation(v.getFirstInEdge().getSource()).getX();
+                    for (Edge f : v.inEdges()) {
+                        Point2D apt = graphView.getLocation(f.getSource());
                         if (apt.getX() > x)
                             x = apt.getX();
                     }
@@ -219,16 +219,15 @@ public class ReticulateEmbedder {
 
                     graphView.setLocation(v, x, y);
                     if (reticulateEdgesCubic) {
-                        for (Iterator it = v.getInEdges(); ok && it.hasNext(); ) {
-                            Edge e = (Edge) it.next();
-                            Node w = e.getSource();
-                            Point2D location = graphView.getLocation(w);
-                            List internalPoints = new LinkedList();
-                            internalPoints.add(new Point2D.Double(location.getX(),
-                                    graphView.getLocation(v).getY()));
-                            graphView.setInternalPoints(e, internalPoints);
+                        if (ok) {
+                            for (Edge e : v.inEdges()) {
+                                Node w = e.getSource();
+                                Point2D location = graphView.getLocation(w);
+                                List<Point2D> internalPoints = new ArrayList<>();
+                                internalPoints.add(new Point2D.Double(location.getX(), graphView.getLocation(v).getY()));
+                                graphView.setInternalPoints(e, internalPoints);
+                            }
                         }
-
                     }
                 }
             } else  // is root node
@@ -239,8 +238,8 @@ public class ReticulateEmbedder {
 
             if (ok)  // add childern to end of queue:
             {
-                for (Iterator it = v.getOutEdges(); it.hasNext(); ) {
-                    queue.add(((Edge) it.next()).getTarget());
+                for (Edge e : v.outEdges()) {
+                    queue.add(e.getTarget());
                 }
             } else  // process this node again later
                 queue.add(v);
@@ -272,7 +271,7 @@ public class ReticulateEmbedder {
      * @param graph
      * @param toFlip
      */
-    private void determineEdgesToFlip(Node v, Edge e, PhyloGraph graph, Set toFlip) {
+    private void determineEdgesToFlip(Node v, Edge e, PhyloSplitsGraph graph, Set toFlip) {
         for (Edge f = v.getFirstAdjacentEdge(); f != null; f = v.getNextAdjacentEdge(f)) {
             if (f != e) {
                 if (graph.getSplit(f) == -1) {
@@ -297,20 +296,16 @@ public class ReticulateEmbedder {
      * @param edge2cluster
      * @return taxa on this node or below
      */
-    private TaxaSet computeEdge2ClusterRec(Node v, PhyloGraph graph, EdgeArray edge2cluster) {
+    private TaxaSet computeEdge2ClusterRec(Node v, PhyloSplitsGraph graph, EdgeArray edge2cluster) {
         TaxaSet cluster = new TaxaSet();
-        for (Iterator it = v.getOutEdges(); it.hasNext(); ) {
-            Edge f = (Edge) it.next();
+        for (Edge f : v.outEdges()) {
             TaxaSet below = computeEdge2ClusterRec(f.getOpposite(v), graph, edge2cluster);
-            edge2cluster.set(f, below.clone());
+            edge2cluster.put(f, below.clone());
             //graph.setLabel(f,Basic.toString(below.getBits()));
             cluster.or(below);
         }
-        List list = graph.getNode2Taxa(v);
-        if (list != null) {
-            for (Object aList : list) {
-                cluster.set((Integer) aList);
-            }
+        for (Integer t : graph.getTaxa(v)) {
+            cluster.set(t);
         }
         return cluster;
     }
@@ -387,7 +382,7 @@ public class ReticulateEmbedder {
     public void computeRectangularCladogram(Taxa taxa, Splits splits, PhyloGraphView graphView,
                                             int outgroupIndex, boolean reticulateEdgesCubic,
                                             boolean treeEdgesCubic) {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         Node root = graph.getTaxon2Node(outgroupIndex);
         if (root.getDegree() > 0)
             root = root.getFirstAdjacentEdge().getOpposite(root);
@@ -421,12 +416,8 @@ public class ReticulateEmbedder {
                     y = 0;
                 else {
                     TaxaSet cluster = new TaxaSet();
-                    List vTaxa = graph.getNode2Taxa(v);
-                    if (vTaxa != null) {
-                        for (Object aVTaxa : vTaxa) {
-                            int t = (Integer) aVTaxa;
-                            cluster.set(t);
-                        }
+                    for (Integer t : graph.getTaxa(v)) {
+                        cluster.set(t);
                     }
                     y = computeHeight(cluster, cycleInverse, ntax);
                 }
@@ -458,13 +449,12 @@ public class ReticulateEmbedder {
      * @param graphView
      * @return location of v
      */
-    private Point2D assignCoordinatesToRectangularCladogramRec(Node v, PhyloGraph graph, PhyloGraphView graphView) {
+    private Point2D assignCoordinatesToRectangularCladogramRec(Node v, PhyloSplitsGraph graph, PhyloGraphView graphView) {
         if (graphView.getLocation(v) == null) {
             double x = 0;
             double y = 0;
             int count = 0;
-            for (Iterator it = v.getOutEdges(); it.hasNext(); ) {
-                Edge e = (Edge) it.next();
+            for (Edge e : v.outEdges()) {
                 Point2D location = assignCoordinatesToRectangularCladogramRec(e.getOpposite(v), graph, graphView);
                 boolean blackEdge = (e.getTarget().getInDegree() == 1);
                 x = Math.min(x, location.getX());
@@ -474,9 +464,7 @@ public class ReticulateEmbedder {
 
             y /= count; // average height
             graphView.setLocation(v, x - 10, y);
-            for (Iterator it = v.getOutEdges(); it.hasNext(); ) {
-                Edge e = (Edge) it.next();
-
+            for (Edge e : v.outEdges()) {
                 List list = new LinkedList();
                 list.add(new Point2D.Double(graphView.getLocation(v).getX(),
                         graphView.getLocation(e.getOpposite(v)).getY()));
@@ -507,7 +495,7 @@ public class ReticulateEmbedder {
         smallDistance = (percentOffset / 100.0) * smallDistance;
 
 
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         Node root = graph.getTaxon2Node(outgroupIndex);
         if (root.getDegree() > 0)
             root = root.getFirstAdjacentEdge().getOpposite(root);
@@ -563,16 +551,16 @@ public class ReticulateEmbedder {
             graphView.setLocation(v, null);
         }
         // assign coordinates:
-        List queue = new LinkedList();
+        Queue<Node> queue = new LinkedList<>();
         queue.add(root);
         while (queue.size() > 0) // breath-first assignment
         {
-            Node v = (Node) queue.remove(0); // pop
+            Node v = queue.poll();
 
             boolean ok = true;
             if (v.getInDegree() == 1) // is regular in edge
             {
-                Edge e = v.getInEdges().next();
+                Edge e = v.getFirstInEdge();
                 Node w = e.getSource();
                 int splitId = graph.getSplit(e);
                 if (splitId >= 0) {
@@ -592,7 +580,7 @@ public class ReticulateEmbedder {
                                 weight = 1;
                         } else
                             weight = smallDistance;
-                        double angle = edge2angle.getValue(e);
+                        double angle = edge2angle.get(e);
                         Point2D vLocation = Geometry.translateByAngle(graphView.getLocation(w), angle, weight);
                         graphView.setLocation(v, vLocation);
                     }
@@ -603,8 +591,7 @@ public class ReticulateEmbedder {
                 double x = 0;
                 double y = 0;
                 int count = 0;
-                for (Iterator it = v.getInEdges(); ok && it.hasNext(); ) {
-                    Edge e = (Edge) it.next();
+                for (Edge e : v.inEdges()) {
                     Node w = e.getSource();
                     Point2D location = graphView.getLocation(w);
                     if (location == null) {
@@ -621,8 +608,8 @@ public class ReticulateEmbedder {
                     Point2D vLocation = new Point2D.Double(x, y);
                     if (v.getOutDegree() == 1) // should always have a single out edge
                     {
-                        Edge f = v.getOutEdges().next();
-                        double angle = edge2angle.getValue(f);
+                        Edge f = v.getFirstOutEdge();
+                        double angle = edge2angle.get(f);
                         vLocation = Geometry.translateByAngle(vLocation, angle, smallDistance);
                     }
 
@@ -635,14 +622,14 @@ public class ReticulateEmbedder {
 
             if (ok)  // add childern to end of queue:
             {
-                for (Iterator it = v.getOutEdges(); it.hasNext(); ) {
-                    queue.add(((Edge) it.next()).getTarget());
+                for (Edge e : v.outEdges()) {
+                    queue.add(e.getTarget());
                 }
             } else  // process this node again later
                 queue.add(v);
         }
 
-        List toMove = new LinkedList();
+        List<Edge> toMove = new ArrayList<>();
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
             if (graph.getSplit(e) == -1) {
                 graphView.setColor(e, Color.BLUE);

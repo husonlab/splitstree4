@@ -21,7 +21,7 @@ package splitstree4.algorithms.characters;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
+import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.CanceledException;
 import jloda.util.Pair;
 import jloda.util.ProgressListener;
@@ -53,8 +53,8 @@ public class MinSpanningNetwork extends QuasiMedianBase implements Characters2Ne
         return doc.isValid(taxa) && doc.isValid(characters);
     }
 
-    public PhyloGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException {
-        PhyloGraph graph = new PhyloGraph();
+    public PhyloSplitsGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException {
+        PhyloSplitsGraph graph = new PhyloSplitsGraph();
         computeMinimumSpanningNetwork(inputSequences, weights, getOptionEpsilon(), graph);
         return graph;
     }
@@ -67,7 +67,7 @@ public class MinSpanningNetwork extends QuasiMedianBase implements Characters2Ne
      * @param epsilon
      * @param graph
      */
-    private void computeMinimumSpanningNetwork(Set sequences, double[] weights, int epsilon, PhyloGraph graph) {
+    private void computeMinimumSpanningNetwork(Set sequences, double[] weights, int epsilon, PhyloSplitsGraph graph) {
         String[] array = (String[]) sequences.toArray(new String[sequences.size()]);
         // compute a distance matrix between all sequences:
         double[][] matrix = new double[array.length][array.length];

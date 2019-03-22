@@ -30,13 +30,13 @@ import com.install4j.api.update.ApplicationDisplayMode;
 import com.install4j.api.update.UpdateChecker;
 import com.install4j.api.update.UpdateDescriptor;
 import com.install4j.api.update.UpdateDescriptorEntry;
-import jloda.gui.AppleStuff;
-import jloda.gui.director.ProjectManager;
-import jloda.util.*;
+import jloda.swing.director.ProjectManager;
+import jloda.swing.util.*;
+import jloda.util.Basic;
+import jloda.util.PropertiesListListener;
 import splitstree4.algorithms.characters.*;
 import splitstree4.algorithms.distances.*;
 import splitstree4.algorithms.splits.*;
-import splitstree4.algorithms.splits.ConvexHull;
 import splitstree4.algorithms.trees.*;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
@@ -889,7 +889,7 @@ public class MainViewerMenuBar extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Basic.openWebPage(new URL("http://ab.inf.uni-tuebingen.de/software/splitstree4/welcome.html"));
+                    BasicSwing.openWebPage(new URL("http://ab.inf.uni-tuebingen.de/software/splitstree4/welcome.html"));
                 } catch (MalformedURLException ex) {
                     Basic.caught(ex);
                 }
@@ -902,7 +902,7 @@ public class MainViewerMenuBar extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Basic.openWebPage(new URL("http://ab.inf.uni-tuebingen.de/data/software/splitstree4/download/manual.pdf"));
+                    BasicSwing.openWebPage(new URL("http://ab.inf.uni-tuebingen.de/data/software/splitstree4/download/manual.pdf"));
                 } catch (MalformedURLException ex) {
                     Basic.caught(ex);
                 }

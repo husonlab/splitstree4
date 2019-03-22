@@ -22,7 +22,7 @@ package splitstree4.gui.undo;
 import jloda.graph.Graph;
 import jloda.graph.Node;
 import jloda.graph.NodeSet;
-import jloda.gui.find.IObjectSearcher;
+import jloda.swing.find.IObjectSearcher;
 import splitstree4.gui.main.MainViewer;
 
 import javax.swing.*;

@@ -19,7 +19,7 @@
  */
 package splitstree4.algorithms.trees;
 
-import jloda.phylo.PhyloGraphView;
+import jloda.swing.graphview.PhyloGraphView;
 import splitstree4.algorithms.splits.ReticulatedEvolutionOnTrees;
 import splitstree4.analysis.splits.Stats;
 import splitstree4.core.Document;

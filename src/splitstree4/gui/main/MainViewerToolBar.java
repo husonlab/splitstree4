@@ -25,7 +25,7 @@
  */
 package splitstree4.gui.main;
 
-import jloda.util.ProgramProperties;
+import jloda.swing.util.ProgramProperties;
 import jloda.util.PropertiesListListener;
 import splitstree4.gui.Director;
 import splitstree4.main.SplitsTreeProperties;

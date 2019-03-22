@@ -21,8 +21,8 @@ package splitstree4.analysis.network;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import splitstree4.core.Document;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Network;
@@ -30,7 +30,6 @@ import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 
 import java.util.BitSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -69,11 +68,10 @@ public class MidpointRoot implements NetworkAnalysisMethod {
     }
 
 
-    private List findMidpoints(PhyloGraph g, Node v, double travelled, double midway, BitSet toVisit) {
+    private List findMidpoints(PhyloSplitsGraph g, Node v, double travelled, double midway, BitSet toVisit) {
 
         List midpointList = new LinkedList();
-        for (Iterator edgePtr = v.getAdjacentEdges(); edgePtr.hasNext(); ) {
-            Edge e = (Edge) edgePtr.next();
+        for (Edge e : v.adjacentEdges()) {
             int s = g.getSplit(e);
             if (toVisit.get(s)) {
                 Node w = e.getOpposite(v);
@@ -148,7 +146,7 @@ public class MidpointRoot implements NetworkAnalysisMethod {
 
         network.syncNetwork2PhyloGraphView(taxa, splits, graphView);
 
-        PhyloGraph g = graphView.getPhyloGraph();
+        PhyloSplitsGraph g = graphView.getPhyloGraph();
         List midpointEdges = findMidpoints(g, g.getTaxon2Node(max_i), 0.0, maxdist / 2.0, splitsOnPath);
         for (Object midpointEdge : midpointEdges) {
             Edge e = (Edge) midpointEdge;

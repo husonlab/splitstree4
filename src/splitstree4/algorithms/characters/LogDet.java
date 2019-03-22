@@ -22,7 +22,7 @@
 package splitstree4.algorithms.characters;
 
 import Jama.Matrix;
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import jloda.util.CanceledException;
 import splitstree4.analysis.characters.CaptureRecapture;
 import splitstree4.core.Document;

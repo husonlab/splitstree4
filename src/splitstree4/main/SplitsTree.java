@@ -19,9 +19,9 @@
  */
 package splitstree4.main;
 
-import jloda.util.ArgsOptions;
+import jloda.swing.util.ArgsOptions;
+import jloda.swing.util.ProgramProperties;
 import jloda.util.Basic;
-import jloda.util.ProgramProperties;
 import jloda.util.ProgressCmdLine;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
@@ -77,7 +77,7 @@ public class SplitsTree {
 
         final ArgsOptions options = new ArgsOptions(args, this, "Interactive analysis and visualization of phylogenetic data");
         options.setAuthors("Daniel H. Huson and David J. Bryant");
-        options.setLicense("Copyright (C) 2017 Daniel H. Huson and David J. Bryant. This program comes with ABSOLUTELY NO WARRANTY.");
+        options.setLicense("Copyright (C) 2019 Daniel H. Huson and David J. Bryant. This program comes with ABSOLUTELY NO WARRANTY.");
         options.setVersion(ProgramProperties.getProgramVersion());
 
         options.comment("Input:");

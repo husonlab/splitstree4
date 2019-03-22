@@ -19,7 +19,7 @@
  */
 package splitstree4.core;
 
-import jloda.util.ProgramProperties;
+import jloda.swing.util.ProgramProperties;
 import splitstree4.main.SplitsTreeProperties;
 import splitstree4.nexus.Assumptions;
 

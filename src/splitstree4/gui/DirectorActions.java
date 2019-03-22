@@ -29,11 +29,15 @@
  */
 package splitstree4.gui;
 
-import jloda.gui.Message;
-import jloda.gui.director.IDirectorListener;
-import jloda.gui.director.ProjectManager;
-import jloda.gui.message.MessageWindow;
-import jloda.util.*;
+import jloda.swing.director.IDirectorListener;
+import jloda.swing.director.ProjectManager;
+import jloda.swing.message.MessageWindow;
+import jloda.swing.util.Alert;
+import jloda.swing.util.Message;
+import jloda.swing.util.ProgramProperties;
+import jloda.swing.util.ResourceManager;
+import jloda.util.Basic;
+import jloda.util.CanceledException;
 import splitstree4.algorithms.Transformation;
 import splitstree4.core.Document;
 import splitstree4.externalIO.imports.ImportManager;
@@ -64,8 +68,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * Common event actions that are managed by the director

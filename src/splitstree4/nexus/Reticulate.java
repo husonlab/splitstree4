@@ -22,9 +22,9 @@ package splitstree4.nexus;
 import jloda.graph.Edge;
 import jloda.graph.IllegalSelfEdgeException;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
+import jloda.graph.NotOwnerException;
+import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import jloda.util.parse.NexusStreamParser;
 import jloda.util.parse.NexusStreamTokenizer;
 import splitstree4.core.SplitsException;
@@ -89,7 +89,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
     // the roots of  the reticulation networks
     private Node root;
     // the reticulation network, to update the network uptoDate must be false
-    private PhyloGraph reticulationNetwork;
+    private PhyloSplitsGraph reticulationNetwork;
 
     // The ids of the active backbone of each netted Component
     private Vector activeNettedComponentsBackbones;
@@ -841,7 +841,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * @return
      * @throws java.io.IOException
      */
-    public PhyloGraph getReticulateNetwork() throws IOException {
+    public PhyloSplitsGraph getReticulateNetwork() throws IOException {
         if (!uptoDate || reticulationNetwork == null) {
             if (NRootComponents == 0) {
                 reticulationNetwork = null;
@@ -1228,12 +1228,12 @@ public class Reticulate extends NexusBlock implements Cloneable {
     }
 
 
-    private PhyloGraph buildReticulateNetwork(int rootComponent, Vector activeNettedComponentsBackbones, TreeSet activeNettedComponents) throws IOException {
+    private PhyloSplitsGraph buildReticulateNetwork(int rootComponent, Vector activeNettedComponentsBackbones, TreeSet activeNettedComponents) throws IOException {
         // first pasre root component
         String rC = (String) rootComponentsStrings.get(rootComponent);
         HashMap label2Nodes = new HashMap();
         HashSet seen = new HashSet();
-        PhyloGraph pg = new PhyloGraph();
+        PhyloSplitsGraph pg = new PhyloSplitsGraph();
         root = parseBracketNotation(rC, label2Nodes, seen, pg, activeNettedComponentsBackbones, activeNettedComponents);
         Iterator it = pg.nodeIterator();
         if (verbose) {
@@ -1264,7 +1264,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * @param str
      * @throws IOException
      */
-    private Node parseBracketNotation(String str, HashMap label2Node, HashSet workedLabels, PhyloGraph reticulationNetwork, Vector activeNettedComponentsBackbones, TreeSet activeNettedComponents) throws IOException {
+    private Node parseBracketNotation(String str, HashMap label2Node, HashSet workedLabels, PhyloSplitsGraph reticulationNetwork, Vector activeNettedComponentsBackbones, TreeSet activeNettedComponents) throws IOException {
         // we have to read the first node special, its the root and phylograph has no root!!!
         int i = Basic.skipSpaces(str, 0);
         if (str.charAt(i) == '(') {
@@ -1325,7 +1325,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * @return new current position
      * @throws IOException
      */
-    private int parseBracketNotationRecursively(int depth, Node v, int i, String str, HashMap label2Node, HashSet workedLabels, PhyloGraph reticulationNetwork, Vector activeNettedComponentsBackbones, TreeSet activeNettedComponents, HashMap node2internalLabel) throws IOException {
+    private int parseBracketNotationRecursively(int depth, Node v, int i, String str, HashMap label2Node, HashSet workedLabels, PhyloSplitsGraph reticulationNetwork, Vector activeNettedComponentsBackbones, TreeSet activeNettedComponents, HashMap node2internalLabel) throws IOException {
         try {
             for (i = Basic.skipSpaces(str, i); i < str.length(); i = Basic.skipSpaces(str, i + 1)) {
                 Node w = reticulationNetwork.newNode();
@@ -1368,8 +1368,8 @@ public class Reticulate extends NexusBlock implements Cloneable {
                             // we have seen this label before and have now found the subtree
                             Node leaf = (Node) label2Node.get(label);
                             if (leaf.getDegree() == 1) {
-                                Node parent = leaf.getAdjacentNodes().next();
-                                Edge e = reticulationNetwork.newEdge(parent, w);
+                                final Node parent = leaf.adjacentNodes().iterator().next();
+                                final Edge e = reticulationNetwork.newEdge(parent, w);
                                 e.setInfo(parent.getCommonEdge(w).getInfo());
                                 reticulationNetwork.setWeight(e, reticulationNetwork.getWeight(parent.getCommonEdge(w)));
                                 reticulationNetwork.setConfidence(e, reticulationNetwork.getConfidence(parent.getCommonEdge(w)));
@@ -1503,12 +1503,10 @@ public class Reticulate extends NexusBlock implements Cloneable {
      */
 
 
-    private String recMakeNewick(Node start, PhyloGraph reticulationNetwork, HashMap node2rTaxaName, HashMap rTaxaName2subtree, Vector labels, Vector rNodes) throws IOException {
-        StringBuilder subtree = new StringBuilder();
-        Iterator it = start.getAdjacentNodes();
+    private String recMakeNewick(Node start, PhyloSplitsGraph reticulationNetwork, HashMap node2rTaxaName, HashMap rTaxaName2subtree, Vector labels, Vector rNodes) throws IOException {
+        final StringBuilder subtree = new StringBuilder();
         boolean first = true;
-        while (it.hasNext()) {
-            Node next = (Node) it.next();
+        for (Node next : start.adjacentNodes()) {
             Edge e = start.getCommonEdge(next);
             if (e.getSource().equals(start)) {
                 // check for leaf

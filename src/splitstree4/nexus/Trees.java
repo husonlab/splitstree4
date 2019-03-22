@@ -1,4 +1,4 @@
-/**
+/*
  * Trees.java
  * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
  * <p/>
@@ -20,19 +20,12 @@
  * @version $Id: Trees.java,v 1.62 2008-07-10 15:01:00 bryant Exp $
  * @author Daniel Huson and David Bryant
  */
-/**
- * @version $Id: Trees.java,v 1.62 2008-07-10 15:01:00 bryant Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
-
 package splitstree4.nexus;
 
 import jloda.graph.Node;
+import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloTree;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.algorithms.trees.TreeSelector;
 import splitstree4.core.Document;
@@ -45,6 +38,7 @@ import java.util.*;
 
 /**
  * NexusBlock trees class
+ * Daniel Huson, 2002
  */
 public class Trees extends NexusBlock {
     /**
@@ -675,11 +669,11 @@ public class Trees extends NexusBlock {
     public TaxaSet getSupport(Taxa taxa, int which) {
         TaxaSet support = new TaxaSet();
         PhyloTree tree = getTree(which);
-        Set labels = tree.getNodeLabels();
 
-        for (int t = 1; t <= taxa.getNtax(); t++) {
-            if (labels.contains(translate.get(taxa.getLabel(t))))
+        for (Node v : tree.nodes()) {
+            for (Integer t : tree.getTaxa(v)) {
                 support.set(t);
+            }
         }
         return support;
     }

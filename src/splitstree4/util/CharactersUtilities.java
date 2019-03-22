@@ -23,7 +23,7 @@
 
 package splitstree4.util;
 
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;

@@ -21,9 +21,9 @@ package splitstree4.algorithms.distances;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.graphview.NodeView;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.NodeView;
+import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Pair;
 import splitstree4.core.Document;
 import splitstree4.nexus.Distances;
@@ -31,8 +31,8 @@ import splitstree4.nexus.Network;
 import splitstree4.nexus.Taxa;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * minimal spanning network
@@ -57,14 +57,13 @@ public class MinSpanningNetworkForDistances implements Distances2Network {
      */
     public Network apply(Document doc, Taxa taxa, Distances distances) {
         PhyloGraphView graphView = new PhyloGraphView();
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
         // setup nodes
         Node[] taxon2node = new Node[taxa.getNtax() + 1];
         for (int t = 1; t <= taxa.getNtax(); t++) {
             Node v = taxon2node[t] = graph.newNode();
-            graph.setNode2Taxa(v, t);
-            graph.setTaxon2Node(t, v);
+            graph.addTaxon(v, t);
         }
 
         // compute minimum spanning network using algorithm described in Bandelt1999
@@ -151,12 +150,10 @@ public class MinSpanningNetworkForDistances implements Distances2Network {
                         Node w = taxon2node[t];
                         if (w != null && w != v) {
                             if (distances.get(s, t) <= 0) {
-                                java.util.List<Integer> list = graph.getNode2Taxa(w);
-                                if (list != null)
-                                    for (Integer z : list) {
-                                        graph.setNode2Taxa(v, z);
-                                        graph.setTaxon2Node(z, v);
-                                    }
+                                for (Integer z : graph.getTaxa(w)) {
+                                    graph.addTaxon(v, z);
+                                }
+
                                 taxon2node[t] = null;
                                 // find all subdiving nodes for deletion
                                 for (Edge e = w.getFirstAdjacentEdge(); e != null; e = w.getNextAdjacentEdge(e)) {
@@ -180,7 +177,7 @@ public class MinSpanningNetworkForDistances implements Distances2Network {
 
             java.util.List<Node> toDelete = new LinkedList<>();
             for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
-                if (v.getDegree() == 1 && (graph.getNode2Taxa(v) == null || graph.getNode2Taxa(v).size() == 0)) {
+                if (v.getDegree() == 1 && (graph.getTaxa(v) == null || graph.getNumberOfTaxa(v) == 0)) {
                     toDelete.add(v);
                 }
             }
@@ -193,50 +190,49 @@ public class MinSpanningNetworkForDistances implements Distances2Network {
         // add subdivision nodes, if desired
 
         if (getOptionSubdivideEdges()) {
-            java.util.List<Edge> originalEdges = new LinkedList<>();
+            java.util.List<Edge> originalEdges = new ArrayList<>();
             for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
                 originalEdges.add(e);
             }
             for (Edge e : originalEdges) {
                 Node v = e.getSource();
                 Node w = e.getTarget();
-                int s = graph.getNode2Taxa(v).get(0);
-                int t = graph.getNode2Taxa(w).get(0);
-                int dist = (int) (Math.round(distances.get(s, t)));
-                if (dist > 1) {
-                    Node prev = v;
-                    for (int i = 1; i < dist; i++) {
-                        Node u = graph.newNode();
-                        Edge f = graph.newEdge(prev, u);
+                if (graph.getNumberOfTaxa(v) > 0 && graph.getNumberOfTaxa(w) > 0) {
+                    int s = graph.getTaxa(v).iterator().next();
+                    int t = graph.getTaxa(w).iterator().next();
+                    int dist = (int) (Math.round(distances.get(s, t)));
+                    if (dist > 1) {
+                        Node prev = v;
+                        for (int i = 1; i < dist; i++) {
+                            Node u = graph.newNode();
+                            Edge f = graph.newEdge(prev, u);
+                            graph.setWeight(f, 1);
+                            prev = u;
+                        }
+                        Edge f = graph.newEdge(prev, w);
                         graph.setWeight(f, 1);
-                        prev = u;
+                        graph.deleteEdge(e);
                     }
-                    Edge f = graph.newEdge(prev, w);
-                    graph.setWeight(f, 1);
-                    graph.deleteEdge(e);
                 }
             }
         }
 
         // add labels to nodes and set other stuff:
         for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
-            if (graph.getNode2Taxa(v) != null && graph.getNode2Taxa(v).size() > 0) {
+            if (graph.getTaxa(v) != null && graph.getNumberOfTaxa(v) > 0) {
                 StringBuilder buf = new StringBuilder();
-                java.util.List<Integer> list = graph.getNode2Taxa(v);
-                if (list != null) {
-                    boolean first = true;
-                    for (Integer z : list) {
+                boolean first = true;
+                for (Integer t : graph.getTaxa(v)) {
                         if (first)
                             first = false;
                         else
                             buf.append(",");
-                        buf.append(taxa.getLabel(z));
-                    }
+                    buf.append(taxa.getLabel(t));
                 }
                 graphView.setLabel(v, buf.toString());
                 int h = getOptionNodeSize();
-                if (graph.getNode2Taxa(v) != null)
-                    h += getOptionNodeSize() * graph.getNode2Taxa(v).size();
+                if (graph.getTaxa(v) != null)
+                    h += getOptionNodeSize() * graph.getNumberOfTaxa(v);
                 graphView.setHeight(v, h);
                 graphView.setWidth(v, h);
                 graphView.getNV(v).setBackgroundColor(Color.WHITE);

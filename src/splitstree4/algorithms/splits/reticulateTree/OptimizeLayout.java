@@ -20,8 +20,8 @@
 package splitstree4.algorithms.splits.reticulateTree;
 
 import jloda.graph.NodeSet;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Characters;
 import splitstree4.nexus.Splits;
@@ -32,7 +32,7 @@ import splitstree4.nexus.Trees;
 public class OptimizeLayout {
 
 
-    public PhyloGraphView apply(PhyloGraph graph, PhyloGraphView graphView, NodeSet[] nettedComp, TaxaSet[][] inducedTaxa2origTaxa, ReticulationTree[] reticulationList,
+    public PhyloGraphView apply(PhyloSplitsGraph graph, PhyloGraphView graphView, NodeSet[] nettedComp, TaxaSet[][] inducedTaxa2origTaxa, ReticulationTree[] reticulationList,
                                 Taxa taxa, Splits splits, Characters chars, Trees trees, String outgroup, int angle) {
 
         return null;

@@ -96,27 +96,25 @@ public class GascuelGamma implements CharactersAnalysisMethod {
      */
     static private TaxaSet getEdgeSplitsRec(PhyloTree T, Map edgeSplits, Trees trees, Taxa taxa, Node r, Edge e) {
 
-        TaxaSet s;
+        final TaxaSet set;
         if (r.getDegree() == 1) {
-            s = trees.getTaxaForLabel(taxa, T.getLabel(r));
+            set = trees.getTaxaForLabel(taxa, T.getLabel(r));
         } else // degree >=2
         {
-            s = new TaxaSet();
-            Iterator edges = r.getAdjacentEdges();
-            while (edges.hasNext()) {
-                Edge f = (Edge) edges.next();
+            set = new TaxaSet();
+            for (Edge f : r.adjacentEdges()) {
                 if (f == e)
                     continue;
                 Node v = r.getOpposite(f);
                 TaxaSet vset = getEdgeSplitsRec(T, edgeSplits, trees, taxa, v, f);
-                s.or(vset);
+                set.or(vset);
                 if (v != f.getTarget())
                     vset.getComplement(taxa.getNtax());
                 edgeSplits.put(f, vset);
 
             }
         }
-        return s;
+        return set;
     }
 
     static private double averageDist(Distances dist, TaxaSet X, TaxaSet Y) {
@@ -163,21 +161,25 @@ public class GascuelGamma implements CharactersAnalysisMethod {
 
         //Locate the four edges
 
-        Iterator edges = T.getAdjacentEdges(v);
-        a = (Edge) edges.next();
-        if (a == e)
-            a = (Edge) edges.next();
-        b = (Edge) edges.next();
-        if (b == e)
-            b = (Edge) edges.next();
+        {
+            final Iterator<Edge> it = T.adjacentEdges(v).iterator();
+            a = it.next();
+            if (a == e)
+                a = it.next();
+            b = it.next();
+            if (b == e)
+                b = it.next();
+        }
 
-        edges = T.getAdjacentEdges(w);
-        c = (Edge) edges.next();
-        if (c == e)
-            c = (Edge) edges.next();
-        d = (Edge) edges.next();
-        if (d == e)
-            d = (Edge) edges.next();
+        {
+            final Iterator<Edge> it = T.adjacentEdges(w).iterator();
+            c = it.next();
+            if (c == e)
+                c = it.next();
+            d = it.next();
+            if (d == e)
+                d = it.next();
+        }
 
 
         int ntax = dist.getNtax();

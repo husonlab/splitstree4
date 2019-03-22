@@ -20,7 +20,7 @@
 package splitstree4.algorithms.characters;
 
 import jloda.graph.*;
-import jloda.phylo.PhyloGraph;
+import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.CanceledException;
 import jloda.util.ProgressListener;
 import splitstree4.core.Document;
@@ -58,7 +58,7 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
      * @return
      * @throws CanceledException
      */
-    public PhyloGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException {
+    public PhyloSplitsGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException {
 
         Set outputSequences = computeGeodesicPrunedQuasiMedianClosure(progressListener, inputSequences, weights.length);
         return computeOneStepGraph(outputSequences);
@@ -441,8 +441,8 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
      * @param sequences
      * @return one-step graph
      */
-    public PhyloGraph computeOneStepGraph(Set sequences) {
-        PhyloGraph graph = new PhyloGraph();
+    public PhyloSplitsGraph computeOneStepGraph(Set sequences) {
+        PhyloSplitsGraph graph = new PhyloSplitsGraph();
         for (Object sequence : sequences) {
             String seq = (String) sequence;
             Node v = graph.newNode();

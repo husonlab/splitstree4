@@ -19,8 +19,8 @@
  */
 package splitstree4.gui.algorithms;
 
+import jloda.swing.util.ProgramProperties;
 import jloda.util.Basic;
-import jloda.util.ProgramProperties;
 import splitstree4.algorithms.Transformation;
 import splitstree4.algorithms.util.Configurator;
 import splitstree4.core.Document;
