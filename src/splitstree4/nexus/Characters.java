@@ -563,7 +563,6 @@ public class Characters extends NexusBlock {
             }
         }
 
-
         /**
          * Constructor
          */

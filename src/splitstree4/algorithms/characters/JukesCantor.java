@@ -94,8 +94,7 @@ public class JukesCantor extends DNAdistance {
      * @param characters the input characters
      * @return the computed distances Object
      */
-    protected Distances computeDist(Document doc, Characters characters)
-            throws CanceledException, SplitsException {
+    protected Distances computeDist(Document doc, Characters characters) throws CanceledException, SplitsException {
 
         if (doc != null) {
             doc.notifySubtask("Jukes-Cantor Distance");
@@ -106,9 +105,7 @@ public class JukesCantor extends DNAdistance {
         model.setPinv(getOptionPInvar());
         model.setGamma(getOptionGamma());
 
-
         return fillDistanceMatrix(doc, characters, model);
-
     }
 
 }//EOF
