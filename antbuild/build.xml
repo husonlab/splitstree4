@@ -38,7 +38,7 @@
     <!-- copy sources -->
     <target name="copy_sources" depends="copy_resources">
         <copy todir="${srcDir}">
-            <fileset dir="${jlodaSrcDir}" excludes="com/** resources/**"/>
+            <fileset dir="${jlodaSrcDir}" excludes="com/**"/>
             <fileset dir="${splitsTreeSrcDir}"/>
         </copy>
     </target>
@@ -49,8 +49,8 @@
                srcdir="${srcDir}"
                destdir="${classDir}"
                debug="on"
-               source="1.7"
-               target="1.7"
+               source="1.8"
+               target="1.8"
                classpathref="build.classpath">
             <compilerarg value="-XDignore.symbol.file=true"/>
         </javac>
