@@ -20,8 +20,8 @@
 package splitstree4.main;
 
 import jloda.swing.util.ArgsOptions;
-import jloda.swing.util.ProgramProperties;
 import jloda.util.Basic;
+import jloda.util.ProgramProperties;
 import jloda.util.ProgressCmdLine;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;

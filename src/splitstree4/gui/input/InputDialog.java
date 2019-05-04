@@ -19,7 +19,7 @@
  */
 package splitstree4.gui.input;
 
-import jloda.swing.util.ProgramProperties;
+import jloda.util.ProgramProperties;
 import splitstree4.gui.main.MainViewer;
 import splitstree4.gui.main.TextEditor;
 

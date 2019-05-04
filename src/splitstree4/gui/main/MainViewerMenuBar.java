@@ -33,6 +33,7 @@ import com.install4j.api.update.UpdateDescriptorEntry;
 import jloda.swing.director.ProjectManager;
 import jloda.swing.util.*;
 import jloda.util.Basic;
+import jloda.util.ProgramProperties;
 import jloda.util.PropertiesListListener;
 import splitstree4.algorithms.characters.*;
 import splitstree4.algorithms.distances.*;

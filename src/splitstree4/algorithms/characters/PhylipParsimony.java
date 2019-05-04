@@ -20,7 +20,7 @@
 package splitstree4.algorithms.characters;
 
 import jloda.swing.util.Alert;
-import jloda.swing.util.ProgramProperties;
+import jloda.util.ProgramProperties;
 import jloda.util.StreamGobbler;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.core.Document;

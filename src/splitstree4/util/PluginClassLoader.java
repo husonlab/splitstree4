@@ -26,8 +26,8 @@ package splitstree4.util;
  */
 
 import jloda.swing.graphview.Transform;
-import jloda.swing.util.ProgramProperties;
 import jloda.util.Basic;
+import jloda.util.ProgramProperties;
 import jloda.util.ResourceUtils;
 import splitstree4.algorithms.util.Configurator;
 import splitstree4.main.SplitsTreeProperties;
