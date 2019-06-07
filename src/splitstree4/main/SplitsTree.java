@@ -20,6 +20,7 @@
 package splitstree4.main;
 
 import jloda.swing.util.ArgsOptions;
+import jloda.swing.util.ResourceManager;
 import jloda.util.Basic;
 import jloda.util.ProgramProperties;
 import jloda.util.ProgressCmdLine;
@@ -69,6 +70,7 @@ public class SplitsTree {
      * @throws java.lang.Exception
      */
     public void parseArguments(String[] args) throws Exception {
+        ResourceManager.addResourceRoot(SplitsTree.class, "splitstree4.resources");
         Basic.startCollectionStdErr();
 
         ProgramProperties.setProgramName(Version.NAME);
@@ -97,7 +99,6 @@ public class SplitsTree {
         else
             defaultPreferenceFile = System.getProperty("user.home") + File.separator + ".SplitsTree.def";
         final String propertiesFile = options.getOption("-p", "propertiesFile", "Properties file", defaultPreferenceFile);
-        final boolean showVersion = options.getOption("-V", "version", "Show version string", false);
         final boolean silentMode = options.getOption("-S", "silentMode", "Silent mode", false);
         Basic.setDebugMode(options.getOption("-d", "debug", "Debug mode", false));
         final boolean showSplash = !options.getOption("-s", "hideSplash", "Hide startup splash screen", false);
@@ -109,10 +110,8 @@ public class SplitsTree {
             Basic.hideSystemErr();
             Basic.hideSystemOut();
         }
-        if (showVersion) {
-            System.err.println(SplitsTreeProperties.getVersion());
-            System.err.println("Java version: " + System.getProperty("java.version"));
-        }
+        System.err.println("Java version: " + System.getProperty("java.version"));
+
 
         if (ProgramProperties.isUseGUI())  // run in GUI mode
         {

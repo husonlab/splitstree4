@@ -40,7 +40,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * DESCRIPTION
+ * Recomb 2005 alogirthm
  *
  * @author huson
  *         Date: 17-Sep-2004
@@ -50,8 +50,7 @@ public class AlgorithmRECOMB2005 {
     final static int CONTAINED = 1;
     final static int COMPLETE = 2;
 
-    public boolean apply(Taxa taxa, Splits splits, int outGroupId, Reticulation result,
-                         int which) throws Exception {
+    public boolean apply(Taxa taxa, Splits splits, int outGroupId, Reticulation result, int which) throws Exception {
 
         System.err.println("# Running AlgorithmRECOMB2005:");
         List endPairs;

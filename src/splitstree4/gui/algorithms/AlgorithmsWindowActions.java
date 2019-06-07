@@ -294,7 +294,7 @@ public class
 
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
 
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Undo16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Undo16.gif"));
 
         all.add(action);
         return undo = action;

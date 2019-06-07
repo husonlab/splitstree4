@@ -63,16 +63,16 @@ public class AlgorithmsWindowMenuBar extends JMenuBar {
         menu.addSeparator();
         JMenuItem menuItem = new JMenuItem(dir.getActions().getCut());
         menuItem.setText("Cut");
-        menuItem.setIcon(ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Cut16.gif"));
+        menuItem.setIcon(ResourceManager.getIcon("sun/Cut16.gif"));
 
         menu.add(menuItem);
         menuItem = new JMenuItem(dir.getActions().getCopy());
-        menuItem.setIcon(ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Copy16.gif"));
+        menuItem.setIcon(ResourceManager.getIcon("sun/Copy16.gif"));
 
         menuItem.setText("Copy");
         menu.add(menuItem);
         menuItem = new JMenuItem(dir.getActions().getPaste());
-        menuItem.setIcon(ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Paste16.gif"));
+        menuItem.setIcon(ResourceManager.getIcon("sun/Paste16.gif"));
         menuItem.setText("Paste");
         menu.add(menuItem);
         menu.addSeparator();

@@ -1362,7 +1362,7 @@ public class PreferencesWindow implements IDirectableViewer {
             Icon i = null;
             if (a != null)
                 i = (Icon) a.getValue(Action.SMALL_ICON);
-            if (i == null) i = ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Help16.gif");
+            if (i == null) i = ResourceManager.getIcon("sun/Help16.gif");
             setText(s);
             setIcon(i);
             if (isSelected) {

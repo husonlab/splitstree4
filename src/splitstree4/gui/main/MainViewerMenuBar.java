@@ -1,4 +1,4 @@
-/**
+/*
  * MainViewerMenuBar.java 
  * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
  *
@@ -17,11 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-/**
- * The menu bar for the main viewer
- * @author huson
- * 11.03
- */
+
 package splitstree4.gui.main;
 
 
@@ -56,9 +52,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
  * The menu bar for the main viewer
+ * @author huson
+ * 11.03
  */
 public class MainViewerMenuBar extends JMenuBar {
     private Director dir;
@@ -157,8 +154,8 @@ public class MainViewerMenuBar extends JMenuBar {
         if (!ProgramProperties.isMacOS()) {
             menu.addSeparator();
             menu.add(dir.getActions().getQuit());
-        } else if (!AppleStuff.getInstance().isQuitDefined()) {
-            AppleStuff.getInstance().setQuitAction(dir.getActions().getQuit());
+        } else {
+            AppleSystemMenuItems.setQuitAction(dir.getActions().getQuit());
         }
         return fileMenu = menu;
     }
@@ -364,7 +361,7 @@ public class MainViewerMenuBar extends JMenuBar {
         if (recentFilesMenu != null)
             return recentFilesMenu;
         JMenu menu = new JMenu("Open Recent");
-        menu.setIcon(ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Open16.gif"));
+        menu.setIcon(ResourceManager.getIcon("sun/Open16.gif"));
 
         recentFilesListener = new PropertiesListListener() {
             public boolean isInterested(String name) {
@@ -846,8 +843,7 @@ public class MainViewerMenuBar extends JMenuBar {
         JMenu menu = new JMenu(dir.getActions().getMenuTitleAction("Help", 'H'));
 
         if (ProgramProperties.isMacOS()) {
-            if (!AppleStuff.getInstance().isAboutDefined())
-                AppleStuff.getInstance().setAboutAction(dir.getActions().getAboutWindow());
+            AppleSystemMenuItems.setAboutAction(dir.getActions().getAboutWindow());
         } else {
             menu.add(dir.getActions().getAboutWindow());
             menu.addSeparator();
@@ -859,7 +855,7 @@ public class MainViewerMenuBar extends JMenuBar {
 
         JMenu subMenu = new JMenu("Nexus Syntax");
         subMenu.setMnemonic('N');
-        subMenu.setIcon(ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Help16.gif"));
+        subMenu.setIcon(ResourceManager.getIcon("sun/Help16.gif"));
 
         Iterator it = Document.getListOfBlockNames().iterator();
         ArrayList<Integer> mnemonics = new ArrayList<>();
@@ -896,7 +892,7 @@ public class MainViewerMenuBar extends JMenuBar {
                 }
             }
         });
-        webSite.setIcon(ResourceManager.getIcon("sun/toolbarButtonGraphics/development/WebComponent16.gif"));
+        webSite.setIcon(ResourceManager.getIcon("sun/WebComponent16.gif"));
         menu.add(webSite);
 
         JMenuItem ref = new JMenuItem(new AbstractAction("Reference Manual...") {
@@ -909,7 +905,7 @@ public class MainViewerMenuBar extends JMenuBar {
                 }
             }
         });
-        ref.setIcon(ResourceManager.getIcon("sun/toolbarButtonGraphics/development/WebComponent16.gif"));
+        ref.setIcon(ResourceManager.getIcon("sun/WebComponent16.gif"));
         menu.add(ref);
 
         menu.addSeparator();
@@ -928,18 +924,18 @@ public class MainViewerMenuBar extends JMenuBar {
                     updateDescriptor = UpdateChecker.getUpdateDescriptor("http://www-ab.informatik.uni-tuebingen.de/data/software/splitstree4/download/updates.xml", applicationDisplayMode);
                 } catch (Exception ex) {
                     Basic.caught(ex);
-                    new Alert(mainViewer.getFrame(), "Installed version is up-to-date");
+                    new InfoMessage(mainViewer.getFrame(), "Installed version is up-to-date");
                     return;
                 }
                 if (updateDescriptor.getEntries().length > 0) {
                     if (!ProgramProperties.isUseGUI()) {
                         UpdateDescriptorEntry entry = updateDescriptor.getEntries()[0];
-                        new Alert(mainViewer.getFrame(), "New version available: " + entry.getNewVersion()
+                        new InfoMessage(mainViewer.getFrame(), "New version available: " + entry.getNewVersion()
                                 + "\nPlease download from: http://www-ab.informatik.uni-tuebingen.de/data/software/splitstree4/download/");
                         return;
                     }
                 } else {
-                    new Alert(mainViewer.getFrame(), "Installed version is up-to-date");
+                    new InfoMessage(mainViewer.getFrame(), "Installed version is up-to-date");
                     return;
                 }
 

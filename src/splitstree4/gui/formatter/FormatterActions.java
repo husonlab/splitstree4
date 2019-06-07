@@ -640,7 +640,7 @@ public class FormatterActions {
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() /*| ActionEvent.SHIFT_MASK*/));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Cut");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Cut16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Cut16.gif"));
         action.putValue(CRITICAL, Boolean.TRUE);
         all.add(action);
         return cut = action;
@@ -664,7 +664,7 @@ public class FormatterActions {
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() /*| ActionEvent.SHIFT_MASK*/));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Copy graph to clipboard");
         action.putValue(CRITICAL, Boolean.TRUE);
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Copy16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Copy16.gif"));
         all.add(action);
         return copy = action;
     }
@@ -687,7 +687,7 @@ public class FormatterActions {
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Paste");
         action.putValue(CRITICAL, Boolean.TRUE);
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Paste16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Paste16.gif"));
         all.add(action);
         return paste = action;
     }

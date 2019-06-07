@@ -219,7 +219,7 @@ public class DirectorActions implements IDirectorListener {
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Open a new empty document");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/New16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/New16.gif"));
 
         all.add(action);
         return newProject = action;
@@ -345,7 +345,7 @@ public class DirectorActions implements IDirectorListener {
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('O'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Open an input file");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Open16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Open16.gif"));
 
         all.add(action);
 
@@ -394,7 +394,7 @@ public class DirectorActions implements IDirectorListener {
         action.putValue(AbstractAction.NAME, fName);
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Open recent file: " + fName);
 
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Open16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Open16.gif"));
 
         all.add(action);
 
@@ -430,7 +430,7 @@ public class DirectorActions implements IDirectorListener {
         action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('X'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Export data in other format");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Export16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Export16.gif"));
 
         all.add(action);
 
@@ -490,7 +490,7 @@ public class DirectorActions implements IDirectorListener {
         action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('Q'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Quit the program");
 
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Stop16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Stop16.gif"));
 
         // not critical!
         all.add(action);
@@ -551,7 +551,7 @@ public class DirectorActions implements IDirectorListener {
 
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
 
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Undo16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Undo16.gif"));
 
         //all.add(action);
         return undo = action;
@@ -599,7 +599,7 @@ public class DirectorActions implements IDirectorListener {
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | InputEvent.SHIFT_MASK));
         // quit.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("quit"));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Redo");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Redo16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Redo16.gif"));
 
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
         //all.add(action);
@@ -633,7 +633,7 @@ public class DirectorActions implements IDirectorListener {
 
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
 
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Cut16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Cut16.gif"));
 
         all.add(action);
         return cut = action;
@@ -660,7 +660,7 @@ public class DirectorActions implements IDirectorListener {
         action.putValue(Action.SHORT_DESCRIPTION, "Copy");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
 
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Copy16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Copy16.gif"));
 
         all.add(action);
         return copy = action;
@@ -686,7 +686,7 @@ public class DirectorActions implements IDirectorListener {
         action.putValue(Action.SHORT_DESCRIPTION, "Paste");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
 
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Paste16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Paste16.gif"));
 
         all.add(action);
         return paste = action;
@@ -772,7 +772,7 @@ public class DirectorActions implements IDirectorListener {
         };
         action.putValue(AbstractAction.NAME, "About...");
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "About SplitsTree and the authors");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/About16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/About16.gif"));
 
         all.add(action);
         return aboutWindow = action;
@@ -801,7 +801,7 @@ public class DirectorActions implements IDirectorListener {
         action.putValue(AbstractAction.NAME, "Command Syntax...");
         action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('C'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Show all command-line commands");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Help16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Help16.gif"));
 
         all.add(action);
         return commandHelp = action;
@@ -839,7 +839,7 @@ public class DirectorActions implements IDirectorListener {
         action.putValue(AbstractAction.NAME, "Message Window...");
         action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('M'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Open the message window");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/History16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/History16.gif"));
 
         all.add(action);
         return messageAction = action;
@@ -899,7 +899,7 @@ public class DirectorActions implements IDirectorListener {
         };
         action.putValue(AbstractAction.NAME, "Preferences...");
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Configure various preferences");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Preferences16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Preferences16.gif"));
         all.add(action);
         return preferences = action;
     }
@@ -1031,7 +1031,7 @@ public class DirectorActions implements IDirectorListener {
             }
         };
         action.putValue(AbstractAction.NAME, "How to Cite...");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Help16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Help16.gif"));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "How to cite SplitsTree4");
 
         all.add(action);
@@ -1103,7 +1103,7 @@ public class DirectorActions implements IDirectorListener {
     };
     action.putValue(AbstractAction.NAME, "Plugin Manager...");
     action.putValue(AbstractAction.SHORT_DESCRIPTION, "Open the plugin manager");
-    action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Preferences16.gif"));
+    action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Preferences16.gif"));
 
     all.add(action);
     return pluginManagerAction = action;
