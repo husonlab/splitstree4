@@ -82,7 +82,7 @@ public class ImportManager {
                             && !Modifier.isAbstract(c.getModifiers())
                             && Importer.class.isAssignableFrom(c)
                             && FileFilter.class.isAssignableFrom(c)) {
-                        Importer im = (Importer) c.newInstance();
+                        Importer im = (Importer) c.getConstructor().newInstance();
                         filters.add(im);
                     }
                 } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class ImportManager {
                             && !Modifier.isAbstract(c.getModifiers())
                             && Importer.class.isAssignableFrom(c)
                             && FileFilter.class.isAssignableFrom(c)) {
-                        Importer im = (Importer) c.newInstance();
+                        Importer im = (Importer) c.getConstructor().newInstance();
                         if (im.isApplicableToBlock(blockName))
                             filters.add(im);
                     }
@@ -173,7 +173,7 @@ public class ImportManager {
                             && !Modifier.isAbstract(c.getModifiers())
                             && Importer.class.isAssignableFrom(c)
                             && FileFilter.class.isAssignableFrom(c)) {
-                        Importer importer = (Importer) c.newInstance();
+                        Importer importer = (Importer) c.getConstructor().newInstance();
                         if (dataType != null)
                             importer.setDatatype(dataType);
                         FileReader r = new FileReader(file);
@@ -236,7 +236,7 @@ public class ImportManager {
                             && !Modifier.isAbstract(c.getModifiers())
                             && Importer.class.isAssignableFrom(c)
                             && FileFilter.class.isAssignableFrom(c)) {
-                        Importer importer = (Importer) c.newInstance();
+                        Importer importer = (Importer) c.getConstructor().newInstance();
                         if (dataType != null)
                             importer.setDatatype(dataType);
                         StringReader r = new StringReader(source);

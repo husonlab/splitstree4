@@ -1184,7 +1184,7 @@ public class Assumptions extends NexusBlock {
                 }
             } else
                 theClass = Class.forName(unalignTransform);
-            trans = (UnalignedTransform) (theClass.newInstance());
+            trans = (UnalignedTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
             System.err.println("Class not found: " + unalignTransform);
             unalignTransform = "Noalign";
@@ -1224,7 +1224,7 @@ public class Assumptions extends NexusBlock {
                 }
             } else
                 theClass = Class.forName(charTransform);
-            trans = (CharactersTransform) (theClass.newInstance());
+            trans = (CharactersTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
             System.err.println("Class not found: " + charTransform);
             charTransform = Basic.getShortName(Uncorrected_P.class);
@@ -1266,7 +1266,7 @@ public class Assumptions extends NexusBlock {
                 }
             } else
                 theClass = Class.forName(distTransform);
-            trans = (DistancesTransform) (theClass.newInstance());
+            trans = (DistancesTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
             System.err.println("Class not found: " + distTransform);
             distTransform = "NeighborNet";
@@ -1305,7 +1305,7 @@ public class Assumptions extends NexusBlock {
                 }
             } else
                 theClass = Class.forName(quartetsTransform);
-            trans = (QuartetsTransform) (theClass.newInstance());
+            trans = (QuartetsTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
             System.err.println("Class not found: " + quartetsTransform);
             quartetsTransform = "Coalescent";
@@ -1345,7 +1345,7 @@ public class Assumptions extends NexusBlock {
                 }
             } else
                 theClass = Class.forName(splitsTransform);
-            trans = (SplitsTransform) (theClass.newInstance());
+            trans = (SplitsTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
             System.err.println("Class not found: " + splitsTransform);
             splitsTransform = Basic.getShortName(EqualAngle.class);
@@ -1385,7 +1385,7 @@ public class Assumptions extends NexusBlock {
                 }
             } else
                 theClass = Class.forName(treesTransform);
-            trans = (TreesTransform) (theClass.newInstance());
+            trans = (TreesTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
             System.err.println("Class not found: " + treesTransform);
             treesTransform = "TreeSelector";
@@ -1419,7 +1419,7 @@ public class Assumptions extends NexusBlock {
                 theClass = Class.forName(prefix + reticulateTransform);
             else
                 theClass = Class.forName(reticulateTransform);
-            trans = (ReticulateTransform) (theClass.newInstance());
+            trans = (ReticulateTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
             System.err.println("Class not found: " + reticulateTransform);
             reticulateTransform = Basic.getShortName(ReticulateEqualAngle.class);

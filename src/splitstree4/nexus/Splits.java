@@ -869,7 +869,7 @@ public class Splits extends NexusBlock implements Cloneable {
             TaxaSet ts = new TaxaSet();
 
             while (!np.peekMatchIgnoreCase(",")) {
-                Integer t = new Integer(np.getWordRespectCase());
+                int t = Integer.parseInt(np.getWordRespectCase());
                 ts.set(t);
 
             }

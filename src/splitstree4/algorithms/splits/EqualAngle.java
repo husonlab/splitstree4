@@ -109,7 +109,7 @@ public class EqualAngle implements Splits2Network {
         //All selected edges and their "split-associated" edges won't move.
         EdgeSet selected = currentGraphView.getSelectedEdges();
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
-            //System.out.println(graph.getSplit(e) + " " + new Integer(graph.getSplit(e)));
+            //System.out.println(graph.getSplit(e) + " " + (int)(graph.getSplit(e)));
             if (!forbiddenSplits.contains(graph.getSplit(e)) && (selected.contains(e))) {
                 double oldAngle = Geometry.computeAngle(new Point2D.Double(phyloGraphView.getLocation(e.getTarget()).getX() - phyloGraphView.getLocation(e.getSource()).getX(), phyloGraphView.getLocation(e.getTarget()).getY() - phyloGraphView.getLocation(e.getSource()).getY()));
                 forbiddenSplits.add(graph.getSplit(e));
@@ -168,7 +168,7 @@ public class EqualAngle implements Splits2Network {
         HashMap edgeAngles= new HashMap();
         for(Edge e=graph.getFirstEdge();e!=null;e=e.getNext())
         {
-            if (forbiddenSplits.contains(new Integer(graph.getSplit(e)))){
+            if (forbiddenSplits.contains((int)(graph.getSplit(e)))){
                 edgeAngles.put(e,new Double(graph.getAngle(e)));
             }
         }
@@ -225,8 +225,8 @@ public class EqualAngle implements Splits2Network {
         //Load the values saved for the splitangle
         for(Edge e=graph.getFirstEdge();e!=null;e=e.getNext())
         {
-            if (splitAngles.containsKey(new Integer(graph.getSplit(e)))){
-                graph.setAngle(e,((Double) splitAngles.get(new Integer(graph.getSplit(e)))).doubleValue());
+            if (splitAngles.containsKey((int)(graph.getSplit(e)))){
+                graph.setAngle(e,((Double) splitAngles.get((int)(graph.getSplit(e)))).doubleValue());
             }
         }
         */
@@ -729,7 +729,7 @@ public class EqualAngle implements Splits2Network {
         Iterator it = graph.edgeIterator();
         while (it.hasNext()) {
             Edge e = (Edge) it.next();
-            if (!forbiddenSplits.contains(new Integer(graph.getSplit(e)))) {
+            if (!forbiddenSplits.contains((int) (graph.getSplit(e)))) {
                 graph.setAngle(e, split2angle[graph.getSplit(e)]);
             }
         }
@@ -947,7 +947,7 @@ public class EqualAngle implements Splits2Network {
             double totalSize = 0;
             for (Object aSplitsSet : SplitsSet) {
                 int CurrentSplit = (Integer) aSplitsSet;
-                currentEdges = (List) EdgeSplits.get(new Integer(CurrentSplit));
+                currentEdges = (List) EdgeSplits.get((int) (CurrentSplit));
                 totalSize += maximizeArea(currentEdges, graph, graph.getAngle((Edge) currentEdges.get(0)), graph.getAngle((Edge) currentEdges.get(0))).getFirstDouble();
             }
 

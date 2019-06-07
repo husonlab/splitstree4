@@ -615,7 +615,7 @@ public class MainViewerActions {
         };
         action.putValue(AbstractAction.NAME, "Zoom In");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Zoom in to graph");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/ZoomIn16.gif"));
@@ -644,7 +644,7 @@ public class MainViewerActions {
         };
         action.putValue(AbstractAction.NAME, "Zoom Out");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Zoom out to graph");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/ZoomOut16.gif"));
@@ -846,7 +846,7 @@ public class MainViewerActions {
         };
         action.putValue(AbstractAction.NAME, "Rotate Left");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Rotate graph left");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("RotateLeft16.gif"));
@@ -878,7 +878,7 @@ public class MainViewerActions {
         };
         action.putValue(AbstractAction.NAME, "Rotate Right");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_R,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         // quit.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("quit"));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Rotate graph right");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
@@ -908,7 +908,7 @@ public class MainViewerActions {
         };
         action.putValue(AbstractAction.NAME, "Flip Up-Down");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_U,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Flip graph vertically");
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("Empty16.gif"));
         all.add(action);
@@ -935,7 +935,7 @@ public class MainViewerActions {
         };
         action.putValue(AbstractAction.NAME, "Flip");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Flip the graph");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("FlipHorizontally16.gif"));
@@ -1408,7 +1408,7 @@ public class MainViewerActions {
 
         action.putValue(AbstractAction.NAME, "Redo");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Redo");
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Redo16.gif"));
         action.putValue(DirectorActions.CRITICAL, true);
@@ -2780,7 +2780,7 @@ public class MainViewerActions {
                     TreesTransform treesTransform = assumptions.getTreesTransform();
                     if (treesTransform instanceof TreeSelector) {
                         int which;
-                        if (event != null && (event.getModifiers() & KeyEvent.SHIFT_MASK) != 0) {
+                        if (event != null && (event.getModifiers() & KeyEvent.SHIFT_DOWN_MASK) != 0) {
                             which = 1;
                         } else {
                             TreeSelector selector = (TreeSelector) treesTransform;
@@ -2828,7 +2828,7 @@ public class MainViewerActions {
                     TreesTransform treesTransform = assumptions.getTreesTransform();
                     if (treesTransform instanceof TreeSelector) {
                         int which;
-                        if (event != null && (event.getModifiers() & KeyEvent.SHIFT_MASK) != 0) {
+                        if (event != null && (event.getModifiers() & KeyEvent.SHIFT_DOWN_MASK) != 0) {
                             which = doc.getTrees().getNtrees();
                         } else {
                             TreeSelector selector = (TreeSelector) treesTransform;
@@ -3051,7 +3051,7 @@ public class MainViewerActions {
         };
         action.putValue(AbstractAction.NAME, "Configure Pipeline...");
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Choose and configure all methods in processing pipeline");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('C'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('C'));
 
         all.add(action);
         return configureAllMethods = action;
@@ -3190,7 +3190,7 @@ public class MainViewerActions {
         };
         action.putValue(AbstractAction.NAME, name);
         action.putValue(AbstractAction.SHORT_DESCRIPTION, name + " menu");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer(mnemonicKey));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) (mnemonicKey));
 
 
         menuTitleActionsSourceTab.put(name, action);
@@ -3214,7 +3214,7 @@ public class MainViewerActions {
         };
         action.putValue(AbstractAction.NAME, name);
         action.putValue(AbstractAction.SHORT_DESCRIPTION, name + " menu");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer(mnemonicKey));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) (mnemonicKey));
         action.putValue(DirectorActions.CRITICAL, true);
 
         menuTitleActionsDataTab.put(name, action);
@@ -3657,7 +3657,7 @@ public class MainViewerActions {
         action.putValue(AbstractAction.NAME, "Deselect All");
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Deselect all nodes and edges");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("Empty16.gif"));
         action.putValue(DirectorActions.CRITICAL, true);
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
@@ -3708,7 +3708,7 @@ public class MainViewerActions {
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Deselect all edges");
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("Empty16.gif"));
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         action.putValue(DEPENDS_ON_EDGESELECTION, true);
         action.putValue(DirectorActions.CRITICAL, true);
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
@@ -3863,7 +3863,7 @@ public class MainViewerActions {
         action.putValue(AbstractAction.NAME, "Enter Data...");
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Open dialog for entering data");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         action.putValue(DirectorActions.CRITICAL, true);
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Import16.gif"));
         all.add(action);

@@ -280,7 +280,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
                 w.write("\t" + col);
             w.write("\n");
             for (int row = 0; row < splitMatrix.getNblocks(); row++) {
-                w.write((new Integer(row + 1)).toString());
+                w.write("" + (row + 1));
                 for (int col = 1; col <= splitMatrix.getNsplits(); col++) {
                     w.write("\t" + dec.format(splitMatrix.get(col, row)));
                 }

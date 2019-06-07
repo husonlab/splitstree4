@@ -348,7 +348,7 @@ public class AlgorithmsTab extends JPanel {
                             try {
                                 String str = ((JTextField) getValue(TEXT_FIELD)).getText();
                                 Object[] params = new Object[1];
-                                params[0] = new Character(str.length() == 0 ? ' ' : str.charAt(0));
+                                params[0] = (char) (str.length() == 0 ? ' ' : str.charAt(0));
                                 method.invoke(transform, params);
                             } catch (Exception ex) {
                                 System.err.println("Method invoke failed 3: " + ex);
@@ -378,7 +378,7 @@ public class AlgorithmsTab extends JPanel {
                             Method method = (Method) getValue(OPT_SETTER);
                             try {
                                 Object[] params = new Object[1];
-                                params[0] = new Boolean(((JCheckBox) getValue(CHECK_BOX)).isSelected());
+                                params[0] = (boolean) (((JCheckBox) getValue(CHECK_BOX)).isSelected());
                                 method.invoke(transform, params);
                             } catch (Exception ex) {
                                 System.err.println("Method invoke failed 4: " + ex);
@@ -409,7 +409,7 @@ public class AlgorithmsTab extends JPanel {
                             try {
                                 String str = ((JTextField) getValue(TEXT_FIELD)).getText();
                                 Object[] params = new Object[1];
-                                params[0] = new Integer(str);
+                                params[0] = Integer.valueOf(str);
                                 method.invoke(transform, params);
                             } catch (Exception ex) {
                                 System.err.println("Method invoke failed 5: " + ex);
@@ -441,9 +441,9 @@ public class AlgorithmsTab extends JPanel {
                                 String str = ((JTextField) getValue(TEXT_FIELD)).getText();
                                 Object[] params = new Object[1];
                                 try {
-                                    params[0] = new Double(str);
+                                    params[0] = Double.parseDouble(str);
                                 } catch (NumberFormatException ex1) {
-                                    params[0] = new Double(0.0);
+                                    params[0] = 0;
                                     throw ex1;
                                 }
                                 method.invoke(transform, params);
@@ -472,7 +472,7 @@ public class AlgorithmsTab extends JPanel {
                     int n = vals.length;
                     SheetCell[][] cells = new SheetCell[1][n];
                     for (int i = 0; i < n; i++) {
-                        cells[0][i] = new SheetCell(0, i, new Double(vals[i]));
+                        cells[0][i] = new SheetCell(0, i, vals[i]);
                     }
                     SpreadSheet sp = new SpreadSheet(cells, cells.length, cells[0].length, null, null);
 

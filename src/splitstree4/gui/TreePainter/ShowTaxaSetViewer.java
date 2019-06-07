@@ -612,7 +612,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
         int[] taxaInCyclicOrder = getCycle();
 
         for (int aTaxaInCyclicOrder : taxaInCyclicOrder) {
-            if (helpVector.contains(new Integer(aTaxaInCyclicOrder))) {
+            if (helpVector.contains((int) (aTaxaInCyclicOrder))) {
                 nodes.add(0, aTaxaInCyclicOrder);    //turn around, to be mathematical positive
             }
         }
