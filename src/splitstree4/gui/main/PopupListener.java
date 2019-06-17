@@ -22,7 +22,7 @@ package splitstree4.gui.main;
 
 import jloda.graph.EdgeSet;
 import jloda.graph.NodeSet;
-import jloda.graphview.IPopupListener;
+import jloda.swing.graphview.IPopupListener;
 import splitstree4.core.Document;
 import splitstree4.gui.DirectorActions;
 

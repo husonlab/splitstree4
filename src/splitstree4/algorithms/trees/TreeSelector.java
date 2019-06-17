@@ -30,9 +30,9 @@ package splitstree4.algorithms.trees;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
+import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloTree;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
 import splitstree4.core.TaxaSet;
@@ -45,7 +45,6 @@ import splitstree4.util.TreesUtilities;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.Iterator;
 
 /**
  * Obtains splits from a selected tree
@@ -177,10 +176,7 @@ public class TreeSelector implements Trees2Splits {
         PhyloTree tree = trees.getTree(which);
         TaxaSet e_taxa = trees.getTaxaForLabel(taxa, tree.getLabel(v));
 
-        Iterator edges = tree.getAdjacentEdges(v);
-        while (edges.hasNext()) {
-            Edge f = (Edge) edges.next();
-
+        for (Edge f : v.adjacentEdges()) {
             if (f != e) {
                 TaxaSet f_taxa = tree2splitsRec(tree.getOpposite(v, f), f, trees,
                         taxa, splits);

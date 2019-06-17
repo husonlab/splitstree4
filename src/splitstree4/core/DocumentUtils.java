@@ -19,7 +19,7 @@
  */
 package splitstree4.core;
 
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import splitstree4.externalIO.exports.NewickTree;
 import splitstree4.externalIO.imports.ImportManager;

@@ -19,19 +19,14 @@
  */
 package splitstree4.util;
 
-import jloda.graph.Edge;
-import jloda.graph.Graph;
-import jloda.graph.Node;
-import jloda.graph.NodeSet;
+import jloda.graph.*;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
-import jloda.util.NotOwnerException;
 import jloda.util.Pair;
 import splitstree4.core.Document;
 import splitstree4.nexus.Splits;
 
 import java.util.BitSet;
-import java.util.Iterator;
 
 
 /**
@@ -247,9 +242,7 @@ public class DFilter {
         while (!active.isEmpty()) {
             Node v = active.getFirstElement();
             if (graph.getDegree(v) < maxDegree || (maxDegree <= maxDegreeHeuristicThreshold && hasDegreeDButNotInClique(maxDegree + 1, graph, v))) {
-                Iterator it = graph.getAdjacentNodes(v);
-                while (it.hasNext()) {
-                    Node w = (Node) it.next();
+                for (Node w : v.adjacentNodes()) {
                     active.add(w);
                 }
                 active.remove(v);
@@ -293,10 +286,8 @@ public class DFilter {
      */
     private int getCompatibilityScore(Graph graph, Node v) throws NotOwnerException {
         int score = ((Pair) graph.getInfo(v)).getSecondInt();
-        Iterator it = graph.getAdjacentNodes(v);
-        while (it.hasNext()) {
-            v = (Node) it.next();
-            score -= ((Pair) graph.getInfo(v)).getSecondInt();
+        for (Node w : v.adjacentNodes()) {
+            score -= ((Pair) graph.getInfo(w)).getSecondInt();
         }
         return score;
     }

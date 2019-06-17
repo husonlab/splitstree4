@@ -23,8 +23,8 @@ import jloda.graph.Edge;
 import jloda.graph.Node;
 import jloda.graph.NodeArray;
 import jloda.graph.NodeSet;
-import jloda.phylo.PhyloGraphView;
 import jloda.phylo.PhyloTree;
+import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
 import splitstree4.algorithms.splits.ReticulateNetwork;
 import splitstree4.algorithms.util.ReticulateEmbedder;
@@ -164,14 +164,13 @@ public class AssembleTrees2Network implements Trees2Network {
         taxa.hideTaxa(present.getComplement(taxa.getNtax()));
 
         // set taxon labels:
-        graph.clearTaxon2Node();
+        graph.clearTaxa();
         for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
             String label = graph.getLabel(v);
             if (label != null) {
                 int t = taxa.indexOf(label);
                 if (t > 0) {
-                    graph.setTaxon2Node(t, v);
-                    graph.setNode2Taxa(v, t);
+                    graph.addTaxon(v, t);
                 }
             }
         }

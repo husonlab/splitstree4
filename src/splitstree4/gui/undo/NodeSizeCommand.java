@@ -21,7 +21,7 @@ package splitstree4.gui.undo;
 
 import jloda.graph.Node;
 import jloda.graph.NodeIntegerArray;
-import jloda.phylo.PhyloGraph;
+import jloda.phylo.PhyloSplitsGraph;
 import splitstree4.gui.main.MainViewer;
 
 /**
@@ -43,7 +43,7 @@ public class NodeSizeCommand extends ICommandAdapter implements ICommand {
     public NodeSizeCommand(MainViewer viewer, int width, int height) {
         this.viewer = viewer;
 
-        PhyloGraph graph = viewer.getPhyloGraph();
+        PhyloSplitsGraph graph = viewer.getPhyloGraph();
         widths = new NodeIntegerArray(graph, -1);
         heights = new NodeIntegerArray(graph);
 

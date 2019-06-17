@@ -21,10 +21,10 @@ package splitstree4.gui.algorithms.select;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
-import jloda.util.Alert;
+import jloda.graph.NotOwnerException;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.util.Alert;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
@@ -168,7 +168,7 @@ public class SelectCharactersActions implements UpdateableActions {
 
                 Taxa taxa = doc.getTaxa();
                 Characters chars = doc.getCharacters();
-                PhyloGraph graph = viewer.getPhyloGraph();
+                PhyloSplitsGraph graph = viewer.getPhyloGraph();
 
 
                 for (int t = 1; t <= taxa.getNtax(); t++) {
@@ -229,7 +229,7 @@ public class SelectCharactersActions implements UpdateableActions {
 
                 Taxa taxa = doc.getTaxa();
                 Characters chars = doc.getCharacters();
-                PhyloGraph graph = viewer.getPhyloGraph();
+                PhyloSplitsGraph graph = viewer.getPhyloGraph();
 
                 for (int t = 1; t <= taxa.getNtax(); t++) {
                     try {

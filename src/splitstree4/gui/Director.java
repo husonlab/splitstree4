@@ -19,12 +19,16 @@
 */
 package splitstree4.gui;
 
-import jloda.gui.Message;
-import jloda.gui.ProgressDialog;
-import jloda.gui.commands.CommandManager;
-import jloda.gui.director.*;
-import jloda.phylo.PhyloGraphView;
-import jloda.util.*;
+import jloda.swing.commands.CommandManager;
+import jloda.swing.director.*;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.Alert;
+import jloda.swing.util.Message;
+import jloda.swing.util.ProgressDialog;
+import jloda.util.Basic;
+import jloda.util.CanceledException;
+import jloda.util.ProgressCmdLine;
+import jloda.util.ProgressListener;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.core.BlockChooser;
 import splitstree4.core.Document;

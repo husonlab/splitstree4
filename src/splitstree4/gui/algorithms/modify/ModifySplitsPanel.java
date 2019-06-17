@@ -19,7 +19,7 @@
  */
 package splitstree4.gui.algorithms.modify;
 
-import jloda.gui.director.IUpdateableView;
+import jloda.swing.director.IUpdateableView;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
 import splitstree4.gui.algorithms.AlgorithmsWindow;

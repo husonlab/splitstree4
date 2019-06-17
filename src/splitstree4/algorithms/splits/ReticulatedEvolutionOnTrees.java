@@ -20,10 +20,9 @@
 package splitstree4.algorithms.splits;
 
 import jloda.graph.*;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import jloda.util.Pair;
 import splitstree4.algorithms.splits.reticulateTree.LabelGraph;
 import splitstree4.algorithms.splits.reticulateTree.ModifyGraph;
@@ -154,7 +153,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
         }
 
         PhyloGraphView graphView;
-        PhyloGraph graph;
+        PhyloSplitsGraph graph;
         if (taxa.indexOf(getOptionOutGroup()) == -1) {
             EqualAngle ea = new EqualAngle();
             ea.apply(doc, taxa, splits);
@@ -310,13 +309,13 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
      * @param unvisited
      * @param graph
      * @param comp
-     * @throws jloda.util.NotOwnerException
+     * @throws NotOwnerException
      */
     private void visitComponentRec(Node v, NodeSet unvisited, Graph graph, NodeSet comp) throws NotOwnerException {
         if (unvisited.contains(v)) {
             unvisited.remove(v);
             comp.add(v);
-            Iterator it = graph.getAdjacentNodes(v);
+            final Iterator it = graph.adjacentNodes(v).iterator();
             while (it.hasNext()) {
                 visitComponentRec((Node) it.next(), unvisited, graph, comp);
             }
@@ -419,7 +418,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
      * @param gateNodes
      * @return the components
      */
-    private NodeSet[] computeNettedComps(int[] split2incomp, PhyloGraph graph, NodeSet gateNodes, int nComps)
+    private NodeSet[] computeNettedComps(int[] split2incomp, PhyloSplitsGraph graph, NodeSet gateNodes, int nComps)
             throws NotOwnerException {
         System.out.println("ncomps: " + (nComps - 1));
         // components start at one (!!!!)
@@ -465,10 +464,10 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
      * @param split2incomp
      * @param graph
      * @param components
-     * @throws jloda.util.NotOwnerException
+     * @throws NotOwnerException
      */
     private void computeNettedCompsRec(Node v, int ncomp, EdgeSet seen, int[] split2incomp,
-                                       PhyloGraph graph, NodeSet[] components)
+                                       PhyloSplitsGraph graph, NodeSet[] components)
             throws NotOwnerException {
         for (Edge e = graph.getFirstAdjacentEdge(v); e != null; e = graph.getNextAdjacentEdge(e, v)) {
             if (!seen.contains(e) && split2incomp[graph.getSplit(e)] == ncomp) {

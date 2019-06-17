@@ -30,6 +30,7 @@
 package splitstree4.core;
 
 import java.util.BitSet;
+import java.util.Collection;
 
 /**
  * A set of taxa
@@ -77,6 +78,11 @@ public class TaxaSet implements Cloneable, Comparable {
      */
     public void set(int t) {
         bits.set(t);
+    }
+
+    public void setAll(Collection<Integer> list) {
+        for (Integer t : list)
+            set(t);
     }
 
     /**

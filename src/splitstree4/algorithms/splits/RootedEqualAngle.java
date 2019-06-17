@@ -20,9 +20,13 @@
 package splitstree4.algorithms.splits;
 
 import jloda.graph.*;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
-import jloda.util.*;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.Geometry;
+import jloda.util.Basic;
+import jloda.util.CanceledException;
+import jloda.util.Pair;
+import jloda.util.ProgressListener;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
 import splitstree4.core.TaxaSet;
@@ -101,7 +105,7 @@ public class RootedEqualAngle implements Splits2Network {
 
         // the graph view and graph
         graphView = graphView0;
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
 
         doc.notifySetProgress(3);
@@ -130,10 +134,12 @@ public class RootedEqualAngle implements Splits2Network {
                 if (SplitsUtilities.isCircular(taxa, cycle, splits.get(s))) {
                     wrapSplit(taxa, splits, s, cycle, graph);
                     usedSplits.set(s, true);
-                } else
+                } else {
                     System.err.println("Non circular split: " + splits.get(s));
+                }
             }
         }
+        usedSplits.or(getTrivialSplits(taxa, splits));
 
         doc.notifySetProgress(50);
 
@@ -329,7 +335,7 @@ public class RootedEqualAngle implements Splits2Network {
      * @return the root node
      */
     private Node removeRootTaxon(int rootTaxonId, int numOrigSplits, PhyloGraphView graphView) {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         Node v = graph.getTaxon2Node(rootTaxonId);
         Edge e = v.getFirstAdjacentEdge();
         Node w = e.getOpposite(v);
@@ -350,7 +356,7 @@ public class RootedEqualAngle implements Splits2Network {
      * @param cycle
      * @param graph
      */
-    private void initGraph(Taxa taxa, Splits splits, int[] cycle, PhyloGraph graph) throws
+    private void initGraph(Taxa taxa, Splits splits, int[] cycle, PhyloSplitsGraph graph) throws
             NotOwnerException, SplitsException {
         // map from each taxon to it's trivial split in splits
         int[] taxon2split = new int[taxa.getNtax() + 1];
@@ -379,11 +385,9 @@ public class RootedEqualAngle implements Splits2Network {
             }
             checkTaxa.set(t);
 
-
             Node v = graph.newNode();
             graph.setLabel(v, taxa.getLabel(t));
-            graph.setNode2Taxa(v, t);
-            graph.setTaxon2Node(t, v);
+            graph.addTaxon(v, t);
 
             Edge e = null;
             try {
@@ -409,7 +413,7 @@ public class RootedEqualAngle implements Splits2Network {
      * @return non-trivial splits
      */
     private List<Integer> getInteriorSplitsOrdered(Taxa taxa, Splits splits) {
-        SortedSet<Pair<Integer, Integer>> interiorSplits = new TreeSet<>(new Pair<Integer, Integer>()); // first component is cardinality, second is id
+        SortedSet<Pair<Integer, Integer>> interiorSplits = new TreeSet<>(new Pair<>()); // first component is cardinality, second is id
 
         for (int id = 1; id <= splits.getNsplits(); id++) {
             TaxaSet part = splits.get(id);
@@ -427,6 +431,17 @@ public class RootedEqualAngle implements Splits2Network {
         return interiorSplitIDs;
     }
 
+    private BitSet getTrivialSplits(Taxa taxa, Splits splits) {
+        final BitSet result = new BitSet();
+        for (int id = 1; id <= splits.getNsplits(); id++) {
+            TaxaSet part = splits.get(id);
+            if (part.cardinality() == 1 || part.cardinality() == taxa.getNtax() - 1) {
+                result.set(id);
+            }
+        }
+        return result;
+    }
+
     /**
      * adds an interior split using the wrapping algorithm
      *
@@ -436,7 +451,7 @@ public class RootedEqualAngle implements Splits2Network {
      * @param s
      * @param graph
      */
-    private void wrapSplit(Taxa taxa, Splits splits, int s, int[] cycle, PhyloGraph graph) throws Exception {
+    private void wrapSplit(Taxa taxa, Splits splits, int s, int[] cycle, PhyloSplitsGraph graph) throws Exception {
         TaxaSet part = (TaxaSet) (splits.get(s).clone());
         if (part.get(1))
             part = part.getComplement(taxa.getNtax());
@@ -525,7 +540,7 @@ public class RootedEqualAngle implements Splits2Network {
      * @param graph
      * @return is leaf edge
      */
-    private boolean isLeafEdge(Edge f, PhyloGraph graph) throws NotOwnerException {
+    private boolean isLeafEdge(Edge f, PhyloSplitsGraph graph) throws NotOwnerException {
         return graph.getDegree(graph.getSource(f)) == 1 || graph.getDegree(graph.getTarget(f)) == 1;
 
     }
@@ -536,24 +551,22 @@ public class RootedEqualAngle implements Splits2Network {
      * @param graph
      * @throws NotOwnerException
      */
-    private void removeTemporaryTrivialEdges(PhyloGraph graph) throws NotOwnerException {
-        Iterator it = graph.edgeIterator();
-
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
+    private void removeTemporaryTrivialEdges(PhyloSplitsGraph graph) throws NotOwnerException {
+        for (Edge e : graph.edges()) {
             if (graph.getSplit(e) == -1) // temporary leaf edge
             {
                 Node v, w;
-                if (graph.getDegree(graph.getSource(e)) == 1) {
-                    v = graph.getSource(e);
-                    w = graph.getTarget(e);
+                if (e.getSource().getDegree() == 1) {
+                    v = e.getSource();
+                    w = e.getTarget();
                 } else {
-                    w = graph.getSource(e);
-                    v = graph.getTarget(e);
+                    w = e.getSource();
+                    v = e.getTarget();
                 }
-                int t = graph.getNode2Taxa(v).get(0);
-                graph.setTaxon2Node(t, w);
-                graph.setNode2Taxa(w, t);
+                if (graph.getNumberOfTaxa(v) > 0) {
+                    int t = graph.getTaxa(v).iterator().next();
+                    graph.addTaxon(w, t);
+                }
                 graph.deleteNode(v);
             }
         }
@@ -566,7 +579,7 @@ public class RootedEqualAngle implements Splits2Network {
      * @param cycle
      * @param graph
      */
-    private void assignAnglesToEdges(Splits splits, int[] cycle, PhyloGraph graph)
+    private void assignAnglesToEdges(Splits splits, int[] cycle, PhyloSplitsGraph graph)
             throws NotOwnerException, CanceledException {
         int ntaxa = splits.getNtax();
         int origNtaxa = ntaxa - 1;
@@ -617,7 +630,7 @@ public class RootedEqualAngle implements Splits2Network {
      */
     private void runOptimizeDayLight(Taxa taxa, PhyloGraphView graphView) throws CanceledException, NotOwnerException {
         Node rootNode = graphView.getPhyloGraph().getTaxon2Node(taxa.getNtax());// root is last node
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         for (int i = 1; i <= getBrokenOptionDaylightIterations(); i++) {
             Iterator it = Basic.randomize(graph.nodeIterator(), 77 * i);
             while (it.hasNext()) {
@@ -640,7 +653,7 @@ public class RootedEqualAngle implements Splits2Network {
      */
     private void optimizeDaylightNode(Taxa taxa, Node v, Node rootNode,
                                       PhyloGraphView graphView) throws NotOwnerException {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
         int numComp = 0;
         EdgeIntegerArray edge2comp = new EdgeIntegerArray(graph);
@@ -648,12 +661,8 @@ public class RootedEqualAngle implements Splits2Network {
         double[] comp2MaxAngle = new double[taxa.getNtax()];
         int rootComp = 0; // the component containing the root node
 
-        // for all edges adjacent to v
-        Iterator it = graph.getAdjacentEdges(v);
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
-
-            if (edge2comp.getValue(e) == 0) {
+        for (Edge e : v.adjacentEdges()) {
+            if (edge2comp.get(e) == 0) {
                 edge2comp.set(e, ++numComp);
                 Node w = graph.getOpposite(v, e);
 
@@ -701,7 +710,7 @@ public class RootedEqualAngle implements Splits2Network {
                         seenRootComp = true;
                 }
                 for (Edge e = graph.getFirstEdge(); e != null; e = graph.getNextEdge(e)) {
-                    int c = edge2comp.getValue(e);
+                    int c = edge2comp.get(e);
                     graph.setAngle(e, graph.getAngle(e) + comp2epsilon[c]);
                 }
             }
@@ -721,14 +730,14 @@ public class RootedEqualAngle implements Splits2Network {
      * @param minMaxAngle
      */
     private void visitComponentRec(Node root, Node v, Edge e, EdgeIntegerArray edge2comp,
-                                   int numComp, PhyloGraph graph, PhyloGraphView graphView,
+                                   int numComp, PhyloSplitsGraph graph, PhyloGraphView graphView,
                                    NodeSet visited, double angle,
                                    Pair<Double, Double> minMaxAngle) throws NotOwnerException {
 
         if (v != root && !visited.contains(v)) {
             visited.add(v);
             for (Edge f = graph.getFirstAdjacentEdge(v); f != null; f = graph.getNextAdjacentEdge(f, v)) {
-                if (f != e && edge2comp.getValue(f) == 0) {
+                if (f != e && edge2comp.get(f) == 0) {
                     edge2comp.set(f, numComp);
                     Node w = graph.getOpposite(v, f);
                     double newAngle = angle + Geometry.computeObservedAngle(graphView.getLocation(root),
@@ -752,7 +761,7 @@ public class RootedEqualAngle implements Splits2Network {
      * @param graphView
      */
     private void assignCoordinatesToNodes(boolean useWeights, int rootTaxonId, PhyloGraphView graphView) throws NotOwnerException {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         if (graph.getNumberOfNodes() == 0)
             return;
         Node v = graph.getTaxon2Node(rootTaxonId);
@@ -776,13 +785,11 @@ public class RootedEqualAngle implements Splits2Network {
     private void assignCoordinatesToNodesRec(Node v, BitSet splitsInPath,
                                              NodeSet nodesVisited, boolean useWeights, PhyloGraphView graphView)
             throws NotOwnerException {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
         if (!nodesVisited.contains(v)) {
             nodesVisited.add(v);
-            Iterator it = graph.getAdjacentEdges(v);
-            while (it.hasNext()) {
-                Edge e = (Edge) it.next();
+            for (Edge e : v.adjacentEdges()) {
                 int s = graph.getSplit(e);
                 if (!splitsInPath.get(s)) {
                     Node w = graph.getOpposite(v, e);

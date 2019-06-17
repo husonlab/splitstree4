@@ -28,9 +28,12 @@
 package splitstree4.algorithms.splits;
 
 import jloda.graph.*;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.phylo.PhyloSplitsGraphUtils;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.util.Basic;
 import jloda.util.CanceledException;
+import jloda.util.IterationUtils;
 import splitstree4.core.Document;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Network;
@@ -83,7 +86,6 @@ public class ConvexHull implements Splits2Network {
      * @param taxa   taxa
      * @param splits
      * @return the network
-     * @throws Exception anything can go wrong...
      */
     public Network apply(Document doc, Taxa taxa, Splits splits) throws Exception {
         /* no used splits: */
@@ -104,7 +106,6 @@ public class ConvexHull implements Splits2Network {
      * @param graphView  PhyloGraphView or null
      * @param usedSplits which splits have already been used?
      * @return the modified or new graph
-     * @throws Exception
      */
 
     public PhyloGraphView apply(Document doc, Taxa taxa, Splits splits, BitSet usedSplits, PhyloGraphView graphView) throws Exception {
@@ -123,11 +124,10 @@ public class ConvexHull implements Splits2Network {
      * @param graphView  PhyloGraphView or null
      * @param usedSplits which splits have already been used?
      * @return the modified or new graph
-     * @throws Exception
      */
 
     public PhyloGraphView apply(Document doc, Taxa taxa, Splits splits, int[] order, PhyloGraphView graphView, BitSet usedSplits) throws Exception {
-        if (graphView != null && usedSplits != null && usedSplits.cardinality() == splits.getNsplits())
+        if (graphView != null && usedSplits.cardinality() == splits.getNsplits())
             return graphView;
 
         this.doc = doc;
@@ -135,19 +135,15 @@ public class ConvexHull implements Splits2Network {
         doc.notifySetMaximumProgress(splits.getNsplits());    //initialize maximum progress
         doc.notifySetProgress(-1);        //set progress to 0
 
-        final PhyloGraph graph;
+        final PhyloSplitsGraph graph;
         if (graphView == null) {
             graphView = new PhyloGraphView();
             graph = graphView.getPhyloGraph();
             Node startNode = graph.newNode();
-            graph.setTaxon2Node(1, startNode);
-            //graph.setLabel(startNode, taxa.getLabel(1));
-            graph.setNode2Taxa(startNode, 1);
 
-            for (int i = 2; i <= taxa.getNtax(); i++) {
-                graph.setTaxon2Node(i, startNode);
+            for (int i = 1; i <= taxa.getNtax(); i++) {
+                graph.addTaxon(startNode, i);
                 //graph.setLabel(startNode, (graph.getLabel(startNode)+", "+taxa.getLabel(i)));
-                graph.setNode2Taxa(startNode, i);
             }
         } else
             graph = graphView.getPhyloGraph();
@@ -155,29 +151,37 @@ public class ConvexHull implements Splits2Network {
         //process one split at a time
         doc.notifySetMaximumProgress(order.length);    //initialize maximum progress
         try {
+            final NodeIntegerArray hulls = new NodeIntegerArray(graph);
+            //is 0, if the node is member of convex hull for the "0"-side of the current split,
+            //is 1, if the node is member of convex hull for the "1"-side of the current split,
+            //is 2, if the node is member of both hulls
+
+            final ArrayList<Node> intersectionNodes = new ArrayList<>();
+            //here all found "critical" nodes are stored
+
+            final BitSet splits0 = new BitSet();
+            final BitSet splits1 = new BitSet();
+
+            // process all splits:
             for (int z = 0; z < order.length; z++) {
                 doc.notifySetProgress(z);
 
-                TaxaSet currentSplitPartA = splits.get(order[z]);
+                hulls.clear();
+                intersectionNodes.clear();
+                splits0.clear();
+                splits1.clear();
 
-                //is 0, if the node is member of convex hull for the "0"-side of the current split,
-                //is 1, if the node is member of convex hull for the "1"-side of the current split,
-                //is 2, if the node is member of both hulls
-                NodeIntegerArray hulls = new NodeIntegerArray(graph);
-
-                //here all found "critical" nodes are stored
-                final ArrayList intersectionNodes = new ArrayList();
-
-                final BitSet splits1 = new BitSet();
-                final BitSet splits0 = new BitSet();
+                final TaxaSet currentSplitPartA = splits.get(order[z]);
+                System.err.println("Current split: (" + currentSplitPartA.cardinality() + " of " + taxa.getNtax() + "): " + Basic.toString(currentSplitPartA.getBits()));
 
                 //find splits, where taxa of side "0" of current split are divided
                 for (int i = 1; i <= splits.getNsplits(); i++) {
                     if (!usedSplits.get(i)) continue;    //only splits already used must be regarded
 
                     if (splits.getSplitsSet().intersect2(order[z], false, i, true).cardinality() != 0 &&
-                            splits.getSplitsSet().intersect2(order[z], false, i, false).cardinality() != 0)
+                            splits.getSplitsSet().intersect2(order[z], false, i, false).cardinality() != 0) {
                         splits0.set(i);
+                    }
                     doc.getProgressListener().checkForCancel();
                 }
 
@@ -216,20 +220,16 @@ public class ConvexHull implements Splits2Network {
 
                 //construct the remainder of convex hull for split-side "0" by traversing all allowed (and reachable) edges (i.e. all edges in splits0)
 
-                EdgeIntegerArray visited = new EdgeIntegerArray(graph, 0);
+                convexHullPath(graph, start0, hulls, splits0, intersectionNodes, 0);
 
-                convexHullPath(graph, start0, visited, hulls, splits0, intersectionNodes, 0);
+                //construct the remainder of convex hull for split-side "1" by traversing all allowed (and reachable) edges (i.e. all edges in splits1)
 
-                //construct the remainder of convex hull for split-side "1" by traversing all allowed (and reachable) edges (i.e. all edges in splits0)
+                convexHullPath(graph, start1, hulls, splits1, intersectionNodes, 1);
 
-                visited = new EdgeIntegerArray(graph, 0);
-
-                convexHullPath(graph, start1, visited, hulls, splits1, intersectionNodes, 1);
+                System.err.println("Intersection: " + intersectionNodes.size());
 
                 //first duplicate the intersection nodes, set an edge between each node and its duplicate and label new edges and nodes
-                for (Object intersectionNode1 : intersectionNodes) {
-
-                    Node v = (Node) intersectionNode1;
+                for (Node v : intersectionNodes) {
                     Node v1 = graph.newNode();
 
                     Edge e = graph.newEdge(v1, v);
@@ -237,74 +237,57 @@ public class ConvexHull implements Splits2Network {
                     graph.setWeight(e, splits.getWeight(order[z]));
                     graph.setLabel(e, "" + order[z]);
 
-                    List aTaxa = graph.getNode2Taxa(v);
+                    final Set<Integer> set = IterationUtils.asSet(graph.getTaxa(v)); // make a copy!
+                    graph.clearTaxa(v);
 
-                    graph.clearNode2Taxa(v);
-
-                    for (Object anATaxa : aTaxa) {
-
-                        int taxon = (Integer) anATaxa;
-                        if (currentSplitPartA.get(taxon)) {
-                            graph.setTaxon2Node(taxon, v1);
-                            graph.setNode2Taxa(v1, taxon);
+                    for (Integer t : set) {
+                        if (currentSplitPartA.get(t)) {
+                            graph.addTaxon(v1, t);
                         } else {
-                            graph.setNode2Taxa(v, taxon);
+                            graph.addTaxon(v, t);
                         }
                     }
-
-                    //graph.setLabel(v, vlab);
-                    //graph.setLabel(v1, v1lab);
                 }
 
                 //connect edges accordingly
-                for (Object intersectionNode : intersectionNodes) {
-
-                    doc.getProgressListener().checkForCancel();
-
-                    Node v = (Node) intersectionNode;
-
+                for (Node v : intersectionNodes) {
                     //find duplicated node of v (and their edge)
                     Node v1 = null;
                     Edge toV1 = null;
 
-                    for (Iterator en = graph.getAdjacentEdges(v); en.hasNext(); ) {
-                        toV1 = (Edge) en.next();
+                    for (Edge en : v.adjacentEdges()) {
+                        toV1 = en;
                         if (graph.getSplit(toV1) == order[z]) {
-                            v1 = graph.getOpposite(v, toV1);
+                            v1 = toV1.getOpposite(v);
                             break;
                         }
                     }
 
                     //visit all edges of v and move or add edges
-                    for (Iterator en = graph.getAdjacentEdges(v); en.hasNext(); ) {
+                    for (Edge consider : v.adjacentEdges()) {
                         doc.getProgressListener().checkForCancel();
-
-                        Edge consider = (Edge) en.next();
 
                         if (consider == toV1) continue;
 
-                        Node w = graph.getOpposite(v, consider);
+                        Node w = consider.getOpposite(v);
 
-                        if (hulls.getValue(w) == 0) {
-                        } else if (hulls.getValue(w) == 1) {        //node belongs to other side
+                        if (hulls.get(w) == 0) {
+                        } else if (hulls.get(w) == 1) {        //node belongs to other side
                             Edge considerDup = graph.newEdge(v1, w);
                             graph.setLabel(considerDup, "" + graph.getSplit(consider));
                             graph.setSplit(considerDup, graph.getSplit(consider));
                             graph.setWeight(considerDup, graph.getWeight(consider));
                             graph.setAngle(considerDup, graph.getAngle(consider));
                             graph.deleteEdge(consider);
-                        } else if (hulls.getValue(w) == 2) {                                    //node is in intersection
+                        } else if (hulls.get(w) == 2) {                                    //node is in intersection
                             Node w1 = null;
-                            Edge toW1;
 
-                            for (Iterator iter = graph.getAdjacentEdges(w); iter.hasNext(); ) {
-                                toW1 = (Edge) iter.next();
-                                doc.getProgressListener().checkForCancel();
-
+                            for (Edge toW1 : w.adjacentEdges()) {
                                 if (graph.getSplit(toW1) == order[z]) {
                                     w1 = graph.getOpposite(w, toW1);
                                     break;
                                 }
+                                doc.getProgressListener().checkForCancel();
                             }
 
                             if (graph.getCommonEdge(v1, w1) == null) {
@@ -319,6 +302,7 @@ public class ConvexHull implements Splits2Network {
                 }
                 //add split to usedSplits
                 usedSplits.set(order[z], true);
+                doc.getProgressListener().checkForCancel();
             }
         } catch (CanceledException e) {
             doc.getProgressListener().setUserCancelled(false);
@@ -330,12 +314,12 @@ public class ConvexHull implements Splits2Network {
         while (it.hasNext()) {
             Node n = (Node) it.next();
             graph.setLabel(n, null);
-            List list = graph.getNode2Taxa(n);
-            if (list.size() != 0) {
-                String label = taxa.getLabel((Integer) list.get(0));
-                for (int i = 1; i < list.size(); i++) {
-                    int taxon = (Integer) list.get(i);
-                    label += (", " + taxa.getLabel(taxon));
+
+            if (graph.hasTaxa(n)) {
+                String label = taxa.getLabel(graph.getTaxa(n).iterator().next());
+
+                for (Integer t : graph.getTaxa(n)) {
+                    label += (", " + taxa.getLabel(t));
                 }
                 graph.setLabel(n, label);
             }
@@ -347,19 +331,18 @@ public class ConvexHull implements Splits2Network {
             graph.setTaxon2Cycle(cyclicOrdering[i], i);
         }
 
-        NodeArray coords = graph.embed(cyclicOrdering, getOptionWeights(), true);
+        NodeArray coords = PhyloSplitsGraphUtils.embed(graph, cyclicOrdering, getOptionWeights(), true);
 
         int maxNumberOfTaxaOnNode = 0;
-        for (Node v = graph.getFirstNode(); v != null; v = graph.getNextNode(v)) {
+        for (Node v : graph.nodes()) {
             graphView.setLocation(v, (Point2D) coords.get(v));
-            if (graph.getNode2Taxa(v) != null && graph.getNode2Taxa(v).size() > maxNumberOfTaxaOnNode)
-                maxNumberOfTaxaOnNode = graph.getNode2Taxa(v).size();
+            maxNumberOfTaxaOnNode = Math.max(graph.getNumberOfTaxa(v), maxNumberOfTaxaOnNode);
         }
 
         if (getOptionScaleNodesMaxSize() > 1 && maxNumberOfTaxaOnNode > 1) {
-            for (Node v = graph.getFirstNode(); v != null; v = graph.getNextNode(v)) {
-                if (graph.getNode2Taxa(v) != null && graph.getNode2Taxa(v).size() > 0) {
-                    int size = Math.max(graphView.getWidth(v), (getOptionScaleNodesMaxSize() * graph.getNode2Taxa(v).size()) / maxNumberOfTaxaOnNode);
+            for (Node v : graph.nodes()) {
+                if (graph.getNumberOfTaxa(v) > 0) {
+                    int size = Math.max(graphView.getWidth(v), (getOptionScaleNodesMaxSize() * graph.getNumberOfTaxa(v)) / maxNumberOfTaxaOnNode);
                     graphView.setWidth(v, size);
                     graphView.setHeight(v, size);
                 }
@@ -381,25 +364,27 @@ public class ConvexHull implements Splits2Network {
     }//end apply
 
 
-    private void convexHullPath(PhyloGraph g, Node start, EdgeIntegerArray visited, NodeIntegerArray hulls, BitSet allowedSplits, ArrayList intersectionNodes, int side) throws Exception {
-
-        Stack todo = new Stack();
+    private void convexHullPath(PhyloSplitsGraph graph, Node start, NodeIntegerArray hulls, BitSet allowedSplits, ArrayList<Node> intersectionNodes, int side) throws Exception {
+        final EdgeSet seen = new EdgeSet(graph);
+        final Stack<Node> todo = new Stack<>();
         todo.push(start);
 
         while (!todo.empty()) {
+            final Node n = todo.pop();
 
-            Node n = (Node) todo.pop();
+            for (final Edge f : n.adjacentEdges()) {
+                final Node m = f.getOpposite(n);
 
-            for (Iterator en = g.getAdjacentEdges(n); en.hasNext(); ) {
+                System.err.println("allowed: " + Basic.toString(allowedSplits));
+                System.err.println("got: " + graph.getSplit(f));
 
-                Edge f = (Edge) en.next();
-                Node m = g.getOpposite(n, f);
-
-                if (visited.getValue(f) == 0 && allowedSplits.get(g.getSplit(f))) {
+                if (!seen.contains(f) && allowedSplits.get(graph.getSplit(f))) {
                     //if(hulls.getValue(m)==side) continue;
-                    visited.set(f, 1);
+                    seen.add(f);
 
-                    if (hulls.get(m) == null) {
+                    System.err.println("hulls(" + m + "): " + hulls.getValue(m));
+
+                    if (hulls.getValue(m) == null) {
                         hulls.set(m, side);
                         todo.push(m);
                     } else if (hulls.getValue(m) == Math.abs(side - 1)) {
@@ -408,7 +393,7 @@ public class ConvexHull implements Splits2Network {
                         todo.push(m);
                     }
                 } else
-                    visited.set(f, 1);
+                    seen.add(f);
 
                 doc.getProgressListener().checkForCancel();
             }
@@ -436,7 +421,6 @@ public class ConvexHull implements Splits2Network {
     /**
      * scale size of nodes by number of taxa?
      *
-     * @return
      */
     public int getOptionScaleNodesMaxSize() {
         return optionScaleNodesMaxSize;

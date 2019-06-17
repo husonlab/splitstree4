@@ -19,11 +19,11 @@
  */
 package splitstree4.gui.formatter;
 
-import jloda.export.TransferableGraphic;
-import jloda.graphview.EdgeView;
-import jloda.gui.director.IDirector;
-import jloda.util.Alert;
-import jloda.util.ResourceManager;
+import jloda.swing.director.IDirector;
+import jloda.swing.export.TransferableGraphic;
+import jloda.swing.graphview.EdgeView;
+import jloda.swing.util.Alert;
+import jloda.swing.util.ResourceManager;
 import splitstree4.gui.DirectorActions;
 import splitstree4.gui.MenuManager;
 import splitstree4.gui.main.MainViewer;

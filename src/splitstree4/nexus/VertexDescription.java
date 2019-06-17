@@ -20,8 +20,8 @@
 package splitstree4.nexus;
 
 import jloda.graph.Node;
-import jloda.graphview.NodeView;
-import jloda.graphview.ViewBase;
+import jloda.swing.graphview.NodeView;
+import jloda.swing.graphview.ViewBase;
 import jloda.util.Basic;
 import jloda.util.parse.NexusStreamParser;
 

@@ -20,7 +20,7 @@
 package splitstree4.analysis.distances;
 
 import jloda.phylo.PhyloTree;
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
 import splitstree4.algorithms.characters.Characters2Distances;

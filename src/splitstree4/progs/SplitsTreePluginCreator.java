@@ -19,7 +19,7 @@
  */
 package splitstree4.progs;
 
-import jloda.util.CommandLineOptions;
+import jloda.swing.util.CommandLineOptions;
 import jloda.util.ProgramProperties;
 import jloda.util.UsageException;
 

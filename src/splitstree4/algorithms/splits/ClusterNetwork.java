@@ -20,12 +20,12 @@
 package splitstree4.algorithms.splits;
 
 import jloda.graph.*;
-import jloda.graphview.EdgeView;
-import jloda.graphview.NodeView;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.EdgeView;
+import jloda.swing.graphview.NodeView;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.Geometry;
 import jloda.util.Basic;
-import jloda.util.Geometry;
 import jloda.util.Pair;
 import splitstree4.core.Document;
 import splitstree4.core.TaxaSet;
@@ -36,8 +36,9 @@ import splitstree4.util.SplitsUtilities;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.*;
 import java.util.List;
+import java.util.Queue;
+import java.util.*;
 
 /**
  * Draws a rooted set of splits as an extended Hasse diagram
@@ -54,7 +55,7 @@ public class ClusterNetwork implements Splits2Network {
     public int optionPercentOffset = 10;
 
     private PhyloGraphView graphView;
-    private PhyloGraph graph;
+    private PhyloSplitsGraph graph;
 
     /**
      * Applies the method to the given data
@@ -251,8 +252,7 @@ public class ClusterNetwork implements Splits2Network {
             if (v.getInDegree() > 1) {
                 Node w = graph.newNode();
                 List toDelete = new LinkedList();
-                for (Iterator ite = v.getInEdges(); ite.hasNext(); ) {
-                    Edge e = (Edge) ite.next();
+                for (Edge e : v.inEdges()) {
                     Node u = e.getSource();
                     graph.newEdge(u, w);
                     toDelete.add(e);
@@ -267,7 +267,7 @@ public class ClusterNetwork implements Splits2Network {
                 }
                 //graphView.setLocation(w, graphView.getLocation(v).getX(), graphView.getLocation(v).getY() + 0.1);
             } else if (v.getInDegree() == 1) {
-                Edge e = v.getInEdges().next();
+                Edge e = v.inEdges().iterator().next();
                 Integer n = (Integer) cluster2splitId.get(v.getInfo());
                 if (n != null && n != 0)
                     graph.setSplit(e, n);
@@ -283,8 +283,7 @@ public class ClusterNetwork implements Splits2Network {
                 TaxaSet cluster = (TaxaSet) v.getInfo();
                 if (cluster != null) {
                     for (int t = cluster.getBits().nextSetBit(1); t > 0; t = cluster.getBits().nextSetBit(t + 1)) {
-                        graph.setTaxon2Node(t, v);
-                        graph.setNode2Taxa(v, t);
+                        graph.addTaxon(v, t);
                     }
                 }
             }
@@ -410,18 +409,18 @@ public class ClusterNetwork implements Splits2Network {
             graphView.setLocation(v, null);
         }
         // assign coordinates:
-        List queue = new LinkedList();
+        final Queue<Node> queue = new LinkedList<>();
         queue.add(root);
         graphView.setLocation(root, 0, 0);
 
         while (queue.size() > 0) // breath-first assignment
         {
-            Node v = (Node) queue.remove(0); // pop
+            Node v = queue.poll();
 
             boolean ok = true;
             if (v.getInDegree() == 1) // is regular in edge
             {
-                Edge e = v.getInEdges().next();
+                Edge e = v.inEdges().iterator().next();
                 Node w = e.getSource();
                 int splitId = graph.getSplit(e);
                 if (splitId > 0) {
@@ -443,11 +442,12 @@ public class ClusterNetwork implements Splits2Network {
                 double x = 0;
                 double y = 0;
                 int count = 0;
-                for (Iterator it = v.getInEdges(); ok && it.hasNext(); ) {
-                    Node w = ((Edge) it.next()).getSource();
+                for (Edge e : v.inEdges()) {
+                    Node w = e.getSource();
                     Point2D location = graphView.getLocation(w);
                     if (location == null) {
                         ok = false;
+                        break;
                     } else {
                         x += location.getX();
                         y += location.getY();
@@ -471,8 +471,9 @@ public class ClusterNetwork implements Splits2Network {
 
             if (ok)  // add childern to end of queue:
             {
-                for (Iterator it = v.getOutEdges(); it.hasNext(); ) {
-                    queue.add(((Edge) it.next()).getTarget());
+                for (Edge e : v.outEdges()) {
+                    queue.add(e.getTarget());
+
                 }
             } else  // process this node again later
                 queue.add(v);
@@ -485,24 +486,22 @@ public class ClusterNetwork implements Splits2Network {
      * @param root
      * @param splits
      */
-    private void assignCoordinatesRectangularPhylogram(Node root, double rootHeight,
-                                                       Splits splits, double[] splitId2height,
-                                                       double smallDistance, double widthFactor) {
+    private void assignCoordinatesRectangularPhylogram(Node root, double rootHeight, Splits splits, double[] splitId2height, double smallDistance, double widthFactor) {
         for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
             graphView.setLocation(v, null);
         }
 
         // assign coordinates:
-        List queue = new LinkedList();
+        final Queue<Node> queue = new LinkedList<>();
         queue.add(root);
         while (queue.size() > 0) // breath-first assignment
         {
-            Node v = (Node) queue.remove(0); // pop
+            Node v = queue.poll();
 
             boolean ok = true;
             if (v.getInDegree() == 1) // is regular in edge
             {
-                Edge e = v.getInEdges().next();
+                Edge e = v.inEdges().iterator().next();
                 Node w = e.getSource();
                 int splitId = graph.getSplit(e);
                 if (splitId > 0) {
@@ -515,7 +514,7 @@ public class ClusterNetwork implements Splits2Network {
                         double weight = widthFactor * (getOptionUseWeights() ? splits.getWeight(splitId) : 1);
                         double height = splitId2height[splitId];
                         graphView.setLocation(e.getTarget(), location.getX() + weight, height);
-                        List internalPoints = new LinkedList();
+                        final List<Point2D> internalPoints = new ArrayList<>();
                         internalPoints.add(new Point2D.Double(location.getX(),
                                 graphView.getLocation(v).getY()));
                         graphView.setInternalPoints(e, internalPoints);
@@ -527,8 +526,8 @@ public class ClusterNetwork implements Splits2Network {
                 double x = 0;
                 double y = 0;
                 int count = 0;
-                for (Iterator it = v.getInEdges(); ok && it.hasNext(); ) {
-                    Node w = ((Edge) it.next()).getSource();
+                for (Edge f : v.inEdges()) {
+                    Node w = f.getSource();
                     Point2D location = graphView.getLocation(w);
                     if (location == null) {
                         ok = false;
@@ -542,13 +541,13 @@ public class ClusterNetwork implements Splits2Network {
                     y /= count;
                     if (v.getOutDegree() == 1) // should always have a single out edge
                     {
-                        Edge f = v.getOutEdges().next();
+                        Edge f = v.outEdges().iterator().next();
                         y = splitId2height[graph.getSplit(f)];
                     }
 
-                    x = graphView.getLocation(v.getInEdges().next().getSource()).getX();
-                    for (Iterator it = v.getInEdges(); it.hasNext(); ) {
-                        Point2D apt = graphView.getLocation(((Edge) it.next()).getSource());
+                    x = graphView.getLocation(v.inEdges().iterator().next().getSource()).getX();
+                    for (Edge f : v.inEdges()) {
+                        Point2D apt = graphView.getLocation(f.getSource());
                         if (apt.getX() > x)
                             x = apt.getX();
                     }
@@ -563,8 +562,8 @@ public class ClusterNetwork implements Splits2Network {
 
             if (ok)  // add childern to end of queue:
             {
-                for (Iterator it = v.getOutEdges(); it.hasNext(); ) {
-                    queue.add(((Edge) it.next()).getTarget());
+                for (Edge f : v.outEdges()) {
+                    queue.add(f.getTarget());
                 }
             } else  // process this node again later
                 queue.add(v);
@@ -584,8 +583,7 @@ public class ClusterNetwork implements Splits2Network {
             double x = 0;
             double y = 0;
             int count = 0;
-            for (Iterator it = v.getOutEdges(); it.hasNext(); ) {
-                Edge e = (Edge) it.next();
+            for (Edge e : v.outEdges()) {
                 Point2D location = assignCoordinatesRectangularCladogramRec(e.getOpposite(v));
                 boolean blackEdge = (e.getTarget().getInDegree() == 1);
                 x = Math.min(x, location.getX());
@@ -594,11 +592,9 @@ public class ClusterNetwork implements Splits2Network {
             }
             y /= count; // average height, weighted black against blue
             graphView.setLocation(v, x - 10, y);
-            for (Iterator it = v.getOutEdges(); it.hasNext(); ) {
-                Edge e = (Edge) it.next();
-                List list = new LinkedList();
-                list.add(new Point2D.Double(graphView.getLocation(v).getX(),
-                        graphView.getLocation(e.getOpposite(v)).getY()));
+            for (Edge e : v.outEdges()) {
+                List<Point2D> list = new ArrayList<>();
+                list.add(new Point2D.Double(graphView.getLocation(v).getX(), graphView.getLocation(e.getOpposite(v)).getY()));
                 graphView.setInternalPoints(e, list);
                 if (graph.getSplit(e) == -1)
                     graphView.setShape(e, EdgeView.CUBIC_EDGE);
@@ -660,8 +656,7 @@ public class ClusterNetwork implements Splits2Network {
     private void markAsCoveredRec(Node v, NodeSet covered) {
         if (!covered.contains(v)) {
             covered.add(v);
-            for (Iterator it = v.getOutEdges(); it.hasNext(); ) {
-                Edge e = (Edge) it.next();
+            for (Edge e : v.outEdges()) {
                 markAsCoveredRec(e.getTarget(), covered);
             }
         }
@@ -802,18 +797,16 @@ public class ClusterNetwork implements Splits2Network {
                     else
                         graph.setLabel(newV, graph.getLabel(newV) + ", " + graph.getLabel(v));
                 }
-                List node2taxa = graph.getNode2Taxa(v);
-                if (node2taxa != null) {
-                    for (Object aNode2taxa : node2taxa) {
-                        int t = (Integer) aNode2taxa;
-                        graph.setNode2Taxa(newV, t);
-                        graph.setTaxon2Node(t, newV);
+                if (graph.getNumberOfTaxa(v) > 0) {
+                    for (Integer t : graph.getTaxa(v)) {
+                        graph.addTaxon(newV, t);
                     }
-                    List edgesToDelete = new LinkedList();
+                    final List<Edge> edgesToDelete = new ArrayList<>();
 
-                    List edges = new LinkedList();
-                    for (Iterator ite = v.getAdjacentEdges(); ite.hasNext(); )
-                        edges.add(ite.next());
+                    final List<Edge> edges = new ArrayList<>();
+                    for (Edge f : v.adjacentEdges()) {
+                        edges.add(f);
+                    }
 
                     for (Object edge : edges) {
                         Edge e = (Edge) edge;
@@ -847,8 +840,7 @@ public class ClusterNetwork implements Splits2Network {
     private Set getPrecursors(Node v) {
         Set result = new HashSet();
 
-        for (Iterator it = v.getInEdges(); it.hasNext(); ) {
-            Edge e = (Edge) it.next();
+        for (Edge e : v.inEdges()) {
             result.add(e.getOpposite(v));
         }
         return result;

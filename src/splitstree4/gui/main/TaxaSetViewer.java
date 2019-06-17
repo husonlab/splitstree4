@@ -21,11 +21,11 @@ package splitstree4.gui.main;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.gui.WindowListenerAdapter;
-import jloda.gui.commands.CommandManager;
-import jloda.gui.director.IDirectableViewer;
-import jloda.phylo.PhyloGraphView;
 import jloda.phylo.PhyloTree;
+import jloda.swing.commands.CommandManager;
+import jloda.swing.director.IDirectableViewer;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.WindowListenerAdapter;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
 import splitstree4.gui.DirectorActions;
@@ -43,7 +43,6 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -166,9 +165,8 @@ public class TaxaSetViewer implements IDirectableViewer {
      */
     private void buildTreeRec(Node parentNodePhylo, DefaultMutableTreeNode parentNode) {
 
-        for (Iterator allOutEdges = parentNodePhylo.getOutEdges(); allOutEdges.hasNext(); ) {  //for all children
-
-            Node childNodePhylo = ((Edge) allOutEdges.next()).getOpposite(parentNodePhylo);  //get next child
+        for (Edge e : parentNodePhylo.outEdges()) {
+            Node childNodePhylo = e.getOpposite(parentNodePhylo);  //get next child
 
             DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(phyloTree.getLabel(childNodePhylo)); //set new child in JTree
             parentNode.add(childNode);                    // add child node to parent node
@@ -180,7 +178,6 @@ public class TaxaSetViewer implements IDirectableViewer {
             }
         }
     }
-
 
     /**
      * ask view to prevent user input

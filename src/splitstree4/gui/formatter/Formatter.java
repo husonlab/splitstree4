@@ -28,12 +28,12 @@ import jloda.graph.Edge;
 import jloda.graph.EdgeSet;
 import jloda.graph.Node;
 import jloda.graph.NodeSet;
-import jloda.graphview.*;
-import jloda.gui.WindowListenerAdapter;
-import jloda.gui.commands.CommandManager;
-import jloda.gui.director.IDirectableViewer;
-import jloda.gui.director.IDirector;
-import jloda.gui.format.IFormatterListener;
+import jloda.swing.commands.CommandManager;
+import jloda.swing.director.IDirectableViewer;
+import jloda.swing.director.IDirector;
+import jloda.swing.format.IFormatterListener;
+import jloda.swing.graphview.*;
+import jloda.swing.util.WindowListenerAdapter;
 import jloda.util.ProgramProperties;
 import splitstree4.gui.Director;
 import splitstree4.gui.main.MainViewer;
@@ -93,7 +93,7 @@ public class Formatter implements IDirectableViewer {
         if (ProgramProperties.getProgramIcon() != null)
             frame.setIconImage(ProgramProperties.getProgramIcon().getImage());
         frame.setJMenuBar(menuBar);
-        int[] geometry = jloda.util.ProgramProperties.get(CONFIGURATOR_GEOMETRY, new int[]{100, 100, 600, 340});
+        int[] geometry = ProgramProperties.get(CONFIGURATOR_GEOMETRY, new int[]{100, 100, 600, 340});
         frame.setLocation(geometry[0], geometry[1]);
         frame.setSize(geometry[2], geometry[3]);
 
@@ -115,7 +115,7 @@ public class Formatter implements IDirectableViewer {
                 if (event.getID() == ComponentEvent.COMPONENT_RESIZED &&
                         (frame.getExtendedState() & JFrame.MAXIMIZED_HORIZ) == 0
                         && (frame.getExtendedState() & JFrame.MAXIMIZED_VERT) == 0) {
-                    jloda.util.ProgramProperties.put(CONFIGURATOR_GEOMETRY, new int[]
+                    ProgramProperties.put(CONFIGURATOR_GEOMETRY, new int[]
                             {frame.getLocation().x, frame.getLocation().y, frame.getSize().width,
                                     frame.getSize().height});
                 }
@@ -291,7 +291,7 @@ public class Formatter implements IDirectableViewer {
                 if (viewer.getSelectedEdges().size() != 0) {
                     int eShape = 0;
                     int eWidth = 0;
-                    for (Edge e = viewer.getSelectedEdges().getFirstElement(); e != null; e = viewer.getSelectedEdges().getNextElement(e)) {
+                    for (Edge e : viewer.getSelectedEdges()) {
                         boolean labelVisible = viewer.getLabelVisible(e) && viewer.getLabel(e) != null && viewer.getLabel(e).length() > 0;
                         int w = viewer.getLineWidth(e);
                         int es = viewer.getShape(e);
@@ -717,7 +717,7 @@ public class Formatter implements IDirectableViewer {
                     style += Font.BOLD;
                 if (italics)
                     style += Font.ITALIC;
-                jloda.util.ProgramProperties.put(DEFAULT_FONT, family, style, size);
+                ProgramProperties.put(DEFAULT_FONT, family, style, size);
             }
         } catch (Exception ex) {
         }

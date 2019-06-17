@@ -29,7 +29,7 @@
  */
 package splitstree4.progs;
 
-import jloda.util.CommandLineOptions;
+import jloda.swing.util.CommandLineOptions;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Splits;

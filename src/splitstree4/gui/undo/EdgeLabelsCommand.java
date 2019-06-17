@@ -65,7 +65,7 @@ public class EdgeLabelsCommand extends ICommandAdapter implements ICommand {
         origLabels = new EdgeArray(viewer.getGraph());
 
         for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext()) {
-            origLabels.set(e, viewer.getLabel(e));
+            origLabels.put(e, viewer.getLabel(e));
         }
     }
 

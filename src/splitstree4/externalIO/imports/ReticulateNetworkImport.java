@@ -22,9 +22,9 @@ package splitstree4.externalIO.imports;
 import jloda.graph.Edge;
 import jloda.graph.IllegalSelfEdgeException;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
+import jloda.graph.NotOwnerException;
+import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import splitstree4.core.SplitsException;
 import splitstree4.nexus.Network;
 import splitstree4.nexus.Reticulate;
@@ -93,7 +93,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
         Vector reticulationLabels = new Vector();
         Vector reticulationNodes = new Vector();
         Node root = null;
-        PhyloGraph backbone = new PhyloGraph();
+        PhyloSplitsGraph backbone = new PhyloSplitsGraph();
         boolean found = false;
         while ((aLine = br.readLine()) != null) {
             if (aLine.trim().length() == 0 || aLine.startsWith("#"))
@@ -152,7 +152,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
         return sw.toString();
     }
 
-    private String makeNewickRec(Node start, Edge inEdge, PhyloGraph backbone, HashMap knownLabel2Node, HashMap subnetworks, ArrayList taxons) throws SplitsException {
+    private String makeNewickRec(Node start, Edge inEdge, PhyloSplitsGraph backbone, HashMap knownLabel2Node, HashMap subnetworks, ArrayList taxons) throws SplitsException {
         if (backbone.getInDegree(start) == 2 && knownLabel2Node.containsValue(start)) {// found subnetwork
             String label = backbone.getLabel(start);
             System.out.println("found reticulation: " + label + "\t outdegree: " + backbone.getOutDegree(start));
@@ -176,9 +176,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
                 System.out.println("adding subnetwork: " + label + "\t''");
             }
             // modify graph
-            Iterator it = start.getAdjacentEdges();
-            while (it.hasNext()) {
-                Edge e = (Edge) it.next();
+            for (Edge e : start.adjacentEdges()) {
                 if (e.getTarget().equals(start) && !e.equals(inEdge)) {
                     Node source = e.getSource();
                     Node newTarget = backbone.newNode();
@@ -227,7 +225,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
     }
 
 
-    public void readInSubtree(HashMap knownSubtrees, String toRead, PhyloGraph graph, HashMap knownLabel2Node, Vector reticulationLabels, Vector reticulationNodes) throws Exception {
+    public void readInSubtree(HashMap knownSubtrees, String toRead, PhyloSplitsGraph graph, HashMap knownLabel2Node, Vector reticulationLabels, Vector reticulationNodes) throws Exception {
         String key = toRead.substring(0, toRead.indexOf("=")).trim();
         toRead = toRead.substring(toRead.indexOf("=") + 1);
         Node root;
@@ -249,7 +247,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
      * @param str
      * @throws IOException
      */
-    public Node parseBracketNotation(String str, PhyloGraph graph, HashMap knownSubtrees) throws IOException {
+    public Node parseBracketNotation(String str, PhyloSplitsGraph graph, HashMap knownSubtrees) throws IOException {
         Map seen = new HashMap();
         // we have to tread the first node special, its the root and phylograph has no root!!!
         int i = Basic.skipSpaces(str, 0);
@@ -291,7 +289,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
      * @return new current position
      * @throws IOException
      */
-    public int parseBracketNotationRecursively(Map seen, int depth, Node v, int i, String str, PhyloGraph graph, HashMap knownSubtrees) throws IOException {
+    public int parseBracketNotationRecursively(Map seen, int depth, Node v, int i, String str, PhyloSplitsGraph graph, HashMap knownSubtrees) throws IOException {
         try {
             for (i = Basic.skipSpaces(str, i); i < str.length(); i = Basic.skipSpaces(str, i + 1)) {
                 Node w = graph.newNode();

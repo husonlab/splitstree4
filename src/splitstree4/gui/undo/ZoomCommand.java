@@ -19,7 +19,7 @@
  */
 package splitstree4.gui.undo;
 
-import jloda.graphview.Transform;
+import jloda.swing.graphview.Transform;
 import splitstree4.gui.main.MainViewer;
 
 import java.awt.*;

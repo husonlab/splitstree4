@@ -25,8 +25,10 @@ package splitstree4.util;
  * Date: 04-Dec-2003
  */
 
-import jloda.graphview.Transform;
+import jloda.swing.graphview.Transform;
 import jloda.util.Basic;
+import jloda.util.ProgramProperties;
+import jloda.util.ResourceUtils;
 import splitstree4.algorithms.util.Configurator;
 import splitstree4.main.SplitsTreeProperties;
 
@@ -56,7 +58,7 @@ public class PluginClassLoader {
         List<Object> plugins = new LinkedList<>();
         String[] resources;
         try {
-            resources = Basic.fetchResources(packageName);
+            resources = ResourceUtils.fetchResources(packageName);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -89,7 +91,7 @@ public class PluginClassLoader {
     private static List<Object> loadPlugins(Class type) {
         LinkedList<Object> plugins = new LinkedList<>();
         try {
-            String dir = jloda.util.ProgramProperties.get("PluginFolder");
+            String dir = ProgramProperties.get("PluginFolder");
             if (debug) System.out.println("pluginFolder: " + dir);
             if (dir != null) {
                 File pluginDir = new File(dir);

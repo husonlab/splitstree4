@@ -20,18 +20,18 @@
 package splitstree4.algorithms.splits.reticulateTree;
 
 import jloda.graph.*;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
+import jloda.util.IterationUtils;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * In this method the taxa and splits objects are given as the complete set of taxa and splits in the graph
@@ -50,8 +50,8 @@ public class ModifyGraph {
      */
     private static boolean verbose = false;
 
-    static public void apply(PhyloGraph graph, PhyloGraphView graphView, ReticulationTree[] reticulationList, TaxaSet[][] inducedTaxa2origsTaxa, NodeSet[] nettedComps, NodeSet gateNodes,
-                             boolean showSplits, boolean labelNodes, Taxa taxa, Splits splits, int outgroup) throws Exception {
+    static public void apply(PhyloSplitsGraph graph, PhyloGraphView graphView, ReticulationTree[] reticulationList, TaxaSet[][] inducedTaxa2origsTaxa, NodeSet[] nettedComps, NodeSet gateNodes,
+                             boolean showSplits, boolean labelNodes, Taxa taxa, Splits splits, int outgroup) {
         if (!showSplits) {
             HashSet reticulationEdges = new HashSet();
             boolean retNet = true;
@@ -117,7 +117,7 @@ public class ModifyGraph {
      * @param nettedComp   set of nodes in current component
      * @param graph
      */
-    static private NodeArray computeGate2ExternalTaxa(NodeSet allGateNodes, NodeSet nettedComp, PhyloGraph graph) throws NotOwnerException {
+    static private NodeArray computeGate2ExternalTaxa(NodeSet allGateNodes, NodeSet nettedComp, PhyloSplitsGraph graph) throws NotOwnerException {
 
         // make set of component gate nodes:
         NodeSet compGateNodes = new NodeSet(graph);
@@ -135,7 +135,7 @@ public class ModifyGraph {
         it = compGateNodes.iterator();
         while (it.hasNext()) {
             Node v = (Node) it.next();
-            gate2externalTaxa.set(v, computeGate2ExternalTaxaNode(v, nettedComp, graph));
+            gate2externalTaxa.put(v, computeGate2ExternalTaxaNode(v, nettedComp, graph));
         }
         return gate2externalTaxa;
     }
@@ -150,24 +150,15 @@ public class ModifyGraph {
      * @return set of taxa reachable from component by gate node
      */
     static private TaxaSet computeGate2ExternalTaxaNode(Node v, NodeSet componentNodes,
-                                                        PhyloGraph graph) throws NotOwnerException {
-        NodeSet visited = new NodeSet(graph);
-        Iterator it = graph.getAdjacentNodes(v);
-        while (it.hasNext()) {
-            Node w = (Node) it.next();
+                                                        PhyloSplitsGraph graph) throws NotOwnerException {
+        final NodeSet visited = new NodeSet(graph);
+        for (Node w : v.adjacentNodes()) {
             computeGate2ExternalTaxaRec(w, componentNodes, graph, visited);
         }
         TaxaSet result = new TaxaSet();
-        it = visited.iterator();
-        while (it.hasNext()) {
-            Node u = (Node) it.next();
-            List taxaList = graph.getNode2Taxa(u);
-            if (taxaList != null) {
-                for (Object aTaxaList : taxaList) {
-                    int tt = (Integer) aTaxaList;
-                    result.set(tt);
-                }
-            }
+        for (Node u : visited) {
+            if (graph.hasTaxa(u))
+                result.setAll(IterationUtils.asList(graph.getTaxa(u)));
         }
         return result;
     }
@@ -180,13 +171,11 @@ public class ModifyGraph {
      * @param graph
      * @param visited
      */
-    static private void computeGate2ExternalTaxaRec(Node v, NodeSet compNodes, PhyloGraph graph, NodeSet visited)
+    static private void computeGate2ExternalTaxaRec(Node v, NodeSet compNodes, PhyloSplitsGraph graph, NodeSet visited)
             throws NotOwnerException {
         if (!compNodes.contains(v) && !visited.contains(v)) {
             visited.add(v);
-            Iterator it = graph.getAdjacentNodes(v);
-            while (it.hasNext()) {
-                Node w = (Node) it.next();
+            for (Node w : v.adjacentNodes()) {
                 computeGate2ExternalTaxaRec(w, compNodes, graph, visited);
             }
 
@@ -201,7 +190,7 @@ public class ModifyGraph {
      * @param gate2externalTaxa
      * @param graph
      */
-    static private Node[] computeInduced2GateNodes(TaxaSet[] induced2origTaxa, NodeSet gateNodes, NodeArray gate2externalTaxa, PhyloGraph graph) throws NotOwnerException {
+    static private Node[] computeInduced2GateNodes(TaxaSet[] induced2origTaxa, NodeSet gateNodes, NodeArray gate2externalTaxa, PhyloSplitsGraph graph) throws NotOwnerException {
         Node[] induced2gate = new Node[induced2origTaxa.length];
         NodeSet used = new NodeSet(graph);
         for (int i = 1; i < induced2origTaxa.length; i++) {
@@ -213,13 +202,15 @@ public class ModifyGraph {
                 Node v = (Node) it.next();
                 if (!used.contains(v)) {
                     TaxaSet gateTaxa = (TaxaSet) gate2externalTaxa.get(v);
-                    if (gateTaxa != null) if (verbose) System.out.println("gateTaxa: " + gateTaxa);
-                    if (gateTaxa != null && origTaxa.equals(gateTaxa)) {
-                        found = true;
-                        if (verbose) System.out.println("found");
-                        used.add(v);
-                        induced2gate[i] = v;
-                        break;
+                    if (gateTaxa != null) {
+                        if (verbose) System.out.println("gateTaxa: " + gateTaxa);
+                        if (origTaxa.equals(gateTaxa)) {
+                            found = true;
+                            if (verbose) System.out.println("found");
+                            used.add(v);
+                            induced2gate[i] = v;
+                            break;
+                        }
                     }
                 }
             }
@@ -238,13 +229,11 @@ public class ModifyGraph {
      * @param comp
      * @param graph
      * @param graphView
-     * @throws jloda.util.NotOwnerException
+     * @throws NotOwnerException
      */
-    static private void colorComponent(NodeSet comp, PhyloGraph graph, PhyloGraphView graphView) throws NotOwnerException {
+    static private void colorComponent(NodeSet comp, PhyloSplitsGraph graph, PhyloGraphView graphView) throws NotOwnerException {
         for (Node v : comp) {
-            Iterator it2 = graph.getAdjacentEdges(v);
-            while (it2.hasNext()) {
-                Edge e = (Edge) it2.next();
+            for (Edge e : v.adjacentEdges()) {
                 Node w = graph.getOpposite(v, e);
                 if (comp.contains(w)) {
                     graphView.setColor(e, Color.BLUE);
@@ -266,10 +255,9 @@ public class ModifyGraph {
      * @param nettedComp
      * @param graph
      * @param graphView
-     * @throws Exception
      */
     static public HashSet addReticulations2BackboneTree(Taxa taxa, Splits splits, ReticulationTree ret, Node[] induced2gateNode, TaxaSet[] induced2origTaxa, NodeSet gateNodes, NodeSet nettedComp,
-                                                        PhyloGraph graph, PhyloGraphView graphView, boolean labelNodes) {
+                                                        PhyloSplitsGraph graph, PhyloGraphView graphView, boolean labelNodes) {
         if (verbose) System.out.println(ret.getTreeSplit2Reticulations());
         HashSet reticulationEdges = new HashSet();
         //System.out.println("gateNodes: "+gateNodes);
@@ -288,18 +276,18 @@ public class ModifyGraph {
         }
         // Add reticulations
         // make list of edges in the nettedComp
-        HashSet nettedEdges = new HashSet();
-        Iterator it = nettedComp.iterator();
-        while (it.hasNext()) {
-            Iterator it2 = graph.getAdjacentEdges((Node) it.next());
-            while (it2.hasNext()) nettedEdges.add(it2.next());
+        final HashSet<Edge> nettedEdges = new HashSet<>();
+        for (Node v : nettedComp) {
+            for (Edge e : v.adjacentEdges()) {
+                nettedEdges.add(e);
+            }
         }
         // map induced splits to org splits
-        HashMap indSplit2OrgSplit = new HashMap();
-        it = ret.getTreeSplit2Reticulations().keySet().iterator();
-        HashMap orgSplit2orderedReticulation = new HashMap();
-        while (it.hasNext()) {
-            TaxaSet treeSplit = (TaxaSet) it.next();
+        final HashMap<TaxaSet, TaxaSet> indSplit2OrgSplit = new HashMap<>();
+        final HashMap<TaxaSet, Object> orgSplit2orderedReticulation = new HashMap<>();
+
+        for (Object obj : ret.getTreeSplit2Reticulations().keySet()) {
+            final TaxaSet treeSplit = (TaxaSet) obj;
             if (verbose) System.out.println(treeSplit);
             TaxaSet indSplit = new TaxaSet();
             for (int i = treeSplit.getBits().nextSetBit(1); i != -1; i = treeSplit.getBits().nextSetBit(i + 1))
@@ -313,9 +301,7 @@ public class ModifyGraph {
         //System.out.println("inducedSplit2Reticulations: " + ret.getInducedSplit2Reticulations());
         //System.out.println("inducedSplit2OrgSplit: " + indSplit2OrgSplit);
 
-        it = nettedEdges.iterator();
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
+        for (Edge e : nettedEdges) {
             Node source = graph.getSource(e);
             Node target = graph.getTarget(e);
             if (nettedComp.contains(source) || nettedComp.contains(target)) {
@@ -325,7 +311,7 @@ public class ModifyGraph {
                 tmp.add(e);
                 TaxaSet orgSourceTaxa = new TaxaSet();
                 {
-                    for (Integer integer : graph.getNode2Taxa(source)) orgSourceTaxa.set(integer);
+                    for (Integer integer : graph.getTaxa(source)) orgSourceTaxa.set(integer);
 
                 }
                 RecFindTaxaLabels(graphView, graph, source, tmp, orgSourceTaxa, taxa, gateNodes, nettedComp, gateNode2origTaxa);
@@ -546,18 +532,13 @@ public class ModifyGraph {
      * @param nettedComp
      * @param graph
      * @param graphView
-     * @throws Exception
      */
     static public HashSet findBackboneTree(Taxa taxa, Splits splits, ReticulationTree ret, Node[] induced2gateNode, TaxaSet[] induced2origTaxa, NodeSet gateNodes, NodeSet nettedComp,
-                                           PhyloGraph graph, PhyloGraphView graphView) {
+                                           PhyloSplitsGraph graph, PhyloGraphView graphView) {
         // the splits in the nettedComp
-        Iterator nIt = nettedComp.iterator();
-        HashSet nettedSplits = new HashSet();
-        while (nIt.hasNext()) {
-            Node n = (Node) nIt.next();
-            Iterator vIt = graph.getAdjacentNodes(n);
-            while (vIt.hasNext()) {
-                Node v = (Node) vIt.next();
+        HashSet<TaxaSet> nettedSplits = new HashSet<>();
+        for (Node n : nettedComp) {
+            for (Node v : n.adjacentNodes()) {
                 if (nettedComp.contains(v)) {
                     nettedSplits.add(splits.get(graph.getSplit(graph.getCommonEdge(n, v))));
                 }
@@ -655,32 +636,24 @@ public class ModifyGraph {
     /**
      * @param markedEdges
      * @param graph
-     * @throws Exception
      */
-    static public void reduce2BackboneTree(NodeSet nettedComp, NodeSet gateNodes, HashSet markedEdges, PhyloGraph graph) {
+    static public void reduce2BackboneTree(NodeSet nettedComp, NodeSet gateNodes, HashSet markedEdges, PhyloSplitsGraph graph) {
         // remove all Eddges wich are not marked
         // for (int i = 1; i < nettedComps.length; i++) {
-        LinkedList nodesToDelete = new LinkedList();
+        List<Node> nodesToDelete = new ArrayList<>();
         // System.out.println("working on component "+i);
         //   NodeSet nettedComp = nettedComps[i];
-        Iterator it = nettedComp.iterator();
-        while (it.hasNext()) {
-            Node node = (Node) it.next();
-            Iterator eIt = graph.getAdjacentEdges(node);
-            while (eIt.hasNext()) {
-                Edge toRemove = (Edge) eIt.next();
+        for (Node node : nettedComp) {
+            for (Edge toRemove : node.adjacentEdges()) {
                 if (!markedEdges.contains(toRemove) && nettedComp.contains(graph.getOpposite(node, toRemove))) {
                     //System.out.println("removing because nodes are in nettedComp: "+node+"\t"+graph.getOpposite(node,toRemove));
                     graph.deleteEdge(toRemove);
-                } else {
                 }
             }
             if (graph.getDegree(node) == 0) nodesToDelete.add(node);
         }
         if (verbose) System.out.println("deleting nodes: " + nodesToDelete);
-        it = nodesToDelete.iterator();
-        while (it.hasNext()) {
-            Node toDelete = (Node) it.next();
+        for (Node toDelete : nodesToDelete) {
             nettedComp.remove(toDelete);
             if (gateNodes.contains(toDelete)) if (verbose) System.out.println("deleting gate Node with degree 0");
             graph.deleteNode(toDelete);
@@ -696,19 +669,16 @@ public class ModifyGraph {
      * @param seenEdges
      * @param TaxaOfSplit
      * @param taxa
-     * @throws Exception
      */
-    static private void RecFindTaxaLabels(PhyloGraphView graphView, PhyloGraph graph, Node start, HashSet seenEdges, TaxaSet TaxaOfSplit, Taxa taxa, NodeSet gateNodes, NodeSet nettedComp, HashMap gateNode2origTaxa) {
-        Iterator it = graph.getAdjacentEdges(start);
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
+    static private void RecFindTaxaLabels(PhyloGraphView graphView, PhyloSplitsGraph graph, Node start, HashSet<Edge> seenEdges, TaxaSet TaxaOfSplit, Taxa taxa, NodeSet gateNodes, NodeSet nettedComp, HashMap gateNode2origTaxa) {
+        for (Edge e : start.adjacentEdges()) {
             if (!seenEdges.contains(e)) {
                 seenEdges.add(e);
                 Node oppositeNode = graph.getOpposite(start, e);
                 // do not cross blue edges in the component
                 //System.out.println(nettedComp.contains(start)+"\t"+nettedComp.contains(oppositeNode)+"\t"+(graphView.getColor(e) == Color.blue));
                 if (!((nettedComp.contains(start) || nettedComp.contains(oppositeNode)) && graphView.getColor(e) == Color.blue)) {
-                    for (Integer integer : graph.getNode2Taxa(oppositeNode)) TaxaOfSplit.set(integer);
+                    for (Integer integer : graph.getTaxa(oppositeNode)) TaxaOfSplit.set(integer);
                     // Recursive into subtree
                     RecFindTaxaLabels(graphView, graph, oppositeNode, seenEdges, TaxaOfSplit, taxa, gateNodes, nettedComp, gateNode2origTaxa);
 
@@ -731,16 +701,13 @@ public class ModifyGraph {
      * @param splits
      * @param rTaxa
      * @return
-     * @throws Exception
      */
-    static private boolean recMarkSplits(PhyloGraph graph, Node startNode, Node stopNode, Object[] path, int pathPosition, HashSet markedEdges, HashSet visitedEdges, NodeSet nettedComp, Splits splits, TaxaSet rTaxa) {
+    static private boolean recMarkSplits(PhyloSplitsGraph graph, Node startNode, Node stopNode, Object[] path, int pathPosition, HashSet<Edge> markedEdges, HashSet<Edge> visitedEdges, NodeSet nettedComp, Splits splits, TaxaSet rTaxa) {
 
         if (pathPosition != path.length && startNode != stopNode) {
             TaxaSet nextSplit = (TaxaSet) path[pathPosition];
-            LinkedList possibleEdges = new LinkedList();
-            Iterator it = graph.getAdjacentEdges(startNode);
-            while (it.hasNext()) {
-                Edge nextEdge = (Edge) it.next();
+            List<Edge> possibleEdges = new ArrayList<>();
+            for (Edge nextEdge : startNode.adjacentEdges()) {
                 if (nettedComp.contains(graph.getOpposite(startNode, nextEdge)) && !visitedEdges.contains(nextEdge)) {
                     TaxaSet sCandidate = (TaxaSet) splits.get(graph.getSplit(nextEdge)).clone();
                     sCandidate.andNot(rTaxa);
@@ -756,29 +723,27 @@ public class ModifyGraph {
                 return false;
                 //throw new Exception("no node to go to");
             } else { // we have to decide wich one to take
-                it = possibleEdges.iterator();
-                boolean found = false;
-                Edge nextEdge = null;
-                while (it.hasNext() && !found) {
-                    nextEdge = (Edge) it.next();
-                    if (markedEdges.contains(nextEdge)) found = true;
+                Edge found = null;
+                for (Edge nextEdge : possibleEdges) {
+                    if (markedEdges.contains(nextEdge)) {
+                        found = nextEdge;
+                        break;
+                    }
                 }
                 // if there exists a node that we have taken before
-                if (found) {
-                    markedEdges.add(nextEdge);
-                    visitedEdges.add(nextEdge);
-                    return recMarkSplits(graph, graph.getOpposite(startNode, nextEdge), stopNode, path, pathPosition + 1, markedEdges, visitedEdges, nettedComp, splits, rTaxa);
+                if (found != null) {
+                    markedEdges.add(found);
+                    visitedEdges.add(found);
+                    return recMarkSplits(graph, graph.getOpposite(startNode, found), stopNode, path, pathPosition + 1, markedEdges, visitedEdges, nettedComp, splits, rTaxa);
 
                 } else {
                     //try all other nodes until we find a path
-                    it = possibleEdges.iterator();
-                    while (it.hasNext() && !found) {
-                        nextEdge = (Edge) it.next();
+                    for (Edge nextEdge : possibleEdges) {
                         markedEdges.add(nextEdge);
                         visitedEdges.add(nextEdge);
-                        found = recMarkSplits(graph, graph.getOpposite(startNode, nextEdge), stopNode, path, pathPosition + 1, markedEdges, visitedEdges, nettedComp, splits, rTaxa);
+                        if (recMarkSplits(graph, graph.getOpposite(startNode, nextEdge), stopNode, path, pathPosition + 1, markedEdges, visitedEdges, nettedComp, splits, rTaxa))
                         // if we found a path
-                        if (found) {
+                        {
                             //System.out.println("Found Path: ");
                             return true;
                         }
@@ -812,11 +777,8 @@ public class ModifyGraph {
      * @param graph
      * @param graphView
      * @param markedEdges
-     * @throws Exception
      */
-    static private void defineReticulationEdgeSplits(Taxa taxa, Splits splits, ReticulationTree ret, Node[] induced2gateNode, TaxaSet[] induced2origTaxa, NodeSet nettedComp,
-                                                     PhyloGraph graph, PhyloGraphView graphView, HashSet markedEdges) {
-
+    static private void defineReticulationEdgeSplits(Taxa taxa, Splits splits, ReticulationTree ret, Node[] induced2gateNode, TaxaSet[] induced2origTaxa, NodeSet nettedComp, PhyloSplitsGraph graph, PhyloGraphView graphView, HashSet markedEdges) {
 
         Iterator it;
         // the rTaxa
@@ -913,16 +875,13 @@ public class ModifyGraph {
      * @param startNode
      * @param graph
      * @return
-     * @throws Exception
      */
-    static private HashSet findPath(Node rNode, Node startNode, PhyloGraph graph) {
+    static private HashSet findPath(Node rNode, Node startNode, PhyloSplitsGraph graph) {
         HashSet seen = new HashSet();
         seen.add(startNode);
         Vector nodes = new Vector();
         Vector data = new Vector();
-        Iterator it = startNode.getAdjacentNodes();
-        while (it.hasNext()) {
-            Node nextNode = (Node) it.next();
+        for (Node nextNode : startNode.adjacentNodes()) {
             HashSet edges = new HashSet();
             edges.add(graph.getCommonEdge(startNode, nextNode));
             // path of length 1
@@ -939,9 +898,7 @@ public class ModifyGraph {
             //System.out.println("toVisit:");
             //for (int i = 0; i < nodes.size(); i++) System.out.println(nodes.get(i) + "\tsize: " + ((HashSet) data.get(i)).size());
             //System.out.println(startNode + "\t" + edges);
-            it = startNode.getAdjacentNodes();
-            while (it.hasNext()) {
-                Node nextNode = (Node) it.next();
+            for (Node nextNode : startNode.adjacentNodes()) {
                 if (!seen.contains(nextNode)) {
                     // add Data
                     HashSet newEdges = (HashSet) edges.clone();
@@ -964,16 +921,16 @@ public class ModifyGraph {
      *
      * @param graph
      */
-    static public void removeDivertices(PhyloGraph graph, NodeSet gateNodes, Node[] induced2gateNode, NodeSet nettedComp, Splits splits) throws NotOwnerException {
-        List toDelete = new LinkedList();
+    static public void removeDivertices(PhyloSplitsGraph graph, NodeSet gateNodes, Node[] induced2gateNode, NodeSet nettedComp, Splits splits) throws NotOwnerException {
+        final List<Node> toDelete = new ArrayList<>();
         // update the netted Component
         for (Node v = graph.getFirstNode(); v != null; v = graph.getNextNode(v)) {
-            if (graph.getDegree(v) == 2 && (graph.getNode2Taxa(v) == null || graph.getNode2Taxa(v).size() == 0)) {
+            if (v.getDegree() == 2 && graph.getNumberOfTaxa(v) == 0) {
                 nettedComp.remove(v);
                 // check if it is a gate Node
                 if (gateNodes.contains(v)) {
                     // take the next one outside as gateNode
-                    Iterator it = graph.getAdjacentNodes(v);
+                    Iterator<Node> it = v.adjacentNodes().iterator();
                     //System.out.println("toDelete: " + v + "\tdegree: " + graph.getDegree(v));
                     Node one = (Node) it.next();
                     while (nettedComp.contains(one)) one = (Node) it.next();
@@ -984,7 +941,6 @@ public class ModifyGraph {
                         if (induced2gateNode[i] == v) induced2gateNode[i] = one;
                 }
                 toDelete.add(v);
-
             }
         }
         for (Object aToDelete : toDelete) {
@@ -1015,9 +971,8 @@ public class ModifyGraph {
     /**
      * @param graph
      * @param split2Chars
-     * @throws Exception
      */
-    static public void removeUnlabeldEdges(PhyloGraphView graphView, PhyloGraph graph, Map split2Chars) {
+    static public void removeUnlabeldEdges(PhyloGraphView graphView, PhyloSplitsGraph graph, Map split2Chars) {
         LinkedList toDelete = new LinkedList();
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
             BitSet edgeSplits = (BitSet) e.getInfo();
@@ -1033,9 +988,9 @@ public class ModifyGraph {
             if (target.getOwner() == null)
                 continue;     // don't know whether this can happen, did this to be safe... FIXED, but why?
 
-            Set adjacentNodes = new HashSet();
-            for (Iterator it2 = target.getAdjacentNodes(); it2.hasNext(); ) {
-                adjacentNodes.add(it2.next());
+            Set<Node> adjacentNodes = new HashSet<>();
+            for (Node w : target.adjacentNodes()) {
+                adjacentNodes.add(w);
             }
             for (Object adjacentNode : adjacentNodes) {
                 Node n = (Node) adjacentNode;
@@ -1057,21 +1012,19 @@ public class ModifyGraph {
     }
 
 
-    static private void makeGraphDirected(PhyloGraph graph, HashSet reticulationEdges, int outgroup) {
+    static private void makeGraphDirected(PhyloSplitsGraph graph, HashSet reticulationEdges, int outgroup) {
         if (verbose) System.out.println("directing graph");
         Node o = graph.getTaxon2Node(outgroup);
         // o is a leaf and connected to the root
-        Node root = o.getAdjacentNodes().next();
+        Node root = o.adjacentNodes().iterator().next();
         //graph.setLabel(root, "this is start: " + root.getInDegree());
         if (verbose) System.err.println("starting resorting");
         recMakeGraphDirected(graph, reticulationEdges, root, new HashSet());
     }
 
-    static private boolean recMakeGraphDirected(PhyloGraph graph, HashSet reticulationEdges, Node start, HashSet ancestors) {
+    static private boolean recMakeGraphDirected(PhyloSplitsGraph graph, HashSet reticulationEdges, Node start, HashSet ancestors) {
         //System.out.println("start: "+start+"\t ancestors: "+ancestors);
-        Iterator it = start.getAdjacentNodes();
-        while (it.hasNext()) {
-            Node n = (Node) it.next();
+        for (Node n : start.adjacentNodes()) {
             //System.out.println("next Node is " + n + "\tis ancestor: " + ancestors.contains(n) + "\treticulation Node: " + reticulationEdges.contains(n.getCommonEdge(start)));
             if (!ancestors.contains(n)) {
                 Edge e = start.getCommonEdge(n);

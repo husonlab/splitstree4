@@ -22,8 +22,8 @@ package splitstree4.externalIO.exports;
 import jloda.graph.Edge;
 import jloda.graph.Graph;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import splitstree4.core.Document;
 import splitstree4.nexus.Network;
 import splitstree4.nexus.Reticulate;
@@ -68,7 +68,7 @@ public class ReticulateNetworkExport extends ExporterAdapter implements Exporter
         Network net = doc.getNetwork();
         PhyloGraphView graphView = new PhyloGraphView();
         net.syncNetwork2PhyloGraphView(taxa, doc.getSplits(), graphView);
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         Node root = null;
         Iterator it = graph.nodeIterator();
         while (root == null && it.hasNext()) {
@@ -139,10 +139,18 @@ public class ReticulateNetworkExport extends ExporterAdapter implements Exporter
         while (it.hasNext()) System.out.println("EDGE: " + it.next());
 
         // sort nodes by their OutDegree
-        TreeSet sortedNodes = new TreeSet(new Comparator() {
-            public int compare(Object o1, Object o2) {
-                Node n1 = (Node) o1;
-                Node n2 = (Node) o2;
+        ArrayList<Node> list = new ArrayList<>();
+
+        it = g.nodeIterator();
+        while (it.hasNext()) {
+            Node n = (Node) it.next();
+            System.out.println("Node: " + n + "\toutdegree: " + n.getOutDegree());
+            list.add(n);
+        }
+        StringBuilder re = new StringBuilder();
+
+        list.sort(new Comparator<Node>() {
+            public int compare(Node n1, Node n2) {
                 if (n1.equals(n2))
                     return 0;
                 else if (n1.getOutDegree() > n2.getOutDegree())
@@ -151,30 +159,19 @@ public class ReticulateNetworkExport extends ExporterAdapter implements Exporter
                     return -1;
             }
         });
-        it = g.nodeIterator();
-        while (it.hasNext()) {
-            Node n = (Node) it.next();
-            System.out.println("Node: " + n + "\toutdegree: " + n.getOutDegree());
-            sortedNodes.add(n);
-        }
-        System.out.println("sorted nodes of graph: " + sortedNodes);
-        StringBuilder re = new StringBuilder();
-        it = sortedNodes.iterator();
-        while (it.hasNext()) {
-            Node next = (Node) it.next();
+        for (Node next : list) {
             String name = (String) node2rTaxaName.get(next);
             re.append(name).append("=").append(rTaxaName2subtree.get(name)).append(";\n");
         }
         return re.toString();
     }
 
-    private String recMakeNewick(Node start, PhyloGraph graph, Taxa taxa, HashMap node2rTaxaName, HashMap rTaxaName2subtree, HashSet usedLabels) throws Exception {
+    private String recMakeNewick(Node start, PhyloSplitsGraph graph, Taxa taxa, HashMap node2rTaxaName, HashMap rTaxaName2subtree, HashSet usedLabels) throws Exception {
         StringBuilder subtree = new StringBuilder();
-        Iterator it = start.getAdjacentNodes();
         int rCount = 1;
         boolean first = true;
-        while (it.hasNext()) {
-            Node next = (Node) it.next();
+
+        for (Node next : start.adjacentNodes()) {
             Edge e = start.getCommonEdge(next);
             if (e.getSource().equals(start)) {
                 // check for leaf

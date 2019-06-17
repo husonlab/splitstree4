@@ -31,8 +31,9 @@
  */
 package splitstree4.externalIO.imports;
 
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import jloda.util.Basic;
+import jloda.util.ResourceUtils;
 import splitstree4.core.SplitsException;
 
 import javax.swing.filechooser.FileFilter;
@@ -66,7 +67,7 @@ public class ImportManager {
         ArrayList filters = new ArrayList();
         String[] importers;
         try {
-            importers = Basic.fetchResources(packageName);
+            importers = ResourceUtils.fetchResources(packageName);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -104,7 +105,7 @@ public class ImportManager {
         ArrayList filters = new ArrayList();
         String[] importers;
         try {
-            importers = Basic.fetchResources(packageName);
+            importers = ResourceUtils.fetchResources(packageName);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -157,7 +158,7 @@ public class ImportManager {
         //MZ: 2006-01-28
         String[] importers;
         try {
-            importers = Basic.fetchResources(packageName);
+            importers = ResourceUtils.fetchResources(packageName);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -220,7 +221,7 @@ public class ImportManager {
         //MZ: 2006-01-28
         String[] importers;
         try {
-            importers = Basic.fetchResources(packageName);
+            importers = ResourceUtils.fetchResources(packageName);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;

@@ -21,13 +21,12 @@ package splitstree4.algorithms.splits.reticulateTree;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
+import jloda.phylo.PhyloSplitsGraph;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 
 import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * The class gives a implementation to check if a reticulation scenario is valid given a root, The metod uses a directed graph.
@@ -48,8 +47,8 @@ public class TestForRoot {
      * @return
      * @throws Exception
      */
-    public static boolean checkIfRootCanBePlaced(PhyloGraph treeGraph, Taxa treeTaxa, Splits treeSplits, int treeOutgroupID, Taxa orgTaxa, Splits orgSplits, int[] treeTaxa2OrgTaxa, TaxaSet rTaxa, ReticulationTree ret) {
-        PhyloGraph testGraph = new PhyloGraph();
+    public static boolean checkIfRootCanBePlaced(PhyloSplitsGraph treeGraph, Taxa treeTaxa, Splits treeSplits, int treeOutgroupID, Taxa orgTaxa, Splits orgSplits, int[] treeTaxa2OrgTaxa, TaxaSet rTaxa, ReticulationTree ret) {
+        PhyloSplitsGraph testGraph = new PhyloSplitsGraph();
         Node[] rTaxa2Node = new Node[orgTaxa.getNtax() + 1];
         for (int i = rTaxa.getBits().nextSetBit(1); i != -1; i = rTaxa.getBits().nextSetBit(i + 1)) {
             Node v = testGraph.newNode();
@@ -73,10 +72,8 @@ public class TestForRoot {
      * @return
      * @throws Exception
      */
-    private static boolean findCycle(PhyloGraph testGraph, Node startNode) {
-        Iterator itE = testGraph.getAdjacentEdges(startNode);
-        while (itE.hasNext()) {
-            Edge e = (Edge) itE.next();
+    private static boolean findCycle(PhyloSplitsGraph testGraph, Node startNode) {
+        for (Edge e : startNode.adjacentEdges()) {
             Node toVisit = e.getTarget();
             if (toVisit != startNode) {
                 if (testGraph.getInfo(toVisit) != null)
@@ -108,56 +105,7 @@ public class TestForRoot {
      * @param rTaxa
      * @throws Exception
      */
-    private static void RecMakeRootTestGraph(PhyloGraph testGraph, TaxaSet seenRTaxa, PhyloGraph treeGraph, Splits treeSplits, Node[] rTaxa2Node, int[] treeTaxa2OrgTaxa, Node startNode, ReticulationTree ret, HashSet seenNodes, Taxa orgTaxa, TaxaSet rTaxa) {
-        Iterator it = treeGraph.getAdjacentNodes(startNode);
-        /* while (it.hasNext()) {
-             Node nextNode = (Node) it.next();
-             if (!seenNodes.contains(nextNode)) {
-                 seenNodes.add(nextNode);
-                 Edge e = treeGraph.getCommonEdge(startNode, nextNode);
-                 // retrive reticulation Nodes of edge
-                 TaxaSet newSeenRTaxa = (TaxaSet) seenRTaxa.clone();
-                 TaxaSet indSplit = treeSplits.get(treeGraph.getSplit(e));
-                 TaxaSet orgSourceSplit = new TaxaSet();
-                 for (int i = indSplit.getBits().nextSetBit(1); i != -1; i = indSplit.getBits().nextSetBit(i + 1)) orgSourceSplit.set(treeTaxa2OrgTaxa[i]);
-                 TaxaSet orgTargetSplit = orgSourceSplit.getComplement(orgTaxa.getNtax());
-                 orgTargetSplit.andNot(rTaxa);
-                 System.out.println("indSplit: " + indSplit + "\torgSplit: " + orgSourceSplit + "|" + orgTargetSplit + "\tmap: " + ret.getTreeSplit2Reticulations());
-
-                 if (treeGraph.getSource(e) == startNode && ret.getTreeSplit2Reticulations().get(orgSourceSplit) != null) {
-                     // ordering is correct
-                     LinkedList retTaxaOnEdge = (LinkedList) ret.getTreeSplit2Reticulations().get(orgSourceSplit);
-                     Iterator it2 = retTaxaOnEdge.iterator();
-                     while (it2.hasNext()) {
-                         TaxaSet rNodes = (TaxaSet) it2.next();
-                         for (int i = rNodes.getBits().nextSetBit(1); i != -1; i = rNodes.getBits().nextSetBit(i + 1)) {
-                             for (int j = newSeenRTaxa.getBits().nextSetBit(1); j != -1; j = newSeenRTaxa.getBits().nextSetBit(j + 1))
-                                     // first one source second one target ?!?
-                                 testGraph.newEdge(rTaxa2Node[j], rTaxa2Node[i]);
-                             newSeenRTaxa.set(i);
-                         }
-                     }
-                 } else if (ret.getTreeSplit2Reticulations().get(orgTargetSplit) != null) {
-                     // ordering is vice Versa
-                     LinkedList toAdd = new LinkedList();
-                     LinkedList retTaxaOnEdge = (LinkedList) ret.getTreeSplit2Reticulations().get(orgTargetSplit);
-                     Iterator it2 = retTaxaOnEdge.iterator();
-                     while (it2.hasNext()) toAdd.addFirst(it2.next());
-                     it2 = toAdd.iterator();
-                     while (it2.hasNext()) {
-                         TaxaSet rNodes = (TaxaSet) it2.next();
-                         for (int i = rNodes.getBits().nextSetBit(1); i != -1; i = rNodes.getBits().nextSetBit(i + 1)) {
-                             for (int j = newSeenRTaxa.getBits().nextSetBit(1); j != -1; j = newSeenRTaxa.getBits().nextSetBit(j + 1))
-                                     // first one source second one target ?!?
-                                 testGraph.newEdge(rTaxa2Node[j], rTaxa2Node[i]);
-                             newSeenRTaxa.set(i);
-                         }
-                     }
-                 }
-                 // go into recusion
-                 RecMakeRootTestGraph(testGraph, newSeenRTaxa, treeGraph, treeSplits, rTaxa2Node, treeTaxa2OrgTaxa, nextNode, ret, seenNodes, orgTaxa, rTaxa);
-             }
-         }*/
+    private static void RecMakeRootTestGraph(PhyloSplitsGraph testGraph, TaxaSet seenRTaxa, PhyloSplitsGraph treeGraph, Splits treeSplits, Node[] rTaxa2Node, int[] treeTaxa2OrgTaxa, Node startNode, ReticulationTree ret, HashSet seenNodes, Taxa orgTaxa, TaxaSet rTaxa) {
     }
 
 }

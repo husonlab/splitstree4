@@ -19,10 +19,14 @@
  */
 package splitstree4.gui.input;
 
-import jloda.gui.director.IDirector;
-import jloda.gui.find.SearchManager;
-import jloda.gui.message.MessageWindow;
-import jloda.util.*;
+import jloda.swing.director.IDirector;
+import jloda.swing.find.SearchManager;
+import jloda.swing.message.MessageWindow;
+import jloda.swing.util.Alert;
+import jloda.swing.util.ResourceManager;
+import jloda.swing.util.TextPrinter;
+import jloda.util.Basic;
+import jloda.util.CanceledException;
 import splitstree4.core.BlockChooser;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;

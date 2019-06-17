@@ -19,7 +19,7 @@
  */
 package splitstree4.algorithms.util.simulate;
 
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import splitstree4.algorithms.distances.LARSnetwork;
 import splitstree4.algorithms.util.PaupNode;
 import splitstree4.algorithms.util.PaupTreeUtils;

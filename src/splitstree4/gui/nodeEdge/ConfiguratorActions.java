@@ -19,8 +19,8 @@
  */
 package splitstree4.gui.nodeEdge;
 
-import jloda.util.Alert;
-import jloda.util.ResourceManager;
+import jloda.swing.util.Alert;
+import jloda.swing.util.ResourceManager;
 import splitstree4.gui.Director;
 import splitstree4.gui.DirectorActions;
 import splitstree4.gui.main.MainViewerActions;

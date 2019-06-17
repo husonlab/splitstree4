@@ -31,7 +31,7 @@ package splitstree4.util;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
+import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.Basic;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.algorithms.distances.NeighborNet;
@@ -42,7 +42,10 @@ import splitstree4.nexus.*;
 
 import java.io.PrintStream;
 import java.io.StringReader;
-import java.util.*;
+import java.util.BitSet;
+import java.util.Comparator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Tools for analyzing a Splits object
@@ -721,7 +724,7 @@ public class SplitsUtilities {
      * @param weights
      * @return tree
      */
-    public static PhyloGraph treeFromSplits(PhyloGraph graph, Splits splits, Taxa taxa, boolean weights) {
+    public static PhyloSplitsGraph treeFromSplits(PhyloSplitsGraph graph, Splits splits, Taxa taxa, boolean weights) {
         /*initialize star tree*/
         BitSet seen = new BitSet();
         Node center = graph.newNode();
@@ -731,8 +734,7 @@ public class SplitsUtilities {
                 for (int j = 1; j <= taxa.getNtax(); j++) {
                     TaxaSet A = splits.get(i);
                     if ((A.cardinality() == 1 && A.get(j)) || (A.cardinality() == taxa.getNtax() - 1 && !A.get(j))) {
-                        graph.setNode2Taxa(v, j);
-                        graph.setTaxon2Node(j, v);
+                        graph.addTaxon(v, j);
                         seen.set(j);
                     }
                 }
@@ -747,9 +749,7 @@ public class SplitsUtilities {
         // place all the taxa without trivial splits on the center node
         for (int j = 1; j <= taxa.getNtax(); j++)
             if (!seen.get(j)) {
-
-                graph.setNode2Taxa(center, j);
-                graph.setTaxon2Node(j, center);
+                graph.addTaxon(center, j);
             }
 
         /*process all non-trivial splits*/
@@ -763,11 +763,10 @@ public class SplitsUtilities {
                     split = split.getComplement(splits.getNtax());
                 /*find node for new edge*/
                 while (!intersect) {
-                    Iterator ed = graph.getAdjacentEdges(u);
                     Edge moveAlong = null;
                     boolean found = false;
-                    while (ed.hasNext()) {
-                        Edge f = (Edge) ed.next();
+
+                    for (Edge f : u.adjacentEdges()) {
                         if (f == e) continue;
                         TaxaSet splitf = splits.get(graph.getSplit(f));
                         if (splitf.get(1)) splitf = splitf.getComplement(splits.getNtax());
@@ -789,9 +788,7 @@ public class SplitsUtilities {
                 }
                 /*insert new edge*/
                 Node newNode = graph.newNode();
-                Iterator ed = graph.getAdjacentEdges(u);
-                while (ed.hasNext()) {
-                    Edge f = (Edge) ed.next();
+                for (Edge f : u.adjacentEdges()) {
                     if (f == e) continue;
                     TaxaSet splitf = splits.get(graph.getSplit(f));
                     if (splitf.get(1)) splitf = splitf.getComplement(splits.getNtax());

@@ -31,28 +31,28 @@
 
     <target name="copy_resources" depends="init">
         <copy todir="${classDir}/resources">
-            <fileset dir="../resources" excludes=".svn/**"/>
+            <fileset dir="../src/resources" excludes=".svn/**"/>
         </copy>
-	</target>
+    </target>
 
     <!-- copy sources -->
     <target name="copy_sources" depends="copy_resources">
         <copy todir="${srcDir}">
-            <fileset dir="${jlodaSrcDir}" excludes="com/apple/**"/>
+            <fileset dir="${jlodaSrcDir}" excludes="com/**"/>
             <fileset dir="${splitsTreeSrcDir}"/>
         </copy>
     </target>
 
     <!-- compile  -->
     <target name="compile" depends="copy_sources">
-	    <javac includeantruntime="false"
-		    srcdir="${srcDir}"
-		    destdir="${classDir}"
-		    debug="on"
-		    source="1.7"
-		    target="1.7"
-		    classpathref="build.classpath">
-		    <compilerarg value="-XDignore.symbol.file=true"/> 
+        <javac includeantruntime="false"
+               srcdir="${srcDir}"
+               destdir="${classDir}"
+               debug="on"
+               source="1.8"
+               target="1.8"
+               classpathref="build.classpath">
+            <compilerarg value="-XDignore.symbol.file=true"/>
         </javac>
     </target>
 
@@ -67,11 +67,10 @@
 
     <!-- run project -->
     <target name="run" depends="jar">
-	    <java classname="${mainclass}" fork="true" classpathref="build.classpath">
+        <java classname="${mainclass}" fork="true" classpathref="build.classpath">
             <classpath> <pathelement location="${jar}"/>
             </classpath>
             <arg value="-d"/>
-            <arg value="-g"/>
             <jvmarg value="-Dapple.laf.useScreenMenuBar=true"/>
             <jvmarg value="-server"/>
             <jvmarg value="-Xmx500M"/>
@@ -83,8 +82,8 @@
     <!-- removes all that has been built -->
     <target name="clean">
         <delete dir="${classDir}" includeEmptyDirs="true"/>
-	<delete dir="${srcDir}" includeEmptyDirs="true"/>
-	<delete file="${jar}"/>
+        <delete dir="${srcDir}" includeEmptyDirs="true"/>
+        <delete file="${jar}"/>
     </target>
 </project>
 

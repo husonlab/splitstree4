@@ -29,18 +29,17 @@
  */
 package splitstree4.gui.main;
 
-import jloda.export.SaveImageDialog;
-import jloda.export.TransferableGraphic;
-import jloda.graph.Edge;
-import jloda.graph.Node;
-import jloda.graph.NodeArray;
-import jloda.graph.NodeSet;
-import jloda.graphview.ScrollPaneAdjuster;
-import jloda.gui.director.IDirector;
-import jloda.gui.find.SearchManager;
-import jloda.gui.message.MessageWindow;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.graph.*;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.director.IDirector;
+import jloda.swing.export.SaveImageDialog;
+import jloda.swing.export.TransferableGraphic;
+import jloda.swing.find.SearchManager;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.graphview.ScrollPaneAdjuster;
+import jloda.swing.message.MessageWindow;
+import jloda.swing.util.Alert;
+import jloda.swing.util.ResourceManager;
 import jloda.util.*;
 import splitstree4.algorithms.splits.EqualAngle;
 import splitstree4.algorithms.trees.TreeSelector;
@@ -82,9 +81,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.print.PrinterJob;
 import java.io.*;
-import java.util.*;
 import java.util.List;
-import javax.swing.filechooser.FileFilter;
+import java.util.*;
 
 /**
  * viewer
@@ -1116,9 +1114,8 @@ public class MainViewerActions {
                 NodeSet selectedNodes = viewer.getSelectedNodes();
                 TaxaSet taxaSet = new TaxaSet();
                 for (Node v : selectedNodes) {
-                    List L = viewer.getPhyloGraph().getNode2Taxa(v);
-                    if (L != null) {
-                        for (Object aL : L) taxaSet.set((Integer) aL);
+                    for (Integer t : viewer.getPhyloGraph().getTaxa(v)) {
+                        taxaSet.set(t);
                     }
                 }
 
@@ -1159,9 +1156,8 @@ public class MainViewerActions {
                 NodeSet selectedNodes = viewer.getSelectedNodes();
                 TaxaSet outgroup = new TaxaSet();
                 for (Node v : selectedNodes) {
-                    List<Integer> list = viewer.getPhyloGraph().getNode2Taxa(v);
-                    if (list != null) {
-                        for (Integer i : list) outgroup.set(i);
+                    for (Integer t : viewer.getPhyloGraph().getTaxa(v)) {
+                        outgroup.set(t);
                     }
                 }
 
@@ -1802,13 +1798,11 @@ public class MainViewerActions {
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
                 NodeSet selectedNodes = viewer.getSelectedNodes();
-                PhyloGraph graph = viewer.getPhyloGraph();
+                PhyloSplitsGraph graph = viewer.getPhyloGraph();
                 Set<String> keep = new HashSet<>();
                 for (Node v : selectedNodes) {
-                    List taxa = graph.getNode2Taxa(v);
-                    for (Object aTaxa : taxa) {
-                        int id = (Integer) aTaxa;
-                        keep.add(dir.getDocument().getTaxa().getLabel(id));
+                    for (Integer t : graph.getTaxa(v)) {
+                        keep.add(dir.getDocument().getTaxa().getLabel(t));
                     }
                 }
                 Taxa taxa = dir.getDocument().getTaxa();
@@ -1845,7 +1839,7 @@ public class MainViewerActions {
                 if (!dir.getDocument().isValid(taxa))
                     return;
                 NodeSet selectedNodes = viewer.getSelectedNodes();
-                PhyloGraph graph = viewer.getPhyloGraph();
+                PhyloSplitsGraph graph = viewer.getPhyloGraph();
                 TaxaSet hide = new TaxaSet();
                 Iterator it = selectedNodes.iterator();
 
@@ -1863,9 +1857,7 @@ public class MainViewerActions {
 
                 while (it.hasNext()) {
                     Node v = (Node) it.next();
-                    java.util.List nodeTaxa = graph.getNode2Taxa(v);
-                    for (Object aNodeTaxa : nodeTaxa) {
-                        int id = (Integer) aNodeTaxa;
+                    for (Integer id : graph.getTaxa(v)) {
                         if (!hide.get(id)) {
                             hide.set(id);
                             String name = taxa.getLabel(id);
@@ -2096,7 +2088,7 @@ public class MainViewerActions {
             public void actionPerformed(ActionEvent event) {
                 try {
                     BitSet toHide = new BitSet();
-                    PhyloGraph graph = viewer.getPhyloGraph();
+                    PhyloSplitsGraph graph = viewer.getPhyloGraph();
                     Splits splits = dir.getDocument().getSplits();
                     for (Edge e : viewer.getSelectedEdges()) {
                         int s = graph.getSplit(e);
@@ -2134,7 +2126,7 @@ public class MainViewerActions {
                 try {
                     BitSet toKeep = new BitSet();
                     BitSet allSplits = new BitSet();
-                    PhyloGraph graph = viewer.getPhyloGraph();
+                    PhyloSplitsGraph graph = viewer.getPhyloGraph();
                     Splits splits = dir.getDocument().getSplits();
                     for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext()) {
                         int s = graph.getSplit(e);
@@ -2174,7 +2166,7 @@ public class MainViewerActions {
             public void actionPerformed(ActionEvent event) {
                 BitSet toHide = new BitSet();
                 try {
-                    PhyloGraph graph = viewer.getPhyloGraph();
+                    PhyloSplitsGraph graph = viewer.getPhyloGraph();
                     Splits splits = dir.getDocument().getSplits();
                     Iterator it = viewer.getSelectedEdges().iterator();
                     NodeArray node2selectedSplits = new NodeArray(graph);
@@ -2183,10 +2175,10 @@ public class MainViewerActions {
                         int s = graph.getSplit(e);
                         if (s >= 1 && s <= splits.getNsplits()) {
                             if (node2selectedSplits.get(e.getSource()) == null)
-                                node2selectedSplits.set(e.getSource(), new BitSet());
+                                node2selectedSplits.put(e.getSource(), new BitSet());
                             ((BitSet) node2selectedSplits.get(e.getSource())).set(s);
                             if (node2selectedSplits.get(e.getTarget()) == null)
-                                node2selectedSplits.set(e.getTarget(), new BitSet());
+                                node2selectedSplits.put(e.getTarget(), new BitSet());
                             ((BitSet) node2selectedSplits.get(e.getTarget())).set(s);
                         }
                     }
@@ -2248,7 +2240,7 @@ public class MainViewerActions {
                 BitSet toHide = new BitSet();
                 try {
                     PhyloGraphView graphView = (PhyloGraphView) dir.getViewerByClass(MainViewer.class);
-                    PhyloGraph graph = graphView.getPhyloGraph();
+                    PhyloSplitsGraph graph = graphView.getPhyloGraph();
                     Taxa taxa = dir.getDocument().getTaxa();
                     Splits splits = dir.getDocument().getSplits();
                     for (Edge e : graphView.getSelectedEdges()) {
@@ -2508,16 +2500,13 @@ public class MainViewerActions {
                 int count = 0;
                 for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext())
                     if (viewer.getSelected(v)) {
-                        List list = viewer.getPhyloGraph().getNode2Taxa(v);
-                        if (list != null) {
-                            for (Object aList : list) {
-                                buf.append(" " + ((Integer) aList).toString());
+                        for (Integer id : viewer.getPhyloGraph().getTaxa(v)) {
+                            buf.append(String.format(" %d", id));
                                 count++;
                             }
                         }
-                    }
-                dir.analysis("splits once PhylogeneticDiversity SelectedTaxa="
-                        + count + " " + buf.toString());
+
+                dir.analysis("splits once PhylogeneticDiversity SelectedTaxa=" + count + " " + buf.toString());
             }
         };
         action.putValue(AbstractAction.NAME, "Compute Phylogenetic Diversity");
@@ -2542,16 +2531,13 @@ public class MainViewerActions {
                 int count = 0;
                 for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext())
                     if (viewer.getSelected(v)) {
-                        List list = viewer.getPhyloGraph().getNode2Taxa(v);
-                        if (list != null) {
-                            for (Object aList : list) {
-                                buf.append(" " + ((Integer) aList).toString());
+                        for (Integer t : viewer.getPhyloGraph().getTaxa(v)) {
+                            buf.append(String.format(" %d", t));
                                 count++;
                             }
-                        }
+
                     }
-                dir.analysis("distances once DeltaScore SelectedTaxa="
-                        + count + " " + buf.toString());
+                dir.analysis("distances once DeltaScore SelectedTaxa=" + count + " " + buf.toString());
             }
         };
         action.putValue(AbstractAction.NAME, "Compute Delta Score");

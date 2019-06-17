@@ -23,8 +23,9 @@
 
 package splitstree4.core;
 
-import jloda.export.*;
-import jloda.phylo.PhyloGraphView;
+import jloda.swing.export.*;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.Alert;
 import jloda.util.*;
 import jloda.util.parse.NexusStreamParser;
 import jloda.util.parse.NexusStreamTokenizer;
@@ -58,14 +59,14 @@ import splitstree4.externalIO.imports.ImportManager;
 import splitstree4.gui.Director;
 import splitstree4.main.SplitsTreeProperties;
 import splitstree4.nexus.*;
-import splitstree4.util.*;
 import splitstree4.util.NexusFileFilter;
+import splitstree4.util.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 //TODO: keepSplits should perhaps be incorporated better. ALSO, we could consider fixing trees as well
 
@@ -1907,14 +1908,14 @@ public class Document extends DocumentData {
                 String label = np.getWordRespectCase();
                 np.matchIgnoreCase("=");
                 String value = np.getWordFileNamePunctuation();
-                if (NexusStreamParser.isBoolean(value)) {
-                    jloda.util.ProgramProperties.put(label, Boolean.parseBoolean(value));
-                } else if (NexusStreamParser.isInteger(value)) {
-                    jloda.util.ProgramProperties.put(label, Integer.parseInt(value));
-                } else if (NexusStreamParser.isFloat(value)) {
-                    jloda.util.ProgramProperties.put(label, Float.parseFloat(value));
+                if (Basic.isBoolean(value)) {
+                    ProgramProperties.put(label, Boolean.parseBoolean(value));
+                } else if (Basic.isInteger(value)) {
+                    ProgramProperties.put(label, Integer.parseInt(value));
+                } else if (Basic.isFloat(value)) {
+                    ProgramProperties.put(label, Float.parseFloat(value));
                 } else
-                    jloda.util.ProgramProperties.put(label, value);
+                    ProgramProperties.put(label, value);
                 np.matchIgnoreCase(";");
             } else if (np.peekMatchIgnoreCase("save")) // save to a file
             {

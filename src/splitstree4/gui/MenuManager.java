@@ -19,15 +19,15 @@
  */
 package splitstree4.gui;
 
-import jloda.gui.AppleStuff;
-import jloda.util.MenuMnemonics;
+import jloda.swing.util.AppleStuff;
+import jloda.swing.util.MenuMnemonics;
+import jloda.swing.util.ResourceManager;
 import jloda.util.ProgramProperties;
-import jloda.util.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * class for creating and managing menus

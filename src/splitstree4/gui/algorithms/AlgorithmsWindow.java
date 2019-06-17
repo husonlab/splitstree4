@@ -19,10 +19,10 @@
  */
 package splitstree4.gui.algorithms;
 
-import jloda.gui.WindowListenerAdapter;
-import jloda.gui.commands.CommandManager;
-import jloda.gui.director.IDirectableViewer;
-import jloda.gui.director.IUpdateableView;
+import jloda.swing.commands.CommandManager;
+import jloda.swing.director.IDirectableViewer;
+import jloda.swing.director.IUpdateableView;
+import jloda.swing.util.WindowListenerAdapter;
 import jloda.util.ProgramProperties;
 import splitstree4.algorithms.Transformation;
 import splitstree4.gui.Director;
@@ -330,7 +330,7 @@ public class AlgorithmsWindow implements IDirectableViewer {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = jloda.util.ProgramProperties.get("HideDialog." + name, false);
+                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
                     tab.hideDialog.setSelected(hide);
                 } catch (Exception ex) {
                 }
@@ -376,7 +376,7 @@ public class AlgorithmsWindow implements IDirectableViewer {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = jloda.util.ProgramProperties.get("HideDialog." + name, false);
+                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
                     tab.hideDialog.setSelected(hide);
                 } catch (Exception ex) {
                 }
@@ -424,7 +424,7 @@ public class AlgorithmsWindow implements IDirectableViewer {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = jloda.util.ProgramProperties.get("HideDialog." + name, false);
+                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
                     tab.hideDialog.setSelected(hide);
                 } catch (Exception ex) {
                 }
@@ -467,7 +467,7 @@ public class AlgorithmsWindow implements IDirectableViewer {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = jloda.util.ProgramProperties.get("HideDialog." + name, false);
+                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
                     tab.hideDialog.setSelected(hide);
                 } catch (Exception ex) {
                 }
@@ -509,7 +509,7 @@ public class AlgorithmsWindow implements IDirectableViewer {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = jloda.util.ProgramProperties.get("HideDialog." + name, false);
+                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
                     tab.hideDialog.setSelected(hide);
                 } catch (Exception ex) {
                 }
@@ -552,7 +552,7 @@ public class AlgorithmsWindow implements IDirectableViewer {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = jloda.util.ProgramProperties.get("HideDialog." + name, false);
+                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
                     tab.hideDialog.setSelected(hide);
                 } catch (Exception ex) {
                 }
@@ -589,7 +589,7 @@ public class AlgorithmsWindow implements IDirectableViewer {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = jloda.util.ProgramProperties.get("HideDialog." + name, false);
+                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
                     tab.hideDialog.setSelected(hide);
                 } catch (Exception ex) {
                 }

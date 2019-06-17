@@ -26,7 +26,7 @@
  */
 package splitstree4.gui.algorithms.modify;
 
-import jloda.gui.director.IUpdateableView;
+import jloda.swing.director.IUpdateableView;
 import jloda.util.Basic;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.gui.Director;

@@ -20,8 +20,8 @@
 package splitstree4.algorithms.trees;
 
 import jloda.graph.Edge;
-import jloda.phylo.PhyloGraphView;
 import jloda.phylo.PhyloTree;
+import jloda.swing.graphview.PhyloGraphView;
 import splitstree4.core.Document;
 import splitstree4.nexus.Network;
 import splitstree4.nexus.Taxa;

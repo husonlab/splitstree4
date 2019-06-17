@@ -33,7 +33,7 @@ package splitstree4.externalIO.imports;
 
 import jloda.graph.*;
 import jloda.phylo.PhyloTree;
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import jloda.util.Pair;
 import splitstree4.core.Document;
@@ -295,11 +295,11 @@ public class NewickTree extends FileFilter implements Importer {
                     if (numbers != null)
                         throw new NotMultiLabeledException();
                     name2numbers.put(name, new BitSet());
-                    node2nameNumber.set(v, new Pair(name, 0));
+                    node2nameNumber.put(v, new Pair(name, 0));
                     continue;
                 }
                 // is multi label
-                node2nameNumber.set(v, new Pair(name, number));
+                node2nameNumber.put(v, new Pair(name, number));
 
                 if (name2numbers.get(name) == null)
                     name2numbers.put(name, new BitSet());
@@ -484,7 +484,7 @@ public class NewickTree extends FileFilter implements Importer {
                 set.addAll((NodeSet) edge2labels.get(f));
             }
         }
-        edge2labels.set(e, set);
+        edge2labels.put(e, set);
     }
 
     public boolean getOptionConvertMultiLabeledTree() {

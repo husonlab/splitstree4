@@ -23,7 +23,7 @@ import jloda.graph.Edge;
 import jloda.graph.EdgeSet;
 import jloda.graph.Node;
 import jloda.graph.NodeSet;
-import jloda.phylo.PhyloGraph;
+import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.CanceledException;
 import jloda.util.Pair;
 import jloda.util.ProgressListener;
@@ -62,14 +62,14 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
      * @param weights
      * @return median joining network
      */
-    public PhyloGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException {
+    public PhyloSplitsGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException {
         System.err.println("Computing the median joining network for epsilon=" + getOptionEpsilon());
-        PhyloGraph graph;
+        PhyloSplitsGraph graph;
         Set outputSequences = new HashSet();
         computeMedianJoiningMainLoop(progressListener, inputSequences, weights, getOptionEpsilon(), outputSequences);
         boolean changed;
         do {
-            graph = new PhyloGraph();
+            graph = new PhyloSplitsGraph();
             EdgeSet feasibleLinks = new EdgeSet(graph);
             computeMinimumSpanningNetwork(outputSequences, weights, 0, graph, feasibleLinks);
             List toDelete = new LinkedList();
@@ -92,7 +92,7 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
      * @param epsilon
      * @return sequences present in the median joining network
      */
-    private Set computeMedianJoiningMainLoop(ProgressListener progressListener, Set input, double[] weights, int epsilon, Set outputSequences) throws CanceledException {
+    private void computeMedianJoiningMainLoop(ProgressListener progressListener, Set input, double[] weights, int epsilon, Set<String> outputSequences) throws CanceledException {
         outputSequences.addAll(input);
 
         boolean changed = true;
@@ -100,7 +100,7 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
             System.err.println("Median joining: " + outputSequences.size() + " sequences");
             progressListener.incrementProgress();
             changed = false;
-            PhyloGraph graph = new PhyloGraph();
+            PhyloSplitsGraph graph = new PhyloSplitsGraph();
             EdgeSet feasibleLinks = new EdgeSet(graph);
             computeMinimumSpanningNetwork(outputSequences, weights, epsilon, graph, feasibleLinks);
             if (removeObsoleteNodes(graph, input, outputSequences, feasibleLinks)) {
@@ -128,12 +128,12 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
                         }
                     }
                 }
-                for (Edge e = feasibleLinks.getFirstElement(); e != null; e = feasibleLinks.getNextElement(e)) {
+                for (Edge e : feasibleLinks) {
                     Node u = e.getSource();
                     Node v = e.getTarget();
                     String seqU = (String) u.getInfo();
                     String seqV = (String) v.getInfo();
-                    for (Edge f = feasibleLinks.getNextElement(e); f != null; f = feasibleLinks.getNextElement(f)) {
+                    for (Edge f : feasibleLinks.successors(e)) {
                         Node w;
                         if (f.getSource() == u || f.getSource() == v)
                             w = f.getTarget();
@@ -156,7 +156,6 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
                 }
             }
         }
-        return outputSequences;
     }
 
     /**
@@ -168,20 +167,20 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
      * @param graph
      * @param feasibleLinks
      */
-    private void computeMinimumSpanningNetwork(Set sequences, double[] weights, int epsilon, PhyloGraph graph, EdgeSet feasibleLinks) {
-        String[] array = (String[]) sequences.toArray(new String[sequences.size()]);
+    private void computeMinimumSpanningNetwork(Set sequences, double[] weights, int epsilon, PhyloSplitsGraph graph, EdgeSet feasibleLinks) {
+        String[] array = (String[]) sequences.toArray(new String[0]);
         // compute a distance matrix between all sequences:
         double[][] matrix = new double[array.length][array.length];
 
-        SortedMap value2pairs = new TreeMap();
+        SortedMap<Double, List<Pair<Integer, Integer>>> value2pairs = new TreeMap<>();
 
         for (int i = 0; i < array.length; i++) {
             for (int j = i + 1; j < array.length; j++) {
                 matrix[i][j] = computeDistance(array[i], array[j], weights);
                 Double value = matrix[i][j];
-                List pairs = (List) value2pairs.get(value);
+                List<Pair<Integer, Integer>> pairs = value2pairs.get(value);
                 if (pairs == null) {
-                    pairs = new LinkedList();
+                    pairs = new ArrayList<>();
                     value2pairs.put(value, pairs);
                 }
                 pairs.add(new Pair(i, j));
@@ -273,7 +272,7 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
      * @param threshold
      * @return true, if connected
      */
-    private boolean areConnected(PhyloGraph graph, Node v, Node target, NodeSet visited, double threshold) {
+    private boolean areConnected(PhyloSplitsGraph graph, Node v, Node target, NodeSet visited, double threshold) {
         if (v == target)
             return true;
 
@@ -299,7 +298,7 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
      * @param sequences
      * @return true, if anything was removed
      */
-    private boolean removeObsoleteNodes(PhyloGraph graph, Set input, Set sequences, EdgeSet feasibleLinks) {
+    private boolean removeObsoleteNodes(PhyloSplitsGraph graph, Set input, Set sequences, EdgeSet feasibleLinks) {
         int removed = 0;
         boolean changed = true;
         while (changed) {

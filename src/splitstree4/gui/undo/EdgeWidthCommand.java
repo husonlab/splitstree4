@@ -21,7 +21,7 @@ package splitstree4.gui.undo;
 
 import jloda.graph.Edge;
 import jloda.graph.EdgeIntegerArray;
-import jloda.phylo.PhyloGraph;
+import jloda.phylo.PhyloSplitsGraph;
 import splitstree4.gui.main.MainViewer;
 
 /**
@@ -41,7 +41,7 @@ public class EdgeWidthCommand extends ICommandAdapter implements ICommand {
     public EdgeWidthCommand(MainViewer viewer, int width) {
         this.viewer = viewer;
 
-        PhyloGraph graph = viewer.getPhyloGraph();
+        PhyloSplitsGraph graph = viewer.getPhyloGraph();
         widths = new EdgeIntegerArray(graph, -1);
 
         boolean noneSelected = viewer.getSelectedEdges().isEmpty(); //No nodes currently selected... apply to all.
@@ -62,8 +62,8 @@ public class EdgeWidthCommand extends ICommandAdapter implements ICommand {
             setReverseCommand(new EdgeWidthCommand(viewer, -1));
 
         for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext()) {
-            if (widths.getValue(e) != -1) {
-                viewer.setLineWidth(e, widths.getValue(e));
+            if (widths.get(e) != -1) {
+                viewer.setLineWidth(e, widths.get(e));
             }
         }
         viewer.repaint();

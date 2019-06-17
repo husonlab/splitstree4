@@ -19,18 +19,14 @@
  */
 package splitstree4.gui.nodeEdge;
 
-import jloda.graph.Edge;
-import jloda.graph.EdgeSet;
-import jloda.graph.Node;
-import jloda.graph.NodeSet;
-import jloda.graphview.EdgeActionAdapter;
-import jloda.graphview.EdgeActionListener;
-import jloda.graphview.NodeActionAdapter;
-import jloda.graphview.NodeActionListener;
-import jloda.gui.WindowListenerAdapter;
-import jloda.gui.commands.CommandManager;
-import jloda.gui.director.IDirectableViewer;
-import jloda.util.NotOwnerException;
+import jloda.graph.*;
+import jloda.swing.commands.CommandManager;
+import jloda.swing.director.IDirectableViewer;
+import jloda.swing.graphview.EdgeActionAdapter;
+import jloda.swing.graphview.EdgeActionListener;
+import jloda.swing.graphview.NodeActionAdapter;
+import jloda.swing.graphview.NodeActionListener;
+import jloda.swing.util.WindowListenerAdapter;
 import jloda.util.ProgramProperties;
 import splitstree4.gui.Director;
 import splitstree4.gui.main.MainViewer;

@@ -20,9 +20,12 @@
 package splitstree4.algorithms.splits;
 
 import jloda.graph.*;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
-import jloda.util.*;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.Geometry;
+import jloda.util.Basic;
+import jloda.util.CanceledException;
+import jloda.util.Pair;
 import splitstree4.core.Document;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Network;
@@ -94,12 +97,11 @@ public class EqualAngle implements Splits2Network {
      * @param taxa
      * @param splits
      * @param currentGraphView
-     * @return
-     * @throws Exception
+     * @return network
      */
     public Network applyToSelected(Document doc, Taxa taxa, Splits splits, PhyloGraphView currentGraphView) throws Exception {
         phyloGraphView = currentGraphView;
-        PhyloGraph graph = currentGraphView.getPhyloGraph();
+        PhyloSplitsGraph graph = currentGraphView.getPhyloGraph();
         //The graph will be rebuild from scratch, so we store the values of edges
 
         HashMap<Integer, Double> splitAngles = new HashMap<>();
@@ -132,7 +134,7 @@ public class EqualAngle implements Splits2Network {
         doc.notifySetMaximumProgress(100);    //initialize maximum progress
         doc.notifySetProgress(-1);                        //set progress to 0
 
-        PhyloGraph graph = phyloGraphView.getPhyloGraph();
+        PhyloSplitsGraph graph = phyloGraphView.getPhyloGraph();
         int[] cycle = normalizeCycle(splits.getCycle());
         doc.notifySetProgress(3);
 
@@ -268,7 +270,7 @@ public class EqualAngle implements Splits2Network {
      * @param graphView
      */
     private void assignAverageAngleToEdges(PhyloGraphView graphView) {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
         int maxSplit = 0;
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext())
@@ -308,7 +310,7 @@ public class EqualAngle implements Splits2Network {
      * @param split2angle
      * @param split2count
      */
-    private void visitAllEdges(Node v, Edge e, PhyloGraph graph, PhyloGraphView graphView, EdgeSet edgesUsed, BitSet splitsUsed, double[] split2angle, int[] split2count) {
+    private void visitAllEdges(Node v, Edge e, PhyloSplitsGraph graph, PhyloGraphView graphView, EdgeSet edgesUsed, BitSet splitsUsed, double[] split2angle, int[] split2count) {
         if (!edgesUsed.contains(e)) {
             Node w = e.getOpposite(v);
             edgesUsed.add(e);
@@ -469,7 +471,7 @@ public class EqualAngle implements Splits2Network {
     private void initGraph
     (Taxa
              taxa, Splits
-             splits, int[] cycle, PhyloGraph
+             splits, int[] cycle, PhyloSplitsGraph
              graph) throws
             NotOwnerException {
         // map from each taxon to it's trivial split in splits
@@ -494,8 +496,7 @@ public class EqualAngle implements Splits2Network {
             Node v = graph.newNode();
 
             graph.setLabel(v, taxa.getLabel(t));
-            graph.setNode2Taxa(v, t);
-            graph.setTaxon2Node(t, v);
+            graph.addTaxon(v, t);
 
             Edge e = graph.newEdge(center, v);
             if (taxon2split[t] != 0) {
@@ -572,7 +573,7 @@ public class EqualAngle implements Splits2Network {
      * @param s
      * @param graph
      */
-    private void wrapSplit(Taxa taxa, Splits splits, int s, int[] cycle, PhyloGraph graph) throws Exception {
+    private void wrapSplit(Taxa taxa, Splits splits, int s, int[] cycle, PhyloSplitsGraph graph) throws Exception {
         TaxaSet part = (TaxaSet) (splits.get(s).clone());
         if (part.get(1))
             part = part.getComplement(taxa.getNtax());
@@ -661,7 +662,7 @@ public class EqualAngle implements Splits2Network {
      * @param graph
      * @return is leaf edge
      */
-    private boolean isLeafEdge(Edge f, PhyloGraph graph) throws NotOwnerException {
+    private boolean isLeafEdge(Edge f, PhyloSplitsGraph graph) throws NotOwnerException {
         return graph.getDegree(graph.getSource(f)) == 1 || graph.getDegree(graph.getTarget(f)) == 1;
 
     }
@@ -670,9 +671,9 @@ public class EqualAngle implements Splits2Network {
      * this removes all temporary trivial edges added to the graph
      *
      * @param graph
-     * @throws jloda.util.NotOwnerException
+     * @throws NotOwnerException
      */
-    private void removeTemporaryTrivialEdges(PhyloGraph graph) throws NotOwnerException {
+    private void removeTemporaryTrivialEdges(PhyloSplitsGraph graph) throws NotOwnerException {
         EdgeSet tempEdges = new EdgeSet(graph);
         for (Edge e = graph.getFirstEdge(); e != null; e = graph.getNextEdge(e)) {
             if (graph.getSplit(e) == -1) // temporary leaf edge
@@ -688,16 +689,15 @@ public class EqualAngle implements Splits2Network {
                 w = graph.getSource(e);
                 v = graph.getTarget(e);
             }
-            for (Integer t : graph.getNode2Taxa(v)) {
-                graph.setNode2Taxa(w, t);
-                graph.setTaxon2Node(t, w);
+            for (Integer t : graph.getTaxa(v)) {
+                graph.addTaxon(w, t);
             }
 
             if (graph.getLabel(w) != null && graph.getLabel(w).length() > 0)
                 graph.setLabel(w, graph.getLabel(w) + ", " + graph.getLabel(v));
             else
                 graph.setLabel(w, graph.getLabel(v));
-            graph.getNode2Taxa(v).clear();
+            graph.clearTaxa(v);
             graph.setLabel(v, null);
             graph.deleteNode(v);
         }
@@ -711,7 +711,7 @@ public class EqualAngle implements Splits2Network {
      * @param graph
      * @param forbiddenSplits : set of all the splits such as their edges won't have their angles changed
      */
-    private void assignAnglesToEdges(Splits splits, int[] cycle, PhyloGraph graph, Set forbiddenSplits) throws NotOwnerException {
+    private void assignAnglesToEdges(Splits splits, int[] cycle, PhyloSplitsGraph graph, Set forbiddenSplits) throws NotOwnerException {
 
         //To avoid to be at this point when the user cancels we don't give him the possibility to cancel here.
         int ntaxa = splits.getNtax();
@@ -790,11 +790,11 @@ public class EqualAngle implements Splits2Network {
      *
      * @param taxa
      * @param graphView
-     * @throws jloda.util.NotOwnerException
+     * @throws NotOwnerException
      */
     private void runOptimizeDayLight(Taxa taxa, PhyloGraphView graphView) throws NotOwnerException {
 
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         NodeSet ignore = new NodeSet(graph);
         try {
             doc.notifySubtask("optimize daylight");
@@ -831,20 +831,17 @@ public class EqualAngle implements Splits2Network {
      * @param graphView
      */
     private boolean optimizeDaylightNode(Taxa taxa, Node v, PhyloGraphView graphView) throws NotOwnerException, CanceledException {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
         int numComp = 0;
         EdgeIntegerArray edge2comp = new EdgeIntegerArray(graph);
         double[] comp2MinAngle = new double[taxa.getNtax() + 1];
         double[] comp2MaxAngle = new double[taxa.getNtax() + 1];
 
-        // for all edges adjacent to v
-        Iterator it = graph.getAdjacentEdges(v);
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
+        for (Edge e : v.adjacentEdges()) {
             doc.getProgressListener().checkForCancel();
 
-            if (edge2comp.getValue(e) == 0) {
+            if (edge2comp.get(e) == 0) {
                 edge2comp.set(e, ++numComp);
                 Node w = graph.getOpposite(v, e);
 
@@ -882,7 +879,7 @@ public class EqualAngle implements Splits2Network {
                     comp2epsilon[c] = alpha - comp2MinAngle[c];
                 }
                 for (Edge e = graph.getFirstEdge(); e != null; e = graph.getNextEdge(e)) {
-                    int c = edge2comp.getValue(e);
+                    int c = edge2comp.get(e);
                     graph.setAngle(e, graph.getAngle(e) + comp2epsilon[c]);
                 }
             }
@@ -903,7 +900,7 @@ public class EqualAngle implements Splits2Network {
      * @param visited
      * @param minMaxAngle
      */
-    private void visitComponentRec(Node root, Node v, Edge e, EdgeIntegerArray edge2comp, int numComp, PhyloGraph graph, PhyloGraphView graphView, NodeSet visited,
+    private void visitComponentRec(Node root, Node v, Edge e, EdgeIntegerArray edge2comp, int numComp, PhyloSplitsGraph graph, PhyloGraphView graphView, NodeSet visited,
                                    double angle, Pair<Double, Double> minMaxAngle) throws NotOwnerException, CanceledException {
 
         if (v != root && !visited.contains(v)) {
@@ -911,7 +908,7 @@ public class EqualAngle implements Splits2Network {
 
             visited.add(v);
             for (Edge f = graph.getFirstAdjacentEdge(v); f != null; f = graph.getNextAdjacentEdge(f, v)) {
-                if (f != e && edge2comp.getValue(f) == 0) {
+                if (f != e && edge2comp.get(f) == 0) {
                     edge2comp.set(f, numComp);
                     Node w = graph.getOpposite(v, f);
                     double newAngle = angle + Geometry.computeObservedAngle(graphView.getLocation(root),
@@ -934,7 +931,7 @@ public class EqualAngle implements Splits2Network {
      * @param graphView
      */
     private void runOptimizeBoxes(PhyloGraphView graphView, HashSet forbiddenSplits) throws NotOwnerException {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         //We first build EdgeSplits, where each split is linked with the set containing all its edges
         final HashMap<Integer, List<Edge>> EdgeSplits = getEdgeSplits(graph);
         Edge currentEdge;
@@ -1052,7 +1049,7 @@ public class EqualAngle implements Splits2Network {
      * @param minAngle
      * @param maxAngle
      */
-    public Pair<Double, Double> maximizeArea(List SplitEdges, PhyloGraph graph, double minAngle, double maxAngle) {
+    public Pair<Double, Double> maximizeArea(List SplitEdges, PhyloSplitsGraph graph, double minAngle, double maxAngle) {
         if (minAngle < maxAngle)
             System.err.println(">> " + minAngle + " ... " + maxAngle);
         //We will first express the area of the split as A cos x + B sin x, x being the split angle
@@ -1132,7 +1129,7 @@ public class EqualAngle implements Splits2Network {
      * @param SplitEdges sorted list of the split edges
      * @param graph
      */
-    public Pair TrigClockAngles(List SplitEdges, PhyloGraph graph) {
+    public Pair TrigClockAngles(List SplitEdges, PhyloSplitsGraph graph) {
         Iterator EdgesIt = SplitEdges.iterator();
         Edge CurrentEdge = (Edge) EdgesIt.next();
         double SplitAngle = Geometry.moduloTwoPI(graph.getAngle(CurrentEdge));
@@ -1186,27 +1183,27 @@ public class EqualAngle implements Splits2Network {
      *
      * @param graph
      */
-    public HashMap<Integer, List<Edge>> getEdgeSplits(PhyloGraph graph) {
+    public HashMap<Integer, List<Edge>> getEdgeSplits(PhyloSplitsGraph graph) {
         final HashMap<Integer, List<Edge>> EdgeSplits = new HashMap<>();
-        Edge CurrentEdge = graph.getFirstEdge();
-        List<Edge> CurrentEdges;
+        Edge currentEdge = graph.getFirstEdge();
+        List<Edge> currentEdges;
 
         int currentSplit;
         int i = 0;
         while (i < graph.getNumberOfEdges()) {
 
             if (i > 0) {
-                CurrentEdge = CurrentEdge.getNext();
+                currentEdge = currentEdge.getNext();
             }
-            currentSplit = graph.getSplit(CurrentEdge);
+            currentSplit = graph.getSplit(currentEdge);
 
-            if (EdgeSplits.containsKey(new Integer(currentSplit))) {
-                CurrentEdges = EdgeSplits.get(currentSplit);
+            if (EdgeSplits.containsKey(currentSplit)) {
+                currentEdges = EdgeSplits.get(currentSplit);
             } else {
-                CurrentEdges = new ArrayList<>();
+                currentEdges = new ArrayList<>();
             }
-            CurrentEdges.add(CurrentEdge);
-            EdgeSplits.put(graph.getSplit(CurrentEdge), CurrentEdges);
+            currentEdges.add(currentEdge);
+            EdgeSplits.put(graph.getSplit(currentEdge), currentEdges);
             i++;
         }
 
@@ -1216,37 +1213,34 @@ public class EqualAngle implements Splits2Network {
         for (Integer aSplit : SplitsSet) {
             EdgeArray<Edge> A1Edge = new EdgeArray<>(graph);
             EdgeArray<Edge> A2Edge = new EdgeArray<>(graph);
-            EdgeArray<Integer> AdjNb = new EdgeArray<>(graph);
+            EdgeArray<Integer> adjNb = new EdgeArray<>(graph);
 
             currentSplit = aSplit;
-            CurrentEdges = EdgeSplits.get(currentSplit);
-            Iterator CurrentEdgesIt = CurrentEdges.iterator();
+            currentEdges = EdgeSplits.get(currentSplit);
+            Iterator currentEdgesIt = currentEdges.iterator();
 
             //If there is more than one edge in the split, we sort them
-            if (CurrentEdges.size() > 1) {
+            if (currentEdges.size() > 1) {
                 //We find, for each edge of the split, its one or two parallel neighbour edge(s) in the split.
                 //The 2 edges with 1 parallel neighbour edge is an "extreme" edge of the split.
-                while (CurrentEdgesIt.hasNext()) {
-                    CurrentEdge = (Edge) CurrentEdgesIt.next();
+                while (currentEdgesIt.hasNext()) {
+                    currentEdge = (Edge) currentEdgesIt.next();
 
-                    Iterator AdjNodes = (CurrentEdge.getSource()).getAdjacentNodes();
+                    for (Node adjNode : currentEdge.getSource().adjacentNodes()) {
+                        if (A2Edge.get(currentEdge) != null)
+                            break;
+                        if (adjNode != currentEdge.getTarget()) {
 
-                    while ((A2Edge.get(CurrentEdge) == null) && (AdjNodes.hasNext())) {
-                        Node AdjNode = (Node) AdjNodes.next();
-                        if (AdjNode != CurrentEdge.getTarget()) {
-
-                            Iterator AdjEdges = AdjNode.getAdjacentEdges();
-                            while (AdjEdges.hasNext()) {
-                                Edge ParallEdge = (Edge) AdjEdges.next();
-                                if (graph.getSplit(ParallEdge) == graph.getSplit(CurrentEdge)) {
-                                    if (A1Edge.get(CurrentEdge) == null) {
-                                        A1Edge.set(CurrentEdge, ParallEdge);
-                                        AdjNb.set(CurrentEdge, 1);
+                            for (Edge parallEdge : adjNode.adjacentEdges()) {
+                                if (graph.getSplit(parallEdge) == graph.getSplit(currentEdge)) {
+                                    if (A1Edge.get(currentEdge) == null) {
+                                        A1Edge.put(currentEdge, parallEdge);
+                                        adjNb.put(currentEdge, 1);
                                         //System.out.println("First parallel neighbour of "+CurrentEdge+" : "+ParallEdge);
                                     } else {
-                                        if (A2Edge.get(CurrentEdge) == null) {
-                                            A2Edge.set(CurrentEdge, ParallEdge);
-                                            AdjNb.set(CurrentEdge, 2);
+                                        if (A2Edge.get(currentEdge) == null) {
+                                            A2Edge.put(currentEdge, parallEdge);
+                                            adjNb.put(currentEdge, 2);
                                             //System.out.println("Second parallel neighbour of "+CurrentEdge+" : "+ParallEdge);
                                         } else {
                                             //The split is not planar and this algorithm will crash !!!
@@ -1259,37 +1253,37 @@ public class EqualAngle implements Splits2Network {
                 }
                 //We first detect one of the extreme edges
                 //Not necessary CurrentEdges=(List) EdgeSplits.get(CurrentSplit);
-                CurrentEdgesIt = CurrentEdges.iterator();
-                CurrentEdge = (Edge) CurrentEdgesIt.next();
-                while ((CurrentEdgesIt.hasNext()) && (AdjNb.get(CurrentEdge) != 1)) {
-                    CurrentEdge = (Edge) CurrentEdgesIt.next();
+                currentEdgesIt = currentEdges.iterator();
+                currentEdge = (Edge) currentEdgesIt.next();
+                while ((currentEdgesIt.hasNext()) && (adjNb.get(currentEdge) != 1)) {
+                    currentEdge = (Edge) currentEdgesIt.next();
                     //System.out.println("Current edge "+CurrentEdge+" : "+((Integer) AdjNb.get(CurrentEdge)).intValue());
                 }
 
                 //We check if everything is all right:
-                if ((AdjNb.get(CurrentEdge)) != 1) {
-                    System.out.println("(the graph is not planar! Big Problem here!!! " + AdjNb.get(CurrentEdge));
+                if ((adjNb.get(currentEdge)) != 1) {
+                    System.out.println("(the graph is not planar! Big Problem here!!! " + adjNb.get(currentEdge));
                 }
 
                 //Then we go through all the edges of the split to identify the 4 extreme nodes,
                 //so our stop condition is to reach the other extreme edge
-                Edge TheNextEdge = A1Edge.get(CurrentEdge);
-                CurrentEdges = new ArrayList<>();
-                while ((AdjNb.get(TheNextEdge)) > 1) {
-                    CurrentEdges.add(CurrentEdge);
-                    if (A1Edge.get(TheNextEdge) == CurrentEdge) {
-                        CurrentEdge = TheNextEdge;
+                Edge TheNextEdge = A1Edge.get(currentEdge);
+                currentEdges = new ArrayList<>();
+                while ((adjNb.get(TheNextEdge)) > 1) {
+                    currentEdges.add(currentEdge);
+                    if (A1Edge.get(TheNextEdge) == currentEdge) {
+                        currentEdge = TheNextEdge;
                         TheNextEdge = A2Edge.get(TheNextEdge);
                     } else {
-                        CurrentEdge = TheNextEdge;
+                        currentEdge = TheNextEdge;
                         TheNextEdge = A1Edge.get(TheNextEdge);
                     }
                 }
 
                 //TheNextEdge is the other extreme edge
-                CurrentEdges.add(CurrentEdge);
-                CurrentEdges.add(TheNextEdge);
-                EdgeSplits.put(currentSplit, CurrentEdges);
+                currentEdges.add(currentEdge);
+                currentEdges.add(TheNextEdge);
+                EdgeSplits.put(currentSplit, currentEdges);
             } else {
                 //There is only one edge in the split: we don't move it
             }
@@ -1313,7 +1307,7 @@ public class EqualAngle implements Splits2Network {
      * @param graphView
      */
     public Pair<Double, Double> CreatesCollisions(double trigAngle, double clockAngle, double oldAngle, List SplitEdges, double Angle, PhyloGraphView graphView) {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         double newTrigAngle = trigAngle;
         double newClockAngle = clockAngle;
         boolean clockBlocked = false;
@@ -1459,7 +1453,7 @@ public class EqualAngle implements Splits2Network {
      * @param visited
      * @param foundParameters angle1 angle2
      */
-    private void visitComponentRec2(Node v, Edge e, int specialNode, double previousAngle1, double previousAngle2, Node angle1in, Node angle1out, Node angle2in, Node angle2out, PhyloGraph graph, PhyloGraphView graphView, NodeSet visited, double[] foundParameters, boolean dontCompute) {// throws CanceledException {
+    private void visitComponentRec2(Node v, Edge e, int specialNode, double previousAngle1, double previousAngle2, Node angle1in, Node angle1out, Node angle2in, Node angle2out, PhyloSplitsGraph graph, PhyloGraphView graphView, NodeSet visited, double[] foundParameters, boolean dontCompute) {// throws CanceledException {
         double newAngle1 = 2 * Math.PI;
         double newAngle2 = 2 * Math.PI;
         boolean localDontCompute;
@@ -1543,7 +1537,7 @@ public class EqualAngle implements Splits2Network {
      * @param visited
      * @param foundParameters xmin ymin xmax ymax angle1 angle2
      */
-    private void visitComponentRec1(Node v, Edge e, double previousAngle1, double previousAngle2, Node angle1in, Node angle1out, Node angle2in, Node angle2out, PhyloGraph graph, PhyloGraphView graphView, NodeSet visited, double[] foundParameters) {
+    private void visitComponentRec1(Node v, Edge e, double previousAngle1, double previousAngle2, Node angle1in, Node angle1out, Node angle2in, Node angle2out, PhyloSplitsGraph graph, PhyloGraphView graphView, NodeSet visited, double[] foundParameters) {
         if (!visited.contains(v)) {
             visited.add(v);
 
@@ -1573,7 +1567,7 @@ public class EqualAngle implements Splits2Network {
      * @param graphView
      */
     private void assignCoordinatesToNodes(boolean useWeights, PhyloGraphView graphView) {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         if (graph.getNumberOfNodes() == 0)
             return;
         Node v = graph.getTaxon2Node(1);
@@ -1596,14 +1590,12 @@ public class EqualAngle implements Splits2Network {
      * @param graphView
      */
     private void assignCoordinatesToNodesRec(Node v, BitSet splitsInPath, NodeSet nodesVisited, boolean useWeights, PhyloGraphView graphView) {
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
         if (!nodesVisited.contains(v)) {
             //Deleted so that the user can cancel and it doesn't destroy everything: doc.getProgressListener().checkForCancel();
             nodesVisited.add(v);
-            Iterator it = graph.getAdjacentEdges(v);
-            while (it.hasNext()) {
-                Edge e = (Edge) it.next();
+            for (Edge e : v.adjacentEdges()) {
                 int s = graph.getSplit(e);
                 if (!splitsInPath.get(s)) {
                     Node w = graph.getOpposite(v, e);

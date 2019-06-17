@@ -57,16 +57,16 @@ public class NodeColorCommand extends ICommandAdapter implements ICommand {
         for (Node a = viewer.getGraph().getFirstNode(); a != null; a = a.getNext()) {
             if (!viewer.getSelected(a)) {
                 if (fg)
-                    colors.set(a, viewer.getColor(a));
+                    colors.put(a, viewer.getColor(a));
                 else if (bg)
-                    colors.set(a, viewer.getBackgroundColor(a));
+                    colors.put(a, viewer.getBackgroundColor(a));
                 else if (lbg)
-                    colors.set(a, viewer.getLabelBackgroundColor(a));
+                    colors.put(a, viewer.getLabelBackgroundColor(a));
                 else if (label)
-                    colors.set(a, viewer.getLabelColor(a));
+                    colors.put(a, viewer.getLabelColor(a));
             } else if (randomColors)
-                colors.set(a, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
-            else colors.set(a, color);
+                colors.put(a, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+            else colors.put(a, color);
         }
     }
 
@@ -86,13 +86,13 @@ public class NodeColorCommand extends ICommandAdapter implements ICommand {
         for (Node a = viewer.getGraph().getFirstNode(); a != null; a = a.getNext()) {
             {
                 if (fg)
-                    colors.set(a, viewer.getColor(a));
+                    colors.put(a, viewer.getColor(a));
                 else if (bg)
-                    colors.set(a, viewer.getBackgroundColor(a));
+                    colors.put(a, viewer.getBackgroundColor(a));
                 else if (lbg)
-                    colors.set(a, viewer.getLabelBackgroundColor(a));
+                    colors.put(a, viewer.getLabelBackgroundColor(a));
                 else if (label)
-                    colors.set(a, viewer.getLabelColor(a));
+                    colors.put(a, viewer.getLabelColor(a));
             }
         }
     }

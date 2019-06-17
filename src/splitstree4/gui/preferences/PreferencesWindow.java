@@ -25,12 +25,12 @@
  */
 package splitstree4.gui.preferences;
 
-import jloda.gui.ActionJList;
-import jloda.gui.WindowListenerAdapter;
-import jloda.gui.commands.CommandManager;
-import jloda.gui.director.IDirectableViewer;
+import jloda.swing.commands.CommandManager;
+import jloda.swing.director.IDirectableViewer;
+import jloda.swing.util.ActionJList;
+import jloda.swing.util.ResourceManager;
+import jloda.swing.util.WindowListenerAdapter;
 import jloda.util.ProgramProperties;
-import jloda.util.ResourceManager;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
 import splitstree4.gui.main.MainViewer;

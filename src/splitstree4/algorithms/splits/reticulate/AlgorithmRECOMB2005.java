@@ -21,10 +21,10 @@ package splitstree4.algorithms.splits.reticulate;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.graph.NotOwnerException;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
-import jloda.util.NotOwnerException;
 import jloda.util.Pair;
 import splitstree4.algorithms.splits.EqualAngle;
 import splitstree4.core.Document;
@@ -162,7 +162,7 @@ public class AlgorithmRECOMB2005 {
         int start = pair.getFirstInt();
         int end = pair.getSecondInt();
         System.err.print("# Processing pair " + start + " " + end + ":");
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         BitSet usedSplits = new BitSet(); // set of split id's used in the current path
         int[] backbone = new int[taxa.getNtax()]; // current backbone
         int lenBackbone = 0; // number of taxa in current backbone
@@ -190,16 +190,13 @@ public class AlgorithmRECOMB2005 {
      * @param graph
      * @param reticulations
      */
-    private void computeBackbonesRec(Taxa taxa, Node v, Node endNode, BitSet usedSplits, int[] path, int lenPath,
-                                     int[] backbone,
-                                     int lenBackbone, PhyloGraph graph, List reticulations)
-            throws NotOwnerException, SplitsException {
+    private void computeBackbonesRec(Taxa taxa, Node v, Node endNode, BitSet usedSplits, int[] path, int lenPath, int[] backbone,
+                                     int lenBackbone, PhyloSplitsGraph graph, List reticulations) throws NotOwnerException, SplitsException {
 
-        List ts = graph.getNode2Taxa(v);
-        if (ts != null && ts.size() > 0) {
-            if (ts.size() > 1)
+        if (graph.getNumberOfTaxa(v) > 0) {
+            if (graph.getNumberOfTaxa(v) > 1)
                 throw new SplitsException("computeBackbonesRec: node has multiple labels: " + v);
-            backbone[lenBackbone++] = (Integer) ts.get(0);
+            backbone[lenBackbone++] = graph.getTaxa(v).iterator().next();
         }
         if (v == endNode) {
             Reticulation ret = new Reticulation();

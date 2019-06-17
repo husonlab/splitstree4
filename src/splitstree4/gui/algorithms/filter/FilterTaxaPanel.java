@@ -28,10 +28,10 @@ package splitstree4.gui.algorithms.filter;
 
 import jloda.graph.Node;
 import jloda.graph.NodeSet;
-import jloda.gui.ActionJList;
-import jloda.gui.director.IUpdateableView;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.director.IUpdateableView;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.ActionJList;
 import jloda.util.Basic;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
@@ -327,14 +327,12 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
         AbstractAction action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    PhyloGraph graph = phyloView.getPhyloGraph();
+                    PhyloSplitsGraph graph = phyloView.getPhyloGraph();
 
                     NodeSet selectedNodes = phyloView.getSelectedNodes();
                     for (Node v : selectedNodes) {
-                        java.util.List taxa = graph.getNode2Taxa(v);
-                        for (Object aTaxa : taxa) {
-                            int id = (Integer) aTaxa;
-                            String name = dir.getDocument().getTaxa().getLabel(id);
+                        for (Integer t : graph.getTaxa(v)) {
+                            String name = dir.getDocument().getTaxa().getLabel(t);
                             int index;
                             for (index = 0; index < listl.size(); index++) {
                                 String lname = (String) listl.getElementAt(index);
@@ -393,17 +391,15 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
         AbstractAction action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    PhyloGraph graph = phyloView.getPhyloGraph();
+                    PhyloSplitsGraph graph = phyloView.getPhyloGraph();
 
                     listl.clear();
                     listr.clear();
                     Iterator it = graph.nodeIterator();
                     while (it.hasNext()) {
                         Node v = (Node) it.next();
-                        java.util.List taxaInGraph = graph.getNode2Taxa(v);
-                        for (Object aTaxaInGraph : taxaInGraph) {
-                            int id = (Integer) aTaxaInGraph;
-                            String name = "'" + dir.getDocument().getTaxa().getLabel(id) + "'";
+                        for (Integer t : graph.getTaxa(v)) {
+                            String name = "'" + dir.getDocument().getTaxa().getLabel(t) + "'";
                             if (phyloView.getSelected(v)) {
                                 listl.addElement(name);
                             } else {

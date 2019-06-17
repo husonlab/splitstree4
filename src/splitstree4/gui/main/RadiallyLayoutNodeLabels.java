@@ -21,8 +21,8 @@ package splitstree4.gui.main;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.graphview.NodeView;
-import jloda.util.Geometry;
+import jloda.swing.graphview.NodeView;
+import jloda.swing.util.Geometry;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

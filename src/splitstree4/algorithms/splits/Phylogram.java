@@ -33,11 +33,11 @@ package splitstree4.algorithms.splits;
 import jloda.graph.Edge;
 import jloda.graph.Node;
 import jloda.graph.NodeArray;
-import jloda.graphview.EdgeView;
-import jloda.graphview.NodeView;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
-import jloda.util.NotOwnerException;
+import jloda.graph.NotOwnerException;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.EdgeView;
+import jloda.swing.graphview.NodeView;
+import jloda.swing.graphview.PhyloGraphView;
 import splitstree4.core.Document;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Network;
@@ -82,7 +82,7 @@ public class Phylogram implements Splits2Network {
      */
     public Network apply(Document doc, Taxa taxa, Splits splits) throws Exception {
         PhyloGraphView graphView = new PhyloGraphView();
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         graphView.setAllowEdit(false);
         double mean;
 
@@ -192,7 +192,7 @@ public class Phylogram implements Splits2Network {
     }
 
     private void computeCoordinates(double correction, NodeArray reach, PhyloGraphView gv, Node actual, Point2D last, Edge e, int nTax, boolean mt) throws NotOwnerException {
-        PhyloGraph graph = gv.getPhyloGraph();
+        PhyloSplitsGraph graph = gv.getPhyloGraph();
         double indexLeft = (double) ((int[]) reach.get(actual))[0];
         double indexRight = (double) ((int[]) reach.get(actual))[1];
         double yCoord = (indexLeft + indexRight) / 2.0;
@@ -237,8 +237,7 @@ public class Phylogram implements Splits2Network {
                 gv.setLocation(actual, 0.0, yCoord);
         }
 
-        for (Iterator iter = graph.getAdjacentEdges(actual); iter.hasNext(); ) {
-            Edge element = (Edge) iter.next();
+        for (Edge element : actual.adjacentEdges()) {
             if (element == e) continue;
             computeCoordinates(correction, reach, gv, graph.getOpposite(actual, element), gv.getLocation(actual), element, nTax, !mt);
         }
@@ -246,7 +245,7 @@ public class Phylogram implements Splits2Network {
     }
 
     private void computeCoordinatesCladogram(NodeArray reach, PhyloGraphView gv, Node actual, Edge e) throws NotOwnerException {
-        PhyloGraph graph = gv.getPhyloGraph();
+        PhyloSplitsGraph graph = gv.getPhyloGraph();
 
         double indexLeft = (double) ((int[]) reach.get(actual))[0];
         double indexRight = (double) ((int[]) reach.get(actual))[1];
@@ -255,8 +254,7 @@ public class Phylogram implements Splits2Network {
         if (gv.getGraph().getDegree(actual) == 1)
             gv.setLocation(actual, xCoord, yCoord);
         else {
-            for (Iterator iter = graph.getAdjacentEdges(actual); iter.hasNext(); ) {
-                Edge element = (Edge) iter.next();
+            for (Edge element : actual.adjacentEdges()) {
                 if (element == e) continue;
                 Node child = graph.getOpposite(actual, element);
                 if (gv.getLocation(child).getY() == 0.0) computeCoordinatesCladogram(reach, gv, child, element);
@@ -269,8 +267,7 @@ public class Phylogram implements Splits2Network {
         }
         gv.setLocation(actual, xCoord, yCoord);
         if (!getOptionSlanted()) {
-            for (Iterator<Edge> iter = graph.getAdjacentEdges(actual); iter.hasNext(); ) {
-                Edge element = iter.next();
+            for (Edge element : actual.adjacentEdges()) {
                 if (element == e) continue;
                 Node child = graph.getOpposite(actual, element);
                 ArrayList<Point2D> internalPoints = new ArrayList<>();
@@ -307,17 +304,16 @@ public class Phylogram implements Splits2Network {
         setCyclicOrdering(newCycle);
     }
 
-    private int[] markNodes(NodeArray<int[]> reach, Node v, Edge e, PhyloGraph graph) throws NotOwnerException {
+    private int[] markNodes(NodeArray<int[]> reach, Node v, Edge e, PhyloSplitsGraph graph) throws NotOwnerException {
         int[] result = {Integer.MAX_VALUE, 0};
         ArrayList<int[]> results = new ArrayList<>();
-        for (Iterator<Edge> iter = graph.getAdjacentEdges(v); iter.hasNext(); ) {
-            Edge f = iter.next();
+        for (Edge f : v.adjacentEdges()) {
             if (f != e) {
-                Node w = graph.getOpposite(v, f);
-                if (graph.getDegree(w) == 1) {
-                    int x = getCyclePos(graph.getNode2Taxa(w).get(0));
+                Node w = f.getOpposite(v);
+                if (w.getDegree() == 1 && graph.getNumberOfTaxa(w) > 0) {
+                    int x = getCyclePos(graph.getTaxa(w).iterator().next());
                     results.add(new int[]{x, x});
-                    reach.set(w, new int[]{x, x});
+                    reach.put(w, new int[]{x, x});
                 } else
                     results.add(markNodes(reach, w, f, graph));
             }
@@ -326,7 +322,7 @@ public class Phylogram implements Splits2Network {
             if (y[0] < result[0]) result[0] = y[0];
             if (y[1] > result[1]) result[1] = y[1];
         }
-        reach.set(v, result);
+        reach.put(v, result);
         return result;
     }
 

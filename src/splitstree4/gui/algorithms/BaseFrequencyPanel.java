@@ -19,7 +19,7 @@
  */
 package splitstree4.gui.algorithms;
 
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import splitstree4.algorithms.characters.DNAdistance;
 import splitstree4.nexus.Characters;
 import splitstree4.util.CharactersUtilities;

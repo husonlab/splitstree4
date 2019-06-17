@@ -22,8 +22,8 @@ package splitstree4.algorithms.splits.reticulateTree;
 import jloda.graph.Edge;
 import jloda.graph.Node;
 import jloda.graph.NodeSet;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
 import splitstree4.nexus.Characters;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
@@ -53,7 +53,7 @@ public class LabelGraph {
      * @param split2Chars
      * @throws Exception
      */
-    static public void setSequences2NodeInfo(PhyloGraph graph, Taxa taxa, Characters chars, Map split2Chars) {
+    static public void setSequences2NodeInfo(PhyloSplitsGraph graph, Taxa taxa, Characters chars, Map split2Chars) {
         if (chars != null) {
             Node startNode = graph.getTaxon2Node(1);
             StringBuilder startNodeInfo = new StringBuilder("");
@@ -79,11 +79,9 @@ public class LabelGraph {
      * @param split2Chars
      * @throws Exception
      */
-    private static void recSetSequences2NodeInfo(PhyloGraph graph, Node startNode, NodeSet seenNodes, Map split2Chars) {
-        Iterator it = startNode.getAdjacentNodes();
+    private static void recSetSequences2NodeInfo(PhyloSplitsGraph graph, Node startNode, NodeSet seenNodes, Map split2Chars) {
         String startNodeInfo = (String) startNode.getInfo();
-        while (it.hasNext()) {
-            Node nextNode = (Node) it.next();
+        for (Node nextNode : startNode.adjacentNodes()) {
             if (!seenNodes.contains(nextNode)) {
                 seenNodes.add(nextNode);
                 StringBuilder nextNodeInfo = new StringBuilder("");
@@ -109,7 +107,7 @@ public class LabelGraph {
      * Everything for making the sequences visible on the nodes of the  graph...
      */
 
-    static public void setSequence2NewNodeInfo(PhyloGraph graph, Node newNode, String startNodeInfo, String stopNodeInfo, LinkedList cTaxaInfos) {
+    static public void setSequence2NewNodeInfo(PhyloSplitsGraph graph, Node newNode, String startNodeInfo, String stopNodeInfo, LinkedList cTaxaInfos) {
         if (verbose) System.out.println("startInfo: " + startNodeInfo + "\tstopInfo: " + stopNodeInfo);
         if (startNodeInfo != null && stopNodeInfo != null) {
             StringBuilder newNodeInfo = new StringBuilder("");
@@ -133,7 +131,7 @@ public class LabelGraph {
     }
 
 
-    public static void cleanEdges(PhyloGraphView graphView, PhyloGraph graph, Splits splits) {
+    public static void cleanEdges(PhyloGraphView graphView, PhyloSplitsGraph graph, Splits splits) {
         Iterator it = graph.edgeIterator();
         while (it.hasNext()) {
             Edge e = (Edge) it.next();
@@ -146,7 +144,7 @@ public class LabelGraph {
         for (int i = 1; i <= splits.getNsplits(); i++) splits.setLabel(i, "");
     }
 
-    public static void cleanNodes(PhyloGraphView graphView, PhyloGraph graph) {
+    public static void cleanNodes(PhyloGraphView graphView, PhyloSplitsGraph graph) {
         Iterator it = graph.nodeIterator();
         while (it.hasNext()) {
             Node n = (Node) it.next();
@@ -161,7 +159,7 @@ public class LabelGraph {
      * @throws Exception
      */
 
-    static public void writeLabels2Nodes(PhyloGraphView graphView, PhyloGraph graph) {
+    static public void writeLabels2Nodes(PhyloGraphView graphView, PhyloSplitsGraph graph) {
         Iterator it = graph.nodeIterator();
         while (it.hasNext()) {
             Node n = (Node) it.next();
@@ -185,7 +183,7 @@ public class LabelGraph {
      * @param splits2Chars
      * @throws Exception
      */
-    static public void writeSplits2Edges(PhyloGraph graph, Map splits2Chars) {
+    static public void writeSplits2Edges(PhyloSplitsGraph graph, Map splits2Chars) {
         Iterator it = graph.edgeIterator();
         while (it.hasNext()) {
             Edge e = (Edge) it.next();

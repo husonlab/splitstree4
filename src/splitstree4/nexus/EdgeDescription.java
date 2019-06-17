@@ -20,7 +20,7 @@
 package splitstree4.nexus;
 
 import jloda.graph.Edge;
-import jloda.graphview.EdgeView;
+import jloda.swing.graphview.EdgeView;
 import jloda.util.Basic;
 import jloda.util.parse.NexusStreamParser;
 

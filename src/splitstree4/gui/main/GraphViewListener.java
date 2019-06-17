@@ -20,9 +20,12 @@
 package splitstree4.gui.main;
 
 import jloda.graph.*;
-import jloda.graphview.*;
-import jloda.phylo.PhyloGraph;
-import jloda.util.*;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.*;
+import jloda.swing.util.Alert;
+import jloda.swing.util.Cursors;
+import jloda.swing.util.Geometry;
+import jloda.util.Basic;
 import splitstree4.gui.undo.*;
 import splitstree4.nexus.Network;
 
@@ -714,7 +717,7 @@ public class GraphViewListener implements IGraphViewListener {
     private NodeArray<Point2D> getAllCoordinates(MainViewer viewer) {
         NodeArray<Point2D> result = new NodeArray<>(viewer.getGraph());
         for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext()) {
-            result.set(v, (Point2D) viewer.getLocation(v).clone());
+            result.put(v, (Point2D) viewer.getLocation(v).clone());
         }
         return result;
     }
@@ -730,7 +733,7 @@ public class GraphViewListener implements IGraphViewListener {
         for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext()) {
             java.util.List<Point2D> internalPoints = viewer.getInternalPoints(e);
             if (internalPoints != null && internalPoints.size() == 1)
-                result.set(e, internalPoints.get(0));
+                result.put(e, internalPoints.get(0));
         }
         return result;
     }
@@ -1013,7 +1016,7 @@ public class GraphViewListener implements IGraphViewListener {
      */
 
     private double canMaintainEdgeLengths() {
-        PhyloGraph G = viewer.getPhyloGraph();
+        PhyloSplitsGraph G = viewer.getPhyloGraph();
         boolean first = true;
         double firstAngle = 0;
         double firstLength = 0;
@@ -1058,7 +1061,7 @@ public class GraphViewListener implements IGraphViewListener {
      * @param origLength double
      */
     private void maintainEdgeLengths(double origLength) {
-        PhyloGraph G = viewer.getPhyloGraph();
+        PhyloSplitsGraph G = viewer.getPhyloGraph();
         NodeSet visited = new NodeSet(G);
 
         double length = -1;
@@ -1112,7 +1115,7 @@ public class GraphViewListener implements IGraphViewListener {
      * @param diff    Point2D
      * @param visited NodeSet
      */
-    private void shiftAllNodesRecursively(PhyloGraph G, Node v, Point2D diff, NodeSet visited) {
+    private void shiftAllNodesRecursively(PhyloSplitsGraph G, Node v, Point2D diff, NodeSet visited) {
         if (!visited.contains(v)) {
             viewer.setLocation(v, viewer.getLocation(v).getX() - diff.getX(),
                     viewer.getLocation(v).getY() - diff.getY());

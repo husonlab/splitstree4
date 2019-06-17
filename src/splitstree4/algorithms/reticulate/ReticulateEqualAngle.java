@@ -21,9 +21,9 @@ package splitstree4.algorithms.reticulate;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
-import jloda.util.Geometry;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.Geometry;
 import splitstree4.core.Document;
 import splitstree4.nexus.Network;
 import splitstree4.nexus.Reticulate;
@@ -60,7 +60,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
         if (verbose) System.out.println("\n\nStarting draw");
 
         rNode2ReticulationNodeData = new HashMap();
-        PhyloGraph graph = ret.getReticulateNetwork();
+        PhyloSplitsGraph graph = ret.getReticulateNetwork();
         Node root = ret.getRoot();
         PhyloGraphView graphView = new PhyloGraphView(graph);
         // reticulation nodes mapped onto the depending tree Nodes
@@ -145,20 +145,23 @@ public class ReticulateEqualAngle implements Reticulate2Network {
             //graphView.setColor(graph.newEdge(rNode, rNodeData.getParent()), Color.red);
         }
 
-        it = graph.nodeIterator();
-        while (it.hasNext()) {
-            Node n = (Node) it.next();
-            //graph.setLabel(n, n + "\tnLeafs:" + node2AngleSize.get(n));
+        if (false) {
+            for (Node n : graph.nodes()) {
+                graph.setLabel(n, n + "\tnLeafs:" + node2AngleSize.get(n));
+            }
         }
         graphView.resetViews();
         return new Network(taxa, graphView);
     }
 
 
-    private HashMap getActiveRNodesForEdges(PhyloGraph graph, HashMap rNode2ReticulationNodeData, HashMap parent2rNodes) {
-        HashMap nodes = new HashMap();
-        Iterator it = graph.nodeIterator();
-        while (it.hasNext()) nodes.put(it.next(), new HashSet());
+    private HashMap getActiveRNodesForEdges(PhyloSplitsGraph graph, HashMap<Node, Set<Node>> rNode2ReticulationNodeData, HashMap parent2rNodes) {
+        HashMap<Node, Set<Node>> nodes = new HashMap<>();
+        Iterator<Node> it = graph.nodes().iterator();
+
+        while (it.hasNext())
+            nodes.put(it.next(), new HashSet<>());
+
         it = rNode2ReticulationNodeData.keySet().iterator();
         while (it.hasNext()) {
             Node rNode = (Node) it.next();
@@ -173,7 +176,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
                 //System.out.println("found Path between: " + ancestor + "\tand " + rNodeData.getP().getSource() + "\t: " + path2p);
                 while (itPath.hasNext()) {
                     Node decendant = (Node) itPath.next();
-                    ((HashSet) nodes.get(decendant)).add(rNode);
+                    nodes.get(decendant).add(rNode);
                 }
             } else {
                 rNodeData.setNode2p(rNodeData.getParent());
@@ -187,7 +190,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
                 //System.out.println("found Path between: " + ancestor + "\tand " + rNodeData.getP().getSource() + "\t: " + path2q);
                 while (itPath.hasNext()) {
                     Node decendant = (Node) itPath.next();
-                    ((HashSet) nodes.get(decendant)).add(rNode);
+                    nodes.get(decendant).add(rNode);
                 }
             } else {
                 rNodeData.setNode2q(rNodeData.getParent());
@@ -197,9 +200,9 @@ public class ReticulateEqualAngle implements Reticulate2Network {
     }
 
 
-    private void recButtomUpSubNodes(Node start, HashMap node2SubNodes, HashMap parent2rNodes) {
-        Iterator it = start.getAdjacentNodes();
-        HashSet start2SubNodes = new HashSet();
+    private void recButtomUpSubNodes(Node start, HashMap<Node, Set<Node>> node2SubNodes, HashMap<Node, Set<Node>> parent2rNodes) {
+        Iterator<Node> it = start.adjacentNodes().iterator();
+        HashSet<Node> start2SubNodes = new HashSet<>();
         // add tree stuff
         while (it.hasNext()) {
             Node next = (Node) it.next();
@@ -213,12 +216,12 @@ public class ReticulateEqualAngle implements Reticulate2Network {
                     recButtomUpSubNodes(next, node2SubNodes, parent2rNodes);
                 }
                 // add node to SubNodes
-                start2SubNodes.addAll((Set) node2SubNodes.get(next));
+                start2SubNodes.addAll(node2SubNodes.get(next));
             }
         }
         // add connected rNodes
         if (parent2rNodes.get(start) != null) {
-            it = ((HashSet) parent2rNodes.get(start)).iterator();
+            it = parent2rNodes.get(start).iterator();
             while (it.hasNext()) {
                 Node next = (Node) it.next();
                 if (node2SubNodes.get(next) == null) {
@@ -226,7 +229,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
                     recButtomUpSubNodes(next, node2SubNodes, parent2rNodes);
                 }
                 // add node to SubNodes
-                start2SubNodes.addAll((Set) node2SubNodes.get(next));
+                start2SubNodes.addAll(node2SubNodes.get(next));
             }
         }
         start2SubNodes.add(start);
@@ -234,24 +237,20 @@ public class ReticulateEqualAngle implements Reticulate2Network {
         node2SubNodes.put(start, start2SubNodes);
     }
 
-    private int recButtomUpSubLeafs(Node start, HashMap node2AngleSize, HashMap parent2rNodes) {
+    private int recButtomUpSubLeafs(Node start, HashMap<Node, Integer> node2AngleSize, HashMap<Node, Set<Node>> parent2rNodes) {
         //System.out.println("\nnode: " + start + "\tsub: " + node2SubLeafs.get(start));
         int nLeafs = 0;
 
         if (node2AngleSize.containsKey(start)) nLeafs += (Integer) node2AngleSize.get(start);
         // add treenodes
-        Iterator it = start.getAdjacentNodes();
-        while (it.hasNext()) {
-            Node next = (Node) it.next();
+        for (Node next : start.adjacentNodes()) {
             if (next.getInDegree() == 1 && next.getCommonEdge(start).getSource().equals(start)) {
                 nLeafs += recButtomUpSubLeafs(next, node2AngleSize, parent2rNodes);
             }
         }
         // add reticulations
         if (parent2rNodes.get(start) != null) {
-            it = ((HashSet) parent2rNodes.get(start)).iterator();
-            while (it.hasNext()) {
-                Node next = (Node) it.next();
+            for (Node next : parent2rNodes.get(start)) {
                 nLeafs += recButtomUpSubLeafs(next, node2AngleSize, parent2rNodes);
             }
         }
@@ -261,7 +260,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
     }
 
 
-    private void makeImaginaryEdges(PhyloGraph graph, Node root) {
+    private void makeImaginaryEdges(PhyloSplitsGraph graph, Node root) {
         HashMap node2parent = new HashMap();
         Iterator it = graph.nodeIterator();
         // find first common anceestor
@@ -311,9 +310,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
             Node parent = (Node) node2parent.get(rNode);
             Edge p = null;
             Edge q = null;
-            Iterator it2 = rNode.getInEdges();
-            while (it2.hasNext()) {
-                Edge e = (Edge) it2.next();
+            for (Edge e : rNode.inEdges()) {
                 if (p == null)
                     p = e;
                 else
@@ -338,13 +335,13 @@ public class ReticulateEqualAngle implements Reticulate2Network {
      *         tree or imaginary edge to the node
      * @throws Exception
      */
-    private void recTopDownLabelNodes(PhyloGraphView graphView, PhyloGraph graph, Node start, double startAngle, int nTax, HashMap node2AngleSize, HashMap node2SubNodes, HashSet before, HashMap parent2rNodes, HashMap node2ActiverNodes) throws Exception {
+    private void recTopDownLabelNodes(PhyloGraphView graphView, PhyloSplitsGraph graph, Node start, double startAngle, int nTax, HashMap node2AngleSize, HashMap node2SubNodes, HashSet before, HashMap parent2rNodes, HashMap node2ActiverNodes) throws Exception {
         if (verbose) System.out.println("\nstart: " + start + "\t before: " + before);
         // define intervalls
         //make ordering graph ( the order in which the rNodes are dependent on this node)
         // I need the ordGraph for the perfect matching
 
-        PhyloGraph ordGraph = new PhyloGraph();
+        PhyloSplitsGraph ordGraph = new PhyloSplitsGraph();
         ArrayList orderedRNodes = new ArrayList();
         // are there reticulation nodes
         if (parent2rNodes.get(start) != null) {
@@ -355,9 +352,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
         // the list of tree decendants of start
         ArrayList decendants = new ArrayList();
         decendants.addAll(orderedRNodes);
-        Iterator itN = start.getAdjacentNodes();
-        while (itN.hasNext()) {
-            Node n = (Node) itN.next();
+        for (Node n : start.adjacentNodes()) {
             if (n.getInDegree() == 1 && n.getCommonEdge(start).getSource().equals(start))
                 decendants.add(n);
         }
@@ -412,7 +407,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
      * @param before
      * @throws Exception
      */
-    private void drawOrderedList(Node start, double startAngle, PhyloGraph graph, PhyloGraphView graphView, ArrayList orderedRNodes, ArrayList ordList, HashMap parent2rNodes, HashMap node2ActiverNodes, HashMap node2SubNodes, HashMap node2AngleSize, int nTax, HashSet before) throws Exception {
+    private void drawOrderedList(Node start, double startAngle, PhyloSplitsGraph graph, PhyloGraphView graphView, ArrayList orderedRNodes, ArrayList ordList, HashMap parent2rNodes, HashMap node2ActiverNodes, HashMap node2SubNodes, HashMap node2AngleSize, int nTax, HashSet before) throws Exception {
         // draw all subtrees we do this in order of the rNodes, such that we know that p and q of a reticulation have been drawn, before we draw the reticulation
         // thus allowing us to apply the placement of the node at once (either with or without weights. So first we have to add the rNodes with p and q and the the rest
         HashSet workedNodes = new HashSet();
@@ -604,7 +599,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
     }
 
 
-    private double drawNode(Node start, Point2D startPosition, Node n, double startAngle, int nSubleafs, int nTax, PhyloGraph graph, PhyloGraphView graphView) {
+    private double drawNode(Node start, Point2D startPosition, Node n, double startAngle, int nSubleafs, int nTax, PhyloSplitsGraph graph, PhyloGraphView graphView) {
         double addAngle = maxAngle * (double) nSubleafs / (double) nTax;
         double radian = (startAngle + 0.5 * addAngle) * Math.PI / 180.0;
         //System.out.println("working on node: " + n + "\tsubleafs: " + nSubleafs + "\tangle: " + startAngle + "\taddAngle: " + addAngle + "\tstartPosition: " + startPosition);
@@ -626,7 +621,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
     private ArrayList bestOrdering;
     private int bound;
 
-    private ArrayList buildOrdListWithBranchandBound(ArrayList orderedRNodes, HashSet before, int[][] nodes2nConections, ArrayList decendants, PhyloGraph ordGraph) {
+    private ArrayList buildOrdListWithBranchandBound(ArrayList orderedRNodes, HashSet before, int[][] nodes2nConections, ArrayList decendants, PhyloSplitsGraph ordGraph) {
         // first set bound
         bestOrdering = new ArrayList();
         this.bound = buildOrdListGreedy(orderedRNodes, before, nodes2nConections, decendants, bestOrdering);
@@ -951,17 +946,15 @@ public class ReticulateEqualAngle implements Reticulate2Network {
             }
         } else {
             path.addFirst(decendant);
-            Node next = decendant.getInEdges().next().getSource();
+            Node next = decendant.inEdges().iterator().next().getSource();
             recFindPath2Ancestor(next, ancestor, path);
         }
     }
 
     private void recFindPathesInOrgGraph2Ancestor(Node decendant, Node ancestor, LinkedList visitedNodes, HashSet pathes) {
-        Iterator it = decendant.getAdjacentNodes();
         visitedNodes.add(decendant);
         //System.out.println("ancestor: " + ancestor + "\tdecendant: " + decendant);
-        while (it.hasNext()) {
-            Node next = (Node) it.next();
+        for (Node next : decendant.adjacentNodes()) {
             //System.out.println("\tnext: " + next + "\tisAncestor: " + decendant.getCommonEdge(next).getSource().equals(next) + "\tequal: " + next.equals(ancestor) + "\t" + next.compareTo(ancestor));
             if (decendant.getCommonEdge(next).getSource().equals(next)) {
                 if (next.equals(ancestor)) {
@@ -999,7 +992,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
      * @return
      */
 
-    private ArrayList buildLocalWorkFlow(HashSet rNodes, PhyloGraph ordGraph) {
+    private ArrayList buildLocalWorkFlow(HashSet rNodes, PhyloSplitsGraph ordGraph) {
         Iterator it = rNodes.iterator();
         HashMap rNode2ordNode = new HashMap();
         HashMap ordNode2rNode = new HashMap();
@@ -1044,9 +1037,9 @@ public class ReticulateEqualAngle implements Reticulate2Network {
      * @param graph
      * @return
      */
-    private PhyloGraph buildReticulationDependencyGraph(PhyloGraph graph, HashMap depRetNode2rNode) {
+    private PhyloSplitsGraph buildReticulationDependencyGraph(PhyloSplitsGraph graph, HashMap depRetNode2rNode) {
         HashMap rNode2DepRetNode = new HashMap();
-        PhyloGraph depRet = new PhyloGraph();
+        PhyloSplitsGraph depRet = new PhyloSplitsGraph();
         // init depRet
         Iterator it = graph.nodeIterator();
         while (it.hasNext()) {
@@ -1070,9 +1063,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
             seenNodes.add(retN);
             // init toWork
             Vector nodes2Work = new Vector();
-            Iterator it2 = retN.getAdjacentNodes();
-            while (it2.hasNext()) {
-                Node n = (Node) it2.next();
+            for (Node n : retN.adjacentNodes()) {
                 if (n.getCommonEdge(retN).getSource().equals(retN))
                     nodes2Work.add(n);
             }
@@ -1081,9 +1072,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
                 //System.out.println("rNode: " + retN + "\tNode: " + next + "\tlist: " + nodes2Work);
                 if (!seenNodes.contains(next) && next.getInDegree() == 1) {
                     dependentTreeNodes.add(next);
-                    it2 = next.getAdjacentNodes();
-                    while (it2.hasNext()) {
-                        Node toAdd = (Node) it2.next();
+                    for (Node toAdd : retN.adjacentNodes()) {
                         if (next.getCommonEdge(toAdd).getSource().equals(next)) {
                             nodes2Work.add(toAdd);
                         }
@@ -1108,7 +1097,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
     static private Integer white = 0, gray = 1, black = 2;
     static private int time = -1;
 
-    public LinkedList DFS(PhyloGraph graph, boolean breakCycles, boolean removeForwardEdges) {
+    public LinkedList DFS(PhyloSplitsGraph graph, boolean breakCycles, boolean removeForwardEdges) {
         HashMap node2Color = new HashMap();
         HashMap node2Predecessor = new HashMap();
         HashMap node2time = new HashMap();
@@ -1143,9 +1132,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
         node2Color.put(u, gray);
         int[] uTimes = (int[]) node2time.get(u);
         uTimes[0] = ++time;
-        Iterator it = u.getAdjacentNodes();
-        while (it.hasNext()) {
-            Node v = (Node) it.next();
+        for (Node v : u.adjacentNodes()) {
             if (v.getCommonEdge(u).getSource().equals(u)) {
                 if (node2Color.get(v).equals(white)) {
                     node2Predecessor.put(v, u);
@@ -1161,9 +1148,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
 
 
     public Edge getCommonEdgeResepctImaginary(Node n1, Node n2, boolean imaginary, Set imaginaryEdges) {
-        Iterator it = n1.getAdjacentEdges();
-        while (it.hasNext()) {
-            Edge next = (Edge) it.next();
+        for (Edge next : n1.adjacentEdges()) {
             if (next.getSource().equals(n2) || next.getTarget().equals(n2)) {
                 if (!imaginary && !imaginaryEdges.contains(next))
                     return next;

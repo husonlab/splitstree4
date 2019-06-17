@@ -25,7 +25,7 @@
  */
 package splitstree4.algorithms.characters;
 
-import jloda.util.Alert;
+import jloda.swing.util.Alert;
 import jloda.util.CanceledException;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;

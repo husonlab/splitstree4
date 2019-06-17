@@ -21,12 +21,12 @@ package splitstree4.gui.main;
 
 import jloda.graph.Node;
 import jloda.graph.NodeSet;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
+import jloda.phylo.PhyloSplitsGraph;
 import jloda.phylo.PhyloTree;
-import jloda.util.Alert;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.Alert;
+import jloda.swing.util.ResourceManager;
 import jloda.util.Basic;
-import jloda.util.ResourceManager;
 import splitstree4.core.TaxaSet;
 import splitstree4.gui.Director;
 import splitstree4.gui.DirectorActions;
@@ -40,7 +40,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Enumeration;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Vector;
 
 /**
@@ -468,22 +467,20 @@ public class TaxaSetViewerActions {
 
                 messagePanel.setVisible(false);
 
-                PhyloGraph graph = phyloView.getPhyloGraph();
-                Vector selectedPaths = new Vector();
+                PhyloSplitsGraph graph = phyloView.getPhyloGraph();
+                Vector<TreePath> selectedPaths = new Vector<>();
                 NodeSet selectedNodes = phyloView.getSelectedNodes();   // get selected items from the graph
                 for (Node selectedNode : selectedNodes) {              //for all selected nodes in the graph
                     //if its a taxa node
                     if (selectedNode.getOutDegree() <= 1 && phyloView.getLabel(selectedNode) != null) {
-
-                        List taxa = graph.getNode2Taxa(selectedNode);
-                        for (Object aTaxa : taxa) {
+                        for (Integer t : graph.getTaxa(selectedNode)) {
                             DefaultMutableTreeNode selectedNodeTaxa = new DefaultMutableTreeNode(taxaTree);
                             selectedNodeTaxa = null;
                             DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode) taxaTree.getModel().getRoot();
                             //find coresponding node in taxaTree
                             for (Enumeration allNodes = rootNode.breadthFirstEnumeration(); allNodes.hasMoreElements(); ) { //for all nodes of the taxa tree
                                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) allNodes.nextElement();
-                                if (node.toString().equals(graph.getLabel(graph.getTaxon2Node((Integer) aTaxa)))) {
+                                if (node.toString().equals(graph.getLabel(graph.getTaxon2Node(t)))) {
                                     selectedNodeTaxa = node;
                                 }
                             }

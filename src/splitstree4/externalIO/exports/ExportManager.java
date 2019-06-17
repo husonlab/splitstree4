@@ -25,6 +25,7 @@
 package splitstree4.externalIO.exports;
 
 import jloda.util.Basic;
+import jloda.util.ResourceUtils;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
 
@@ -46,14 +47,13 @@ public class ExportManager {
      * gets the list of exporters
      *
      * @return all valid epxorers
-     * @throws Exception
      */
     public static ArrayList getExporter() throws Exception {
         ArrayList exporter = new ArrayList();
         String[] exporters;
 
         try {
-            exporters = Basic.fetchResources(packageName);
+            exporters = ResourceUtils.fetchResources(packageName);
         } catch (IOException ex) {
             return null;
         }
@@ -129,7 +129,7 @@ public class ExportManager {
         ArrayList names = new ArrayList();
         String[] exporters;
         try {
-            exporters = Basic.fetchResources(packageName);
+            exporters = ResourceUtils.fetchResources(packageName);
         } catch (IOException ex) {
             Basic.caught(ex);
             return null;
@@ -193,7 +193,7 @@ public class ExportManager {
         ArrayList names = new ArrayList();
         String[] exporters;
         try {
-            exporters = Basic.fetchResources(packageName);
+            exporters = ResourceUtils.fetchResources(packageName);
         } catch (IOException ex) {
             return null;
         }
@@ -265,7 +265,6 @@ public class ExportManager {
      * @param blocks       list of blocks to be exported
      * @param doc
      * @return mapping from names assigned in export to original names
-     * @throws Exception
      */
     public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc) throws Exception {
         return exportData(saveFile, appendFile, exportAll, exporterName, blocks, doc, null);
@@ -282,7 +281,6 @@ public class ExportManager {
      * @param doc
      * @param additionalInfo Additional information to be passed to exporter
      * @return mapping from names assigned in export to original names
-     * @throws Exception
      */
     public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc, ExporterInfo additionalInfo) throws Exception {
         String className;

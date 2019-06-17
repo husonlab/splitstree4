@@ -30,17 +30,15 @@
 package splitstree4.util;
 
 import jloda.graph.*;
-import jloda.phylo.PhyloGraph;
-import jloda.phylo.PhyloGraphView;
-import jloda.util.Alert;
+import jloda.phylo.PhyloSplitsGraph;
+import jloda.swing.graphview.PhyloGraphView;
+import jloda.swing.util.Alert;
+import jloda.swing.util.Geometry;
 import jloda.util.Basic;
-import jloda.util.Geometry;
-import jloda.util.NotOwnerException;
 import splitstree4.nexus.Network;
 import splitstree4.nexus.Taxa;
 
 import java.awt.geom.Point2D;
-import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -61,7 +59,7 @@ public class NetworkUtilities {
         PhyloGraphView graphView = new PhyloGraphView();
         network.syncNetwork2PhyloGraphView(taxa, null, graphView);
 
-        PhyloGraph graph = graphView.getPhyloGraph();
+        PhyloSplitsGraph graph = graphView.getPhyloGraph();
         if (graph.getNumberConnectedComponents() > 1) {
             new Alert("Given network is not connected, can't embed");
             return;
@@ -104,7 +102,7 @@ public class NetworkUtilities {
      * @param number
      * @param components
      */
-    private static void renumberComponent(PhyloGraph graph, PhyloGraphView view, Node v,
+    private static void renumberComponent(PhyloSplitsGraph graph, PhyloGraphView view, Node v,
                                           Edge e, int number, NodeIntegerArray components) {
         components.set(v, number);
         for (Edge f = v.getFirstAdjacentEdge(); f != null; f = f.getNextIncidentTo(v)) {
@@ -116,7 +114,7 @@ public class NetworkUtilities {
     /**
      * Embeds the tree in linear time.
      */
-    private static void embed(PhyloGraph graph, PhyloGraphView view) {
+    private static void embed(PhyloSplitsGraph graph, PhyloGraphView view) {
         if (graph.getNumberOfNodes() == 0)
             return;
 
@@ -175,20 +173,14 @@ public class NetworkUtilities {
      * @return b int
      */
 
-    private static int setAnglesRec(PhyloGraph graph, PhyloGraphView view, int num, Node root, Edge entry, NodeSet leaves,
-                                    EdgeDoubleArray angle, Random rand) throws NotOwnerException {
+    private static int setAnglesRec(PhyloSplitsGraph graph, PhyloGraphView view, int num, Node root, Edge entry, NodeSet leaves, EdgeDoubleArray angle, Random rand) {
         if (leaves.contains(root))
             return num + 1;
         else {
-            Iterator edges = graph.getAdjacentEdges(root);
-
-            // edges.permute(); // look at children in random order
-
             int a = num; // is number of nodes seen so far
             int b = 0;     // number of nodes after visiting subtree
 
-            while (edges.hasNext()) {
-                Edge e = (Edge) edges.next();
+            for (Edge e : root.adjacentEdges()) {
                 if (e != entry && view.getSelected(e)) {
                     b = setAnglesRec(graph, view, a, graph.getOpposite(root, e), e, leaves, angle, rand);
 
@@ -210,19 +202,14 @@ public class NetworkUtilities {
      * @param angle EdgeDouble
      */
 
-    static private void setCoordsRec(PhyloGraph graph, PhyloGraphView view, Node root, Edge entry, EdgeDoubleArray angle)
-            throws NotOwnerException {
-        Iterator edges = graph.getAdjacentEdges(root);
-
-        while (edges.hasNext()) {
-            Edge e = (Edge) edges.next();
-
+    static private void setCoordsRec(PhyloSplitsGraph graph, PhyloGraphView view, Node root, Edge entry, EdgeDoubleArray angle) {
+        for (Edge e : root.adjacentEdges()) {
             if (e != entry && view.getSelected(e)) {
                 Node v = graph.getOpposite(root, e);
 
                 // translate in the computed direction by the given amount
                 view.setLocation(v,
-                        Geometry.translateByAngle(view.getLocation(root), angle.getValue(e), 1));
+                        Geometry.translateByAngle(view.getLocation(root), angle.get(e), 1));
 
                 setCoordsRec(graph, view, v, e, angle);
             }

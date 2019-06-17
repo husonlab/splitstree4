@@ -62,7 +62,7 @@ public class NodeLabelsCommand extends ICommandAdapter implements ICommand {
 
         for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext()) {
             if (!selectedOnly || viewer.getSelected(v)) {
-                origLabels.set(v, viewer.getLabel(v));
+                origLabels.put(v, viewer.getLabel(v));
             }
         }
     }
