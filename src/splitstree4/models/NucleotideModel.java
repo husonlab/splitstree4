@@ -1,4 +1,4 @@
-/**
+/*
  * NucleotideModel.java
  * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
  * <p/>
