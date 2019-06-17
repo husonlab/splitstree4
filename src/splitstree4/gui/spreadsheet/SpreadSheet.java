@@ -482,7 +482,7 @@ public class SpreadSheet extends JTable {
 
         /* In future, we could introduce a pop-up menu here
         int type = ev.getID();
-        int modifiers = ev.getModifiers();
+        int modifiers = ev.getModifiersEx();
 
         if ((type == MouseEvent.MOUSE_RELEASED)
             && (modifiers == InputEvent.BUTTON3_MASK)) {

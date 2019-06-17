@@ -141,11 +141,11 @@ public class Actions {
         };
         action.putValue(AbstractAction.NAME, "Print...");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Print the graph");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Print16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Print16.gif"));
 
 
         all.add(action);
@@ -164,7 +164,7 @@ public class Actions {
             }
         };
         action.putValue(AbstractAction.NAME, "Cancel");
-        action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Close this dialog");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("Close16.gif"));
@@ -186,9 +186,9 @@ public class Actions {
         };
         action.putValue(AbstractAction.NAME, "Cut");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() /*| ActionEvent.SHIFT_MASK*/));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() /*| ActionEvent.SHIFT_MASK*/));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Cut");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Cut16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Cut16.gif"));
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
         all.add(action);
         return cut = action;
@@ -207,10 +207,10 @@ public class Actions {
         };
         action.putValue(AbstractAction.NAME, "Copy");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() /*| ActionEvent.SHIFT_MASK*/));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() /*| ActionEvent.SHIFT_MASK*/));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Copy graph to clipboard");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Copy16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Copy16.gif"));
         all.add(action);
         return copy = action;
     }
@@ -229,10 +229,10 @@ public class Actions {
         };
         action.putValue(AbstractAction.NAME, "Paste");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Paste");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Paste16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Paste16.gif"));
 
         all.add(action);
         return paste = action;
@@ -334,8 +334,8 @@ public class Actions {
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Execute the entered text");
         action.putValue(AbstractAction.NAME, "Execute");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
-        action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/media/Play16.gif"));
+        action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Play16.gif"));
 
         all.add(action);
         return executeText = action;
@@ -365,7 +365,7 @@ public class Actions {
         };
         action.putValue(AbstractAction.NAME, "Go To Line...");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Go to Line");
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("GotoLine16.gif"));
         all.add(action);
@@ -394,10 +394,10 @@ public class Actions {
 
         action.putValue(AbstractAction.NAME, "Undo");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Undo");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Undo16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Undo16.gif"));
 
         all.add(action);
         return undo = action;
@@ -425,9 +425,9 @@ public class Actions {
 
         action.putValue(AbstractAction.NAME, "Redo");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | InputEvent.SHIFT_MASK));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Redo");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Redo16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Redo16.gif"));
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
         all.add(action);
         return redo = action;
@@ -473,9 +473,9 @@ public class Actions {
         };
         action.putValue(AbstractAction.NAME, "Find/Replace...");
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Open the Find/Replace dialog");
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Find16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Find16.gif"));
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE); // otherwise won't get enable state right
         all.add(action);
         return FindReplaceAction = action;
@@ -498,8 +498,8 @@ public class Actions {
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Find next label matching pattern");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Find16.gif"));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Find16.gif"));
         all.add(action);
 
         return findReplaceAgain = action;

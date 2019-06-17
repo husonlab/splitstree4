@@ -148,7 +148,7 @@ public class SplitContainer {
      } else {
      allSplits.add(sp);
      int id = allSplits.getNsplits();
-     splitIndices.put(sp.toString(), new Integer(id));
+     splitIndices.put(sp.toString(), (int)(id));
      set(blockNum, id, val);
      }
      }

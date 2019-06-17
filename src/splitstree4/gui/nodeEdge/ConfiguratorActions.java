@@ -99,8 +99,8 @@ public class ConfiguratorActions {
         };
         action.putValue(AbstractAction.NAME, "Close");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_W,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('C'));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('C'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Close this window");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("Close16.gif"));
@@ -131,7 +131,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "IDs");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('I'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('I'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Show IDs");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         all.add(action);
@@ -158,7 +158,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Weights");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('W'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('W'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Show weights");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         all.add(action);
@@ -185,7 +185,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Confidence Values");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('V'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('V'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Show confidence");
         action.putValue(DirectorActions.DEPENDS_ON, Splits.NAME);
         all.add(action);
@@ -240,7 +240,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Font...");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('F'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('F'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set label font");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_EDGESELECTION, Boolean.TRUE);
@@ -277,7 +277,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Font...");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('F'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('F'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set label font");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_EDGESELECTION, Boolean.TRUE);
@@ -306,7 +306,7 @@ public class ConfiguratorActions {
         };
 
         action.putValue(AbstractAction.NAME, "Bold");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('F'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('F'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set label font bold");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_EDGESELECTION, Boolean.TRUE);
@@ -334,7 +334,7 @@ public class ConfiguratorActions {
         };
 
         action.putValue(AbstractAction.NAME, "Italic");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('F'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('F'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set label font italic");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_EDGESELECTION, Boolean.TRUE);
@@ -363,7 +363,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Width...");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('S'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('S'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set edge width");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_EDGESELECTION, Boolean.TRUE);
@@ -407,7 +407,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "IDs");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('I'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('I'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Label with taxon ids");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         all.add(action);
@@ -437,7 +437,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Font...");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('F'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('F'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set label font");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_NODESELECTION, Boolean.TRUE);
@@ -477,7 +477,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Font...");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('F'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('F'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set label font");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_NODESELECTION, Boolean.TRUE);
@@ -505,7 +505,7 @@ public class ConfiguratorActions {
         };
 
         action.putValue(AbstractAction.NAME, "Bold");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('F'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('F'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set label font bold");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_NODESELECTION, Boolean.TRUE);
@@ -533,7 +533,7 @@ public class ConfiguratorActions {
         };
 
         action.putValue(AbstractAction.NAME, "Italic");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('F'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('F'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set label font italic");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_NODESELECTION, Boolean.TRUE);
@@ -562,7 +562,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Size...");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('S'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('S'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set node size");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_NODESELECTION, Boolean.TRUE);
@@ -595,7 +595,7 @@ public class ConfiguratorActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Shape...");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('S'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('S'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set node shape");
         //action.putValue(DirectorActions.DEPENDS_ON,Network.NAME);
         action.putValue(MainViewerActions.DEPENDS_ON_NODESELECTION, Boolean.TRUE);
@@ -623,7 +623,7 @@ public class ConfiguratorActions {
               }
           };
           action.putValue(AbstractAction.NAME, "Edge Width...");
-          action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('W'));
+          action.putValue(AbstractAction.MNEMONIC_KEY, (int)('W'));
           action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
           action.putValue(AbstractAction.SHORT_DESCRIPTION, "Display confidence by edge width");
           action.putValue(DirectorActions.DEPENDS_ON, Splits.NAME);
@@ -651,7 +651,7 @@ public class ConfiguratorActions {
                }
            };
            action.putValue(AbstractAction.NAME, "Edge Shade...");
-           action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('S'));
+           action.putValue(AbstractAction.MNEMONIC_KEY, (int)('S'));
            action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
            action.putValue(AbstractAction.SHORT_DESCRIPTION, "Display confidence by edge shading");
            action.putValue(DirectorActions.DEPENDS_ON, Splits.NAME);

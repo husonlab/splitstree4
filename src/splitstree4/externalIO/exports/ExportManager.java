@@ -66,7 +66,7 @@ public class ExportManager {
                         && !Modifier.isAbstract(c.getModifiers())
                         && Exporter.class.isAssignableFrom(c))
                     try {
-                        Exporter e = (Exporter) c.newInstance();
+                        Exporter e = (Exporter) c.getConstructor().newInstance();
                         exporter.add(e);
                     } catch (Exception ex) {
                         Basic.caught(ex);
@@ -142,7 +142,7 @@ public class ExportManager {
                 if (!c.isInterface()
                         && !Modifier.isAbstract(c.getModifiers())
                         && Exporter.class.isAssignableFrom(c)) {
-                    Exporter e = (Exporter) c.newInstance();
+                    Exporter e = (Exporter) c.getConstructor().newInstance();
                     if (blocks.size() == 0 || e.isApplicable(null, blocks))
                         names.add(getExportName(e));
                 }
@@ -206,7 +206,7 @@ public class ExportManager {
                     if (!c.isInterface()
                             && !Modifier.isAbstract(c.getModifiers())
                             && Exporter.class.isAssignableFrom(c)) {
-                        Exporter e = (Exporter) c.newInstance();
+                        Exporter e = (Exporter) c.getConstructor().newInstance();
                         if (e.isApplicable(doc, blocks))
                             names.add(getExportName(e));
                     }
@@ -291,7 +291,7 @@ public class ExportManager {
 
         Class c = Class.forName(className);
         if (!c.isInterface()) {
-            Object obj = c.newInstance();
+            Object obj = c.getConstructor().newInstance();
             if (obj instanceof Exporter) {
                 Exporter exporter = (Exporter) obj;
                 exporter.setOptionExportAll(exportAll);
@@ -330,7 +330,7 @@ public class ExportManager {
         try {
             Class c = Class.forName(className);
             if (!c.isInterface()) {
-                Object obj = c.newInstance();
+                Object obj = c.getConstructor().newInstance();
                 if (obj instanceof ExporterAdapter)
                     return (ExporterAdapter) obj;
             }

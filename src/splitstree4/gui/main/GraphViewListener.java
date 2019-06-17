@@ -870,13 +870,13 @@ public class GraphViewListener implements IGraphViewListener {
     public void keyPressed(KeyEvent ke) {
         int r = 1; // rotate angle
         double s = 1.05; // scale factor
-        if ((ke.getModifiers() & InputEvent.SHIFT_MASK) != 0
-                && (ke.getModifiers() & InputEvent.CTRL_MASK) != 0) {
+        if ((ke.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) != 0
+                && (ke.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
             s = 4;
-        } else if ((ke.getModifiers() & InputEvent.SHIFT_MASK) != 0) {
+        } else if ((ke.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) != 0) {
             s = 1.5;
             r = 10;
-        } else if ((ke.getModifiers() & InputEvent.CTRL_MASK) != 0) {
+        } else if ((ke.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
             s = 2;
             r = 100;
         }
@@ -953,7 +953,7 @@ public class GraphViewListener implements IGraphViewListener {
             viewer.delSelectedEdges();
             viewer.delSelectedNodes();
             viewer.repaint();
-        } else if ((ke.getModifiers() & InputEvent.SHIFT_MASK) != 0) {
+        } else if ((ke.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) != 0) {
             viewer.setCursor(Cursor.getDefaultCursor());
         }
     }
@@ -964,7 +964,7 @@ public class GraphViewListener implements IGraphViewListener {
      * @param ke KeyEvent
      */
     public void keyReleased(KeyEvent ke) {
-        if ((ke.getModifiers() & InputEvent.SHIFT_MASK) != 0) {
+        if ((ke.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) != 0) {
             viewer.resetCursor();
         }
     }

@@ -94,7 +94,7 @@ public class ConfidenceWindowActions {
         action.putValue(AbstractAction.NAME, "Edge Width");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('W'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('W'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Highlight confidence by varying edge widths");
         all.add(action);
         return edgeWidth = action;
@@ -114,7 +114,7 @@ public class ConfidenceWindowActions {
         };
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
         action.putValue(AbstractAction.NAME, "Edge Shading");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('S'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('S'));
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Highlight confidence by varying edge shading");
         all.add(action);
@@ -134,7 +134,7 @@ public class ConfidenceWindowActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Selected Edges Only");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('O'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('O'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Apply to Selected Edges Only");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         all.add(action);
@@ -157,7 +157,7 @@ public class ConfidenceWindowActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Close");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('C'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('C'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Close this window");
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("Close16.gif"));
         all.add(action);
@@ -187,7 +187,7 @@ public class ConfidenceWindowActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Apply");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('A'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('A'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Apply the selected options");
         all.add(action);
         return apply = action;

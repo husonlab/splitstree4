@@ -140,11 +140,11 @@ public class Coalescent implements Quartets2Splits {
                 //update coalescenceMap
                 TaxaSet coalescedTaxa = new TaxaSet();
                 if (cherryPartX > originalNumberOfTaxa)
-                    coalescedTaxa.or((TaxaSet) coalescenceMap.get(new Integer(cherryPartX)));
+                    coalescedTaxa.or((TaxaSet) coalescenceMap.get((int) (cherryPartX)));
                 else
                     coalescedTaxa.set(cherryPartX);
                 if (cherryPartY > originalNumberOfTaxa)
-                    coalescedTaxa.or((TaxaSet) coalescenceMap.get(new Integer(cherryPartY)));
+                    coalescedTaxa.or((TaxaSet) coalescenceMap.get((int) (cherryPartY)));
                 else
                     coalescedTaxa.set(cherryPartY);
                 coalescenceMap.put(z, coalescedTaxa);

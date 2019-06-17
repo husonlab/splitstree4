@@ -59,11 +59,7 @@ public class SplitsTreeProperties {
     final public static String MAXRECENTMETHODS = "MaxRecentMethods";
     final public static String AUTOSCALE = "AutoScale";
 
-    //final public static String SHOWVERSIONINTITLE = "ShowVersionInTitle";
-    // final public static String FINDSTRING = "FindString";
 
-    public static final String MAIN_WINDOW_GEOMETRY = "MainWindowGeometry";
-    public static final String INSPECTOR_WINDOW_GEOMETRY = "InspectorWindowGeometry";
     public static final String WINDOW_WIDTH = "WindowWidth";
     public static final String WINDOW_HEIGHT = "WindowHeight";
     public static final String LASTCOMMAND = "LastCommand";
@@ -384,7 +380,7 @@ public class SplitsTreeProperties {
     public static About getAbout() {
         About.setVersionStringOffset(250, 20);
         if (!About.isSet())
-            About.setAbout("resources.images", "about.jpg", getVersion(), JDialog.DISPOSE_ON_CLOSE);
+            About.setAbout("SplitsTree4-Splash.png", getVersion(), JDialog.DISPOSE_ON_CLOSE);
         return About.getAbout();
     }
 

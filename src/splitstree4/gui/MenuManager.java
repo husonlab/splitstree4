@@ -19,7 +19,7 @@
  */
 package splitstree4.gui;
 
-import jloda.swing.util.AppleStuff;
+import jloda.swing.util.AppleSystemMenuItems;
 import jloda.swing.util.MenuMnemonics;
 import jloda.swing.util.ResourceManager;
 import jloda.util.ProgramProperties;
@@ -163,7 +163,7 @@ public class MenuManager {
         final JMenu menu = new JMenu(menuName);
         if (addEmptyIcon)
             menu.setIcon(ResourceManager.getIcon("Empty16.gif"));
-        final String[] labels = (String[]) menuDescription.toArray(new String[menuDescription.size()]);
+        final String[] labels = (String[]) menuDescription.toArray(new String[0]);
         for (int i = 1; i < labels.length; i++) {
             final String label = labels[i];
             if (i == labels.length - 2 && ProgramProperties.isMacOS() && label.equals("|") && labels[i + 1].equals("Quit"))
@@ -188,7 +188,7 @@ public class MenuManager {
                     if (ProgramProperties.isMacOS()) {
                         switch (label) {
                             case "Quit":
-                                AppleStuff.getInstance().setQuitAction(action);
+                                AppleSystemMenuItems.setQuitAction(action);
                                 if (menu.getItemCount() > 0 && menu.getItem(menu.getItemCount() - 1) == null) {
                                     skipNextSeparator = true;
                                 }
@@ -196,7 +196,7 @@ public class MenuManager {
                                 break;
                             case "About":
                             case "About...":
-                                AppleStuff.getInstance().setAboutAction(action);
+                                AppleSystemMenuItems.setAboutAction(action);
                                 if (menu.getItemCount() > 0 && menu.getItem(menu.getItemCount() - 1) == null) {
                                     skipNextSeparator = true;
                                 }
@@ -204,7 +204,7 @@ public class MenuManager {
                                 break;
                             case "Preferences":
                             case "Preferences...":
-                                AppleStuff.getInstance().setPreferencesAction(action);
+                                AppleSystemMenuItems.setPreferencesAction(action);
                                 if (menu.getItemCount() > 0 && menu.getItem(menu.getItemCount() - 1) == null) {
                                     skipNextSeparator = true;
                                 }

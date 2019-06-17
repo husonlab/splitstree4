@@ -2422,7 +2422,7 @@ public class Characters extends NexusBlock {
             if (proteins)
                 return char2tokenMaps[0].get(ch);
             if (microsat)
-                return (new Integer((int) ch - OFFSET)).toString();
+                return "" + (((int) ch - OFFSET));
             return char2tokenMaps[site].get(ch);
         }
 

@@ -839,7 +839,7 @@ public class ModifyGraph {
             it = firstPosCovEdges.iterator();
             while (it.hasNext()) {
                 Edge e = (Edge) it.next();
-                if (!firstNodeSplits.contains(new Integer(graph.getSplit(e))))
+                if (!firstNodeSplits.contains((int) (graph.getSplit(e))))
                     firstPosCov2Splits.add(graph.getSplit(e));
             }
             // some System out
@@ -847,7 +847,7 @@ public class ModifyGraph {
             Iterator itT = firstPosCovEdges.iterator();
             while (itT.hasNext()) {
                 Edge e = (Edge) itT.next();
-                //if (!firstNodeSplits.contains(new Integer(graph.getSplit(e)))) graphView.getEV(e).setColor(Color.blue);
+                //if (!firstNodeSplits.contains((int)(graph.getSplit(e)))) graphView.getEV(e).setColor(Color.blue);
             }
 
             // 3.) find the shortest path for lastNode
@@ -856,7 +856,7 @@ public class ModifyGraph {
             it = lastPosCovEdges.iterator();
             while (it.hasNext()) {
                 Edge e = (Edge) it.next();
-                if (!lastNodeSplits.contains(new Integer(graph.getSplit(e))))
+                if (!lastNodeSplits.contains((int) (graph.getSplit(e))))
                     lastPosCov2Splits.add(graph.getSplit(e));
             }
             // some System out
@@ -864,7 +864,7 @@ public class ModifyGraph {
             itT = lastPosCovEdges.iterator();
             while (itT.hasNext()) {
                 Edge e = (Edge) itT.next();
-                // if (!lastNodeSplits.contains(new Integer(graph.getSplit(e)))) graphView.getEV(e).setColor(Color.blue);
+                // if (!lastNodeSplits.contains((int)(graph.getSplit(e)))) graphView.getEV(e).setColor(Color.blue);
             }
 
         }

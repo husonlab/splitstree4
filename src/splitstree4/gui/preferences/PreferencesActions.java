@@ -103,8 +103,8 @@ public class PreferencesActions {
         };
         action.putValue(AbstractAction.NAME, "Close");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_W,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('C'));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('C'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Close this window");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
         //action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("Close16.gif"));
@@ -134,7 +134,7 @@ public class PreferencesActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Allow Graph Editing");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('E'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('E'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Allow full editing of graph");
         all.add(action);
         return allowEdit = action;
@@ -152,7 +152,7 @@ public class PreferencesActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Lock Edge Lengths");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('K'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('K'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Lock edge lengths so that they cannot be changed interactively");
         all.add(action);
         return maintainEdgeLengths = action;
@@ -169,7 +169,7 @@ public class PreferencesActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Show Scale Bar");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('B'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('B'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Display the scale bar");
         all.add(action);
         return drawScaleBar = action;
@@ -186,7 +186,7 @@ public class PreferencesActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Use Split-Selection Mode");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('M'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('M'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "In split-selection mode, clicking an edge selects all edges of the same split");
         all.add(action);
         return selectSplits = action;
@@ -726,7 +726,7 @@ public class PreferencesActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Weights");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('W'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('W'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Show weights");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         all.add(action);
@@ -745,7 +745,7 @@ public class PreferencesActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Confidence Values");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('V'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('V'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Show confidence");
         action.putValue(DirectorActions.DEPENDS_ON, Splits.NAME);
         all.add(action);
@@ -880,7 +880,7 @@ public class PreferencesActions {
             }
         };
         action.putValue(AbstractAction.NAME, "IDs");
-        //action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('I'));
+        //action.putValue(AbstractAction.MNEMONIC_KEY, (int)('I'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Label with taxon ids");
         action.putValue(DirectorActions.DEPENDS_ON, Network.NAME);
         all.add(action);
@@ -998,7 +998,7 @@ public class PreferencesActions {
             }
         };
         action.putValue(AbstractAction.NAME, "Size...");
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('S'));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('S'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Set node size");
 
         all.add(action);

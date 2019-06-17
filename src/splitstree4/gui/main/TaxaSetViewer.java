@@ -416,7 +416,7 @@ public class TaxaSetViewer implements IDirectableViewer {
          */
 
 
-        //JLabel iconLabel = new JLabel(ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Stop16.gif"),JLabel.CENTER);
+        //JLabel iconLabel = new JLabel(ResourceManager.getIcon("sun/Stop16.gif"),JLabel.CENTER);
         //errorMessagePanel.add(iconLabel);
 
         message = new JLabel();

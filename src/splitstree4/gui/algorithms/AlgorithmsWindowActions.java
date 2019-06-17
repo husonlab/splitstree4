@@ -260,8 +260,8 @@ public class
         };
         action.putValue(AbstractAction.NAME, "Close");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_W,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        action.putValue(AbstractAction.MNEMONIC_KEY, new Integer('C'));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        action.putValue(AbstractAction.MNEMONIC_KEY, (int) ('C'));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Close this viewer");
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("Close16.gif"));
@@ -288,13 +288,13 @@ public class
         };
         action.putValue(AbstractAction.NAME, "Undo");
         action.putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         // quit.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("quit"));
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Undo");
 
         action.putValue(DirectorActions.CRITICAL, Boolean.TRUE);
 
-        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/toolbarButtonGraphics/general/Undo16.gif"));
+        action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Undo16.gif"));
 
         all.add(action);
         return undo = action;
