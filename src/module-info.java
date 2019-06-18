@@ -1,6 +1,9 @@
 module splitstree {
     requires transitive jloda;
     requires transitive com.install4j.runtime;
+    requires transitive java.xml;
+    requires transitive java.desktop;
+
     requires Jama;
 
     exports splitstree4.algorithms;
