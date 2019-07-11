@@ -53,7 +53,7 @@ public class ExportManager {
         String[] exporters;
 
         try {
-            exporters = ResourceUtils.fetchResources(packageName);
+            exporters = ResourceUtils.fetchResources(ExportManager.class, packageName);
         } catch (IOException ex) {
             return null;
         }
@@ -129,7 +129,7 @@ public class ExportManager {
         ArrayList names = new ArrayList();
         String[] exporters;
         try {
-            exporters = ResourceUtils.fetchResources(packageName);
+            exporters = ResourceUtils.fetchResources(ExportManager.class, packageName);
         } catch (IOException ex) {
             Basic.caught(ex);
             return null;
@@ -193,7 +193,7 @@ public class ExportManager {
         ArrayList names = new ArrayList();
         String[] exporters;
         try {
-            exporters = ResourceUtils.fetchResources(packageName);
+            exporters = ResourceUtils.fetchResources(ExportManager.class, packageName);
         } catch (IOException ex) {
             return null;
         }

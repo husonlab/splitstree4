@@ -58,7 +58,7 @@ public class PluginClassLoader {
         List<Object> plugins = new LinkedList<>();
         String[] resources;
         try {
-            resources = ResourceUtils.fetchResources(packageName);
+            resources = ResourceUtils.fetchResources(PluginClassLoader.class, packageName);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -68,7 +68,7 @@ public class PluginClassLoader {
             if (resources[i].endsWith(".class"))
                 try {
                     resources[i] = resources[i].substring(0, resources[i].length() - 6);
-                    Class c = Basic.classForName(packageName.concat(".").concat(resources[i]));
+                    Class c = classForName(PluginClassLoader.class, packageName.concat(".").concat(resources[i]));
                     if (!c.isInterface() && !Modifier.isAbstract(c.getModifiers()) && type.isAssignableFrom(c)) {
                         if (!SplitsTreeProperties.getExpertMode() && Configurator.hasField(c, "EXPERT"))
                             continue; // ignore all expert plugins, unless in expert mode
@@ -240,5 +240,16 @@ public class PluginClassLoader {
         PluginClassLoader.pluginName2URLClassLoader = pluginClass2URLClassLoader;
     }
 
+    /**
+     * Get a class instance for the given fully qualified classname.
+     *
+     * @param name
+     * @return
+     * @throws ClassNotFoundException
+     */
+    public static Class classForName(Class clazz, String name) throws ClassNotFoundException {
+        return clazz.getClassLoader().loadClass(name);
+
+    }
 }
 

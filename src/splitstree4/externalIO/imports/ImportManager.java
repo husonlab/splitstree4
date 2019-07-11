@@ -67,7 +67,7 @@ public class ImportManager {
         ArrayList filters = new ArrayList();
         String[] importers;
         try {
-            importers = ResourceUtils.fetchResources(packageName);
+            importers = ResourceUtils.fetchResources(ImportManager.class, packageName);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -105,7 +105,7 @@ public class ImportManager {
         ArrayList filters = new ArrayList();
         String[] importers;
         try {
-            importers = ResourceUtils.fetchResources(packageName);
+            importers = ResourceUtils.fetchResources(ImportManager.class, packageName);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -158,7 +158,7 @@ public class ImportManager {
         //MZ: 2006-01-28
         String[] importers;
         try {
-            importers = ResourceUtils.fetchResources(packageName);
+            importers = ResourceUtils.fetchResources(ImportManager.class, packageName);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -221,7 +221,7 @@ public class ImportManager {
         //MZ: 2006-01-28
         String[] importers;
         try {
-            importers = ResourceUtils.fetchResources(packageName);
+            importers = ResourceUtils.fetchResources(ImportManager.class, packageName);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
