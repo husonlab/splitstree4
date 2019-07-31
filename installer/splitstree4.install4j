@@ -171,7 +171,7 @@
   <installerGui installerType="1" addOnAppId="" suggestPreviousLocations="true" autoUpdateDescriptorUrl="http://www-ab.informatik.uni-tuebingen.de/data/software/splitstree4/download/updates.xml" useAutoUpdateBaseUrl="false" autoUpdateBaseUrl="">
     <staticMembers script="" />
     <customCode />
-    <autoUpdate useMinUpdatableVersion="true" minUpdatableVersion="4" useMaxUpdatableVersion="false" maxUpdatableVersion="">
+    <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
       <commentFiles />
       <customAttributes />
     </autoUpdate>
