@@ -33,7 +33,7 @@ import jloda.swing.graphview.EdgeActionAdapter;
 import jloda.swing.graphview.NodeActionAdapter;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.swing.message.MessageWindow;
-import jloda.swing.util.WindowListenerAdapter;
+import jloda.swing.window.WindowListenerAdapter;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
 import jloda.util.ProgramProperties;

@@ -29,7 +29,7 @@ import jloda.swing.commands.CommandManager;
 import jloda.swing.director.IDirectableViewer;
 import jloda.swing.util.ActionJList;
 import jloda.swing.util.ResourceManager;
-import jloda.swing.util.WindowListenerAdapter;
+import jloda.swing.window.WindowListenerAdapter;
 import jloda.util.ProgramProperties;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;

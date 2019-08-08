@@ -26,7 +26,7 @@ import jloda.swing.graphview.EdgeActionAdapter;
 import jloda.swing.graphview.EdgeActionListener;
 import jloda.swing.graphview.NodeActionAdapter;
 import jloda.swing.graphview.NodeActionListener;
-import jloda.swing.util.WindowListenerAdapter;
+import jloda.swing.window.WindowListenerAdapter;
 import jloda.util.ProgramProperties;
 import splitstree4.gui.Director;
 import splitstree4.gui.main.MainViewer;

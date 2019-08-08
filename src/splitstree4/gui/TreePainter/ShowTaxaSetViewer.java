@@ -29,7 +29,7 @@ import jloda.swing.graphview.PhyloGraphView;
 import jloda.swing.util.Alert;
 import jloda.swing.util.Geometry;
 import jloda.swing.util.ResourceManager;
-import jloda.swing.util.WindowListenerAdapter;
+import jloda.swing.window.WindowListenerAdapter;
 import jloda.util.Basic;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;

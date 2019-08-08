@@ -20,7 +20,7 @@
 package splitstree4.main;
 
 import jloda.swing.export.ExportImageDialog;
-import jloda.swing.util.About;
+import jloda.swing.window.About;
 import jloda.swing.util.ResourceManager;
 import jloda.util.ProgramProperties;
 import jloda.util.PropertiesListListener;

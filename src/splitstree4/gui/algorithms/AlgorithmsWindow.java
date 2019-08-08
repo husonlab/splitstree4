@@ -22,7 +22,7 @@ package splitstree4.gui.algorithms;
 import jloda.swing.commands.CommandManager;
 import jloda.swing.director.IDirectableViewer;
 import jloda.swing.director.IUpdateableView;
-import jloda.swing.util.WindowListenerAdapter;
+import jloda.swing.window.WindowListenerAdapter;
 import jloda.util.ProgramProperties;
 import splitstree4.algorithms.Transformation;
 import splitstree4.gui.Director;

@@ -38,7 +38,7 @@ import jloda.swing.commands.CommandManager;
 import jloda.swing.director.IDirectableViewer;
 import jloda.swing.director.IDirector;
 import jloda.swing.util.RememberingComboBox;
-import jloda.swing.util.WindowListenerAdapter;
+import jloda.swing.window.WindowListenerAdapter;
 import jloda.util.CanceledException;
 import jloda.util.ProgramProperties;
 import splitstree4.gui.Director;

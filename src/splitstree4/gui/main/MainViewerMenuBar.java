@@ -28,6 +28,7 @@ import com.install4j.api.update.UpdateDescriptor;
 import com.install4j.api.update.UpdateDescriptorEntry;
 import jloda.swing.director.ProjectManager;
 import jloda.swing.util.*;
+import jloda.swing.window.MenuMnemonics;
 import jloda.util.Basic;
 import jloda.util.ProgramProperties;
 import jloda.util.PropertiesListListener;
