@@ -83,8 +83,7 @@ public class AlgorithmsWindow implements IDirectableViewer {
         setUptoDate(true);
 
         frame = new JFrame();
-        if (ProgramProperties.getProgramIcon() != null)
-            frame.setIconImage(ProgramProperties.getProgramIcon().getImage());
+        frame.setIconImages(ProgramProperties.getProgramIconImages());
 
         /*
         JToolBar toolBar=new JToolBar();

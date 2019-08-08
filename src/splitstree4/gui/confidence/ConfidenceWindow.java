@@ -57,8 +57,7 @@ public class ConfidenceWindow implements IDirectableViewer {
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        if (ProgramProperties.getProgramIcon() != null)
-            frame.setIconImage(ProgramProperties.getProgramIcon().getImage());
+        frame.setIconImages(ProgramProperties.getProgramIconImages());
         frame.setJMenuBar(menuBar);
         frame.setSize(300, 150);
         dir.setViewerLocation(this);

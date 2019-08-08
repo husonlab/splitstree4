@@ -77,8 +77,7 @@ public class ExportWindow implements IDirectableViewer {
 
         list = new DefaultListModel();
         frame = new JFrame();
-        if (ProgramProperties.getProgramIcon() != null)
-            frame.setIconImage(ProgramProperties.getProgramIcon().getImage());
+        frame.setIconImages(ProgramProperties.getProgramIconImages());
         setTitle(dir);
         frame.setJMenuBar(setupMenuBar());
         descriptionLabel = new JLabel();

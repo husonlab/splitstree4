@@ -75,8 +75,7 @@ public class Configurator implements IDirectableViewer {
         setUptoDate(true);
 
         frame = new JFrame();
-        if (ProgramProperties.getProgramIcon() != null)
-            frame.setIconImage(ProgramProperties.getProgramIcon().getImage());
+        frame.setIconImages(ProgramProperties.getProgramIconImages());
         frame.setJMenuBar(menuBar);
         if (ProgramProperties.isMacOS())
             frame.setSize(585, 300);

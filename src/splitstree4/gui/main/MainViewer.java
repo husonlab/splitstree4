@@ -135,9 +135,7 @@ public class MainViewer extends PhyloGraphView implements IDirectableViewer, IMa
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        if (ProgramProperties.getProgramIcon() != null)
-            frame.setIconImage(ProgramProperties.getProgramIcon().getImage());
-
+        frame.setIconImages(ProgramProperties.getProgramIconImages());
         setTitle(dir);
 
         frame.setSize(getSize());

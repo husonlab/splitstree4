@@ -90,8 +90,7 @@ public class SearchWindow implements IDirectableViewer {
         this.searchActions = new SearchActions(this, dir);
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        if (ProgramProperties.getProgramIcon() != null)
-            frame.setIconImage(ProgramProperties.getProgramIcon().getImage());
+        frame.setIconImages(ProgramProperties.getProgramIconImages());
         mainPanel = null;
         mainPanel = createGUI();
         frame.getContentPane().add(mainPanel);

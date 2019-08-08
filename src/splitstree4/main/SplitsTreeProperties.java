@@ -20,8 +20,8 @@
 package splitstree4.main;
 
 import jloda.swing.export.ExportImageDialog;
-import jloda.swing.window.About;
 import jloda.swing.util.ResourceManager;
+import jloda.swing.window.About;
 import jloda.util.ProgramProperties;
 import jloda.util.PropertiesListListener;
 import splitstree4.gui.main.MainViewer;
@@ -73,7 +73,7 @@ public class SplitsTreeProperties {
      */
     public static void initializeProperties(String propertiesFile) {
         ProgramProperties.setProgramVersion(getVersion());
-        ProgramProperties.setProgramIcon(ResourceManager.getIcon("SplitsTree16.png"));
+        ProgramProperties.setProgramIcons(ResourceManager.getIcons("SplitsTree16.png", "SplitsTree32.png", "SplitsTree48.png", "SplitsTree64.png"));
 
         ProgramProperties.setProgramName(getVersion());
         ProgramProperties.setPropertiesFileName(propertiesFile);

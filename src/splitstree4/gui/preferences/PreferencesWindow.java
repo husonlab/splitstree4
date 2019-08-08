@@ -85,8 +85,7 @@ public class PreferencesWindow implements IDirectableViewer {
         setUptoDate(true);
 
         frame = new JFrame();
-        if (ProgramProperties.getProgramIcon() != null)
-            frame.setIconImage(ProgramProperties.getProgramIcon().getImage());
+        frame.setIconImages(ProgramProperties.getProgramIconImages());
         frame.setSize(515, 310);
         dir.setViewerLocation(this);
         frame.setResizable(true);
