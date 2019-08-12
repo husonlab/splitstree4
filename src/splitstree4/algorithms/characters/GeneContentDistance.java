@@ -59,7 +59,7 @@ public class GeneContentDistance implements Characters2Distances {
         System.err.println("Not tested under construction");
         /*@todo: Tobias: test this class
         */
-        BitSet genes[] = computeGenes(characters);
+        BitSet[] genes = computeGenes(characters);
         if (!useMLDistance)
             return computeSnelBorkDistance(taxa.getNtax(), genes);
         else
@@ -131,8 +131,8 @@ public class GeneContentDistance implements Characters2Distances {
         }
         m /= ntax;
 
-        double ai[] = new double[ntax + 1];
-        double aij[][] = new double[ntax + 1][ntax + 1];
+        double[] ai = new double[ntax + 1];
+        double[][] aij = new double[ntax + 1][ntax + 1];
         for (int i = 1; i <= ntax; i++) {
             ai[i] = ((double) genes[i].cardinality()) / m;
         }
@@ -166,7 +166,7 @@ public class GeneContentDistance implements Characters2Distances {
      * @return sets of genes
      */
     static private BitSet[] computeGenes(Characters characters) {
-        BitSet genes[] = new BitSet[characters.getNtax() + 1];
+        BitSet[] genes = new BitSet[characters.getNtax() + 1];
 
         for (int s = 1; s <= characters.getNtax(); s++) {
             genes[s] = new BitSet();

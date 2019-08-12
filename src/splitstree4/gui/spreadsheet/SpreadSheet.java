@@ -102,7 +102,7 @@ public class SpreadSheet extends JTable {
 
         super();
 
-        SheetCell foo[][];
+        SheetCell[][] foo;
 
         if (cells != null)
             foo = cells;
@@ -144,8 +144,8 @@ public class SpreadSheet extends JTable {
         getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent ev) {
 
-                int selRow[] = getSelectedRows();
-                int selCol[] = getSelectedColumns();
+                int[] selRow = getSelectedRows();
+                int[] selCol = getSelectedColumns();
 
                 _selection = new Object[selRow.length * selCol.length];
 
@@ -276,7 +276,7 @@ public class SpreadSheet extends JTable {
 
         super();
 
-        SheetCell foo[][];
+        SheetCell[][] foo;
 
         if (cells != null)
             foo = cells;
@@ -318,8 +318,8 @@ public class SpreadSheet extends JTable {
         getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent ev) {
 
-                int selRow[] = getSelectedRows();
-                int selCol[] = getSelectedColumns();
+                int[] selRow = getSelectedRows();
+                int[] selCol = getSelectedColumns();
 
                 _selection = new Object[selRow.length * selCol.length];
 

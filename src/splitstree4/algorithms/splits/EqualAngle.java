@@ -1379,7 +1379,7 @@ public class EqualAngle implements Splits2Network {
         //We do the same, looking from the other part of the graph
         visited1 = new NodeSet(graph);
         visited2 = new NodeSet(graph);
-        double rresults2[] = new double[2];
+        double[] rresults2 = new double[2];
         rresults2[0] = 2 * Math.PI;
         rresults2[1] = 2 * Math.PI;
         results2[0] = 0;

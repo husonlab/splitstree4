@@ -2359,7 +2359,7 @@ public class Characters extends NexusBlock {
                     availableChars += "" + ch;
 
                 //Now remove characters that are forbidden
-                String forbidden = ";\\[\\],\\(\\)/"; //punctuation characters  // todo: there is a problem with this expression
+                String forbidden = ";\\[],()/"; //punctuation characters  // todo: there is a problem with this expression
                 forbidden += regString(characters.getFormat().getMissing());
                 forbidden += regString(characters.getFormat().getMatchchar());
                 forbidden += regString(characters.getFormat().getGap());

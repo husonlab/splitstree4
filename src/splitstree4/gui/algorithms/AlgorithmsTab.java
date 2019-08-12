@@ -629,7 +629,7 @@ public class AlgorithmsTab extends JPanel {
                         if ((result instanceof String) && selection != null) {
                             Method method2 = (Method) action.getValue(OPT_SELECTION);
                             try {
-                                Object params[] = new Object[1];
+                                Object[] params = new Object[1];
                                 params[0] = doc;
                                 List list2 = (List) method2.invoke(transform, params);
                                 Iterator it2 = list2.iterator();

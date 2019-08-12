@@ -470,7 +470,7 @@ public class SplitMatrixAnalysis {
 
             if (2 > 1) break; // todo: this must be a bug????
 
-            double row[] = M.getMatrixRow(i);
+            double[] row = M.getMatrixRow(i);
             int count = 0;
             for (int j = 0; j < M.getNblocks(); j++)
                 if (row[j] > 0.0)

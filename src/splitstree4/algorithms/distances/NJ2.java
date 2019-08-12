@@ -77,8 +77,8 @@ public class NJ2 /* implements Distances2Trees*/ {
         int ntax = dist.getNtax();
 
         Node[] subtrees = new Node[ntax + 1];
-        double d[][] = new double[ntax + 1][ntax + 1];// distance matix
-        double r[] = new double[ntax + 1];// sum of distances to each taxa
+        double[][] d = new double[ntax + 1][ntax + 1];// distance matix
+        double[] r = new double[ntax + 1];// sum of distances to each taxa
 
         for (int i = 1; i <= ntax; i++) {
             subtrees[i] = tree.newNode();

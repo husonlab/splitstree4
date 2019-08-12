@@ -115,7 +115,7 @@ public class OldRandomTrees implements Distances2Trees {
 
         try {
             HashMap TaxaHashMap = new HashMap();
-            StringBuffer tax[] = new StringBuffer[ntax + 1];
+            StringBuffer[] tax = new StringBuffer[ntax + 1];
 
             //Taxalabels are saved as a StringBuffer array
 

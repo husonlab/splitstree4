@@ -192,7 +192,7 @@ public class BaseFrequencyPanel extends JPanel implements ActionListener, FocusL
      * @return array of double
      */
     private double[] getFieldFreqs() {
-        double fieldFreqs[] = new double[4];
+        double[] fieldFreqs = new double[4];
         double sum = 0.0;
         for (int i = 0; i < 4; i++) {
             String text = freqFields[i].getText();

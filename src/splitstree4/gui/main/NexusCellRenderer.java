@@ -96,7 +96,7 @@ public class NexusCellRenderer implements TreeCellRenderer {
                 } else if (block instanceof Splits) {
                     text = text.replaceFirst("MATRIX", "MATRIX" + BLACK + "\n");
                 } else if (block instanceof Trees) {
-                    text = text.replaceFirst("\\[TREES\\]", "[TREES]" + BLACK + "\n");
+                    text = text.replaceFirst("\\[TREES]", "[TREES]" + BLACK + "\n");
                 } else if (block instanceof Network) {
                     text = text.replaceFirst("TRANSLATE", "TRANSLATE" + BLACK + "\n");
                 } else if (block instanceof Assumptions) {

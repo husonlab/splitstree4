@@ -69,22 +69,22 @@ public class GradientProjectionConjugateGradient {
         if (x_c == null || x_c.length != n + 1)
             throw new IllegalArgumentException("Vector x_c isn't the correct length");
 
-        double g_c[] = new double[n + 1];
-        double p_c[] = new double[n + 1];
-        double pg_c[] = new double[n + 1];
-        double x_outer[] = new double[n + 1];
-        double d_c[] = new double[n + 1];
-        double x_new[] = new double[n + 1];
-        double hd[] = new double[n + 1];
-        double g_new[] = new double[n + 1];
+        double[] g_c = new double[n + 1];
+        double[] p_c = new double[n + 1];
+        double[] pg_c = new double[n + 1];
+        double[] x_outer = new double[n + 1];
+        double[] d_c = new double[n + 1];
+        double[] x_new = new double[n + 1];
+        double[] hd = new double[n + 1];
+        double[] g_new = new double[n + 1];
 
-        double delx[] = new double[n + 1];
-        double resid[] = new double[n + 1];
-        double hp[] = new double[n + 1];
+        double[] delx = new double[n + 1];
+        double[] resid = new double[n + 1];
+        double[] hp = new double[n + 1];
 
 
         boolean[] active = new boolean[n + 1];
-        boolean active_new[] = new boolean[n + 1];
+        boolean[] active_new = new boolean[n + 1];
 
 
         //x_c = max(x_c,0); Active = (x_c == 0)

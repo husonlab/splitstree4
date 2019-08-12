@@ -67,7 +67,7 @@ public class Stats implements DistancesAnalysisMethod {
 
     public String apply(Document doc, Taxa taxa, Distances dist)
             throws Exception {
-        return "qls score: " + String.valueOf(qlsScore(dist));
+        return "qls score: " + qlsScore(dist);
     }
 
     /**

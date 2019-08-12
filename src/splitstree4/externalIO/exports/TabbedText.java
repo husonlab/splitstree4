@@ -113,7 +113,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
                     w.write("\t" + dp.getTaxa().getLabel(cycle[i]));
             } else {
                 for (int i = 1; i <= dp.getCharacters().getNtax(); i++)
-                    w.write("\t" + Integer.toString(cycle[i]));
+                    w.write("\t" + cycle[i]);
             }
             w.write("\n");
 
@@ -169,7 +169,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
                     w.write("\t" + dp.getTaxa().getLabel(cycle[i]));
             } else {
                 for (int i = 1; i <= splits.getNtax(); i++)
-                    w.write("\t" + Integer.toString(cycle[i]));
+                    w.write("\t" + cycle[i]);
             }
             w.write("\n");
 
@@ -248,7 +248,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
                     w.write("\t" + dp.getTaxa().getLabel(cycle[i]));
             } else {
                 for (int i = 1; i <= splits.getNtax(); i++)
-                    w.write("\t" + Integer.toString(cycle[i]));
+                    w.write("\t" + cycle[i]);
             }
             w.write("\n");
 

@@ -443,7 +443,7 @@ public class ModifyTaxaPanel extends JPanel implements IUpdateableView, Updateab
                 try {
                     if (table.getColumnCount() <= 1)
                         return;//todo set enabled
-                    String traits[] = new String[table.getColumnCount() - 1];
+                    String[] traits = new String[table.getColumnCount() - 1];
                     for (int i = 1; i < table.getColumnCount(); i++)
                         traits[i - 1] = table.getColumnName(i);
 
