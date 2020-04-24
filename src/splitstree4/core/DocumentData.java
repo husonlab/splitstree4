@@ -345,33 +345,33 @@ public class DocumentData {
      * @return NexusBlock block with that name, or null if there is none.
      */
     public NexusBlock getBlockByName(String name) {
-        if (Assumptions.NAME.equals(name))
+        if (Assumptions.NAME.equalsIgnoreCase(name))
             return assumptions;
-        if (Taxa.NAME.equals(name))
+        if (Taxa.NAME.equalsIgnoreCase(name))
             return taxa;
-        if (Unaligned.NAME.equals(name))
+        if (Unaligned.NAME.equalsIgnoreCase(name))
             return unaligned;
-        if (Characters.NAME.equals(name))
+        if (Characters.NAME.equalsIgnoreCase(name))
             return characters;
-        if (Distances.NAME.equals(name))
+        if (Distances.NAME.equalsIgnoreCase(name))
             return distances;
-        if (Sets.NAME.equals(name))
+        if (Sets.NAME.equalsIgnoreCase(name))
             return sets;
-        if (Quartets.NAME.equals(name))
+        if (Quartets.NAME.equalsIgnoreCase(name))
             return quartets;
-        if (Splits.NAME.equals(name))
+        if (Splits.NAME.equalsIgnoreCase(name))
             return splits;
-        if (Trees.NAME.equals(name))
+        if (Trees.NAME.equalsIgnoreCase(name))
             return trees;
-        if (Network.NAME.equals(name))
+        if (Network.NAME.equalsIgnoreCase(name))
             return network;
-        if (Bootstrap.NAME.equals(name))
+        if (Bootstrap.NAME.equalsIgnoreCase(name))
             return bootstrap;
-        if (Analysis.NAME.equals(name))
+        if (Analysis.NAME.equalsIgnoreCase(name))
             return analysis;
-        if (Reticulate.NAME.equals(name))
+        if (Reticulate.NAME.equalsIgnoreCase(name))
             return reticulate;
-        if (Traits.NAME.equals(name))
+        if (Traits.NAME.equalsIgnoreCase(name))
             return traits;
         return null;
     }

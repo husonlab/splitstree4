@@ -1,6 +1,6 @@
-/**
+/*
  * ConvexHull.java
- * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
+ * Copyright (C) 2020 Daniel H. Huson and David J. Bryant
  * <p/>
  * (Some files contain contributions from other authors, who are then mentioned separately.)
  * <p/>
@@ -21,16 +21,13 @@
  * @version $Id: ConvexHull.java,v 1.49 2009-09-29 12:04:52 huson Exp $
  * @author Markus Franz
  */
-/** Construction of a Network from Splits using the Convex Hull Construction method
- * @version $Id: ConvexHull.java,v 1.49 2009-09-29 12:04:52 huson Exp $
- * @author Markus Franz
- */
 package splitstree4.algorithms.splits;
 
 import jloda.graph.*;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.phylo.PhyloSplitsGraphUtils;
 import jloda.swing.graphview.PhyloGraphView;
+import jloda.util.APoint2D;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
 import jloda.util.IterationUtils;
@@ -40,18 +37,13 @@ import splitstree4.nexus.Network;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 
-import java.awt.geom.Point2D;
 import java.util.*;
 
 /**
  * Construction of a Network from Splits using the Convex Hull Construction method
  */
 public class ConvexHull implements Splits2Network {
-
     public final static String DESCRIPTION = "Computes splits graph using convex hull extension algorithm";
-    public final static String CONTACT_NAME = "Markus Franz";
-    public final static String CONTACT_MAIL = "mfranz@informatik.uni-tuebingen.de";
-    public final static String CONTACT_ADRESS = "http://www-ab.informatik.uni-tuebingen.de/software/jsplits/welcome_en.html";
 
     private boolean optionWeights = true;
     private int optionScaleNodesMaxSize = 5;
@@ -331,11 +323,11 @@ public class ConvexHull implements Splits2Network {
             graph.setTaxon2Cycle(cyclicOrdering[i], i);
         }
 
-        NodeArray coords = PhyloSplitsGraphUtils.embed(graph, cyclicOrdering, getOptionWeights(), true);
+        NodeArray<APoint2D> coords = PhyloSplitsGraphUtils.embed(graph, cyclicOrdering, getOptionWeights(), true);
 
         int maxNumberOfTaxaOnNode = 0;
         for (Node v : graph.nodes()) {
-            graphView.setLocation(v, (Point2D) coords.get(v));
+            graphView.setLocation(v, coords.get(v).getX(), coords.get(v).getY());
             maxNumberOfTaxaOnNode = Math.max(graph.getNumberOfTaxa(v), maxNumberOfTaxaOnNode);
         }
 
@@ -375,14 +367,17 @@ public class ConvexHull implements Splits2Network {
             for (final Edge f : n.adjacentEdges()) {
                 final Node m = f.getOpposite(n);
 
-                System.err.println("allowed: " + Basic.toString(allowedSplits));
-                System.err.println("got: " + graph.getSplit(f));
+                if (false)
+                    System.err.println("allowed: " + Basic.toString(allowedSplits));
+                if (false)
+                    System.err.println("got: " + graph.getSplit(f));
 
                 if (!seen.contains(f) && allowedSplits.get(graph.getSplit(f))) {
                     //if(hulls.getValue(m)==side) continue;
                     seen.add(f);
 
-                    System.err.println("hulls(" + m + "): " + hulls.getValue(m));
+                    if (false)
+                        System.err.println("hulls(" + m + "): " + hulls.getValue(m));
 
                     if (hulls.getValue(m) == null) {
                         hulls.set(m, side);
@@ -440,21 +435,20 @@ public class ConvexHull implements Splits2Network {
      * @return order
      */
     private int[] getOrderToProcessSplitsIn(Taxa taxa, Splits splits, BitSet usedSplits) {
-        SortedSet pairs = new TreeSet();
+        SortedSet<Integer> values = new TreeSet<>();
         for (int i = 1; i <= splits.getNsplits(); i++) {
             if (!usedSplits.get(i)) {
-                Integer pair = 10000 * splits.get(i).getSplitSize(taxa.getNtax()) + i;
-                pairs.add(pair);
+                values.add(10000 * splits.get(i).getSplitSize(taxa.getNtax()) + i);
             }
         }
 
-        int[] order = new int[pairs.size()];
-        Iterator it = pairs.iterator();
+        int[] order = new int[values.size()];
+        Iterator<Integer> it = values.iterator();
         int i = 0;
         while (it.hasNext()) {
-            int pair = (Integer) it.next();
-            int size = pair / 10000;
-            int id = pair - size * 10000;
+            int value = it.next();
+            int size = value / 10000;
+            int id = value - size * 10000;
             // System.err.println("pair "+id+" size "+size);
             order[i++] = id;
         }
