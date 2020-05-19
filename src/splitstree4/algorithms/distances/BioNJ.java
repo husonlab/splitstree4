@@ -298,6 +298,9 @@ public class BioNJ implements Distances2Trees {
             e = tree.newEdge((Node) TaxaHashMap.get(tax_old_k.toString()), v);
             tree.setWeight(e, 0.5 * (h[i_min][k_min] + h[j_min][k_min] - h[i_min][j_min]));
 
+            tree.setRoot(v);
+            tree.redirectEdgesAwayFromRoot();
+
         } catch (Exception ex) {
             Basic.caught(ex);
         }

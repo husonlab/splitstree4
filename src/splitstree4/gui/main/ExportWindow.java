@@ -361,9 +361,6 @@ public class ExportWindow implements IDirectableViewer {
         return baseClass;
     }
 
-    // TODO: add to preferences
-    static File lastSaveFile = new File(System.getProperty("user.dir"));
-
     private boolean saveDialog() {
 
         //First check for additional information.
@@ -376,9 +373,11 @@ public class ExportWindow implements IDirectableViewer {
         if (additionalInfo != null && additionalInfo.userHasCancelled())
             return false;
 
+        File prevDirectory = new File(ProgramProperties.get("ExportDir", ""));
+
         File file = null;
         if (!ProgramProperties.isMacOS()) {
-            JFileChooser chooser = new JFileChooser(lastSaveFile);
+            JFileChooser chooser = new JFileChooser(new File(prevDirectory, "export.txt"));
             if (chooser.showSaveDialog(dir.getMainViewerFrame()) == JFileChooser.APPROVE_OPTION) {
                 file = chooser.getSelectedFile();
 
@@ -391,26 +390,26 @@ public class ExportWindow implements IDirectableViewer {
             }
         } else {
             FileDialog dialog = new FileDialog(dir.getMainViewerFrame(), "Save File", FileDialog.SAVE);
-            dialog.setFile(lastSaveFile.getName());
-            dialog.setDirectory(lastSaveFile.getParent());
+            dialog.setFile("export.txt");
+            dialog.setDirectory(prevDirectory.getPath());
             dialog.setVisible(true);
 
-            if (dialog.getFile() != null)
+            if (dialog.getFile() != null) {
                 file = new File(dialog.getDirectory(), dialog.getFile());
-            else
+            } else
                 return false;
         }
 
         try {
-            dir.exportFile(file, this.selectedExport, selectedBlocksList, additionalInfo);
-            lastSaveFile = file;
-            return true;
+            if (file != null) {
+                ProgramProperties.put("ExportFile", file.getParent());
+                dir.exportFile(file, this.selectedExport, selectedBlocksList, additionalInfo);
+                return true;
+            }
         } catch (Exception ex) {
             System.err.println("Save failed: " + ex);
-            return false;
         }
-
-
+        return false;
     }
 
     /* All the Actions of the window

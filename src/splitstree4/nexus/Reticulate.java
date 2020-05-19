@@ -1,6 +1,6 @@
-/**
+/*
  * Reticulate.java
- * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
+ * Copyright (C) 2020 Daniel H. Huson and David J. Bryant
  * <p/>
  * (Some files contain contributions from other authors, who are then mentioned separately.)
  * <p/>

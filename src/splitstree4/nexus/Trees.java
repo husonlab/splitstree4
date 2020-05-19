@@ -360,7 +360,7 @@ public class Trees extends NexusBlock {
 
         w.write("[TREES]\n");
         for (int t = 1; t <= getNtrees(); t++) {
-            w.write("[" + t + "] tree '" + getName(t) + "'=" + getFlags(t) + " " + getTree(t) + ";\n");
+            w.write("[" + t + "] tree '" + getName(t) + "'=" + getFlags(t) + " " + getTree(t).toBracketString() + ";\n");
         }
         w.write("END; [" + Trees.NAME + "]\n");
     }

@@ -87,7 +87,6 @@ public class UPGMA implements Distances2Trees {
 
         PhyloTree tree = new PhyloTree();
 
-
         int ntax = dist.getNtax();
 
         Node[] subtrees = new Node[ntax + 1];
@@ -177,6 +176,8 @@ public class UPGMA implements Distances2Trees {
         //ToDo: fix phyloTree and get this to return a rooted tree.
         Edge e = tree.newEdge(subtrees[1], subtrees[sister]);
         tree.setWeight(e, d[1][sister]);
+        tree.setRoot(e.getSource());
+        tree.redirectEdgesAwayFromRoot();
 
         return tree;
     }

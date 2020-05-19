@@ -221,6 +221,8 @@ public class NJ implements Distances2Trees {
             // generate Edges from two Taxa that are merged to one:
             e = tree.newEdge(TaxaHashMap.get(tax_old_i.toString()), TaxaHashMap.get(tax_old_j.toString()));
             tree.setWeight(e, Math.max(h[i_min][j_min], 0.0));
+            tree.setRoot(e.getSource());
+            tree.redirectEdgesAwayFromRoot();
         } catch (Exception ex) {
             Basic.caught(ex);
         }
