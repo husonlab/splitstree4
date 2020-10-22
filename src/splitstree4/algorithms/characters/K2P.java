@@ -38,7 +38,7 @@ import javax.swing.*;
 
 /**
  * @author DJB
- *         Computes  the Kimura two parameter distance for a set of characters
+ * Computes  the Kimura two parameter distance for a set of characters
  */
 public class K2P extends DNAdistance {
 

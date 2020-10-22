@@ -35,7 +35,7 @@ import java.util.Map;
  * computes splits from binary data
  *
  * @author huson
- *         Date: 16-Feb-2004
+ * Date: 16-Feb-2004
  */
 public class Binary2Splits implements Characters2Splits {
     public final static String DESCRIPTION = "Convert binary characters to splits";
@@ -167,7 +167,7 @@ public class Binary2Splits implements Characters2Splits {
      * gets the mapping of splits to characters
      *
      * @return a map that has as key an Integer object representing the splits id and
-     *         as value a BitSet that contains the positions in the characters block
+     * as value a BitSet that contains the positions in the characters block
      */
     public Map getSplit2Chars() {
         return split2Chars;

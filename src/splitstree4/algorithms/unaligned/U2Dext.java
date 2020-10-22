@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: U2Dext.java,v 1.10 2007-09-11 12:31:03 kloepper Exp $
-*/
+ * $Id: U2Dext.java,v 1.10 2007-09-11 12:31:03 kloepper Exp $
+ */
 package splitstree4.algorithms.unaligned;
 
 import jloda.util.parse.NexusStreamParser;
@@ -34,8 +34,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 /**
- * @deprecated
- * Runs external program
+ * @deprecated Runs external program
  */
 public class U2Dext /* implements Unaligned2Distances */ {
     private char special = '_';

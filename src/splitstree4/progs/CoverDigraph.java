@@ -22,6 +22,11 @@
  * @version $Id: CoverDigraph.java,v 1.3 2006-05-23 05:57:37 huson Exp $
  * @author daniel Huson
  * 7.03
+ * <p>
+ * Cover digraph construction
+ * @version $Id: CoverDigraph.java,v 1.3 2006-05-23 05:57:37 huson Exp $
+ * @author daniel Huson
+ * 7.03
  */
 /**
  * Cover digraph construction

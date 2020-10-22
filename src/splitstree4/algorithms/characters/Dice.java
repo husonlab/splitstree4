@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: Dice.java,v 1.2 2007-11-21 05:08:22 bryant Exp $
-*/
+ * $Id: Dice.java,v 1.2 2007-11-21 05:08:22 bryant Exp $
+ */
 package splitstree4.algorithms.characters;
 
 import jloda.swing.util.Alert;

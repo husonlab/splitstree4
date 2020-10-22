@@ -34,7 +34,7 @@ import java.util.List;
  * implements common tree consensus methods
  *
  * @author huson
- *         Date: 21-Mar-2005
+ * Date: 21-Mar-2005
  */
 public class ConsensusTree implements Trees2Splits {
     public final static String DESCRIPTION = "Tree consensus methods";

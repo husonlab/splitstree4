@@ -415,7 +415,6 @@ public class ConvexHull implements Splits2Network {
 
     /**
      * scale size of nodes by number of taxa?
-     *
      */
     public int getOptionScaleNodesMaxSize() {
         return optionScaleNodesMaxSize;

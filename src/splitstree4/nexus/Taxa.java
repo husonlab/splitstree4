@@ -19,6 +19,8 @@
  *
  * @version $Id: Taxa.java,v 1.52 2010-05-09 19:15:29 bryant Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: Taxa.java,v 1.52 2010-05-09 19:15:29 bryant Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: Taxa.java,v 1.52 2010-05-09 19:15:29 bryant Exp $

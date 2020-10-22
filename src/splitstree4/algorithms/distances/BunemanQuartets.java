@@ -22,6 +22,11 @@
  * @author Daniel Huson and David Bryant
  * @version $Id: BunemanQuartets.java,v 1.12 2007-09-11 12:31:07 kloepper Exp $
  * 8.03
+ * <p>
+ * returns all quartets that have positive isolation index
+ * @author Daniel Huson and David Bryant
+ * @version $Id: BunemanQuartets.java,v 1.12 2007-09-11 12:31:07 kloepper Exp $
+ * 8.03
  */
 /**
  * returns all quartets that have positive isolation index

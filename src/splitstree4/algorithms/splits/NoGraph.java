@@ -28,7 +28,7 @@ import splitstree4.nexus.Taxa;
  * does not compute a graph
  *
  * @author huson
- *         Date: 10-Aug-2004
+ * Date: 10-Aug-2004
  */
 public class NoGraph implements Splits2Network {
     final public static String DESCRIPTION = "Do nothing, don't build a graph";

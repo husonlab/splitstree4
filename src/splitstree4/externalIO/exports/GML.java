@@ -35,7 +35,7 @@ import java.util.Map;
  * Export graph in GML format
  *
  * @author Regula Rupp, Daniel Huson and David Bryant,
- *         June 2007
+ * June 2007
  */
 public class GML extends ExporterAdapter implements Exporter {
 

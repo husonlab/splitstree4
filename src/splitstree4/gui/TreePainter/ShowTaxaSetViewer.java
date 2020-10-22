@@ -802,13 +802,13 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
         }
 
         /*
-        *  determine center of circle1
-        *  center is placed
-        *  on the orthogonal vector to the startEndVector, with the radius of
-        *  an average radius of the circle surrounding all taxa     (angle between startNode & endNode<135°)
-        *
-        *  or on the nearest point on the orthogonal vector to the startEndVector from an average centerPoint of all taxa (angle >135°)
-        */
+         *  determine center of circle1
+         *  center is placed
+         *  on the orthogonal vector to the startEndVector, with the radius of
+         *  an average radius of the circle surrounding all taxa     (angle between startNode & endNode<135°)
+         *
+         *  or on the nearest point on the orthogonal vector to the startEndVector from an average centerPoint of all taxa (angle >135°)
+         */
 
         Point2D.Double center = new Point2D.Double();     //center of first circle
 
@@ -1465,11 +1465,11 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     }
 
     /*
-    *  returns a point on the unit circle to a given angle
-    *
-    * @param angle
-    * @return point on the unit circle
-    */
+     *  returns a point on the unit circle to a given angle
+     *
+     * @param angle
+     * @return point on the unit circle
+     */
 
     private Point2D.Double getAngle2Vec(double angle) {
         Point2D.Double point = new Point2D.Double();
@@ -1479,11 +1479,11 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
 
 
     /*
-    *  normalize a vector
-    *
-    * @param vec
-    * @return normalized vector
-    */
+     *  normalize a vector
+     *
+     * @param vec
+     * @return normalized vector
+     */
 
     private Point2D.Double normalizeVec(Point2D.Double vec) {
         vec.setLocation(vec.getX() / Math.sqrt(vec.getX() * vec.getX() + vec.getY() * vec.getY()), vec.getY() / Math.sqrt(vec.getX() * vec.getX() + vec.getY() * vec.getY()));
@@ -1491,13 +1491,13 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     }
 
     /*
-    *  intersection between line and circle
-    *
-    * @param line
-    * @param circleCenter
-    * @param radius
-    * @return two intersection points or null if there is none (if there is one intersection, both points will be the same)
-    */
+     *  intersection between line and circle
+     *
+     * @param line
+     * @param circleCenter
+     * @param radius
+     * @return two intersection points or null if there is none (if there is one intersection, both points will be the same)
+     */
 
     private Point2D.Double[] intersectLineCircle(Line2D.Double line, Point2D.Double circleCenter, double radius) {
 

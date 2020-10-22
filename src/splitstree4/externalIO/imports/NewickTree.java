@@ -22,6 +22,11 @@
  * @version $Id: NewickTree.java,v 1.31 2010-02-24 16:55:07 huson Exp $
  * @author huson
  * Date: Oct 5, 2003
+ * <p>
+ * import a tree in Newick format
+ * @version $Id: NewickTree.java,v 1.31 2010-02-24 16:55:07 huson Exp $
+ * @author huson
+ * Date: Oct 5, 2003
  */
 /**
  * import a tree in Newick format
@@ -57,7 +62,7 @@ import java.util.*;
 public class NewickTree extends FileFilter implements Importer {
     String datatype = null;
     /* Implement first the Importer Interface
-    */
+     */
     public static String Description = "Newick Tree Files (*.new,*.tre, *.tree)";
     private boolean optionConvertMultiLabeledTree = false;
 

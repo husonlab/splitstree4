@@ -31,8 +31,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 /**
- * @deprecated
- * Runs external program
+ * @deprecated Runs external program
  */
 public class S2Next /* implements Splits2Network    */ {
     private char special = '_';

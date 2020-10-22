@@ -180,9 +180,9 @@ public class SplitMatrix {
     //ToDo: Delete this
 
     /**
-     * @deprecated
      * @param split
      * @return
+     * @deprecated
      */
     public double getOriginal(int split) {
         Double value = matrix.get(split, 0);
@@ -192,9 +192,9 @@ public class SplitMatrix {
     //ToDo: Delete this
 
     /**
-     * @deprecated
      * @param split
      * @return
+     * @deprecated
      */
     public String getLabel(int split) {
         return allSplits.getLabel(split);

@@ -30,7 +30,7 @@ import splitstree4.nexus.Network;
  * syncronizes the graph to viewer
  *
  * @author huson
- *         Date: 29-Nov-2003
+ * Date: 29-Nov-2003
  */
 public class SyncDocToViewer {
     /**

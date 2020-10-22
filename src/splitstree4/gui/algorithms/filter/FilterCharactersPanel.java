@@ -1,22 +1,22 @@
 /**
- * FilterCharactersPanel.java 
+ * FilterCharactersPanel.java
  * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
- *
+ * <p>
  * (Some files contain contributions from other authors, who are then mentioned separately.)
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 package splitstree4.gui.algorithms.filter;
 
 import jloda.swing.director.IUpdateableView;
@@ -53,7 +53,7 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
     private JCheckBox excludeConstant = new JCheckBox();
     private JCheckBox excludeNonParsimony = new JCheckBox();
     private JLabel sliderLabel = null;
-    private JSlider  missingSlider = new JSlider(JSlider.HORIZONTAL,0,100,100);
+    private JSlider missingSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
 
     /**
      * sets up the algorithms window
@@ -162,8 +162,8 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
 
         double missingVal = 1.0;
         if (doc.isValidByName(Assumptions.NAME))
-              missingVal = doc.getAssumptions().getExcludeMissing();
-        missingSlider.setValue((int)Math.round(missingVal*100));
+            missingVal = doc.getAssumptions().getExcludeMissing();
+        missingSlider.setValue((int) Math.round(missingVal * 100));
         sliderLabel.setText(slideValue(missingSlider.getValue()));
         missingSlider.setEnabled(doc.isValidByName(Characters.NAME));
 
@@ -247,7 +247,7 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
         panel.add(codon3cb, constraints);
 
         JButton apply = new JButton(getActions().getApply(excludeGaps, excludeNonParsimony,
-                excludeConstant,missingSlider));
+                excludeConstant, missingSlider));
         constraints.weightx = 1;
         constraints.weighty = 1;
         constraints.gridx = 5;
@@ -307,14 +307,14 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
         missingSlider.setPaintTicks(true);
         missingSlider.setPaintLabels(true);
         missingSlider.setBorder(
-                BorderFactory.createEmptyBorder(0,0,10,0));
+                BorderFactory.createEmptyBorder(0, 0, 10, 0));
         Font font = new Font("Serif", Font.PLAIN, 15);
         missingSlider.setFont(font);
         missingSlider.setToolTipText("Exclude sites with more than this level of missing data (1.0 = include all)");
         missingSlider.addChangeListener(this);
         sliderLabel = new JLabel(slideValue(100));
-        Dimension d =  sliderLabel.getPreferredSize();
-        sliderLabel.setMinimumSize(new Dimension(d.width+60,d.height));
+        Dimension d = sliderLabel.getPreferredSize();
+        sliderLabel.setMinimumSize(new Dimension(d.width + 60, d.height));
         sliderLabel.setText(slideValue(missingSlider.getValue()));
 
         //sliderLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -351,10 +351,10 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
     /**
      * Wierd effect in Swing... the whole window changes when the length of the
      * Slider label changes. This tries to fix that.
-     * @return  Padding string
+     * @return Padding string
      */
-    private  String slideValue(int val) {
-        return MISSINGLABEL+" ("+val+"%)";
+    private String slideValue(int val) {
+        return MISSINGLABEL + " (" + val + "%)";
     }
 
     /**

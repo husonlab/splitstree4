@@ -28,7 +28,7 @@ import splitstree4.nexus.Taxa;
  * characters to network transform
  *
  * @author huson
- *         Date: 10-Feb-2005
+ * Date: 10-Feb-2005
  */
 public interface Characters2Network extends CharactersTransform {
 

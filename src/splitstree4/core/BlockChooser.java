@@ -30,7 +30,7 @@ import java.awt.*;
  * DESCRIPTION
  *
  * @author huson
- *         Date: 13-Sep-2004
+ * Date: 13-Sep-2004
  */
 public class BlockChooser {
     /**

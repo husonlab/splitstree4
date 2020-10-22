@@ -39,7 +39,7 @@ import javax.swing.*;
 
 /**
  * @author Mig
- *         Computes the Hasegawa, Kishino and Yano distance for a set of characters.
+ * Computes the Hasegawa, Kishino and Yano distance for a set of characters.
  */
 public class HKY85 extends DNAdistance {
 

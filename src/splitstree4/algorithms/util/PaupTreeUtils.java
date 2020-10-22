@@ -337,7 +337,7 @@ public class PaupTreeUtils {
                     && s.charAt(i + 3) == 'N'
                     && s.charAt(i + 4) == 'H'
                     && s.charAt(i + 5) == 'X'))
-                    ) {
+            ) {
                 j = i;
                 i++;
                 done = false;
@@ -375,7 +375,7 @@ public class PaupTreeUtils {
      * nh_string potentially representing a Tree in NH or NHX format.
      *
      * @return total number of  open parantheses if no error detected,
-     *         -1 for faulty string
+     * -1 for faulty string
      */
     public static int countAndCheckParantheses(String nh_string) {
         int openparantheses = 0, closeparantheses = 0, i;
@@ -411,7 +411,7 @@ public class PaupTreeUtils {
                             && nh_string.charAt(i + 1) == ',') ||
                     (nh_string.charAt(i) == ','
                             && nh_string.charAt(i + 1) == ')')
-                    ) {
+            ) {
                 return false;
             }
         }

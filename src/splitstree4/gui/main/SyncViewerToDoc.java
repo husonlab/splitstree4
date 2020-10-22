@@ -27,7 +27,7 @@ import splitstree4.nexus.Taxa;
  * syncs the viewer to the doc
  *
  * @author huson
- *         Date: 11-Mar-2005
+ * Date: 11-Mar-2005
  */
 public class SyncViewerToDoc {
     static public void sync(MainViewer viewer, Document doc) {

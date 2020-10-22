@@ -87,8 +87,8 @@ public class SplitsSet implements Cloneable {
     }
 
     /* gets the weights
-    *@return the weights
-    */
+     *@return the weights
+     */
     public Vector getWeights() {
         return this.weights;
     }

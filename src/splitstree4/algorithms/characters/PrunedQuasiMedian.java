@@ -33,7 +33,7 @@ import java.util.*;
  * implementation of the     PrunedQuasiMedian method
  *
  * @author huson
- *         Date: 2009
+ * Date: 2009
  */
 public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Network {
     public final static String DESCRIPTION = "Geodesically-pruned quasi-median network (Ayling and Brown, BMC Bioinformatics 2008)";

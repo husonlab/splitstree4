@@ -39,7 +39,7 @@ import java.util.*;
  * some computations on trees
  *
  * @author huson
- *         Date: 29-Feb-2004
+ * Date: 29-Feb-2004
  */
 public class TreesUtilities {
     /**

@@ -43,7 +43,7 @@ import java.util.*;
  * A rooted version of the equal angle algorithm for computing a splits graph
  *
  * @author huson
- *         Date: 03-Jan-2004
+ * Date: 03-Jan-2004
  */
 public class RootedEqualAngle implements Splits2Network {
     public final static String DESCRIPTION = "Rooted equal angle algorithm (Gambette and Huson, submitted 2005)";

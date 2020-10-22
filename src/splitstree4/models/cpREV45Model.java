@@ -27,10 +27,10 @@ package splitstree4.models;
 
 /**
  * @author bryant
- *         <p/>
- *         cpREV45 Model
- *         <p/>
- *         Extracted from .dat files distributed with PAML 3.13d
+ * <p/>
+ * cpREV45 Model
+ * <p/>
+ * Extracted from .dat files distributed with PAML 3.13d
  */
 public class cpREV45Model extends ProteinModel {
     static public final double[] dvals = {

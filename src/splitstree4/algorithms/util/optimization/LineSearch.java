@@ -21,22 +21,23 @@ package splitstree4.algorithms.util.optimization;
 
 /**
  * Abstract class implementing a line search
- *
- *  * Note: all arrays and vectors start their indexing at 1.
+ * <p>
+ * * Note: all arrays and vectors start their indexing at 1.
  */
 public abstract class LineSearch {
 
 
     /**
      * Abstract signature for a line search procedure. Optimizes along the line x + \alpha p
-     * @param x 1d array of double giving starting point
-     * @param p  array with same dimensions as x. Direction of search
-     * @param grad0  array with same dimensions as x. Gradient at x
-     * @param f0   double. Value of function at x
-     * @param alpha_init   Initial value of alpha to try.
-     * @param f    AbstractFunction function being minimised
-     * @param xnew  array with same dimension as x. Overwritten by point at end of linesearch
-     * @param phi_p_alpha   array with same dimension as x. Overwritten by gradient at xnew
+     *
+     * @param x           1d array of double giving starting point
+     * @param p           array with same dimensions as x. Direction of search
+     * @param grad0       array with same dimensions as x. Gradient at x
+     * @param f0          double. Value of function at x
+     * @param alpha_init  Initial value of alpha to try.
+     * @param f           AbstractFunction function being minimised
+     * @param xnew        array with same dimension as x. Overwritten by point at end of linesearch
+     * @param phi_p_alpha array with same dimension as x. Overwritten by gradient at xnew
      * @return double value of f at xnew
      * @throws NumericalException
      */

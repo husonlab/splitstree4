@@ -19,6 +19,8 @@
  *
  * @version $Id: Trees2Splits.java,v 1.6 2006-05-23 05:57:33 huson Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: Trees2Splits.java,v 1.6 2006-05-23 05:57:33 huson Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: Trees2Splits.java,v 1.6 2006-05-23 05:57:33 huson Exp $

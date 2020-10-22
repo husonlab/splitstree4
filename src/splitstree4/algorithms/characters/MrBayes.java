@@ -68,15 +68,15 @@ public class MrBayes implements Characters2Trees {
     }
 
     /* (non-Javadoc)
-    * @see splits.algorithms.characters.CharactersTransform#isApplicable(splits.core.Document, splits.nexus.Taxa, splits.nexus.Characters)
-    */
+     * @see splits.algorithms.characters.CharactersTransform#isApplicable(splits.core.Document, splits.nexus.Taxa, splits.nexus.Characters)
+     */
     public boolean isApplicable(Document doc, Taxa taxa, Characters chars) {
         return doc.isValid(taxa) && doc.isValid(chars);
     }
 
     /* (non-Javadoc)
-    * @see splits.algorithms.characters.Characters2Trees#apply(splits.nexus.Taxa, splits.nexus.Characters)
-    */
+     * @see splits.algorithms.characters.Characters2Trees#apply(splits.nexus.Taxa, splits.nexus.Characters)
+     */
     public Trees apply(Document doc, Taxa taxa, Characters chars) throws Exception {
 
 

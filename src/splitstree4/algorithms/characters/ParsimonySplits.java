@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* $Id: ParsimonySplits.java,v 1.20 2009-09-28 13:37:24 huson Exp $
-*/
+ */
 package splitstree4.algorithms.characters;
 
 import jloda.util.CanceledException;

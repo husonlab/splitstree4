@@ -19,6 +19,8 @@
  *
  * @version $Id: SplitsException.java,v 1.4 2004-08-24 17:37:07 huson Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: SplitsException.java,v 1.4 2004-08-24 17:37:07 huson Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: SplitsException.java,v 1.4 2004-08-24 17:37:07 huson Exp $

@@ -22,6 +22,11 @@
  * @version $Id: ClustalW.java,v 1.19 2007-09-11 12:31:03 kloepper Exp $
  * @author Daniel Huson and David Bryant
  * 7.03
+ * <p>
+ * runs clustalw externally
+ * @version $Id: ClustalW.java,v 1.19 2007-09-11 12:31:03 kloepper Exp $
+ * @author Daniel Huson and David Bryant
+ * 7.03
  */
 /**
  * runs clustalw externally
@@ -220,9 +225,9 @@ public class ClustalW implements Unaligned2Characters {
     }
 
     /*
-    * Protein weight matrix (default Gonnet)
-    * @return      name of matrix
-    */
+     * Protein weight matrix (default Gonnet)
+     * @return      name of matrix
+     */
 
     public String getOptionWeightMatrix() {
         return optionWeightMatrix;

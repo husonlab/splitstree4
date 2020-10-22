@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: Codominant.java,v 1.4 2009-11-03 03:43:22 bryant Exp $
-*/
+ * $Id: Codominant.java,v 1.4 2009-11-03 03:43:22 bryant Exp $
+ */
 package splitstree4.algorithms.characters;
 
 import jloda.util.CanceledException;
@@ -58,7 +58,7 @@ public class Codominant implements Characters2Distances {
      * @param taxa the taxa
      * @param c    the characters matrix
      * @return true, if method applies to given data... taxa and characters are non-null and their is
-     *         an even number of characters.
+     * an even number of characters.
      */
     public boolean isApplicable(Document doc, Taxa taxa, Characters c) {
         return taxa != null && c != null && (c.getFormat().isDiploid());

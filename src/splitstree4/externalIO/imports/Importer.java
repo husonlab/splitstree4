@@ -25,7 +25,7 @@ import java.io.Reader;
  * Importer interface
  *
  * @author huson
- *         Date: Sep 29, 2003
+ * Date: Sep 29, 2003
  * @version $Id: Importer.java,v 1.7 2005-11-12 20:49:13 huson Exp $
  */
 public interface Importer {

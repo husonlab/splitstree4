@@ -18,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Daniel Huson and David Bryant
+ * @author Daniel Huson and David Bryant
  */
 /**
  *@author Daniel Huson and David Bryant

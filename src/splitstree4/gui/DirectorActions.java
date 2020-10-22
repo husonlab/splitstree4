@@ -21,6 +21,10 @@
  *
  * @author huson
  * Date: 26-Nov-2003
+ * <p>
+ * Actions that the viewer gets from the director to present to the user
+ * @author huson
+ * Date: 26-Nov-2003
  */
 /**
  * Actions that the viewer gets from the director to present to the user
@@ -248,8 +252,8 @@ public class DirectorActions implements IDirectorListener {
     }
 
     /* importFile and openFile are identical except for one thing - on the mac, open restricts files to .nex or .nxs.
-    * Both menus will only appear on the mac.
-    */
+     * Both menus will only appear on the mac.
+     */
     private AbstractAction openFile;
 
     public AbstractAction getOpenFile() {

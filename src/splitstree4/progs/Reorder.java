@@ -21,6 +21,10 @@
  * @version $Id: Reorder.java,v 1.6 2007-01-25 08:58:16 huson Exp $
  * @author Daniel Huson and David Bryant
  * 3.2003
+ * Reorder taxa
+ * @version $Id: Reorder.java,v 1.6 2007-01-25 08:58:16 huson Exp $
+ * @author Daniel Huson and David Bryant
+ * 3.2003
  */
 /** Reorder taxa
  *@version $Id: Reorder.java,v 1.6 2007-01-25 08:58:16 huson Exp $

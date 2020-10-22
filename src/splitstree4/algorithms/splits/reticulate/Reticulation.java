@@ -27,7 +27,7 @@ import java.util.Comparator;
  * a simple reticulation object
  *
  * @author huson
- *         Date: 18-Sep-2004
+ * Date: 18-Sep-2004
  */
 public class Reticulation implements Comparator {
 

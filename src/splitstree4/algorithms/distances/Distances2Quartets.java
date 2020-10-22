@@ -19,6 +19,8 @@
  *
  * @version $Id: Distances2Quartets.java,v 1.8 2007-09-11 12:31:07 kloepper Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: Distances2Quartets.java,v 1.8 2007-09-11 12:31:07 kloepper Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: Distances2Quartets.java,v 1.8 2007-09-11 12:31:07 kloepper Exp $

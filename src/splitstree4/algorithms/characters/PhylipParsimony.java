@@ -132,8 +132,8 @@ public class PhylipParsimony implements Characters2Trees {
         if (System.getProperty("os.name").matches(".*[Ww]indows.*")) os = REDMOND;
         if (System.getProperty("os.name").matches(".*[Mm]ac.*")) os = MAC_OS;
 
-        /* prepare files: 
-   * infile, input (options), outtree */
+        /* prepare files:
+         * infile, input (options), outtree */
         final String dir = System.getProperty("user.dir") + File.separator;
         // phylip infile which the sequence data will be written to
         final File infile = new File(dir + "infile");

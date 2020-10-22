@@ -43,7 +43,7 @@ import java.util.List;
  * Recomb 2005 alogirthm
  *
  * @author huson
- *         Date: 17-Sep-2004
+ * Date: 17-Sep-2004
  */
 public class AlgorithmRECOMB2005 {
     final static int FAILED = 0;

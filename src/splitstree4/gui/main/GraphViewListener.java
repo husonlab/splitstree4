@@ -37,7 +37,7 @@ import java.util.LinkedList;
 
 /**
  * @author Daniel Huson and David Bryant, 2005
- *         Listener for all MainViewer events.
+ * Listener for all MainViewer events.
  */
 public class GraphViewListener implements IGraphViewListener {
     MainViewer viewer;
@@ -487,9 +487,7 @@ public class GraphViewListener implements IGraphViewListener {
                     scrollBar.setValue(scrollBar.getValue() - amount);
                 }
             }
-            if (dX != 0)
-
-            {
+            if (dX != 0) {
                 JScrollBar scrollBar = scrollPane.getHorizontalScrollBar();
                 int amount = Math.round(dX * (scrollBar.getMaximum() - scrollBar.getMinimum()) / viewer.getWidth());
                 if (amount != 0) {

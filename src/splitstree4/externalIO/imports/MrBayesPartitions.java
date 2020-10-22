@@ -58,7 +58,7 @@ public class MrBayesPartitions extends FileFilter implements Importer {
      *
      * @param input
      * @return true, if can handle this import
-     *         Checks by trying to read in the first split.
+     * Checks by trying to read in the first split.
      */
     public boolean isApplicable(Reader input) throws Exception {
         try {
@@ -238,7 +238,7 @@ public class MrBayesPartitions extends FileFilter implements Importer {
     /**
      * @param f the file the extension is to be found
      * @return the extension as string (i.e. the substring beginning after the
-     *         last ".")
+     * last ".")
      */
     public String getExtension(File f) {
         if (f != null) {

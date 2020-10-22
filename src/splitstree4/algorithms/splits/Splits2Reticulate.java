@@ -28,10 +28,12 @@ import splitstree4.nexus.Taxa;
  * Interface for methods that compute an reticulate object from splits
  */
 public interface Splits2Reticulate extends SplitsTransform {
-    /** Applies the method to the given data
-     *@param taxa the taxa
-     *@param splits the splits
-     *@return the computed set of splits
+    /**
+     * Applies the method to the given data
+     *
+     * @param taxa   the taxa
+     * @param splits the splits
+     * @return the computed set of splits
      */
     Reticulate apply(Document doc, Taxa taxa, Splits splits);
 }

@@ -68,17 +68,17 @@ public class NeighborNetSplitWeightOptimizer {
 
     /**
      * Class  CircularSplitWeights.Options
+     *
      * @author dbryant
-     *
+     * <p>
      * A utility class for passing sets of options to the least squares optimizer (and within the procedure).
-     *
+     * <p>
      * Options are:
      * cutoff			Threshold for split weights
      * regularization	Enumerated type for selecting method used
      * lambdaFraction	Regularization parameter. (WILL CHANGE TO: lambda = 0 -> no regularization; lambda = 1-> complete regularization.)
      * lassoWeights		Weights used when compute the lasso penalty function
      * var				String used to describe variance options.
-     *
      */
     static public class Options {
         public enum Regularization {
@@ -151,7 +151,7 @@ public class NeighborNetSplitWeightOptimizer {
         double[] v = setupV(dist, options.var, ordering);
         double[] x = new double[npairs];
 
-             /* Initialize the weight matrix */
+        /* Initialize the weight matrix */
         double[] W = new double[npairs];
         for (int k = 0; k < npairs; k++) {
             if (v[k] == 0.0)
@@ -159,7 +159,7 @@ public class NeighborNetSplitWeightOptimizer {
             else
                 W[k] = 1.0 / v[k];
         }
-            /* Find the constrained optimal values for x */
+        /* Find the constrained optimal values for x */
 
         runActiveConjugate(ntax, d, W, x, options);
 
@@ -349,10 +349,10 @@ public class NeighborNetSplitWeightOptimizer {
      * lambda is the regularisation parameter, given by lambda = max_i (A'Wd)_i   * ( 1 - lambdaFraction)
      * Note that lambdaFraction = 1 => lambda = 0, and lambdaFraction = 0 => x = 0.
      *
-     * @param ntax The number of taxa
-     * @param d    the distance matrix
-     * @param W    the weight matrix
-     * @param x    the split weights
+     * @param ntax    The number of taxa
+     * @param d       the distance matrix
+     * @param W       the weight matrix
+     * @param x       the split weights
      * @param options fraction parameter for lambda regularisation
      */
     static private void runActiveConjugate(int ntax, double[] d, double[] W, double[] x, Options options) {
@@ -403,7 +403,7 @@ public class NeighborNetSplitWeightOptimizer {
                     maxAtWd = val;
             lambda = maxAtWd * (1.0 - options.lambdaFraction);
 
-        	/* Replace AtWd with AtWd = lambda. This has same effect as regularisation term */
+            /* Replace AtWd with AtWd = lambda. This has same effect as regularisation term */
             for (int k = 0; k < npairs; k++)
                 AtWd[k] -= lambda;
         }
@@ -458,8 +458,8 @@ public class NeighborNetSplitWeightOptimizer {
             calculateAtx(ntax, y, r); /* r = AtWAx */
 
             /* We check to see that we are at a constrained minimum.... that is that the gradient is positive for
-            * all i,j in the active set.
-            */
+             * all i,j in the active set.
+             */
             int min_i = -1;
             double min_grad = 1.0;
             for (int i = 0; i < npairs; i++) {
@@ -487,14 +487,13 @@ public class NeighborNetSplitWeightOptimizer {
 //            	}
 //            	else
                 return; /* We have arrived at the constrained optimum */
-            }
-            else
+            } else
                 active[min_i] = false;
 
         }
     }
 
-/* Compute the row sum in d. */
+    /* Compute the row sum in d. */
 
     static private double rowsum(int n, double[] d, int k) {
         double r = 0;
@@ -695,7 +694,7 @@ public class NeighborNetSplitWeightOptimizer {
                 alpha += p[i] * w[i];
             alpha = rho / alpha;
 
-/* Update x and the residual, r */
+            /* Update x and the residual, r */
             for (int i = 0; i < npairs; i++) {
                 x[i] += alpha * p[i];
                 r[i] -= alpha * w[i];

@@ -19,6 +19,8 @@
  *
  * @version $Id: UPGMA.java,v 1.22 2010-02-04 11:53:16 huson Exp $
  * @author Christian Rausch
+ * @version $Id: UPGMA.java,v 1.22 2010-02-04 11:53:16 huson Exp $
+ * @author Christian Rausch
  */
 // NOTE: apply uses the upper triangle of the dist matix
 

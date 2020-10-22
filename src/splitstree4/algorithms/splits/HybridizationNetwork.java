@@ -23,7 +23,7 @@ package splitstree4.algorithms.splits;
  * computes a hybridization network
  *
  * @author huson
- *         Date: 22-Mar-2005
+ * Date: 22-Mar-2005
  */
 public class HybridizationNetwork extends ReticulateNetwork implements Splits2Network {
 

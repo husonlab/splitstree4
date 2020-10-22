@@ -31,8 +31,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 /**
- * @deprecated
- * Runs external program
+ * @deprecated Runs external program
  */
 public class C2Sext /* implements Characters2Splits      */ {
     private char special = '_';

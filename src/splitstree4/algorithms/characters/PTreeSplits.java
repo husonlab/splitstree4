@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* $Id: PTreeSplits.java,v 1.14 2009-11-03 20:03:33 bryant Exp $
-*/
+ */
 package splitstree4.algorithms.characters;
 
 import jloda.util.CanceledException;

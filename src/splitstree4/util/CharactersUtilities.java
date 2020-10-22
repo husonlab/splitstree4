@@ -19,7 +19,7 @@
  */
 /*
  * $Id: CharactersUtilities.java,v 1.44 2010-05-09 19:15:29 bryant Exp $
-*/
+ */
 
 package splitstree4.util;
 
@@ -644,13 +644,12 @@ public class CharactersUtilities {
 
     /**
      * Compute the fraction of sites where the sequences have different states,
-     *   as a proportion of sites where neither is missing or gapped.
+     * as a proportion of sites where neither is missing or gapped.
      *
-     * @param characters  characters block
-     * @param i index of first sequence
-     * @param j index of second sequence
+     * @param characters characters block
+     * @param i          index of first sequence
+     * @param j          index of second sequence
      * @return Proportion of sites where sequences differ, considering only sites without gaps or missing data in these sequences. Returns -1 if no such sites.
-     *
      */
     static public double proportionOfDifferences(Characters characters, int i, int j) {
         char[] seqi = characters.getRow(i);
@@ -684,7 +683,8 @@ public class CharactersUtilities {
 
     /**
      * Returns average number of non-missing sites for a sequence in the Characters block
-     * @param chars  Characters block
+     *
+     * @param chars Characters block
      * @return
      */
     static public double meanNotMissing(Characters chars) {

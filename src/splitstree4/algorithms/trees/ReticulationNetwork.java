@@ -30,7 +30,7 @@ import splitstree4.nexus.Trees;
 
 /**
  * @deprecated
- * */
+ */
 public class ReticulationNetwork extends ReticulatedEvolutionOnTrees implements Trees2Network {
     static final boolean EXPERT = true;
 

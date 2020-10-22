@@ -37,7 +37,7 @@ import java.util.*;
  * computes splits from binary data  and draws them using the convex hull algorithm
  *
  * @author huson
- *         Date: 16-Feb-2004
+ * Date: 16-Feb-2004
  */
 public class MedianJoining extends QuasiMedianBase implements Characters2Network {
     public final static String DESCRIPTION = "Median Joining algorithm (Bandelt et al, 1999)";

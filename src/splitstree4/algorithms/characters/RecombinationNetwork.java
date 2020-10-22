@@ -31,7 +31,7 @@ import splitstree4.nexus.Taxa;
  * compute recombination graph from binary sequences
  *
  * @author huson
- *         Date: 10-Feb-2005
+ * Date: 10-Feb-2005
  */
 public class RecombinationNetwork extends ReticulateNetwork implements Characters2Network {
     static int optionMinSplitWeight = 1;

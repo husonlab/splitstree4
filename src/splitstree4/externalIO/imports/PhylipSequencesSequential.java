@@ -22,6 +22,11 @@
  * @version $Id: PhylipSequencesSequential.java,v 1.1 2008-03-14 14:05:22 bryant Exp $
  * @author bryant
  * Date: , 2003
+ * <p>
+ * imports sequences in phylip format
+ * @version $Id: PhylipSequencesSequential.java,v 1.1 2008-03-14 14:05:22 bryant Exp $
+ * @author bryant
+ * Date: , 2003
  */
 /**
  * imports sequences in phylip format

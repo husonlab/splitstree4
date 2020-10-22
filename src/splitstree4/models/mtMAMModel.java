@@ -23,9 +23,9 @@ package splitstree4.models;
 
 /**
  * @author bryant
- *         <p/>
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p/>
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class mtMAMModel extends ProteinModel {
 
@@ -83,13 +83,13 @@ public class mtMAMModel extends ProteinModel {
 
 		The model was taken from the .dat files distributed with PAML3.1d
 	*/
-	
-	
-		
-		/* For efficiency, we precompute the eigenvalue decomposition 
-		 *     V'DV = Pi^(1/2) Q Pi(-1/2)
-		 * We used matlab for this.
-		 */
+
+
+
+        /* For efficiency, we precompute the eigenvalue decomposition
+         *     V'DV = Pi^(1/2) Q Pi(-1/2)
+         * We used matlab for this.
+         */
 
         this.evals = new double[]{
                 -3.47106,

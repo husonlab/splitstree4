@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: Trees2Network.java,v 1.4 2007-09-11 12:31:08 kloepper Exp $
-*/
+ * $Id: Trees2Network.java,v 1.4 2007-09-11 12:31:08 kloepper Exp $
+ */
 package splitstree4.algorithms.trees;
 
 import splitstree4.core.Document;

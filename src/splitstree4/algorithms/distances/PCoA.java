@@ -326,7 +326,7 @@ public class PCoA implements Distances2Network {
      *
      * @param m
      * @return sorted indices
-     *         todo: replace by proper sorting
+     * todo: replace by proper sorting
      */
     private int[] sortValues(Matrix m) {
         double[] v = new double[m.getColumnDimension()];

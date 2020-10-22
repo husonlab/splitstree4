@@ -38,7 +38,7 @@ import java.awt.*;
 
 /**
  * @author DJB
- *  Computes the Jukes Cantor distance for a set of characters
+ * Computes the Jukes Cantor distance for a set of characters
  */
 public class JukesCantor extends DNAdistance {
 
@@ -54,7 +54,8 @@ public class JukesCantor extends DNAdistance {
     }
 
     /**
-     *  return the option panel for the method
+     * return the option panel for the method
+     *
      * @param doc
      * @return
      */
@@ -76,7 +77,6 @@ public class JukesCantor extends DNAdistance {
     }
 
     /**
-     *
      * @param F
      * @return
      * @throws SaturatedDistancesException

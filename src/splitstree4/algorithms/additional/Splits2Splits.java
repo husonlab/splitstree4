@@ -26,10 +26,10 @@ import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 
 /**
- Transformation from splits to splits
+ * Transformation from splits to splits
  *
  * @author huson
- *         Date: 17-Feb-2004
+ * Date: 17-Feb-2004
  */
 public interface Splits2Splits extends Transformation {
 

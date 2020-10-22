@@ -26,7 +26,7 @@ import java.io.IOException;
  * bare bones cgviz writer
  *
  * @author huson
- *         Date: 06-Dec-2004
+ * Date: 06-Dec-2004
  */
 
 public class CGVizWriter {

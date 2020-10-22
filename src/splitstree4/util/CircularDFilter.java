@@ -29,7 +29,7 @@ import splitstree4.nexus.Splits;
  * this should reduce the number of boxes.
  *
  * @author huson
- *         Date: 14-May-2004
+ * Date: 14-May-2004
  */
 public class CircularDFilter {
     Document doc = null;

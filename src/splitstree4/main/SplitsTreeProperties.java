@@ -37,7 +37,7 @@ import java.util.StringTokenizer;
  * manages splitstrees properties, in cooperation with jloda.util.Properties
  *
  * @author huson
- *         Date: 11-Nov-2004
+ * Date: 11-Nov-2004
  */
 public class SplitsTreeProperties {
     static public boolean ALLOW_CLUSTER_NETWORK = true;

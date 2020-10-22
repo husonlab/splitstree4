@@ -22,6 +22,11 @@
  * @version $Id: SingleLineSequences.java,v 1.5 2005-11-12 20:49:13 huson Exp $
  * @author huson
  * Date: Sep 29, 2003
+ * <p>
+ * inputs data given in fasta format
+ * @version $Id: SingleLineSequences.java,v 1.5 2005-11-12 20:49:13 huson Exp $
+ * @author huson
+ * Date: Sep 29, 2003
  */
 /**
  * inputs data given in fasta format

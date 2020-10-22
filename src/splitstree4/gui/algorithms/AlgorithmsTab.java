@@ -44,7 +44,7 @@ import java.util.StringTokenizer;
  * manages the tabs of the algorithms viewer
  *
  * @author huson
- *         Date: 05-Dec-2003
+ * Date: 05-Dec-2003
  */
 public class AlgorithmsTab extends JPanel {
     static String OPT_SETTER = "OSET";
@@ -672,9 +672,9 @@ public class AlgorithmsTab extends JPanel {
 
     /**
      * @author miguel
-     *         <p/>
-     *         An inner class to render a combobox that contains objects.
-     *         (One that may contain Separators as well)
+     * <p/>
+     * An inner class to render a combobox that contains objects.
+     * (One that may contain Separators as well)
      */
     class ComboBoxRenderer extends JLabel implements ListCellRenderer {
         final String SEPARATOR = "SEPARATOR";
@@ -719,8 +719,8 @@ public class AlgorithmsTab extends JPanel {
 
     /**
      * @author miguel
-     *         <p/>
-     *         An inner class to listen to actions performed in a ComboBox with Separators
+     * <p/>
+     * An inner class to listen to actions performed in a ComboBox with Separators
      */
     class BlockComboListener implements ActionListener {
         final String SEPARATOR = "SEPARATOR";

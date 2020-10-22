@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* $Id: LogDet.java,v 1.33 2008-03-17 14:22:44 bryant Exp $
-*/
+ */
 package splitstree4.algorithms.characters;
 
 import Jama.Matrix;

@@ -21,6 +21,7 @@ package splitstree4.util;
 
 /**
  * Finds all classes in the named package, of the given type
+ *
  * @author huson
  * Date: 04-Dec-2003
  */

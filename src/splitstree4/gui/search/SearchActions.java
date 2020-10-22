@@ -26,9 +26,9 @@ package splitstree4.gui.search;
  * @author Miguel Jett? and David Bryant
  * @since Aug 25th, 2004
  * New revision: January 31, 2006
- *  -- Simplified actions using SearchManagers.
+ * -- Simplified actions using SearchManagers.
  * New revision: April 14th, 2005
- *  -- Regular expressions were added to the find and replace actions.
+ * -- Regular expressions were added to the find and replace actions.
  */
 
 import splitstree4.gui.Director;

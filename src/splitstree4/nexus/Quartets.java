@@ -372,7 +372,7 @@ public class Quartets extends NexusBlock {
     /**
      * Write the characters block
      *
-     * @param w    the writer
+     * @param w     the writer
      * @param nTaxa the number of taxa in the object
      */
     public void write(Writer w, int nTaxa) throws IOException {

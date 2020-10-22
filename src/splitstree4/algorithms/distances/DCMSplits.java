@@ -21,6 +21,10 @@
  *
  * @version $Id: DCMSplits.java,v 1.7 2007-09-11 12:31:06 kloepper Exp $
  * @author Daniel Huson and David Bryant
+ * <p>
+ * DCM for splits
+ * @version $Id: DCMSplits.java,v 1.7 2007-09-11 12:31:06 kloepper Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * DCM for splits

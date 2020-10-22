@@ -58,7 +58,7 @@ public class GeneContentDistance implements Characters2Distances {
     public Distances apply(Document doc, Taxa taxa, Characters characters) throws CanceledException {
         System.err.println("Not tested under construction");
         /*@todo: Tobias: test this class
-        */
+         */
         BitSet[] genes = computeGenes(characters);
         if (!useMLDistance)
             return computeSnelBorkDistance(taxa.getNtax(), genes);

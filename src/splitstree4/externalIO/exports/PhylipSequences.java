@@ -33,7 +33,7 @@ import java.util.Map;
  * Exports character sequences in Phylip (non-interleaved) format
  *
  * @author huson
- *         Date: 21-Nov-2004
+ * Date: 21-Nov-2004
  */
 public class PhylipSequences extends ExporterAdapter implements Exporter {
     private String[] taxon2phylip;

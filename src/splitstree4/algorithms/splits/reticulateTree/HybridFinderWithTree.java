@@ -40,7 +40,7 @@ import java.util.*;
  * DESCRIPTION
  *
  * @author huson, kloepper
- *         Date: 18-Sep-2004
+ * Date: 18-Sep-2004
  */
 
 public class HybridFinderWithTree {

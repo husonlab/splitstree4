@@ -21,9 +21,9 @@ package splitstree4.models;
 
 /**
  * @author Miguel Jett�
- *         June 10th 2004
- *         <p/>
- *         Jukes Cantor model of evolution.
+ * June 10th 2004
+ * <p/>
+ * Jukes Cantor model of evolution.
  */
 
 public class JCmodel extends NucleotideModel {

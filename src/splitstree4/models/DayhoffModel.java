@@ -27,8 +27,8 @@ package splitstree4.models;
 
 /**
  * @author bryant
- *         <p/>
- *         Dayhoff model
+ * <p/>
+ * Dayhoff model
  */
 public class DayhoffModel extends ProteinModel {
 

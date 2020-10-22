@@ -19,6 +19,8 @@
  *
  * @version $Id: Network.java,v 1.55 2010-05-30 11:19:56 huson Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: Network.java,v 1.55 2010-05-30 11:19:56 huson Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: Network.java,v 1.55 2010-05-30 11:19:56 huson Exp $

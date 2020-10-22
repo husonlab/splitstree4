@@ -28,7 +28,7 @@ import javax.swing.*;
  * the confidence window menu bar
  *
  * @author huson
- *         Date: 17.2.04
+ * Date: 17.2.04
  */
 public class ConfidenceWindowMenuBar extends JMenuBar {
     private ConfidenceWindow viewer;

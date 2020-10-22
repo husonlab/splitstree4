@@ -30,7 +30,7 @@ import splitstree4.nexus.Trees;
  * DESCRIPTION
  *
  * @author huson
- *         Date: 12-Nov-2004
+ * Date: 12-Nov-2004
  */
 public class NoSplits implements Trees2Splits {
     public final static String DESCRIPTION = "Produce no splits";

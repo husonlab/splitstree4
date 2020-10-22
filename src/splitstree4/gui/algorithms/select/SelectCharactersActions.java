@@ -48,7 +48,7 @@ import java.util.List;
  * actions associated with a characters window
  *
  * @author huson
- *         Date: 19-Dec-2003
+ * Date: 19-Dec-2003
  */
 public class SelectCharactersActions implements UpdateableActions {
     private Director dir;

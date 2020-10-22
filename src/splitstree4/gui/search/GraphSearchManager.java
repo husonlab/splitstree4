@@ -85,15 +85,15 @@ public class GraphSearchManager implements SearchManager {
      * @param searchString
      * @param options
      * @return regular expression string.
-     *         <p/>
-     *         We use the regular expression matches for all of our string matching... even when
-     *         regular expression is not set. This allows us to code all the extra options (case insenstivity,
-     *         matching whole label or partial label, etc.) directly into the regular expression.
-     *         <p/>
-     *         One catch is that if we are not using regular expression search and the user has entered
-     *         a \E into the search string, then we run into problems. Not much we can do about that...
-     *         so I just throw an exception. There may be alternatives in future, but I strong suspect
-     *         that this is not going to be a major issue.
+     * <p/>
+     * We use the regular expression matches for all of our string matching... even when
+     * regular expression is not set. This allows us to code all the extra options (case insenstivity,
+     * matching whole label or partial label, etc.) directly into the regular expression.
+     * <p/>
+     * One catch is that if we are not using regular expression search and the user has entered
+     * a \E into the search string, then we run into problems. Not much we can do about that...
+     * so I just throw an exception. There may be alternatives in future, but I strong suspect
+     * that this is not going to be a major issue.
      */
     private String prepareRegexp(String searchString, SearchOptions options) {
 

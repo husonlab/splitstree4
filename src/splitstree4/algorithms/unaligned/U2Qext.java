@@ -31,8 +31,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 /**
- * @deprecated
- * Runs external program
+ * @deprecated Runs external program
  */
 public class U2Qext /* implements Unaligned2Quartets */ {
     private char special = '_';

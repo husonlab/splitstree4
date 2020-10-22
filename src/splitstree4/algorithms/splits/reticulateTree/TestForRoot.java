@@ -37,7 +37,7 @@ import java.util.HashSet;
  * DESCRIPTION
  *
  * @author huson, kloepper
- *         Date: 18-Sep-2004
+ * Date: 18-Sep-2004
  */
 
 public class TestForRoot {

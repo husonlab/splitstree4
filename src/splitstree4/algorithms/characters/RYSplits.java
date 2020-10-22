@@ -28,7 +28,7 @@ import splitstree4.nexus.Taxa;
 
 /**
  * @author Markus Franz
- *         Computes the set of all RY splits from a set of characters
+ * Computes the set of all RY splits from a set of characters
  */
 public class RYSplits implements Characters2Splits {
     public final static String DESCRIPTION = "Computes all RY splits";

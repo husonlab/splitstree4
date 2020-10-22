@@ -32,10 +32,10 @@ import java.util.Random;
 
 /**
  * @author bryant
- *         <p/>
- *         Generic 4x4 nucleotide model, for a general Q matrix.
- *         <p/>
- *         We are given the Q matrix, which is assumed to be a valid GTR rate matrix.
+ * <p/>
+ * Generic 4x4 nucleotide model, for a general Q matrix.
+ * <p/>
+ * We are given the Q matrix, which is assumed to be a valid GTR rate matrix.
  */
 public abstract class NucleotideModel implements SubstitutionModel {
 

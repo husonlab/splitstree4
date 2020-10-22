@@ -23,7 +23,7 @@ package splitstree4.gui;
  * DESCRIPTION
  *
  * @author huson
- *         Date: 28-Mar-2004
+ * Date: 28-Mar-2004
  */
 public interface UpdateableActions {
     void setEnableCritical(boolean flag);

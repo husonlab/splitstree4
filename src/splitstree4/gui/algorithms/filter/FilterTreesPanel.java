@@ -20,6 +20,9 @@
  *
  * @author Daniel Huson and David Bryant
  * 26.6.04
+ * The tree selection window
+ * @author Daniel Huson and David Bryant
+ * 26.6.04
  */
 /** The tree selection window
  *

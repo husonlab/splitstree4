@@ -19,7 +19,7 @@
  */
 /*
  * $Id: Document.java,v 1.201 2010-06-15 09:17:07 huson Exp $
-*/
+ */
 
 package splitstree4.core;
 

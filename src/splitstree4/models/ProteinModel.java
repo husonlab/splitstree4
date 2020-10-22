@@ -29,8 +29,8 @@ import java.util.Random;
 
 /**
  * @author bryant
- *         <p/>
- *         To change the template for this generated type comment go to
+ * <p/>
+ * To change the template for this generated type comment go to
  */
 
 //ToDO: Copy changes and java doc from Nucleotide Model

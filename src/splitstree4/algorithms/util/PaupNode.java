@@ -307,7 +307,7 @@ public class PaupNode {
      *
      * @param root
      * @return Next node in a pre-order traversal of the subtree below (and including) root, or null
-     *         if there are none
+     * if there are none
      */
     public PaupNode nextPre(PaupNode root) {
         if (getFirstChild() != null)
@@ -340,7 +340,7 @@ public class PaupNode {
      * Returns the sibling *before* this one, by starting with the first node and looping.
      *
      * @return previous sibling, or null if this node has no siblings or if it is the first sibling
-     *         itself.
+     * itself.
      */
     public PaupNode getPrevSib() {
         PaupNode par = getPar();

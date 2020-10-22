@@ -210,8 +210,8 @@ public class PhyML implements Characters2Trees {
         if (System.getProperty("os.name").matches(".*[Ww]indows.*")) os = REDMOND;
         if (System.getProperty("os.name").matches(".*[Mm]ac.*")) os = MAC_OS;
 
-        /* prepare files: 
-   * infile, input (options), outtree */
+        /* prepare files:
+         * infile, input (options), outtree */
         final String dir = System.getProperty("user.dir") + File.separator;
         // phylip infile which the sequence data will be written to (as PHYML uses phylip input files)
         final File infile = new File(dir + "infile");
@@ -401,7 +401,7 @@ public class PhyML implements Characters2Trees {
                 fw.write("C\n");
                 fw.write(getOptionNumberOfSubstitutionCategories() + "\n");
             }
-/* GAMMA DISTRIBUTION PARAMETER */
+            /* GAMMA DISTRIBUTION PARAMETER */
             if (!(getOptionGammaDistributionParameterFixed() && getOptionGammaDistributionParameter() == 2.0)) {
                 fw.write("A\n");
                 if (!getOptionGammaDistributionParameterFixed())
@@ -990,8 +990,7 @@ public class PhyML implements Characters2Trees {
     }
 
     /**
-     * @param gammaDistributionParameterFixed
-     *         The gammaDistributionParameterFixed to set.
+     * @param gammaDistributionParameterFixed The gammaDistributionParameterFixed to set.
      */
     public void setOptionGammaDistributionParameterFixed(boolean gammaDistributionParameterFixed) {
         this.gammaDistributionParameterFixed = gammaDistributionParameterFixed;

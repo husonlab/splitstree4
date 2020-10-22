@@ -32,7 +32,7 @@ import java.util.LinkedList;
  * DESCRIPTION
  *
  * @author huson
- *         Date: 19-Dec-2003
+ * Date: 19-Dec-2003
  */
 public class SelectTreesPanel extends JPanel implements IUpdateableView {
     private Director dir;

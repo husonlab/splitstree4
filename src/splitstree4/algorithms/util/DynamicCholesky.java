@@ -18,43 +18,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-  *
-  * @author David Bryant
-  *
-  *
-  * Created on Jan 20, 2004
-  *
-  * Solves linear equations with symmetric positive definite matrices
-  * using Cholesky decomposition. Rows can be removed from the analysis and re-inserted.
-  *
-  *
-  * This is a dynamic version - we implement the option to 'mask' some rows - effectively
-  * deleting them from the analysis.
-  *
-  * At any point in time, the matrix L is the lower triangular factor in the cholesky
-  * decomposition for the matrix A restricted to rows and columns that are not masked and,
-  * possibly, with rows and columns permuted.
-  *
-  * We can mask or unmask a row or set of rows.
-  *
-  * When a set of rows is unmasked, we add these to the bottom of the cholesky decomposition.
-  * This update takes O(n^2 k ) time, where k is the number of rows added.
-  *
-  * When a set of rows is masked we delete them, and then update the factorisation using a
-  * modified givens rotation method (adapted from the QR decomposition). This also takes
-  * O(n^2 k ) time.
-  *
-  * If we remove or add rows, the order of the rows in our decomposition will be mucked up. The
-  * arrays full2partial and partial2full keep track of which row in the full matrix corresponds to
-  * which row in the partial matrix.
-  *
-  *
-  * References:
-  *         The java implementation is inspired by the JAMA package (http://math.nist.gov/javanumerics/jama/)
-  *         Our algorithms are taken from Golub and Van Loan "Matrix Computations", 2nd edition.
-  *
-  * The use of Givens rotations for downdating the Cholesky was suggested by Xiao-Wen Chang.
-  */
+ *
+ * @author David Bryant
+ *
+ *
+ * Created on Jan 20, 2004
+ *
+ * Solves linear equations with symmetric positive definite matrices
+ * using Cholesky decomposition. Rows can be removed from the analysis and re-inserted.
+ *
+ *
+ * This is a dynamic version - we implement the option to 'mask' some rows - effectively
+ * deleting them from the analysis.
+ *
+ * At any point in time, the matrix L is the lower triangular factor in the cholesky
+ * decomposition for the matrix A restricted to rows and columns that are not masked and,
+ * possibly, with rows and columns permuted.
+ *
+ * We can mask or unmask a row or set of rows.
+ *
+ * When a set of rows is unmasked, we add these to the bottom of the cholesky decomposition.
+ * This update takes O(n^2 k ) time, where k is the number of rows added.
+ *
+ * When a set of rows is masked we delete them, and then update the factorisation using a
+ * modified givens rotation method (adapted from the QR decomposition). This also takes
+ * O(n^2 k ) time.
+ *
+ * If we remove or add rows, the order of the rows in our decomposition will be mucked up. The
+ * arrays full2partial and partial2full keep track of which row in the full matrix corresponds to
+ * which row in the partial matrix.
+ *
+ *
+ * References:
+ *         The java implementation is inspired by the JAMA package (http://math.nist.gov/javanumerics/jama/)
+ *         Our algorithms are taken from Golub and Van Loan "Matrix Computations", 2nd edition.
+ *
+ * The use of Givens rotations for downdating the Cholesky was suggested by Xiao-Wen Chang.
+ */
 package splitstree4.algorithms.util;
 
 
@@ -299,15 +299,15 @@ public class DynamicCholesky implements Serializable {
      * @param a top value
      * @param b bottom value
      * @return the parameters used for a Givens rotation
-     *         Vector returned is [c,s]. The corresponding Givens
-     *         matrix is
-     *         [c -s]
-     *         [s  c]
-     *         <p/>
-     *         which satisfies
-     *         <p/>
-     *         [c -s] [a]  =  [r]
-     *         [s  c] [b]     [0]
+     * Vector returned is [c,s]. The corresponding Givens
+     * matrix is
+     * [c -s]
+     * [s  c]
+     * <p/>
+     * which satisfies
+     * <p/>
+     * [c -s] [a]  =  [r]
+     * [s  c] [b]     [0]
      */
     private double[] givens(double a, double b) {
         double tau, s, c;
@@ -462,7 +462,7 @@ public class DynamicCholesky implements Serializable {
      * @param B A Matrix with as many rows as A and any number of
      *          columns.
      * @return MX so that M*L*L'*M*X = M*B where M is the identity
-     *         with zeros for masked entries.
+     * with zeros for masked entries.
      * @throws IllegalArgumentException Matrix row dimensions
      *                                  must agree.
      * @throws RuntimeException         Matrix is not symmetric positive
@@ -577,8 +577,8 @@ public class DynamicCholesky implements Serializable {
      */
     public void CheckCholesky() {
         /* First check that LFull multiplied by LFull transpose
-                  * gives back the complete matrix.
-                  */
+         * gives back the complete matrix.
+         */
         System.out.println("Lfull is\n");
 
         Matrix temp = new Matrix(Lfull, n, n);
@@ -613,8 +613,8 @@ public class DynamicCholesky implements Serializable {
         (Amat.minus(Lmat.times(Lmat.transpose()))).print(5, 5);
 
         /* Check to see if solve is working correctly - should
-               * return the identity matrix
-               */
+         * return the identity matrix
+         */
         Matrix temp2 = this.solve(Amat);
         System.out.println("This next one should be the identity matrix\n");
 
@@ -655,8 +655,8 @@ public class DynamicCholesky implements Serializable {
         (Amat.minus(Lmat.times(Lmat.transpose()))).print(5, 5);
 
         /* Check to see if solve is working correctly - should
-               * return the identity matrix
-               */
+         * return the identity matrix
+         */
         temp2 = this.solve(Amat);
         System.out.println("This next one should be the identity matrix\n");
 
@@ -697,8 +697,8 @@ public class DynamicCholesky implements Serializable {
         (Amat.minus(Lmat.times(Lmat.transpose()))).print(5, 5);
 
         /* Check to see if solve is working correctly - should
-               * return the identity matrix
-               */
+         * return the identity matrix
+         */
         temp2 = this.solve(Amat);
         System.out.println("This next one should be the identity matrix\n");
 

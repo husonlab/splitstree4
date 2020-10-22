@@ -419,7 +419,7 @@ public class DeltaScore implements DistancesAnalysisMethod {
         doc.notifyTasks("Non-Parametric Bootstrapping of Delta Score", "reps=" + nreps);
 
         /* Set up a copied characters block
-        */
+         */
 
         TaxaSet toHide = doc.getTaxa().getTaxaSet();
         for (int aSelectedTaxa : selectedTaxa) toHide.unset(aSelectedTaxa);

@@ -23,7 +23,7 @@ package splitstree4.core;
  * DESCRIPTION
  *
  * @author huson
- *         Date: 04-Dec-2003
+ * Date: 04-Dec-2003
  */
 public class ConfiguratorParseException extends Exception {
     /**

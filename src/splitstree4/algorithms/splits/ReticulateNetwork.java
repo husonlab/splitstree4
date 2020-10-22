@@ -33,7 +33,7 @@ import java.util.Map;
  * framework for generating reticulate evolution graphs from splits
  *
  * @author huson, kloepper
- *         Date: 16-Sep-2004
+ * Date: 16-Sep-2004
  */
 public class ReticulateNetwork implements Splits2Network {
     // known methods:

@@ -42,7 +42,7 @@ import java.util.*;
  * compute network from partial trees
  *
  * @author huson
- *         Date: 19-Feb-2004
+ * Date: 19-Feb-2004
  */
 public class SuperNetwork implements Trees2Splits {
     public final static String DESCRIPTION = "Z-closure super-network from partial trees (Huson, Dezulian, Kloepper and Steel 2004)";

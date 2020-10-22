@@ -34,8 +34,8 @@ import java.awt.event.WindowEvent;
  * window to choose how to hi-confidence of edges
  *
  * @author huson & Franz
- *         <p/>
- *         17.2.2004
+ * <p/>
+ * 17.2.2004
  */
 public class ConfidenceWindow implements IDirectableViewer {
     private boolean uptodate = false;

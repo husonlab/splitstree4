@@ -22,6 +22,11 @@
  * @version $Id: ConsensusNetwork2.java,v 1.4 2007-09-11 12:31:08 kloepper Exp $
  * @author Tobias Kloepper and Daniel Huson and David Bryant
  * 7.03
+ * <p>
+ * implements consensus networks
+ * @version $Id: ConsensusNetwork2.java,v 1.4 2007-09-11 12:31:08 kloepper Exp $
+ * @author Tobias Kloepper and Daniel Huson and David Bryant
+ * 7.03
  */
 /**
  * implements consensus networks

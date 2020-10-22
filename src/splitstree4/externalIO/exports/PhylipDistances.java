@@ -33,7 +33,7 @@ import java.util.Map;
  * export a distance matrix in phylip format
  *
  * @author huson
- *         Date: 21-Nov-2004
+ * Date: 21-Nov-2004
  */
 public class PhylipDistances extends ExporterAdapter implements Exporter {
     private String[] taxon2phylip;

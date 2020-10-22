@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: Uncorrected_P.java,v 1.5 2007-09-11 12:31:00 kloepper Exp $
-*/
+ * $Id: Uncorrected_P.java,v 1.5 2007-09-11 12:31:00 kloepper Exp $
+ */
 package splitstree4.algorithms.characters;
 
 

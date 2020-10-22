@@ -41,7 +41,7 @@ import java.util.*;
  * DCM-based tree reconstruction
  *
  * @author huson
- *         Date: 04-Nov-2004
+ * Date: 04-Nov-2004
  */
 
 public class DCMPartialTrees implements Characters2Trees {

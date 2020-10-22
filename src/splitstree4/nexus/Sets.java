@@ -107,7 +107,7 @@ public class Sets extends NexusBlock implements Cloneable {
      *
      * @param name
      * @return taxa set. Will return null if name does not appear
-     *         or if name is present, but there is no set for that name.
+     * or if name is present, but there is no set for that name.
      */
     public PhyloTree getTaxonomy(String name) {
         return taxonomys.get(name);
@@ -118,7 +118,7 @@ public class Sets extends NexusBlock implements Cloneable {
      *
      * @param name
      * @return set of names of taxa. Will return null if name does not appear
-     *         or if name is present, but there is no set for that name.
+     * or if name is present, but there is no set for that name.
      */
     public Set<String> getTaxSet(String name) {
         return taxSets.get(name);
@@ -130,7 +130,7 @@ public class Sets extends NexusBlock implements Cloneable {
      * @param name
      * @param taxa
      * @return taxa set. Will return null if name does not appear
-     *         or if name is present, but there is no set for that name.
+     * or if name is present, but there is no set for that name.
      */
     public TaxaSet getTaxSet(String name, Taxa taxa) {
         Set<String> taxaSet = taxSets.get(name);
@@ -228,7 +228,7 @@ public class Sets extends NexusBlock implements Cloneable {
      * @param taxSet Taxa set being added
      * @param taxa   Taxa block
      * @return true if a set with this name already exists (
-     *         in which case it is replaced)
+     * in which case it is replaced)
      */
     public boolean addTaxSet(String name, TaxaSet taxSet, Taxa taxa) {
         Set<String> set = new HashSet<>();
@@ -244,7 +244,7 @@ public class Sets extends NexusBlock implements Cloneable {
      * @param name Name of taxa set being added
      * @param set  names of taxa
      * @return true if a set with this name already exists (
-     *         in which case it is replaced)
+     * in which case it is replaced)
      */
     public boolean addTaxSet(String name, Set<String> set) {
         boolean alreadyThere = taxSets.containsKey(name);
@@ -258,7 +258,7 @@ public class Sets extends NexusBlock implements Cloneable {
      * @param name     Name of taxa set being added
      * @param taxonomy Taxa set being added
      * @return true if a set with this name already exists (
-     *         in which case it is replaced)
+     * in which case it is replaced)
      */
     public boolean addTaxonomy(String name, PhyloTree taxonomy) {
         boolean alreadyThere = taxonomys.containsKey(name);

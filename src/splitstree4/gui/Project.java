@@ -24,7 +24,7 @@ package splitstree4.gui;
  * In the code, every Director is a Project.
  *
  * @author huson
- *         Date: 01-Dec-2003
+ * Date: 01-Dec-2003
  */
 public interface Project {
     void setID(int id); // a project number for each project

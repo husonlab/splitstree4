@@ -32,9 +32,9 @@ import java.awt.event.MouseEvent;
  *
  * @author Miguel Jett�
  * @since April 11th, 2005
- *        <p/>
- *        TODO: Known bug: (As of May 2nd, 2005)
- *        <pre>
+ * <p/>
+ * TODO: Known bug: (As of May 2nd, 2005)
+ * <pre>
  *                                                                                                                                     When we load mergedAnimals71.nex, the horizontal scroll bar doesn't
  *                                                                                                                                     seem to be acting right. It will put a huge white space in front
  *                                                                                                                                     of the text and not even align your view to the right position and

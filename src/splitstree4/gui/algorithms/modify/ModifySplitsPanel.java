@@ -34,8 +34,8 @@ import java.awt.*;
  * set post processing of splits
  *
  * @author huson
- *         <p/>
- *         17.2.2004
+ * <p/>
+ * 17.2.2004
  */
 public class ModifySplitsPanel extends JPanel implements IUpdateableView {
     private Director dir;

@@ -23,7 +23,6 @@ package splitstree4.gui.formatter;
  * @author Markus Franz and Daniel Huson and David Bryant
  * Menubar
  * 2006-7
- *
  */
 
 import jloda.swing.director.IDirector;

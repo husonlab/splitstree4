@@ -38,7 +38,7 @@ import java.util.*;
 
 /**
  * @author huson
- *         Date: 03-Jan-2004
+ * Date: 03-Jan-2004
  * @deprecated The equal angle algorithm for embedding a circular splits graph
  */
 public class EqualAngleOld implements Splits2Network {

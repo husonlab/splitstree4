@@ -59,6 +59,7 @@ public class SplitContainer {
 
     /**
      * CONSTRUCTOR
+     *
      * @param ntax the number of taxa
      */
     public SplitContainer(int ntax) {
@@ -109,7 +110,6 @@ public class SplitContainer {
     }
 
     /**
-     *
      * @param blockNum
      * @param splitNum
      * @return
@@ -123,38 +123,38 @@ public class SplitContainer {
     }
 
     /**
-     public float get(int blockNum, TaxaSet sp) {
-     if (splitIndices.containsKey(sp.toString())) {
-     int id = ((Integer) splitIndices.get(sp.toString())).intValue();
-     return get(blockNum, id);
-     } else
-     return (float) 0.0;
-     }
-
-
-     public void set(int blockNum, int splitNum, float val) {
-     Vector v = (Vector) splitWeights.get(blockNum);
-     if (splitNum >= v.size()) {
-     v.setSize(allSplits.getNsplits() + 1);
-     v.set(splitNum, new Float(val));
-     } else
-     v.set(splitNum, new Float(val));
-     }
-
-     public void set(int blockNum, TaxaSet sp, float val) {
-     if (splitIndices.containsKey(sp.toString())) {
-     int id = ((Integer) splitIndices.get(sp.toString())).intValue();
-     set(blockNum, id, val);
-     } else {
-     allSplits.add(sp);
-     int id = allSplits.getNsplits();
-     splitIndices.put(sp.toString(), (int)(id));
-     set(blockNum, id, val);
-     }
-     }
-
-
-     /**
+     * public float get(int blockNum, TaxaSet sp) {
+     * if (splitIndices.containsKey(sp.toString())) {
+     * int id = ((Integer) splitIndices.get(sp.toString())).intValue();
+     * return get(blockNum, id);
+     * } else
+     * return (float) 0.0;
+     * }
+     * <p>
+     * <p>
+     * public void set(int blockNum, int splitNum, float val) {
+     * Vector v = (Vector) splitWeights.get(blockNum);
+     * if (splitNum >= v.size()) {
+     * v.setSize(allSplits.getNsplits() + 1);
+     * v.set(splitNum, new Float(val));
+     * } else
+     * v.set(splitNum, new Float(val));
+     * }
+     * <p>
+     * public void set(int blockNum, TaxaSet sp, float val) {
+     * if (splitIndices.containsKey(sp.toString())) {
+     * int id = ((Integer) splitIndices.get(sp.toString())).intValue();
+     * set(blockNum, id, val);
+     * } else {
+     * allSplits.add(sp);
+     * int id = allSplits.getNsplits();
+     * splitIndices.put(sp.toString(), (int)(id));
+     * set(blockNum, id, val);
+     * }
+     * }
+     * <p>
+     * <p>
+     * /**
      * Return number of blocks currently stored
      *
      * @return

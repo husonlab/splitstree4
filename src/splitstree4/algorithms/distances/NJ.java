@@ -19,6 +19,8 @@
  *
  * @version $Id: NJ.java,v 1.25 2010-05-09 19:15:29 bryant Exp $
  * @author Christian Rausch
+ * @version $Id: NJ.java,v 1.25 2010-05-09 19:15:29 bryant Exp $
+ * @author Christian Rausch
  */
 // NOTE: apply uses the upper triangle of the dist matix
 

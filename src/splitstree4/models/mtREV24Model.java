@@ -23,28 +23,28 @@ package splitstree4.models;
 
 /**
  * @author bryant
- *         <p/>
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p/>
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class mtREV24Model extends ProteinModel {
 
 
     public mtREV24Model() {
 
-		/*
+        /*
          * Protein evolution matrix based on
-		 * Adachi, J. and Hasegawa, M. (1996) MOLPHY version 2.3: programs for
-		 *	molecular phylogenetics based on maximum likelihood.  Computer Science
-		 *	Monographs of Institute of Statistical Mathematics 28:1-150.
-		 *
-		 * The matrix was recovered from the .dat files circulated with PAML 3.13d
-		 */
-		
-		/* For efficiency, we precompute the eigenvalue decomposition 
-		 *     V'DV = Pi^(1/2) Q Pi(-1/2)
-		 * We used matlab for this.
-		 */
+         * Adachi, J. and Hasegawa, M. (1996) MOLPHY version 2.3: programs for
+         *	molecular phylogenetics based on maximum likelihood.  Computer Science
+         *	Monographs of Institute of Statistical Mathematics 28:1-150.
+         *
+         * The matrix was recovered from the .dat files circulated with PAML 3.13d
+         */
+
+        /* For efficiency, we precompute the eigenvalue decomposition
+         *     V'DV = Pi^(1/2) Q Pi(-1/2)
+         * We used matlab for this.
+         */
 
         this.evals = new double[]{
                 -2.29832,

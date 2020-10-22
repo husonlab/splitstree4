@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: SplitsTransform.java,v 1.18 2006-05-23 05:57:33 huson Exp $
-*/
+ * $Id: SplitsTransform.java,v 1.18 2006-05-23 05:57:33 huson Exp $
+ */
 package splitstree4.algorithms.splits;
 
 import splitstree4.algorithms.Transformation;

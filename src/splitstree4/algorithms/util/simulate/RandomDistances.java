@@ -28,7 +28,7 @@ import splitstree4.util.TreesUtilities;
 
 /**
  * @author David Bryant
- *         Utilities for generating random distance matrices from a tree.
+ * Utilities for generating random distance matrices from a tree.
  */
 public class RandomDistances {
 

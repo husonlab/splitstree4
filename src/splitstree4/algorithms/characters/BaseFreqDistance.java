@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: BaseFreqDistance.java,v 1.5 2008-09-10 23:50:09 bryant Exp $
-*/
+ * $Id: BaseFreqDistance.java,v 1.5 2008-09-10 23:50:09 bryant Exp $
+ */
 package splitstree4.algorithms.characters;
 
 import splitstree4.core.Document;

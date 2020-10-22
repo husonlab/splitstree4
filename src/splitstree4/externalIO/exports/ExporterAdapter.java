@@ -29,7 +29,7 @@ import java.util.Map;
  * DESCRIPTION
  *
  * @author huson
- *         Date: 24-Nov-2004
+ * Date: 24-Nov-2004
  */
 public class ExporterAdapter implements Exporter {
 

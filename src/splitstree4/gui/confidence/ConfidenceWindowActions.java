@@ -37,7 +37,7 @@ import java.util.List;
  * actions associated with a confidence window
  *
  * @author huson
- *         Date: 17.2.2004
+ * Date: 17.2.2004
  */
 public class ConfidenceWindowActions {
     private ConfidenceWindow viewer;

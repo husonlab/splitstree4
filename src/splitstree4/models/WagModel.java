@@ -23,28 +23,28 @@ package splitstree4.models;
 
 /**
  * @author bryant
- *         <p/>
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p/>
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class WagModel extends ProteinModel {
 
 
     public WagModel() {
 
-		/*
+        /*
          * Protein evolution matrix based on
-		 * Whelan, S. and N. Goldman.  In press.  A general empirical model of
-		 *	protein evolution derived from multiple protein families using
-		 *	a maximum likelihood approach.  Molecular Biology and Evolution.
-		 *
-		 * The matrix was recovered from the .dat files circulated with PAML 3.13d
-		 */
-		
-		/* For efficiency, we precompute the eigenvalue decomposition 
-		 *     V'DV = Pi^(1/2) Q Pi(-1/2)
-		 * We used matlab for this.
-		 */
+         * Whelan, S. and N. Goldman.  In press.  A general empirical model of
+         *	protein evolution derived from multiple protein families using
+         *	a maximum likelihood approach.  Molecular Biology and Evolution.
+         *
+         * The matrix was recovered from the .dat files circulated with PAML 3.13d
+         */
+
+        /* For efficiency, we precompute the eigenvalue decomposition
+         *     V'DV = Pi^(1/2) Q Pi(-1/2)
+         * We used matlab for this.
+         */
 
         this.evals = new double[]{
                 -1.77917,

@@ -1,25 +1,25 @@
 /**
- * Characters.java 
+ * Characters.java
  * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
- *
+ * <p>
  * (Some files contain contributions from other authors, who are then mentioned separately.)
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 /*
  * $Id: Characters.java,v 1.113 2009-11-27 17:01:12 huson Exp $
-*/
+ */
 
 package splitstree4.nexus;
 
@@ -1885,12 +1885,12 @@ public class Characters extends NexusBlock {
 
         w.write("MATRIX\n");
         if (matrix != null)
-                if (getFormat().transpose && !getFormat().interleave)
-                    writeMatrixTranposed(w, taxa);
-                else if (!getFormat().transpose && getFormat().interleave)
-                    writeMatrixInterleaved(w, taxa);
-                else
-                    writeMatrix(w, taxa);
+            if (getFormat().transpose && !getFormat().interleave)
+                writeMatrixTranposed(w, taxa);
+            else if (!getFormat().transpose && getFormat().interleave)
+                writeMatrixInterleaved(w, taxa);
+            else
+                writeMatrix(w, taxa);
         w.write(";\nEND; [" + Characters.NAME + "]\n");
     }
 
@@ -2123,17 +2123,17 @@ public class Characters extends NexusBlock {
         }
 
         boolean oldLabelFormat = getFormat().getLabels();
-            getFormat().setLabels(true);
+        getFormat().setLabels(true);
 
 
         w.write("MATRIX\n");
         if (matrix != null)
-                if (getFormat().interleave)
-                    writeMatrixInterleaved(w, taxa);
-                else
-                    writeMatrix(w, taxa);
+            if (getFormat().interleave)
+                writeMatrixInterleaved(w, taxa);
+            else
+                writeMatrix(w, taxa);
         w.write(";\nEND; [" + Characters.NAME + "]\n");
-            getFormat().setLabels(oldLabelFormat);
+        getFormat().setLabels(oldLabelFormat);
     }
 
     /**

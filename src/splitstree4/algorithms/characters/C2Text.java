@@ -38,8 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @deprecated
- * Runs external program
+ * @deprecated Runs external program
  */
 public class C2Text implements Characters2Trees {
     public final boolean EXPERT = true;

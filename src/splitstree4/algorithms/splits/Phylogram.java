@@ -20,6 +20,9 @@
  * Construction of a Network from Splits representing a tree
  *
  * @author Markus Franz
+ * <p>
+ * Construction of a Network from Splits representing a tree
+ * @author Markus Franz
  */
 /**
  * Construction of a Network from Splits representing a tree

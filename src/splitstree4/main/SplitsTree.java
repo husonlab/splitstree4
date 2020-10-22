@@ -35,7 +35,7 @@ import java.io.*;
  * Runs the splits tree program
  *
  * @author huson
- *         Date: 26-Nov-2003
+ * Date: 26-Nov-2003
  */
 public class SplitsTree {
 
@@ -79,7 +79,7 @@ public class SplitsTree {
 
         final ArgsOptions options = new ArgsOptions(args, this, "Interactive analysis and visualization of phylogenetic data");
         options.setAuthors("Daniel H. Huson and David J. Bryant");
-        options.setLicense("Copyright (C) 2019 Daniel H. Huson and David J. Bryant. This program comes with ABSOLUTELY NO WARRANTY.");
+        options.setLicense("Copyright (C) 2020 Daniel H. Huson and David J. Bryant. This program comes with ABSOLUTELY NO WARRANTY.");
         options.setVersion(ProgramProperties.getProgramVersion());
 
         options.comment("Input:");

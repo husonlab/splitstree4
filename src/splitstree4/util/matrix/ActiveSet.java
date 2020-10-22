@@ -18,24 +18,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
- * 
+ *
  * @author David Bryant
- * 
- * 
+ *
+ *
  * Created on Jan 20, 2004
  *
  * Implements the active set method - used for solving +vely constrained quadrative programs.
  * Can also be used to solve the unconstrained problem.
- * 
+ *
  * Given a matrix A and a vector (matrix with one column) b
- * Returns vector (matrix with one column) x such that 
+ * Returns vector (matrix with one column) x such that
  * 		[Ax-b]_i  >=  0 for all i
  * 		[Ax-b]_i   =   0 for all i such that x_i > 0
- * 
+ *
  * References:
  * 	The java implementation is inspired by the JAMA package (http://math.nist.gov/javanumerics/jama/)
  * 	Our algorithms are taken from Golub and Van Loan "Matrix Computations", 2nd edition.
- * 
+ *
  */
 package splitstree4.util.matrix;
 
@@ -47,9 +47,9 @@ import java.io.Serializable;
 
 /**
  * @author bryant
- *         <p/>
- *         To change the template for this generated type comment go to
- *         Window - Preferences - Java - Code Generation - Code and Comments
+ * <p/>
+ * To change the template for this generated type comment go to
+ * Window - Preferences - Java - Code Generation - Code and Comments
  */
 public class ActiveSet implements Serializable {
 

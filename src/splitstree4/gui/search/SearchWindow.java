@@ -23,15 +23,15 @@ package splitstree4.gui.search;
  * FIND AND REPLACE METHODS:
  * -------------------------
  * The next methods are used in order to compute the
- *  Find/Replace... tool in the Editor Window. This is located in
- *  the Edit menu of the Editor Window and is called from MainViewerMenuBar()
- *  when we create the menu bar.
+ * Find/Replace... tool in the Editor Window. This is located in
+ * the Edit menu of the Editor Window and is called from MainViewerMenuBar()
+ * when we create the menu bar.
  *
  * @author Miguel Jett�
  * @since March 10th, 2004
  * New revision: April 14th, 2005
- *  -- Regular expressions were added to the find and replace actions.
- *  -- Changed the the whole look of the DialogBox with new options.
+ * -- Regular expressions were added to the find and replace actions.
+ * -- Changed the the whole look of the DialogBox with new options.
  */
 
 import jloda.swing.commands.CommandManager;

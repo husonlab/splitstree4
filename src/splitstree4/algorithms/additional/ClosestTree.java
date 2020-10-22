@@ -30,16 +30,16 @@ import splitstree4.util.SplitsUtilities;
  * DESCRIPTION
  *
  * @author bryant
- *         Date: 05-May-2005
- *         <p/>
- *         Uses an inefficient algorithm to compute the closest tree - the subcollection of compatible
- *         splits for which the sum of (squared) weights is maximised.
- *         <p/>
- *         Future versions will include
- *         (1) Bounding - using the vertices excluded, since if the sum of the weights is W and w is the sum
- *         of those excluded so far, then the maximum possible clique weight will be W-w. If this is not larger
- *         than the best found so far, we do not need to branch further.
- *         (2) On circular splits the Hunting for Trees algorithm can be used to solve this problem  in O(n^3) time.
+ * Date: 05-May-2005
+ * <p/>
+ * Uses an inefficient algorithm to compute the closest tree - the subcollection of compatible
+ * splits for which the sum of (squared) weights is maximised.
+ * <p/>
+ * Future versions will include
+ * (1) Bounding - using the vertices excluded, since if the sum of the weights is W and w is the sum
+ * of those excluded so far, then the maximum possible clique weight will be W-w. If this is not larger
+ * than the best found so far, we do not need to branch further.
+ * (2) On circular splits the Hunting for Trees algorithm can be used to solve this problem  in O(n^3) time.
  */
 public class ClosestTree implements Splits2Splits {
     public final static String DESCRIPTION = "Finds closest tree";

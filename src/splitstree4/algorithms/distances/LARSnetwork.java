@@ -22,6 +22,11 @@
  * @version $Id:
  * @author David Bryant
  * Adapted to Java by Daniel Huson and David Bryant 1.03
+ * <p>
+ * Implements neighbor net
+ * @version $Id:
+ * @author David Bryant
+ * Adapted to Java by Daniel Huson and David Bryant 1.03
  */
 /**
  * Implements neighbor net
@@ -745,7 +750,7 @@ public class LARSnetwork /*implements Distances2Splits*/ {
      */
     static private NetNode agg3way(NetNode x, NetNode y, NetNode z,
                                    Stack amalgs, double[][] D, NetNode netNodes, int num_nodes) {
-/* Agglomerate x,y, and z to give TWO new nodes, u and v */
+        /* Agglomerate x,y, and z to give TWO new nodes, u and v */
 /* In terms of the linked list: we replace x and z
        by u and v and remove y from the linked list.
   	 and replace y with the new node z
@@ -762,7 +767,7 @@ public class LARSnetwork /*implements Distances2Splits*/ {
         v.ch1 = y;
         v.ch2 = z;
 
-/* Replace x by u in the linked list */
+        /* Replace x by u in the linked list */
         u.next = x.next;
         u.prev = x.prev;
         if (u.next != null)
@@ -770,7 +775,7 @@ public class LARSnetwork /*implements Distances2Splits*/ {
         if (u.prev != null)
             u.prev.next = u;
 
-/* Replace z by v in the linked list */
+        /* Replace z by v in the linked list */
         v.next = z.next;
         v.prev = z.prev;
         if (v.next != null)
@@ -778,17 +783,17 @@ public class LARSnetwork /*implements Distances2Splits*/ {
         if (v.prev != null)
             v.prev.next = v;
 
-/* Remove y from the linked list */
+        /* Remove y from the linked list */
         if (y.next != null)
             y.next.prev = y.prev;
         if (y.prev != null)
             y.prev.next = y.next;
 
-/* Add an edge between u and v, and add u into the list of amalgamations */
+        /* Add an edge between u and v, and add u into the list of amalgamations */
         u.nbr = v;
         v.nbr = u;
 
-/* Update distance matrix */
+        /* Update distance matrix */
 
         for (NetNode p = netNodes.next; p != null; p = p.next) {
             D[u.id][p.id] = D[p.id][u.id] = (2.0 / 3.0) * D[x.id][p.id] + D[y.id][p.id] / 3.0;
@@ -861,14 +866,14 @@ public class LARSnetwork /*implements Distances2Splits*/ {
         //System.err.println("expandNodes");
         NetNode x, y, z, u, v, a;
 
-/* Set up the circular order for the first three nodes */
+        /* Set up the circular order for the first three nodes */
         x = netNodes.next;
         y = x.next;
         z = y.next;
         z.next = x;
         x.prev = z;
 
-/* Now do the rest of the expansions */
+        /* Now do the rest of the expansions */
         while (!amalgs.empty()) {
 /* Find the three elements replacing u and v. Swap u and v around if v comes before u in the
           circular ordering being built up */
@@ -887,7 +892,7 @@ public class LARSnetwork /*implements Distances2Splits*/ {
                 z = tmp;
             }
 
-/* Insert x,y,z into the circular order */
+            /* Insert x,y,z into the circular order */
             x.prev = u.prev;
             x.prev.next = x;
             x.next = y;
@@ -900,13 +905,13 @@ public class LARSnetwork /*implements Distances2Splits*/ {
                 doc.getProgressListener().checkForCancel();
         }
 
-/* When we exit, we know that the point x points to a node in the circular order */
-/* We loop through until we find the node after taxa zero */
+        /* When we exit, we know that the point x points to a node in the circular order */
+        /* We loop through until we find the node after taxa zero */
         while (x.id != 1) {
             x = x.next;
         }
 
-/* extract the ordering */
+        /* extract the ordering */
         a = x;
         int t = 0;
         do {

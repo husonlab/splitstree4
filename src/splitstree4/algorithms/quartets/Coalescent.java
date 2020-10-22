@@ -19,6 +19,8 @@
  *
  * @version $Id: Coalescent.java,v 1.11 2007-09-11 12:31:09 kloepper Exp $
  * @author tobias dezulian
+ * @version $Id: Coalescent.java,v 1.11 2007-09-11 12:31:09 kloepper Exp $
+ * @author tobias dezulian
  */
 /**
  * @version $Id: Coalescent.java,v 1.11 2007-09-11 12:31:09 kloepper Exp $

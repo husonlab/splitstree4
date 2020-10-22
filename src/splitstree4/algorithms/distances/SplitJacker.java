@@ -19,6 +19,8 @@
  *
  * @version $Id: SplitJacker.java,v 1.2 2008-03-08 07:52:57 huson Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: SplitJacker.java,v 1.2 2008-03-08 07:52:57 huson Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: SplitJacker.java,v 1.2 2008-03-08 07:52:57 huson Exp $

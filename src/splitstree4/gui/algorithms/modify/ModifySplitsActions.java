@@ -36,7 +36,7 @@ import java.util.List;
  * actions associated with a modify window
  *
  * @author huson
- *         Date: 17.2.2004
+ * Date: 17.2.2004
  */
 public class ModifySplitsActions implements UpdateableActions {
     final private Director dir;

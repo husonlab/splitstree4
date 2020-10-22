@@ -461,6 +461,7 @@ public class Assumptions extends NexusBlock {
      * Gets the excludeMissing
      * Threshold for missing data in characters. Characters with more than this proportion of missing
      * data are excluded. Hence 1.0 means none are excluded.
+     *
      * @return the excludeMissing
      */
     public double getExcludeMissing() {
@@ -471,6 +472,7 @@ public class Assumptions extends NexusBlock {
      * Sets the excludeMissing
      * Threshold for missing data in characters. Characters with more than this proportion of missing
      * data are excluded. Hence 1.0 means none are excluded.
+     *
      * @param excMissing is excludeMissing
      */
     public void setExcludeMissing(double excMissing) {

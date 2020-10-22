@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: LogHamming.java,v 1.7 2007-09-11 12:30:59 kloepper Exp $
-*/
+ * $Id: LogHamming.java,v 1.7 2007-09-11 12:30:59 kloepper Exp $
+ */
 package splitstree4.algorithms.characters;
 
 import jloda.swing.util.Alert;
@@ -95,7 +95,8 @@ public class LogHamming /*implements Characters2Distances */ {
     }
 
     /**
-     *  ignore gaps?
+     * ignore gaps?
+     *
      * @return
      */
     public boolean getOptionignoregaps() {
@@ -104,6 +105,7 @@ public class LogHamming /*implements Characters2Distances */ {
 
     /**
      * set option for ignoring gaps
+     *
      * @param ignore
      */
     public void setOptionignoregaps(boolean ignore) {

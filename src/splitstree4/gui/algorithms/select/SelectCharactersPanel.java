@@ -29,7 +29,7 @@ import java.awt.*;
  * DESCRIPTION
  *
  * @author huson
- *         Date: 19-Dec-2003
+ * Date: 19-Dec-2003
  */
 public class SelectCharactersPanel extends JPanel implements IUpdateableView {
     private Director dir;

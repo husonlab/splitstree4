@@ -19,7 +19,7 @@
  */
 /*
  * $Id: DocumentData.java,v 1.28 2010-04-22 09:49:18 bryant Exp $
-*/
+ */
 package splitstree4.core;
 
 

@@ -19,6 +19,8 @@
  *
  * @version $Id: Distances2Splits.java,v 1.14 2007-09-11 12:31:07 kloepper Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: Distances2Splits.java,v 1.14 2007-09-11 12:31:07 kloepper Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: Distances2Splits.java,v 1.14 2007-09-11 12:31:07 kloepper Exp $

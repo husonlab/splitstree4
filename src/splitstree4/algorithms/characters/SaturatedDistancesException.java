@@ -20,6 +20,9 @@
  * @author miguel
  * <p/>
  * Created on Aug 6, 2004
+ * @author miguel
+ * <p>
+ * Created on Aug 6, 2004
  */
 /**
  * @author miguel

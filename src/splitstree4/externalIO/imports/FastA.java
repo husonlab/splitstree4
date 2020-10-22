@@ -22,6 +22,11 @@
  * @version $Id: FastA.java,v 1.17 2006-10-25 21:01:02 bryant Exp $
  * @author huson
  * Date: Sep 29, 2003
+ * <p>
+ * inputs data given in fasta format
+ * @version $Id: FastA.java,v 1.17 2006-10-25 21:01:02 bryant Exp $
+ * @author huson
+ * Date: Sep 29, 2003
  */
 /**
  * inputs data given in fasta format
@@ -116,8 +121,7 @@ public class FastA extends FileFilter implements Importer {
                     if (taxonNames.size() > 0) {
                         if (buf.toString().length() > 0) {
                             sequences.add(buf.toString());
-                        }
-                        else
+                        } else
                             throw new IOException("Zero sequence at end of file");
                     }
                     buf = new StringBuilder();
@@ -138,8 +142,7 @@ public class FastA extends FileFilter implements Importer {
         // last sequence:
         if (buf.toString().length() > 0) {
             sequences.add(buf.toString());
-        }
-        else
+        } else
             throw new IOException("Zero sequence at end of file");
 
         if (sequences.size() == 0)

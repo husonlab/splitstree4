@@ -22,6 +22,11 @@
  * @version $Id: PhylipSequencesInterleaved.java,v 1.1 2008-03-14 14:05:22 bryant Exp $
  * @author bryant
  * Date: March 10,2008
+ * <p>
+ * imports sequences in phylip format
+ * @version $Id: PhylipSequencesInterleaved.java,v 1.1 2008-03-14 14:05:22 bryant Exp $
+ * @author bryant
+ * Date: March 10,2008
  */
 /**
  * imports sequences in phylip format

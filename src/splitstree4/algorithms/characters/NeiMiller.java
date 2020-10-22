@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* $Id: NeiMiller.java,v 1.26 2008-03-17 14:22:44 bryant Exp $
-*/
+ */
 package splitstree4.algorithms.characters;
 
 import jloda.util.CanceledException;

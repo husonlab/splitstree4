@@ -29,7 +29,7 @@ import splitstree4.util.SplitsUtilities;
  * Greedily computes a compatible subset of the given splits
  *
  * @author huson
- *         Date: 01-Mar-2004
+ * Date: 01-Mar-2004
  */
 public class GreedyCompatible implements Splits2Splits {
     public final static String DESCRIPTION = "Greedily makes splits compatible";

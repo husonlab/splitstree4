@@ -43,7 +43,7 @@ import java.util.*;
  * actions associated with a characters window
  *
  * @author huson
- *         Date: 19-Dec-2003
+ * Date: 19-Dec-2003
  */
 public class SelectTreesActions implements UpdateableActions {
     private Director dir;

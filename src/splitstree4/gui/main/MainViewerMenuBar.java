@@ -1,5 +1,5 @@
 /*
- * MainViewerMenuBar.java 
+ * MainViewerMenuBar.java
  * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
  *
  * (Some files contain contributions from other authors, who are then mentioned separately.)
@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package splitstree4.gui.main;
 
@@ -58,6 +58,7 @@ import java.util.List;
 
 /**
  * The menu bar for the main viewer
+ *
  * @author huson
  * 11.03
  */

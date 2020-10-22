@@ -28,7 +28,7 @@ import javax.swing.*;
  * Allows user to configure all algorithms used in computation of graph
  *
  * @author huson
- *         Date: 04-Dec-2003
+ * Date: 04-Dec-2003
  */
 public class AlgorithmsWindowMenuBar extends JMenuBar {
     private AlgorithmsWindow viewer;

@@ -38,7 +38,7 @@ import java.util.List;
  * computes splits using spectral analysis
  *
  * @author huson
- *         Date: 21-Mar-2005
+ * Date: 21-Mar-2005
  */
 public class SpectralSplits implements Characters2Splits {
     //public boolean EXPERT=true;

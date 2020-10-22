@@ -19,6 +19,8 @@
  *
  * @version $Id: TaxaUtilities.java,v 1.4 2006-05-23 05:57:37 huson Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: TaxaUtilities.java,v 1.4 2006-05-23 05:57:37 huson Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: TaxaUtilities.java,v 1.4 2006-05-23 05:57:37 huson Exp $

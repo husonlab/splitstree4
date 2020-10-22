@@ -51,12 +51,12 @@ public class RandomCharacters {
      * Replaces chars with randomly generated characters, using the tree T and substitution model
      * M
      *
-     * @param chars Characters. These are overwritten
-     * @param T     PaupNode Tree used to simulate characters
-     * @param M     SubstitutionModel model
-     * @param siteRates  Random variable giving site rates (set to null for constant rates)
+     * @param chars           Characters. These are overwritten
+     * @param T               PaupNode Tree used to simulate characters
+     * @param M               SubstitutionModel model
+     * @param siteRates       Random variable giving site rates (set to null for constant rates)
      * @param discardConstant If true, only polymorphic (non-constant) characters are generated.
-     * @param random    Random number generator
+     * @param random          Random number generator
      */
     public static void simulateCharacters(Characters chars, PaupNode T, SubstitutionModel M, RandomVariable siteRates, boolean discardConstant, GenerateRandom random) {
 

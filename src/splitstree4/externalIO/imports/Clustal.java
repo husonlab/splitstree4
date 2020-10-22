@@ -162,7 +162,7 @@ public class Clustal extends FileFilter implements Importer {
     /**
      * @param f the file the extension is to be found
      * @return the extension as string (i.e. the substring beginning after the
-     *         last ".")
+     * last ".")
      */
     public String getExtension(File f) {
         if (f != null) {

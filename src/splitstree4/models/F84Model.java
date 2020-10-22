@@ -27,9 +27,9 @@ package splitstree4.models;
 
 /**
  * @author bryant
- *         <p/>
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p/>
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class F84Model extends NucleotideModel {
 
@@ -53,9 +53,9 @@ public class F84Model extends NucleotideModel {
         c += baseFreqs[1] * baseFreqs[2] + baseFreqs[2] * baseFreqs[3];
 
         /* We have the identity
-           *    a + bK =  TsTv * c
-           * which we solve to get K
-           */
+         *    a + bK =  TsTv * c
+         * which we solve to get K
+         */
         double K = (TsTv * c - a) / b;
 
         double[][] Q = new double[4][4];

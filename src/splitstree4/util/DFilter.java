@@ -33,7 +33,7 @@ import java.util.BitSet;
  * Given a set of splits, removes highly incompatible splits to destroy all high-dimensional boxes
  *
  * @author huson
- *         Date: 14-May-2004
+ * Date: 14-May-2004
  */
 public class DFilter {
     Document doc = null;

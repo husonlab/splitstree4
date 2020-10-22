@@ -22,6 +22,11 @@
  * @version $Id: Muscle.java,v 1.28 2007-09-11 12:31:03 kloepper Exp $
  * @author Andreas Schmidt, Daniel Huson and David Bryant
  * 7.03
+ * <p>
+ * runs clustalw externally
+ * @version $Id: Muscle.java,v 1.28 2007-09-11 12:31:03 kloepper Exp $
+ * @author Andreas Schmidt, Daniel Huson and David Bryant
+ * 7.03
  */
 /**
  * runs clustalw externally
@@ -215,9 +220,9 @@ public class Muscle implements Unaligned2Characters {
     }
 
     /*
-    * Cluster method used in iterations 1 and 2
-    * @return      name of method
-    */
+     * Cluster method used in iterations 1 and 2
+     * @return      name of method
+     */
 
     public String getOptionClusterMethod_1() {
         return optionClusterMethod_1;
@@ -245,9 +250,9 @@ public class Muscle implements Unaligned2Characters {
     }
 
     /*
-    * Cluster method used after the first and second iteration
-    * @return      name of method
-    */
+     * Cluster method used after the first and second iteration
+     * @return      name of method
+     */
 
     public String getOptionClusterMethod_2() {
         return optionClusterMethod_2;
@@ -275,9 +280,9 @@ public class Muscle implements Unaligned2Characters {
     }
 
     /*
-    * Distance measure for iteration 1
-    * @return      name of method
-    */
+     * Distance measure for iteration 1
+     * @return      name of method
+     */
 
     public String getOptionDistanceMeasure_1() {
         return optionDistanceMeasure_1;
@@ -309,9 +314,9 @@ public class Muscle implements Unaligned2Characters {
     }
 
     /*
-    * Distance measure for iteration 2,3...
-    * @return      name of method
-    */
+     * Distance measure for iteration 2,3...
+     * @return      name of method
+     */
 
     public String getOptionDistanceMeasure_2() {
         return optionDistanceMeasure_2;
@@ -342,9 +347,9 @@ public class Muscle implements Unaligned2Characters {
     }
 
     /*
-    * Objective score used by tree dependent refinment
-    * @return      name of objective score
-    */
+     * Objective score used by tree dependent refinment
+     * @return      name of objective score
+     */
 
     public String getOptionObjectiveScore() {
         return optionObjectiveScore;
@@ -405,9 +410,9 @@ public class Muscle implements Unaligned2Characters {
     }
 
     /*
-    * Log File Option
-    * @return      the optionLogFile
-    */
+     * Log File Option
+     * @return      the optionLogFile
+     */
 
     public boolean getOptionLogFile() {
         return optionLogFile;
@@ -423,9 +428,9 @@ public class Muscle implements Unaligned2Characters {
     }
 
     /*
-    * Log File Option Name
-    * @return      name of the LogFile
-    */
+     * Log File Option Name
+     * @return      name of the LogFile
+     */
 
     public String getOptionLogFileName() {
         return optionLogFileName;

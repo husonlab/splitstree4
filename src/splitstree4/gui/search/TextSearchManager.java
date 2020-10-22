@@ -21,6 +21,7 @@ package splitstree4.gui.search;
 
 /**
  * Find and Replace manager controls how the search is done.
+ *
  * @author David Bryant (with some code from Miguel Jette)
  * @since Jan 23, 2006.
  */

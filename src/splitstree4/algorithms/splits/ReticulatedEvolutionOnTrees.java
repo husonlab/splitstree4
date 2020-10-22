@@ -58,7 +58,7 @@ import java.util.*;
  * taxa     inducedtaxa
  *
  * @author huson, kloepper
- *         Date: 16-Sep-2004
+ * Date: 16-Sep-2004
  */
 public class ReticulatedEvolutionOnTrees implements Splits2Network {
     public final boolean EXPERT = true;

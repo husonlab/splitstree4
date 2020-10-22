@@ -32,7 +32,7 @@ import splitstree4.util.SplitsUtilities;
  * wrapper for the least squares computations
  *
  * @author huson
- *         Date: 17-Feb-2004
+ * Date: 17-Feb-2004
  */
 public class LeastSquaresWeights implements Splits2Splits {
 

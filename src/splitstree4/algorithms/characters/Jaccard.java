@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: Jaccard.java,v 1.2 2009-01-25 21:10:13 bryant Exp $
-*/
+ * $Id: Jaccard.java,v 1.2 2009-01-25 21:10:13 bryant Exp $
+ */
 package splitstree4.algorithms.characters;
 
 import jloda.swing.util.Alert;

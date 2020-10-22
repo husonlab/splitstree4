@@ -43,7 +43,7 @@ import java.util.*;
  * framework for generating reticulate evolution graphs from splits
  *
  * @author huson
- *         Date: 16-Sep-2004
+ * Date: 16-Sep-2004
  */
 public class ReticulateNetworkRECOMB2005 implements Splits2Network {
     public final boolean EXPERT = true;

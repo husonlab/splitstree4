@@ -23,8 +23,8 @@ package splitstree4.util.matrix;
  * implements the hadamard conjugation
  *
  * @author huson
- *         Date: 21-Mar-2005
- *         based on Pascal code written by Mike Hendy
+ * Date: 21-Mar-2005
+ * based on Pascal code written by Mike Hendy
  */
 public class Hadamard {
 

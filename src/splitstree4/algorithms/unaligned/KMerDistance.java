@@ -51,8 +51,8 @@ public class KMerDistance implements Unaligned2Distances {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param taxa     the taxa
-     * @param data  the unaligned sequences
+     * @param taxa the taxa
+     * @param data the unaligned sequences
      * @return true, if method applies to given data
      */
     public boolean isApplicable(Document doc, Taxa taxa, Unaligned data) {
@@ -62,8 +62,8 @@ public class KMerDistance implements Unaligned2Distances {
     /**
      * Applies the method to the given data
      *
-     * @param taxa     the taxa
-     * @param data  the unaligned sequences
+     * @param taxa the taxa
+     * @param data the unaligned sequences
      * @return the computed quartets
      */
     public Distances apply(Document doc, Taxa taxa, Unaligned data) throws Exception {
@@ -131,7 +131,8 @@ public class KMerDistance implements Unaligned2Distances {
     }
 
     /**
-     *  get the length of the kmer used in the calculation
+     * get the length of the kmer used in the calculation
+     *
      * @return
      */
     public int getOptionkMerLength() {
@@ -140,6 +141,7 @@ public class KMerDistance implements Unaligned2Distances {
 
     /**
      * set the length of the kmer used in the calculation
+     *
      * @param kMerLength
      */
     public void setOptionkMerLength(int kMerLength) {

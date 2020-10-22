@@ -34,28 +34,27 @@ import java.util.Vector;
  * User: bryant
  * Date: Jul 20, 2010
  * Time: 10:29:17 AM
- *
+ * <p>
  * This code is a refactoring/improvement/extension of the various algorithms performing
  * least squares type calculations on circular splits.
- *
+ * <p>
  * Internally, taxa are numbered 0...n-1.
- *
+ * <p>
  * Vectors containing pairs of taxa are ordered (0,1), (0,2),...,(0,n-1),(1,2),(1,3),...,(n-2,n-1)
- *
+ * <p>
  * In this ordering (i,j) has index (2n - i -3)i/2 + j-1
- *
+ * <p>
  * Hence going from (i,j) to (i,j+1) increases index by 1.
  * Going from (i,n-1) to (i+1,i+2) increases index by 1.
  * Going from (i,j) to (i+1,j+1) increases index by (n-i-1).
- *
+ * <p>
  * Splits are coded as pairs. The split (i,j) corresponds to cutting the circular order after i and after j, so
  * that one side of the split is i+1,i+2,....,j.
- *
+ * <p>
  * Trivial splits are then
  * (0,1), (1,2), (2,3), ...., (n-2,n-1)  as well as (0,n-1).
- *  To loop. Start index = 0. Going from (i,i+1) to (i+1,i+2) increases by (n-i-1).
+ * To loop. Start index = 0. Going from (i,i+1) to (i+1,i+2) increases by (n-i-1).
  * Pair (0,n-1) has index (n-2).
- *
  */
 public class CircularLeastSquares {
 
@@ -83,7 +82,6 @@ public class CircularLeastSquares {
      * Convert Distances block to vector object.
      * Note that taxa i outside -> taxon (i-1) within.
      *
-     *
      * @param dist Distances block
      * @return vector with internal indexing.
      */
@@ -105,8 +103,9 @@ public class CircularLeastSquares {
 
     /**
      * Computes Xy where X is the (full) topological matrix for the set of circular splits
-     * @param y  vector
-     * @param z  vector of same size as y containing Xy
+     *
+     * @param y vector
+     * @param z vector of same size as y containing Xy
      */
     private void computeXy(double[] y, double[] z) {
 
@@ -157,7 +156,8 @@ public class CircularLeastSquares {
 
     /**
      * Computes z = X'y where X is the (full) topological matrix for the set of circular splits
-     * @param y  vector
+     *
+     * @param y vector
      * @param z vector of same size as y
      */
     private void computeXty(double[] y, double[] z) {
@@ -209,9 +209,8 @@ public class CircularLeastSquares {
     /**
      * Find nneg vector b minimising \sum (d_ij - (b_i+b_j))^2
      *
-     *
      * @param b vector of optimal values. Assumed to have length exactly n.
-     * @param d  input distances. vector d_{01}, d_{02}, ...., d_{n-2,n-1}
+     * @param d input distances. vector d_{01}, d_{02}, ...., d_{n-2,n-1}
      */
     private void starNNLS(double[] b, double[] d) {
         int n = b.length;
@@ -269,6 +268,7 @@ public class CircularLeastSquares {
 
     /**
      * Returns the minimum value in an array. Assumes that array is non-empty.
+     *
      * @param x array of double assumed non-empty
      * @return minimum value in the array
      */
@@ -281,9 +281,10 @@ public class CircularLeastSquares {
 
     /**
      * Finds w such that (X'Xw)_i = z[i] for all i in set ab and w_i = 0 for all i not in this set.
-     * @param z  vector of size N := ntax(ntax-1)/2.
-     * @param ab_set    boolean vector of size N.
-     * @param w  vector  of size N := ntax(ntax-1)/2.
+     *
+     * @param z      vector of size N := ntax(ntax-1)/2.
+     * @param ab_set boolean vector of size N.
+     * @param w      vector  of size N := ntax(ntax-1)/2.
      */
     private void solveRestricted(double[] z, boolean[] ab_set, double[] w) {
         //Version 1. Use the JAMA library.
@@ -358,6 +359,7 @@ public class CircularLeastSquares {
 
     /**
      * Convert the internal representation of splits (weight vector) to a Splits object
+     *
      * @param w vector of split weights
      * @return splits object
      */
@@ -564,11 +566,11 @@ public class CircularLeastSquares {
 
     /**
      * Solves the QP:
-     *
+     * <p>
      * min 1/2 x'Bx - x'c
-     *
+     * <p>
      * such that x_i = 0 for all i in zeroset, x_i \geq 0 for all i in boundSet.
-     *
+     * <p>
      * Here B = X'X and c = X'u
      * where u_j = 0 (1) if j in the zero set (not in zero set)
      */
@@ -617,14 +619,15 @@ public class CircularLeastSquares {
 
     /**
      * Conjugate gradient algorithm solving X'X w = u
-     *
+     * <p>
      * where w_i = 0 and u_i = 0 if i in the zero set, and otherwise u_i = 1.
+     *
      * @param zeroset
-     * @param w (initial value, also used to return values.
+     * @param w       (initial value, also used to return values.
      */
     private void circularCGw(BitSet zeroset, double[] w) {
         int N = ntax * (ntax - 1) / 2;
-/* Maximum number of iterations of the cg algorithm (probably too many) */
+        /* Maximum number of iterations of the cg algorithm (probably too many) */
 
         int k = 0;  //Number of iterations
 

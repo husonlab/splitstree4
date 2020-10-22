@@ -21,7 +21,7 @@ package splitstree4.algorithms.util.optimization;
 
 /**
  * NumericalException
- *
+ * <p>
  * Exception thrown given unexpected values of behaviour in numerical algorithms
  */
 public class NumericalException extends Exception {

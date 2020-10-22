@@ -41,8 +41,9 @@ public class NexusMacFileFilter implements FilenameFilter {
 
     /**
      * accept the given file
-     * @param dir   the directory
-     * @param file  the file to accept
+     *
+     * @param dir  the directory
+     * @param file the file to accept
      * @return returns true if the file is a nexus file
      */
     public boolean accept(File dir, String file) {

@@ -35,9 +35,10 @@ public class QuadraticLinesearch extends LineSearch {
 
     /**
      * Find the median of three numbers a,b,c.
-     * @param a  double
-     * @param b  double
-     * @param c  double
+     *
+     * @param a double
+     * @param b double
+     * @param c double
      * @return median of a,b,c.
      */
     private double median(double a, double b, double c) {

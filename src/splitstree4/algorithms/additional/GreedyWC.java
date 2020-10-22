@@ -29,7 +29,7 @@ import splitstree4.util.SplitsUtilities;
  * make splits greedily weakly compatible
  *
  * @author huson
- *         Date: 01-Mar-2004
+ * Date: 01-Mar-2004
  */
 public class GreedyWC implements Splits2Splits {
 

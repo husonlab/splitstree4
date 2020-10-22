@@ -30,6 +30,7 @@ import java.util.HashSet;
 
 /**
  * DESCRIPTION
+ *
  * @author huson, kloepper
  * Date: 18-Sep-2004
  */
@@ -37,28 +38,39 @@ import java.util.HashSet;
 public class ReticulationTree implements Comparator {
     static final boolean EXPERT = true;
 
-    /** a array of the Taxa in the backbones*/
+    /**
+     * a array of the Taxa in the backbones
+     */
     private int[] backbones;
 
     private int[] reticulates;
     private int[] firstPositionCovered;
     private int[] lastPositionCovered;
 
-    /** hashset with first index the reticulation second index 1 for firstPositionCoved and 2 for
+    /**
+     * hashset with first index the reticulation second index 1 for firstPositionCoved and 2 for
      * secondPositionCoverd. The values are the splits from the rNode to the first connection to a possible node of
-     * the connecting edge of the reticulation*/
+     * the connecting edge of the reticulation
+     */
 
     private HashSet[][] reticulation2splits;
 
-    /** the taxa of the reticulation (inducedTaxa) */
+    /**
+     * the taxa of the reticulation (inducedTaxa)
+     */
     private Taxa inducedTaxa;
-    /** the set of splits of the reticulation (induced Splits)*/
+    /**
+     * the set of splits of the reticulation (induced Splits)
+     */
     private Splits inducedSplits;
 
-    /** the reticulation taxa (induced notation)*/
+    /**
+     * the reticulation taxa (induced notation)
+     */
     private TaxaSet reticulationTaxa;
 
-    /** a map wich has as key a Split of the backbonetree and as Value a  List of (ordered) reticulations (induced notation),
+    /**
+     * a map wich has as key a Split of the backbonetree and as Value a  List of (ordered) reticulations (induced notation),
      */
     private HashMap treeSplit2Reticulations = new HashMap();
 
@@ -102,6 +114,7 @@ public class ReticulationTree implements Comparator {
 
     /**
      * determins the reticulates as the complement of the backbone
+     *
      * @param ntax
      */
     public void determineReticulates(int ntax) {
@@ -119,6 +132,7 @@ public class ReticulationTree implements Comparator {
 
     /**
      * compares two objects by decreasing length of backbone
+     *
      * @param o1
      * @param o2
      * @return
@@ -142,6 +156,7 @@ public class ReticulationTree implements Comparator {
 
     /**
      * copy the whole case
+     *
      * @param ret
      */
     public void copy(ReticulationTree ret) {
@@ -157,6 +172,7 @@ public class ReticulationTree implements Comparator {
 
     /**
      * returns string representation of this reticulation
+     *
      * @return
      */
     public String toString() {
@@ -258,9 +274,8 @@ public class ReticulationTree implements Comparator {
     }
 
     /**
-     *
      * @param reticulation    the number of the reticulation
-     * @param positionCovered  1 for first position, 2 for second position
+     * @param positionCovered 1 for first position, 2 for second position
      * @param splits
      */
     public void setReticulation2Splits(int reticulation, int positionCovered, HashSet splits) {

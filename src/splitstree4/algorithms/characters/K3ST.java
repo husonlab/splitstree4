@@ -40,9 +40,9 @@ import java.awt.event.ActionEvent;
 
 /**
  * @author DJB
- *         <p/>
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p/>
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class K3ST extends DNAdistance {
 
@@ -149,7 +149,8 @@ public class K3ST extends DNAdistance {
     }
 
     /**
-     *  return the option panel for the method
+     * return the option panel for the method
+     *
      * @param doc
      * @return
      */

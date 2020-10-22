@@ -21,7 +21,8 @@ package splitstree4.gui.main;
 
 /**
  * This is a simple line-number gutter that displays the line
- *  numbers at the beginning of each lines.
+ * numbers at the beginning of each lines.
+ *
  * @author Miguel Jett�
  * @since April 11th, 2005
  */

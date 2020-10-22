@@ -413,7 +413,7 @@ public class ExportWindow implements IDirectableViewer {
     }
 
     /* All the Actions of the window
-    */
+     */
 
     private AbstractAction applyAction;
 

@@ -21,6 +21,10 @@
  * <p/>
  * Generates random, unweighted trees under the coalescent distribution
  * @author David Bryant
+ * @version $Id: OldRandomTrees.java
+ * <p>
+ * Generates random, unweighted trees under the coalescent distribution
+ * @author David Bryant
  */
 /**
  * @version $Id: OldRandomTrees.java

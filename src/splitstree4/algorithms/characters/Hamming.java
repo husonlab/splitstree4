@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: Hamming.java,v 1.40 2010-06-15 00:48:46 bryant Exp $
-*/
+ * $Id: Hamming.java,v 1.40 2010-06-15 00:48:46 bryant Exp $
+ */
 package splitstree4.algorithms.characters;
 
 import jloda.swing.util.Alert;

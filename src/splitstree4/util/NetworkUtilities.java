@@ -19,6 +19,8 @@
  *
  * @version $Id: NetworkUtilities.java,v 1.8 2010-02-01 16:16:39 huson Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: NetworkUtilities.java,v 1.8 2010-02-01 16:16:39 huson Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: NetworkUtilities.java,v 1.8 2010-02-01 16:16:39 huson Exp $

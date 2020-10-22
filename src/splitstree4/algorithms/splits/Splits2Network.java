@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* $Id: Splits2Network.java,v 1.2 2006-05-23 05:57:33 huson Exp $
-*/
+ * $Id: Splits2Network.java,v 1.2 2006-05-23 05:57:33 huson Exp $
+ */
 package splitstree4.algorithms.splits;
 
 import splitstree4.core.Document;

@@ -18,18 +18,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-* LeastSquares
-*
-* General optimization and evaluation routines for least squares computation on splits.
-*
-* Takes a collection of splits and weights.
-* 		makeTopoMatrix		Computes topological matrix, which is then available through
-* 		getTopoMatrix. NOTE: rows and columns are indexed 0...n-1
-* 		optimizeLS(constrain)  Replaces values in weights to optimal WLS weights, constrained
-* 			to be non-negative if constrain is set to true.
-*
-*
-*/
+ * LeastSquares
+ *
+ * General optimization and evaluation routines for least squares computation on splits.
+ *
+ * Takes a collection of splits and weights.
+ * 		makeTopoMatrix		Computes topological matrix, which is then available through
+ * 		getTopoMatrix. NOTE: rows and columns are indexed 0...n-1
+ * 		optimizeLS(constrain)  Replaces values in weights to optimal WLS weights, constrained
+ * 			to be non-negative if constrain is set to true.
+ *
+ *
+ */
 
 package splitstree4.algorithms.util;
 

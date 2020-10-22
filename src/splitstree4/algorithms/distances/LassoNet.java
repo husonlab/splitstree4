@@ -33,7 +33,7 @@ import java.util.List;
  * User: bryant
  * Date: Jul 23, 2010
  * Time: 10:10:26 AM
- *
+ * <p>
  * Lasso Net uses NeighborNet to obtain a circular ordering of the taxa, but then uses a Lasso algorithm (with AIC)
  * to select the splits.
  */

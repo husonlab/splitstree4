@@ -283,7 +283,6 @@ public class LeastSquares {
 
     /**
      *`
-
      *
      * @param constrain Non-negativity constraint.
      */

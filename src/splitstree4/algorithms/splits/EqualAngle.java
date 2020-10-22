@@ -41,7 +41,7 @@ import java.util.*;
  * The equal angle algorithm for embedding a circular splits graph
  *
  * @author huson
- *         Date: 03-Jan-2004
+ * Date: 03-Jan-2004
  */
 public class EqualAngle implements Splits2Network {
     public final static String DESCRIPTION = "Equal angle algorithm (Dress & Huson 2004) with equal-daylight &" +

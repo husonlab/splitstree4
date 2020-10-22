@@ -19,6 +19,8 @@
  *
  * @version $Id: Splits.java,v 1.72 2008-07-01 19:06:00 bryant Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: Splits.java,v 1.72 2008-07-01 19:06:00 bryant Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: Splits.java,v 1.72 2008-07-01 19:06:00 bryant Exp $

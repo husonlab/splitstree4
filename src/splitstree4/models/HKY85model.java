@@ -27,9 +27,9 @@ package splitstree4.models;
 
 /**
  * @author Mig
- *         <p/>
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p/>
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class HKY85model extends NucleotideModel {
 
@@ -49,9 +49,9 @@ public class HKY85model extends NucleotideModel {
         b += basefreqs[1] * basefreqs[2] + basefreqs[2] * basefreqs[3];
 
         /* We have the identity
-           *    a * kappa =  TsTv * b
-           * which we solve to get kappa
-           */
+         *    a * kappa =  TsTv * b
+         * which we solve to get kappa
+         */
         double kappa = (TsTv * b) / a;
 
         double[][] Q = new double[4][4];

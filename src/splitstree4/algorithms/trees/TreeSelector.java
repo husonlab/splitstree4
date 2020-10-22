@@ -19,6 +19,8 @@
  *
  * @version $Id: TreeSelector.java,v 1.22 2008-07-01 15:01:56 bryant Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: TreeSelector.java,v 1.22 2008-07-01 15:01:56 bryant Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: TreeSelector.java,v 1.22 2008-07-01 15:01:56 bryant Exp $

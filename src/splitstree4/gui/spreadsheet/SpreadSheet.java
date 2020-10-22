@@ -41,8 +41,8 @@ import java.util.EventObject;
  * as an application.
  *
  * @author Thierry Manf� [heavily edited by D. Bryant, August 2004]
- *         <p/>
- *         **********************************************************************************************
+ * <p/>
+ * **********************************************************************************************
  * @version 1.0 July-2002
  */
 //TODO: Check selection of cells to see whether selected cells are correctly formatted.
@@ -266,11 +266,11 @@ public class SpreadSheet extends JTable {
     /**
      * Build SpreadSheet of numCol columns and numRow rows.
      *
-     * @param cells                    If not null, the cells to be used in the spreadsheet
-     *                                 It must be a two dimensional rectangular array ('[numRow][numColumn]'). If null, the cells are
-     *                                 automatically created.
-     * @param numRow                   The number of rows
-     * @param numCol                   The number of columns
+     * @param cells  If not null, the cells to be used in the spreadsheet
+     *               It must be a two dimensional rectangular array ('[numRow][numColumn]'). If null, the cells are
+     *               automatically created.
+     * @param numRow The number of rows
+     * @param numCol The number of columns
      */
     private SpreadSheet(SheetCell[][] cells, int numRow, int numCol) {
 
@@ -426,9 +426,9 @@ public class SpreadSheet extends JTable {
      * Build a SpreadSheet included in a JScrollPane
      * from the cells given as argument.
      *
-     * @param cells                    A two dimensional rectangular
-     *                                 array ('[numRow][numColumn]') of cells to be used when
-     *                                 creating the spreadsheet.
+     * @param cells A two dimensional rectangular
+     *              array ('[numRow][numColumn]') of cells to be used when
+     *              creating the spreadsheet.
      */
     public SpreadSheet(SheetCell cells[][]) {
         this(cells, cells.length, cells[0].length);
@@ -438,9 +438,9 @@ public class SpreadSheet extends JTable {
      * Invoked when a cell undo starts.
      * This method overrides and calls that of its super class.
      *
-     * @param row         The row to be edited
-     * @param column      The column to be edited
-     * @param ev          The firing event
+     * @param row    The row to be edited
+     * @param column The column to be edited
+     * @param ev     The firing event
      * @return boolean false if for any reason the cell cannot be edited.
      */
     public boolean editCellAt(int row, int column, EventObject ev) {

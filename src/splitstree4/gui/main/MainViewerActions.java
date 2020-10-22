@@ -21,6 +21,10 @@
  *
  * @author huson
  * 11.03
+ * <p>
+ * Main viewer actions
+ * @author huson
+ * 11.03
  */
 /**
  * Main viewer actions
@@ -2502,9 +2506,9 @@ public class MainViewerActions {
                     if (viewer.getSelected(v)) {
                         for (Integer id : viewer.getPhyloGraph().getTaxa(v)) {
                             buf.append(String.format(" %d", id));
-                                count++;
-                            }
+                            count++;
                         }
+                    }
 
                 dir.analysis("splits once PhylogeneticDiversity SelectedTaxa=" + count + " " + buf.toString());
             }
@@ -2533,8 +2537,8 @@ public class MainViewerActions {
                     if (viewer.getSelected(v)) {
                         for (Integer t : viewer.getPhyloGraph().getTaxa(v)) {
                             buf.append(String.format(" %d", t));
-                                count++;
-                            }
+                            count++;
+                        }
 
                     }
                 dir.analysis("distances once DeltaScore SelectedTaxa=" + count + " " + buf.toString());

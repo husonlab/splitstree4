@@ -1,4 +1,3 @@
-
 package splitstree4.externalIO.exports;
 
 import jloda.util.Basic;

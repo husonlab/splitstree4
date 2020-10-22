@@ -40,7 +40,7 @@ import java.util.List;
 
 /**
  * @author bryant
- *         Computes the maximum likelihood protein distance estimates for a set of characters
+ * Computes the maximum likelihood protein distance estimates for a set of characters
  */
 public class ProteinMLdist extends SequenceBasedDistance implements Characters2Distances {
 
@@ -150,13 +150,13 @@ public class ProteinMLdist extends SequenceBasedDistance implements Characters2D
         return models;
     }
 
-/*
- * Given the names of the protein model (in the list), this
- * initialises and returns the appropriate ProteinModel object.
- * In future, this can be done using reflection.
- *
- * Returns null if no model identified.
- */
+    /*
+     * Given the names of the protein model (in the list), this
+     * initialises and returns the appropriate ProteinModel object.
+     * In future, this can be done using reflection.
+     *
+     * Returns null if no model identified.
+     */
 
     public ProteinModel selectModel(String modelName) {
         ProteinModel themodel;

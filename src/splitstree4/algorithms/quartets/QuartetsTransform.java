@@ -19,6 +19,8 @@
  *
  * @version $Id: QuartetsTransform.java,v 1.7 2007-09-11 12:31:09 kloepper Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: QuartetsTransform.java,v 1.7 2007-09-11 12:31:09 kloepper Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: QuartetsTransform.java,v 1.7 2007-09-11 12:31:09 kloepper Exp $

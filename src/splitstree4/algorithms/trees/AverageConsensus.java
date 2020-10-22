@@ -22,6 +22,11 @@
  * @version $Id: AverageConsensus.java,v 1.1 2008-07-01 19:15:39 bryant Exp $
  * @author Tobias Kloepper and Daniel Huson and David Bryant
  * 7.03
+ * <p>
+ * implements consensus networks
+ * @version $Id: AverageConsensus.java,v 1.1 2008-07-01 19:15:39 bryant Exp $
+ * @author Tobias Kloepper and Daniel Huson and David Bryant
+ * 7.03
  */
 /**
  * implements consensus networks

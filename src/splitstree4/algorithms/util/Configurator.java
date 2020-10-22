@@ -21,6 +21,10 @@
  *
  * @version $Id: Configurator.java,v 1.32 2010-02-23 15:52:01 huson Exp $
  * @author Markus Franz and Daniel Huson and David Bryant
+ * <p>
+ * Configures transformation algorithms
+ * @version $Id: Configurator.java,v 1.32 2010-02-23 15:52:01 huson Exp $
+ * @author Markus Franz and Daniel Huson and David Bryant
  */
 /**
  * Configures transformation algorithms

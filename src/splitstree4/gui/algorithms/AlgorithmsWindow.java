@@ -52,7 +52,7 @@ import java.util.Map;
  * Allows user to configure all algorithms used in computation of graph
  *
  * @author huson
- *         Date: 04-Dec-2003
+ * Date: 04-Dec-2003
  */
 public class AlgorithmsWindow implements IDirectableViewer {
     private boolean uptoDate;
@@ -959,9 +959,9 @@ public class AlgorithmsWindow implements IDirectableViewer {
 
     /**
      * @author miguel
-     *         <p/>
-     *         An inner class to render a combobox that contains objects.
-     *         (One that may contain Separators as well)
+     * <p/>
+     * An inner class to render a combobox that contains objects.
+     * (One that may contain Separators as well)
      */
     class ComboBoxRenderer extends JLabel implements ListCellRenderer {
         final String SEPARATOR = "SEPARATOR";
@@ -1005,8 +1005,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
 
     /**
      * @author miguel
-     *         <p/>
-     *         An inner class to listen to actions performed in a ComboBox with Separators
+     * <p/>
+     * An inner class to listen to actions performed in a ComboBox with Separators
      */
     class BlockComboListener implements ActionListener {
         final String SEPARATOR = "SEPARATOR";

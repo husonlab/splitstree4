@@ -332,7 +332,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
      * @param startAngle
      * @param nTax
      * @return return a HashMap with key a node and vlaue a double[] with value at 0 is the start Angle of the tree or imaginary edge to the node  and value at 1 is the angle of the
-     *         tree or imaginary edge to the node
+     * tree or imaginary edge to the node
      * @throws Exception
      */
     private void recTopDownLabelNodes(PhyloGraphView graphView, PhyloSplitsGraph graph, Node start, double startAngle, int nTax, HashMap node2AngleSize, HashMap node2SubNodes, HashSet before, HashMap parent2rNodes, HashMap node2ActiverNodes) throws Exception {

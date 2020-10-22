@@ -44,8 +44,8 @@ public class MultiGeneAnalysis {
      * @param doc
      * @param partition
      * @return SplitMatrix splits returned by the different analyses.
-     * @throws jloda.util.CanceledException The user pressed cancel in the progress bar.
-     * @throws splitstree4.core.SplitsException  A problem with the analysis, or the partition was not valid.
+     * @throws jloda.util.CanceledException     The user pressed cancel in the progress bar.
+     * @throws splitstree4.core.SplitsException A problem with the analysis, or the partition was not valid.
      */
     static public SplitMatrix multiGene(Document doc, Partition partition) throws CanceledException, SplitsException {
         int nblocks = partition.getNumBlocks();

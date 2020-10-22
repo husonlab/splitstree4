@@ -27,22 +27,22 @@ package splitstree4.models;
 
 /**
  * @author bryant
- *         <p/>
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * <p/>
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class pmbModel extends ProteinModel {
 
 
     public pmbModel() {
 
-		/* pmbModel
+        /* pmbModel
          *
-		 * estimated from Blocks+v13Aug01 database.
-		 *   Prepared by E.Tillier, October March2003.
-		 * 
-		 * Extracted from pmb.dat file distributed with PAML 3.13d
-		 */
+         * estimated from Blocks+v13Aug01 database.
+         *   Prepared by E.Tillier, October March2003.
+         *
+         * Extracted from pmb.dat file distributed with PAML 3.13d
+         */
 
         //These are an eigenvalue decomposition
         //     V'DV = Pi^(1/2) Q Pi(-1/2)

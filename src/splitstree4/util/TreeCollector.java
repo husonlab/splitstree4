@@ -40,7 +40,7 @@ import java.util.*;
  * collect trees in sets
  *
  * @author huson
- *         Date: 11-Dec-2004
+ * Date: 11-Dec-2004
  */
 public class TreeCollector {
     int numTrees;

@@ -49,10 +49,10 @@ import java.util.List;
  * Allows user to configure all algorithms used in computation of graph
  *
  * @author huson
- *         Date: 04-Dec-2003
+ * Date: 04-Dec-2003
  */
 public class
-        AlgorithmsWindowActions implements UpdateableActions {
+AlgorithmsWindowActions implements UpdateableActions {
     private static String OPTIONS_PANEL = "OPTIONS_PANEL";
     private static String OPTION_ACTIONS = "OPTION_ACTIONS";
 

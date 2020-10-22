@@ -44,8 +44,8 @@ public class SpreadSheetModel extends AbstractTableModel {
     /**
      * Create a nbRow by nbColumn SpreadSheetModel.
      *
-     * @param cells     The cell array ('[numRow][numColumn]')
-     * @param table     The associated SpreadSheet
+     * @param cells The cell array ('[numRow][numColumn]')
+     * @param table The associated SpreadSheet
      */
     SpreadSheetModel(SheetCell[][] cells, SpreadSheet table) {
         _dpyTable = table;

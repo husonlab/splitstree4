@@ -22,6 +22,11 @@
  * @version $Id: ClustalW.java,v 1.5 2007-09-11 12:31:02 kloepper Exp $
  * @author Daniel Huson and David Bryant
  * 7.03
+ * <p>
+ * runs clustalw externally
+ * @version $Id: ClustalW.java,v 1.5 2007-09-11 12:31:02 kloepper Exp $
+ * @author Daniel Huson and David Bryant
+ * 7.03
  */
 /**
  * runs clustalw externally

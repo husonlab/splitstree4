@@ -223,10 +223,10 @@ public class MinSpanningNetworkForDistances implements Distances2Network {
                 StringBuilder buf = new StringBuilder();
                 boolean first = true;
                 for (Integer t : graph.getTaxa(v)) {
-                        if (first)
-                            first = false;
-                        else
-                            buf.append(",");
+                    if (first)
+                        first = false;
+                    else
+                        buf.append(",");
                     buf.append(taxa.getLabel(t));
                 }
                 graphView.setLabel(v, buf.toString());

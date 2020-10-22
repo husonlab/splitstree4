@@ -19,6 +19,8 @@
  *
  * @version $Id: NexusBlock.java,v 1.9 2007-09-11 12:30:59 kloepper Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: NexusBlock.java,v 1.9 2007-09-11 12:30:59 kloepper Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: NexusBlock.java,v 1.9 2007-09-11 12:30:59 kloepper Exp $

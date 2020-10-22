@@ -19,6 +19,8 @@
  *
  * @version $Id: DistancesTransform.java,v 1.14 2008-03-10 21:02:17 huson Exp $
  * @author Daniel Huson and David Bryant
+ * @version $Id: DistancesTransform.java,v 1.14 2008-03-10 21:02:17 huson Exp $
+ * @author Daniel Huson and David Bryant
  */
 /**
  * @version $Id: DistancesTransform.java,v 1.14 2008-03-10 21:02:17 huson Exp $

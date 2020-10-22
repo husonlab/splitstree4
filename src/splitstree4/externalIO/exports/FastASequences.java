@@ -31,7 +31,7 @@ import java.util.Map;
  * exports data in fasta format
  *
  * @author huson
- *         Date: 11-Aug-2004
+ * Date: 11-Aug-2004
  */
 public class FastASequences extends ExporterAdapter implements Exporter {
 

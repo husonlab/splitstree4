@@ -56,7 +56,8 @@ public class F84 extends DNAdistance {
     }
 
     /**
-     *  return the option panel for the method
+     * return the option panel for the method
+     *
      * @param doc
      * @return
      */
@@ -95,7 +96,8 @@ public class F84 extends DNAdistance {
 
 
     /**
-     *  return the exact distance
+     * return the exact distance
+     *
      * @param F
      * @return
      * @throws SaturatedDistancesException

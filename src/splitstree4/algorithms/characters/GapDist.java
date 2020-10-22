@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* $Id: GapDist.java,v 1.23 2009-11-03 03:45:22 bryant Exp $
-*/
+ */
 package splitstree4.algorithms.characters;
 
 import splitstree4.core.Document;

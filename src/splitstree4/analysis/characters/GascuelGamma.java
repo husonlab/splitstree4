@@ -288,7 +288,6 @@ public class GascuelGamma implements CharactersAnalysisMethod {
      * Check if the Gascuel/Guindon GAMMA method is applicable.
      *
      * @param doc NEXUS document
-     *
      * @return true if distances were calculated from sequences
      * @throws Exception
      */
@@ -301,7 +300,6 @@ public class GascuelGamma implements CharactersAnalysisMethod {
      * Estimate the gamma distribution shape parameter using the Gascuel/Guindon method
      *
      * @param doc NEXUS document
-     *
      * @return Estimated shape parameter
      * @throws Exception
      */

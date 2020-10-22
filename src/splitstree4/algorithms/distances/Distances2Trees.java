@@ -19,6 +19,8 @@
  *
  * @version $Id: Distances2Trees.java,v 1.2 2007-09-11 12:31:06 kloepper Exp $
  * @author Christian Rausch
+ * @version $Id: Distances2Trees.java,v 1.2 2007-09-11 12:31:06 kloepper Exp $
+ * @author Christian Rausch
  */
 /**
  * @version $Id: Distances2Trees.java,v 1.2 2007-09-11 12:31:06 kloepper Exp $

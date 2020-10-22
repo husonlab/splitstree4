@@ -19,6 +19,8 @@
  * The taxa window
  *
  * @author Markus Franz
+ * The taxa window
+ * @author Markus Franz
  */
 /** The taxa window
  *

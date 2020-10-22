@@ -32,7 +32,7 @@ import splitstree4.nexus.Taxa;
 import java.io.StringWriter;
 
 /**
- *@deprecated under development
+ * @deprecated under development
  */
 public class ReticulationNetwork2 extends GalledNetwork implements Characters2Network {
 

@@ -20,7 +20,7 @@
 /*
  * GTR distance.
  *
- * Computes distances according to a general time reversible model. 
+ * Computes distances according to a general time reversible model.
  *
  * Created on 12-Jun-2004
  */
@@ -42,7 +42,7 @@ import javax.swing.*;
 
 /**
  * @author DJB
- *         Computes the distance matrix from a set of characters using the General Time Revisible model.
+ * Computes the distance matrix from a set of characters using the General Time Revisible model.
  */
 public class GTR extends DNAdistance {
 
