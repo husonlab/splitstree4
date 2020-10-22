@@ -43,6 +43,7 @@ import jloda.swing.graphview.PhyloGraphView;
 import jloda.swing.graphview.ScrollPaneAdjuster;
 import jloda.swing.message.MessageWindow;
 import jloda.swing.util.Alert;
+import jloda.swing.util.ChooseFileDialog;
 import jloda.swing.util.ResourceManager;
 import jloda.util.*;
 import splitstree4.algorithms.splits.EqualAngle;
@@ -1504,28 +1505,17 @@ public class MainViewerActions {
                 File lastOpenFile = ProgramProperties.getFile("ImportTreesFile");
                 dir.showMainViewer();
 
-                JFileChooser chooser = new JFileChooser(lastOpenFile);
-                for (Object o : ImportManager.getFileFilter(Trees.NAME)) {
-
-                    FileFilter filter = (FileFilter) o;
-                    chooser.addChoosableFileFilter(filter);
-                }
-
-                chooser.setAcceptAllFileFilterUsed(true);
-                chooser.setMultiSelectionEnabled(true);
-
                 boolean done = false;
-                List<String> files = new LinkedList<>();
+                final List<File> files = new LinkedList<>();
                 while (!done) {
-                    int result = chooser.showOpenDialog(null);
-                    if (result == JFileChooser.APPROVE_OPTION) {
-                        File[] moreFiles = chooser.getSelectedFiles();
+                    final List<File> moreFiles = ChooseFileDialog.chooseFilesToOpen(viewer, lastOpenFile, new NewickTree(), new NewickTree(), event, "Trees to open");
 
-                        for (int i = 0; i < moreFiles.length; i++) {
+                    if (moreFiles.size() > 0) {
+                        for (int i = 0; i < moreFiles.size(); i++) {
                             if (i == 0)
-                                ProgramProperties.put("ImportTreesFile", moreFiles[i].getAbsolutePath());
-                            files.add(moreFiles[i].getAbsolutePath());
-                            System.err.println("added: " + moreFiles[i].getAbsolutePath());
+                                ProgramProperties.put("ImportTreesFile", moreFiles.get(i).getAbsolutePath());
+                            files.add(moreFiles.get(i));
+                            System.err.println("added: " + moreFiles.get(i).getAbsolutePath());
                         }
                         switch (
                                 JOptionPane.showConfirmDialog(viewer.getFrame(),
@@ -1539,15 +1529,15 @@ public class MainViewerActions {
                             case JOptionPane.CANCEL_OPTION:
                                 return;
                         }
-                    } else if (result == JFileChooser.CANCEL_OPTION)
+                    } else
                         done = true;
                 }
                 try {
                     StringBuilder buf = new StringBuilder();
-                    for (String file : files) {
-                        buf.append(" '").append(Basic.doubleBackSlashes(file)).append("'");
+                    for (File file : files) {
+                        buf.append(" '").append(Basic.doubleBackSlashes(file.getAbsolutePath())).append("'");
                     }
-                    viewer.getDir().execute("load treefiles=" + buf.toString() + ";update;");
+                    viewer.getDir().execute("load treeFiles=" + buf.toString() + ";update;");
                 } catch (Exception ex) {
                     new Alert("Load trees failed: " + ex.getMessage());
                 }
@@ -1585,37 +1575,20 @@ public class MainViewerActions {
                 File lastOpenFile = ProgramProperties.getFile("MultiLabeledTreeFile");
                 dir.showMainViewer();
 
-                JFileChooser chooser = new JFileChooser(lastOpenFile);
-                // Add the FileFilter for the Import Plugins
-                try {
-                    List<FileFilter> fileFilter = new LinkedList();
-                    fileFilter.add(new NewickTree());
-                    for (FileFilter filter : fileFilter) {
-                        chooser.addChoosableFileFilter(filter);
-                    }
-                } catch (Exception e) {
-                    Basic.caught(e);
-                }
-                chooser.setAcceptAllFileFilterUsed(true);
+                final File file = ChooseFileDialog.chooseFileToOpen(viewer, lastOpenFile, new NewickTree(), new NewickTree(), event, "Tree to open");
 
-                int result = chooser.showOpenDialog(null);
-                File file;
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    file = chooser.getSelectedFile();
-
+                if (file != null) {
                     String input = null;
                     try {
                         NewickTree newickTree = new NewickTree();
                         newickTree.setOptionConvertMultiLabeledTree(true);
-                        FileReader r = new FileReader(file);
-                        if (newickTree.isApplicable(r)) {
-                            r.close();
-                            r = new FileReader(file);
-
+                        try (FileReader r = new FileReader(file)) {
+                            if (!newickTree.isApplicable(r))
+                                throw new Exception("File not in Newick format");
+                        }
+                        try (FileReader r = new FileReader(file)) {
                             input = newickTree.apply(r);
-                        } else
-                            throw new Exception("File not in Newick format");
-
+                        }
                     } catch (Exception ex) {
                         Basic.caught(ex);
                         new Alert("Load and convert multi-labeled tree failed: " + ex.getMessage());

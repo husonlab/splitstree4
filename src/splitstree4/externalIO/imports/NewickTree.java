@@ -59,7 +59,7 @@ import java.util.*;
  * ALso, converts a multi-labeled tree into a set of splits
  */
 
-public class NewickTree extends FileFilter implements Importer {
+public class NewickTree extends FileFilter implements Importer, FilenameFilter {
     String datatype = null;
     /* Implement first the Importer Interface
      */
@@ -75,7 +75,6 @@ public class NewickTree extends FileFilter implements Importer {
     public boolean isApplicableToBlock(String blockName) {
         return blockName.equalsIgnoreCase(Trees.NAME);
     }
-
 
     /**
      * can we import this data?
@@ -215,13 +214,19 @@ public class NewickTree extends FileFilter implements Importer {
                 if (extension != null)
                     if (extension.equalsIgnoreCase("new")
                             || extension.equalsIgnoreCase("tre")
-                            || extension.equalsIgnoreCase("tree"))
+                            || extension.equalsIgnoreCase("tree")
+                            || extension.equalsIgnoreCase("nwk"))
                         return true;
             } catch (Exception e) {
                 return false;
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean accept(File dir, String name) {
+        return accept(new File(dir, name));
     }
 
     /**

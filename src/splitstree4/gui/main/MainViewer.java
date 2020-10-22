@@ -262,7 +262,7 @@ public class MainViewer extends PhyloGraphView implements IDirectableViewer, IMa
         });
 
         //tooltips won't work without this call:
-        setToolTipText("");
+        setToolTipText((String) null);
         //
         setPopupListener(new PopupListener(this, dir.getDocument(), getActions(), dir.getActions()));
 

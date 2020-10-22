@@ -614,9 +614,7 @@ public class RootedEqualAngle implements Splits2Network {
             progress.checkForCancel();
         }
 
-        Iterator it = graph.edgeIterator();
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
+        for (Edge e : graph.edges()) {
             graph.setAngle(e, split2angle[graph.getSplit(e)]);
         }
     }
@@ -632,9 +630,9 @@ public class RootedEqualAngle implements Splits2Network {
         Node rootNode = graphView.getPhyloGraph().getTaxon2Node(taxa.getNtax());// root is last node
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
         for (int i = 1; i <= getBrokenOptionDaylightIterations(); i++) {
-            Iterator it = Basic.randomize(graph.nodeIterator(), 77 * i);
+            var it = Basic.randomize(graph.nodeIterator(), 77 * i);
             while (it.hasNext()) {
-                Node v = (Node) it.next();
+                final Node v = it.next();
                 if (graph.getDegree(v) > 1) {
                     assignCoordinatesToNodes(optionUseWeights, taxa.getNtax(), graphView); // need coordinates
                     optimizeDaylightNode(taxa, v, rootNode, graphView);
