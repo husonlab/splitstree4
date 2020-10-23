@@ -56,7 +56,7 @@ public class Clustal extends ExporterAdapter implements Exporter {
      *
      * @return
      */
-    public Map apply(Writer w, Document dp, Collection blocks) throws Exception {
+    public Map apply(Writer w, Document dp, Collection blockNames) throws Exception {
         int maxNameLength = 0;
         Taxa taxa = dp.getTaxa();
         Characters chars = dp.getCharacters();

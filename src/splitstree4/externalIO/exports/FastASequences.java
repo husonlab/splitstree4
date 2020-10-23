@@ -54,7 +54,7 @@ public class FastASequences extends ExporterAdapter implements Exporter {
      *
      * @return null
      */
-    public Map apply(Writer w, Document doc, Collection notUsed) throws Exception {
+    public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
 
         Characters chars = doc.getCharacters();
 

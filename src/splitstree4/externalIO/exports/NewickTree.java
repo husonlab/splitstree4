@@ -72,18 +72,15 @@ public class NewickTree extends ExporterAdapter implements Exporter {
      *
      * @return null
      */
-    public Map apply(Writer w, Document doc, Collection blocks) throws Exception {
-        if (blocks.contains(Trees.NAME)) {
+    public Map<String, String> apply(Writer w, Document doc, Collection<String> blockNames) throws Exception {
+        if (blockNames.contains(Trees.NAME)) {
             for (int i = 1; i <= doc.getTrees().getNtrees(); i++) {
                 w.write(doc.getTrees().getTree(i).toString(doc.getTrees().getTranslate()) + ";\n");
             }
-        } else if (blocks.contains(Splits.NAME)
-                && doc.getSplits().getProperties().getCompatibility()
-                == Splits.Properties.COMPATIBLE) {
-
+        } else if (blockNames.contains(Splits.NAME) && doc.getSplits().getProperties().getCompatibility() == Splits.Properties.COMPATIBLE) {
             PhyloTree tree = TreesUtilities.treeFromSplits(doc.getTaxa(), doc.getSplits(), null);
             w.write(tree.toString() + "\n");
-        } else if (blocks.contains(Network.NAME)) {
+        } else if (blockNames.contains(Network.NAME)) {
             w.write(doc.getNetwork().getNewick() + "\n");
         }
         return null;

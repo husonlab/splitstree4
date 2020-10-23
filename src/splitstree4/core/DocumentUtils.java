@@ -46,12 +46,11 @@ public class DocumentUtils {
      * @param files
      * @param doc
      */
-    static public void loadMultipleTreeFiles(List files, Document doc) {
+    static public void loadMultipleTreeFiles(List<String> files, Document doc) {
         if (files == null || files.size() == 0)
             return;
         final StringBuilder buf = new StringBuilder();
-        for (Object file1 : files) {
-            final String fileName = (String) file1;
+        for (var fileName : files) {
             final File file = new File(fileName);
             if (!file.exists() || !file.canRead()) {
                 new Alert("Cannot open: " + fileName);
@@ -66,8 +65,8 @@ public class DocumentUtils {
                 } else
                     doci.readNexus(new StringReader(ImportManager.importData(file)));
 
-                NewickTree exporter = new NewickTree();
-                List list = new LinkedList();
+                final NewickTree exporter = new NewickTree();
+                final List<String> list = new ArrayList<>();
                 list.add(Trees.NAME);
                 StringWriter sw = new StringWriter();
                 if (exporter.isApplicable(doci, list)) {

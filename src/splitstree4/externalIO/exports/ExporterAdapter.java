@@ -70,7 +70,7 @@ public class ExporterAdapter implements Exporter {
      * @param goodBlocks Blocks required by this exporter
      * @return boolean true iff all blocks are present and in goodBlocks
      */
-    public boolean blocksAllOK(Document doc, Collection selected, Collection goodBlocks) {
+    public boolean blocksAllOK(Document doc, Collection<String> selected, Collection<String> goodBlocks) {
 
 
         if (doc == null)
@@ -78,8 +78,7 @@ public class ExporterAdapter implements Exporter {
         if (selected.size() != goodBlocks.size())
             return false;
 
-        for (Object aSelected : selected) {
-            String block = (String) aSelected;
+        for (var block : selected) {
             if (!goodBlocks.contains(block) || (!doc.isValidByName(block)))
                 return false; //Block not a good block!!
         }
@@ -94,7 +93,7 @@ public class ExporterAdapter implements Exporter {
      * @param selected set of selected blocks
      * @return true, if can handle this import
      */
-    public boolean isApplicable(Document dp, Collection selected) {
+    public boolean isApplicable(Document dp, Collection<String> selected) {
         return false;
     }
 
@@ -102,13 +101,13 @@ public class ExporterAdapter implements Exporter {
      * Writes the Data to the writer w. If the exporter only handels subsets of different type the set
      * can be used to check for the choosen Nexus blocks. The set contains the Nexus names.
      *
-     * @param w      The wirter
-     * @param dp     The Document
-     * @param blocks list of blocks to exported
+     * @param w          The wirter
+     * @param dp         The Document
+     * @param blockNames list of blocks to exported
      * @return mapping from export names to original names
      * @throws java.lang.Exception
      */
-    public Map apply(Writer w, Document dp, Collection blocks) throws Exception {
+    public Map<String, String> apply(Writer w, Document dp, Collection<String> blockNames) throws Exception {
         return null;
     }
 
@@ -120,13 +119,13 @@ public class ExporterAdapter implements Exporter {
      *
      * @param w              The wirter
      * @param dp             The Document
-     * @param blocks         list of blocks to exported
+     * @param blockNames     list of blocks to exported
      * @param additionalInfo Additional info required by exporter  (ignored by default)
      * @return mapping from export names to original names
      * @throws java.lang.Exception
      */
-    public Map apply(Writer w, Document dp, Collection blocks, ExporterInfo additionalInfo) throws Exception {
-        return apply(w, dp, blocks);
+    public Map<String, String> apply(Writer w, Document dp, Collection<String> blockNames, ExporterInfo additionalInfo) throws Exception {
+        return apply(w, dp, blockNames);
     }
 
 

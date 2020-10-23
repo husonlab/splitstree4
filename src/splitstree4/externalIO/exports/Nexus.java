@@ -57,9 +57,9 @@ public class Nexus extends ExporterAdapter implements Exporter {
      * @param doc
      * @return null
      */
-    public Map apply(Writer w, Document doc, Collection blocks) throws Exception {
+    public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
         w.write("#nexus\n");
-        for (Object block : blocks) {
+        for (Object block : blockNames) {
             String blockName = (String) block;
             {
                 if (blockName.equals(Characters.NAME) && !getOptionExportAll()

@@ -150,7 +150,7 @@ public class SplitsTree {
                         {
                             try {
                                 Thread.sleep(100);
-                            } catch (java.lang.InterruptedException ex) {
+                            } catch (java.lang.InterruptedException ignored) {
                             }
                         }
                         dir.execute(initCommand);

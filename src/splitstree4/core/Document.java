@@ -911,8 +911,7 @@ public class Document extends DocumentData {
      *
      * @param r the reader
      */
-    public void readNexus(Reader r) throws SplitsException, java.io.IOException,
-            CanceledException {
+    public void readNexus(Reader r) throws SplitsException, java.io.IOException {
         readNexus(new NexusStreamParser(r));
     }
 
@@ -925,8 +924,7 @@ public class Document extends DocumentData {
      *
      * @param np the nexus stream parser
      */
-    public void readNexus(NexusStreamParser np) throws SplitsException,
-            java.io.IOException, CanceledException {
+    public void readNexus(NexusStreamParser np) throws SplitsException, java.io.IOException {
         notifySetMaximumProgress(100);
         // be tolerant with respect to presence or absence of #nexus
         if (np.peekMatchIgnoreCase("#nexus"))
@@ -2074,18 +2072,19 @@ public class Document extends DocumentData {
                 }
                 np.matchIgnoreCase(";");
                 String input = ImportManager.importData(new File(fname), dataType);
-                readNexus(new StringReader(input));
+                if (input != null)
+                    readNexus(new StringReader(input));
             } else if (np.peekMatchIgnoreCase("load")) // open or import a file
             {
                 np.matchIgnoreCase("load");
-                if (np.peekMatchIgnoreCase("treefiles=")) {
-                    np.matchIgnoreCase("treefiles");
-                    List files = np.getTokensRespectCase("=", ";");
+                if (np.peekMatchIgnoreCase("treeFiles=")) {
+                    np.matchIgnoreCase("treeFiles");
+                    final List<String> files = np.getTokensRespectCase("=", ";");
                     DocumentUtils.loadMultipleTreeFiles(files, this);
                     setDirty(false);
-                } else if (np.peekMatchIgnoreCase("charfiles=")) {
-                    np.matchIgnoreCase("charfiles");
-                    List files = np.getTokensRespectCase("=", ";");
+                } else if (np.peekMatchIgnoreCase("charFiles=")) {
+                    np.matchIgnoreCase("charFiles");
+                    final List<String> files = np.getTokensRespectCase("=", ";");
                     DocumentUtils.concatenateSequences(files, this);
                     setDirty(false);
                 } else if (np.peekMatchIgnoreCase("file=")) {

@@ -62,7 +62,7 @@ public class PhylipDistances extends ExporterAdapter implements Exporter {
      *
      * @return
      */
-    public Map apply(Writer w, Document doc, Collection notUsed) throws Exception {
+    public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
         Taxa taxa = doc.getTaxa();
         Distances distances = doc.getDistances();
 

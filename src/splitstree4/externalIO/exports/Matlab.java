@@ -72,19 +72,19 @@ public class Matlab extends ExporterAdapter implements Exporter {
     /**
      * Writes selected blocks to a tab-delimited text file.
      *
-     * @param w      Where to write the data
-     * @param dp     The document being exported
-     * @param blocks Collection of blocks to be exported
+     * @param w          Where to write the data
+     * @param dp         The document being exported
+     * @param blockNames Collection of blocks to be exported
      * @return null
      * @throws Exception
      */
-    public Map apply(Writer w, Document dp, Collection blocks) throws Exception {
+    public Map apply(Writer w, Document dp, Collection blockNames) throws Exception {
 
         w.write("%%MATLAB%%\n");
 
         DecimalFormat dec = new DecimalFormat("#.0#####");
 
-        if (dp.getTaxa() != null && blocks.contains(Taxa.NAME)) {
+        if (dp.getTaxa() != null && blockNames.contains(Taxa.NAME)) {
             w.write("%%Number Taxa then taxon names\n");
             w.write("" + dp.getTaxa().getNtax() + "\n");
             for (int i = 1; i <= dp.getTaxa().getNtax(); i++) {
@@ -94,7 +94,7 @@ public class Matlab extends ExporterAdapter implements Exporter {
         }
 
 
-        if (dp.getSplits() != null && blocks.contains(Splits.NAME)) {
+        if (dp.getSplits() != null && blockNames.contains(Splits.NAME)) {
             w.write("%%Number of splits, then row of split weights, then design matrix, same row ordering as distances\n");
 
             Splits splits = dp.getSplits();
@@ -123,7 +123,7 @@ public class Matlab extends ExporterAdapter implements Exporter {
         }
 
 
-        if (blocks.contains(Distances.NAME) && dp.getDistances() != null) {
+        if (blockNames.contains(Distances.NAME) && dp.getDistances() != null) {
             //Export the distances as a matrix then as a column vector.
             int ntax = dp.getTaxa().getNtax();
             Distances dist = dp.getDistances();

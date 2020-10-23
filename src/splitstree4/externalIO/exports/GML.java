@@ -52,11 +52,11 @@ public class GML extends ExporterAdapter implements Exporter {
      *
      * @param w
      * @param doc
-     * @param blocks
+     * @param blockNames
      * @return
      * @throws Exception
      */
-    public Map apply(Writer w, Document doc, Collection blocks) throws Exception {
+    public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
 
 
         exportNetwork(w, doc);

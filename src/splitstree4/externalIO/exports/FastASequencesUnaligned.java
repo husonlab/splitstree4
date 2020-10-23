@@ -55,7 +55,7 @@ public class FastASequencesUnaligned extends ExporterAdapter implements Exporter
      *
      * @return null
      */
-    public Map apply(Writer w, Document doc, Collection notUsed) throws Exception {
+    public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
 
         Unaligned unalign = doc.getUnaligned();
 

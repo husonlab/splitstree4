@@ -303,15 +303,15 @@ for(int j=i;j<=nspecies;j++)
     /**
      * Writes selected blocks to a tab-delimited text file.
      *
-     * @param w      Where to write the data
-     * @param dp     The document being exported
-     * @param blocks Collection of blocks to be exported
+     * @param w          Where to write the data
+     * @param dp         The document being exported
+     * @param blockNames Collection of blocks to be exported
      * @return null
      * @throws Exception
      */
-    public Map apply(Writer w, Document dp, Collection blocks) throws Exception {
+    public Map apply(Writer w, Document dp, Collection blockNames) throws Exception {
         SnapInfo info = new SnapInfo();
-        return apply(w, dp, blocks, info);
+        return apply(w, dp, blockNames, info);
     }
 
     /**
@@ -319,12 +319,12 @@ for(int j=i;j<=nspecies;j++)
      *
      * @param w              Where to write the data
      * @param dp             The document being exported
-     * @param blocks         Collection of blocks to be exported
+     * @param blockNames     Collection of blocks to be exported
      * @param additionalInfo Additional Info
      * @return null
      * @throws Exception
      */
-    public Map apply(Writer w, Document dp, Collection blocks, ExporterInfo additionalInfo) throws Exception {
+    public Map apply(Writer w, Document dp, Collection blockNames, ExporterInfo additionalInfo) throws Exception {
 
         SnapInfo info = (SnapInfo) additionalInfo;
 

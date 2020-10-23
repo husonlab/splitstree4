@@ -58,8 +58,8 @@ public class TreeDistances extends ExporterAdapter implements Exporter {
      *
      * @return null
      */
-    public Map apply(Writer w, Document doc, Collection blocks) throws Exception {
-        if (blocks.contains(Trees.NAME)) {
+    public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
+        if (blockNames.contains(Trees.NAME)) {
             final Distances distances = TreesUtilities.getAveragePairwiseDistances(doc.getTaxa(), doc.getTrees());
             w.write(distances.getNtax() + "\n");
             for (int i = 1; i <= distances.getNtax(); i++) {

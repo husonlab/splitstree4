@@ -74,16 +74,16 @@ public class TabbedText extends ExporterAdapter implements Exporter {
      *
      * @param w
      * @param dp
-     * @param blocks
+     * @param blockNames
      * @return
      * @throws Exception
      */
-    public Map apply(Writer w, Document dp, Collection blocks) throws Exception {
+    public Map apply(Writer w, Document dp, Collection blockNames) throws Exception {
 
 
         DecimalFormat dec = new DecimalFormat("#.0#####");
 
-        if (dp.getTaxa() != null && blocks.contains(Taxa.NAME)) {
+        if (dp.getTaxa() != null && blockNames.contains(Taxa.NAME)) {
             w.write("Taxa\n");
             for (int i = 1; i <= dp.getTaxa().getNtax(); i++) {
                 w.write(i + "\t" + dp.getTaxa().getLabel(i) + "\n");
@@ -104,7 +104,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
         }
 
 
-        if (dp.getCharacters() != null && blocks.contains(Characters.NAME)) {
+        if (dp.getCharacters() != null && blockNames.contains(Characters.NAME)) {
             w.write("Characters\n");
 
             //First row is the taxa names (or ids if there is no taxa block)
@@ -133,7 +133,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
         }
 
 
-        if (blocks.contains(Distances.NAME) && dp.getDistances() != null) {
+        if (blockNames.contains(Distances.NAME) && dp.getDistances() != null) {
             //Export the distances as a matrix then as a column vector.
             w.write("Distance matrix\n");
             Distances dist = dp.getDistances();
@@ -155,7 +155,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
         }
 
 
-        if (dp.getSplits() != null && blocks.contains(Splits.NAME)) {
+        if (dp.getSplits() != null && blockNames.contains(Splits.NAME)) {
             w.write("Splits\n");
 
             Splits splits = dp.getSplits();
@@ -193,7 +193,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
             w.write("\n");
         }
 
-        if (blocks.contains(Trees.NAME) && dp.getTaxa() != null && dp.getTrees() != null && !dp.getTrees().getPartial()) {
+        if (blockNames.contains(Trees.NAME) && dp.getTaxa() != null && dp.getTrees() != null && !dp.getTrees().getPartial()) {
             w.write("Tree splits\n");
 
             int ntax = dp.getTaxa().getNtax();
@@ -233,7 +233,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
         }
 
 
-        if (blocks.contains(Bootstrap.NAME) && dp.getBootstrap() != null && dp.getBootstrap().getBsplits() != null) {
+        if (blockNames.contains(Bootstrap.NAME) && dp.getBootstrap() != null && dp.getBootstrap().getBsplits() != null) {
             w.write("Bootstrap Splits\n");
 
             Splits splits = dp.getBootstrap().getBsplits();
@@ -272,7 +272,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
             w.write("\n");
         }
 
-        if (blocks.contains(Bootstrap.NAME) && dp.getBootstrap() != null && dp.getBootstrap().getSplitMatrix() != null) {
+        if (blockNames.contains(Bootstrap.NAME) && dp.getBootstrap() != null && dp.getBootstrap().getSplitMatrix() != null) {
             w.write("Split Matrix\n");
             SplitMatrix splitMatrix = dp.getBootstrap().getSplitMatrix();
             /* First row is split id's   */

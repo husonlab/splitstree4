@@ -52,7 +52,7 @@ public class FastASplits extends ExporterAdapter implements Exporter {
      *
      * @return null
      */
-    public Map apply(Writer w, Document doc, Collection notUsed) throws Exception {
+    public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
         Taxa taxa = doc.getTaxa();
         Splits splits = doc.getSplits();
 

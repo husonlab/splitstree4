@@ -295,7 +295,7 @@ public class Trees extends NexusBlock {
      *
      * @return the map
      */
-    public Map getTranslate() {
+    public Map<String, String> getTranslate() {
         return translate;
     }
 
@@ -468,11 +468,10 @@ public class Trees extends NexusBlock {
             name = name.replaceAll("[ \t\b]+", "_");
             name = name.replaceAll("[:;,]+", ".");
             name = name.replaceAll("\\[", "(");
-            name = name.replaceAll("\\]", ")");
+            name = name.replaceAll("]", ")");
 
             np.matchIgnoreCase("=");
             np.getComment(); // clears comments
-
 
             StringBuilder buf = new StringBuilder();
 
@@ -497,6 +496,19 @@ public class Trees extends NexusBlock {
             }
 
             PhyloTree tree = PhyloTree.valueOf(buf.toString(), isRooted);
+
+            {
+                int count = 0;
+                final Stack<Node> stack = new Stack<>();
+                stack.push(tree.getRoot());
+                while (stack.size() > 0) {
+                    Node v = stack.pop();
+                    count++;
+                    stack.addAll(Basic.asList(v.children()));
+                }
+                System.err.println("nodes " + tree.getNumberOfNodes() + " vs " + count);
+            }
+
 
             if (TreesUtilities.hasNumbersOnInternalNodes(tree))
                 TreesUtilities.changeNumbersOnInternalNodesToEdgeConfidencies(tree);

@@ -64,13 +64,13 @@ public class LentoPlotData extends ExporterAdapter {
      * Writes the Data to the writer w. If the exporter only handels subsets of different type the set
      * can be used to check for the choosen Nexus blocks. The set contains the Nexus names.
      *
-     * @param w      The writer
-     * @param dp     The Document
-     * @param blocks list of blocks to exported
+     * @param w          The writer
+     * @param dp         The Document
+     * @param blockNames list of blocks to exported
      * @return mapping from export names to original names
      * @throws Exception
      */
-    public Map apply(Writer w, Document dp, Collection blocks) throws Exception {
+    public Map apply(Writer w, Document dp, Collection blockNames) throws Exception {
         LentoSplit[] lentoSplits = computeLentoPlot(dp.getTaxa(), dp.getSplits());
         String result = "Lento Plot\n";
         result += "id\tweight\tconflict\tsplit\n";

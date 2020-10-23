@@ -63,7 +63,7 @@ public class ReticulateNetworkExport extends ExporterAdapter implements Exporter
      * @param doc
      * @return null
      */
-    public Map apply(Writer w, Document doc, Collection blocks) throws Exception {
+    public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
         Taxa taxa = doc.getTaxa();
         Network net = doc.getNetwork();
         PhyloGraphView graphView = new PhyloGraphView();

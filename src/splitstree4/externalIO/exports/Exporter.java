@@ -1,4 +1,4 @@
-/**
+/*
  * Exporter.java
  * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
  * <p/>
@@ -39,33 +39,32 @@ public interface Exporter {
      * @param selected set of selected blocks
      * @return true, if can handle this import
      */
-    boolean isApplicable(Document dp, Collection selected);
+    boolean isApplicable(Document dp, Collection<String> selected);
 
     /**
-     * Writes the Data to the writer w. If the exporter only handels subsets of different type the set
+     * Writes the Data to the writer w. If the exporter only handles subsets of different type the set
      * can be used to check for the choosen Nexus blocks. The set contains the Nexus names.
      *
-     * @param w      The writer
-     * @param dp     The Document
-     * @param blocks list of blocks to exported
+     * @param w          The writer
+     * @param dp         The Document
+     * @param blockNames list of blocks to exported
      * @return mapping from export names to original names
      * @throws Exception
      */
-    Map apply(Writer w, Document dp, Collection blocks) throws Exception;
+    Map<String, String> apply(Writer w, Document dp, Collection<String> blockNames) throws Exception;
 
     /**
-     * Writes the Data to the writer w. If the exporter only handels subsets of different type the set
+     * Writes the Data to the writer w. If the exporter only handles subsets of different type the set
      * can be used to check for the choosen Nexus blocks. The set contains the Nexus names.
      *
      * @param w              The writer
      * @param dp             The Document
-     * @param blocks         list of blocks to exported
+     * @param blockNames     list of blocks to exported
      * @param additionalInfo Additional info required by exporter
      * @return mapping from export names to original names
      * @throws Exception
      */
-    Map apply(Writer w, Document dp, Collection blocks, ExporterInfo additionalInfo) throws Exception;
-
+    Map<String, String> apply(Writer w, Document dp, Collection<String> blockNames, ExporterInfo additionalInfo) throws Exception;
 
     /**
      * get a description of this exporter

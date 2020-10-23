@@ -50,13 +50,13 @@ public class CGViz extends ExporterAdapter implements Exporter {
      *
      * @param w
      * @param doc
-     * @param blocks
+     * @param blockNames
      * @return
      * @throws Exception
      */
-    public Map apply(Writer w, Document doc, Collection blocks) throws Exception {
+    public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
 
-        for (Object block1 : blocks) {
+        for (Object block1 : blockNames) {
 
             String block = (String) block1;
 
