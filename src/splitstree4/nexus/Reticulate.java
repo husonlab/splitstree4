@@ -1235,7 +1235,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
         HashSet seen = new HashSet();
         PhyloSplitsGraph pg = new PhyloSplitsGraph();
         root = parseBracketNotation(rC, label2Nodes, seen, pg, activeNettedComponentsBackbones, activeNettedComponents);
-        Iterator it = pg.nodeIterator();
+        Iterator it = pg.nodes().iterator();
         if (verbose) {
             System.out.println("NODES: ");
             while (it.hasNext()) {
@@ -1243,9 +1243,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
                 System.out.println(pg.getLabel(n) + "\t" + n);
             }
             System.out.println("-------------------------------------------\n");
-            it = pg.edgeIterator();
-            while (it.hasNext()) {
-                Edge e = (Edge) it.next();
+            for (var e : pg.edges()) {
                 System.out.println(e);
             }
         }

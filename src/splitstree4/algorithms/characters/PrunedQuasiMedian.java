@@ -270,13 +270,13 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
                 //  System.err.println("Updating best score: " + bestScore.getValue(end) + " -> " + currentScore);
                 bestPath.clear();
                 bestPath.addAll(currentPath);
-                bestScore.set(v, currentScore);
+                bestScore.put(v, currentScore);
             } else if (currentScore == bestScore.getValue(end)) {
                 bestPath.addAll(currentPath); // don't break ties
             }
         } else {
             if (currentScore >= bestScore.getValue(v)) {
-                bestScore.set(v, currentScore);
+                bestScore.put(v, currentScore);
                 for (Edge f = v.getFirstAdjacentEdge(); f != null; f = v.getNextAdjacentEdge(f)) {
                     if (f != e) {
                         Node w = f.getOpposite(v);

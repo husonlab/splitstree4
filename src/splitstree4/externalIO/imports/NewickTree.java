@@ -363,9 +363,9 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
         for (Edge e = tree.getFirstEdge(); e != null; e = e.getNext()) {
             // count how many times each name occurs on the other side of e
             Map<String, Integer> names2count = new HashMap<>();
-            NodeSet reachableLabeledNodes = (NodeSet) edge2SeparatedNodes.get(e);
+            NodeSet reachableLabeledNodes = (NodeSet) edge2SeparatedNodes.getValue(e);
             for (Node reachableLabeledNode : reachableLabeledNodes) {
-                Pair pair = (Pair) node2nameNumber.get(reachableLabeledNode);
+                Pair pair = (Pair) node2nameNumber.getValue(reachableLabeledNode);
                 String name = (String) pair.getFirst();
                 if (names2count.get(name) == null)
                     names2count.put(name, 0);
@@ -491,7 +491,7 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
         for (Edge f = w.getFirstAdjacentEdge(); f != null; f = w.getNextAdjacentEdge(f)) {
             if (f != e) {
                 determineSeparatedNodesRec(w, f, tree, edge2labels);
-                set.addAll((NodeSet) edge2labels.get(f));
+                set.addAll((NodeSet) edge2labels.getValue(f));
             }
         }
         edge2labels.put(e, set);

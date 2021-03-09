@@ -27,7 +27,7 @@ import splitstree4.nexus.Assumptions;
 import splitstree4.nexus.Network;
 
 /**
- * syncronizes the graph to viewer
+ * synchronizes the graph to viewer
  *
  * @author huson
  * Date: 29-Nov-2003

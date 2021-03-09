@@ -31,6 +31,7 @@ import jloda.swing.util.Geometry;
 import jloda.swing.util.ResourceManager;
 import jloda.swing.window.WindowListenerAdapter;
 import jloda.util.Basic;
+import jloda.util.IterationUtils;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
 import splitstree4.gui.DirectorActions;
@@ -499,7 +500,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
 
         PhyloTree phyloTree = sets.getTaxonomy((String) sets.getTaxonomyNames().toArray()[0]); // get first taxonomy (what to do with more than one?)
 
-        for (Iterator allNodes = phyloTree.nodeIterator(); allNodes.hasNext(); ) {  // for all nodes
+        for (Iterator allNodes = phyloTree.nodes().iterator(); allNodes.hasNext(); ) {  // for all nodes
 
             Node selectedNode = (Node) allNodes.next(); // get next node
 
@@ -740,7 +741,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
 
         Point2D.Double averageCenterAll = new Point2D.Double(); //average point of all taxa
 
-        for (Iterator allNodes = phyloGraph.nodeIterator(); allNodes.hasNext(); ) {  //for all nodes
+        for (Iterator allNodes = phyloGraph.nodes().iterator(); allNodes.hasNext(); ) {  //for all nodes
             Node selectedNode = (Node) allNodes.next(); //get next node
             if (selectedNode.getOutDegree() == 0) {
                 Point2D nodePoint = phyloGraphView.getLocation(selectedNode);
@@ -1286,11 +1287,13 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
 
         if (cycle == null) {
 
+            int numLabels = Math.max(1, IterationUtils.count(phyloGraph.getNodeLabels()));
+
             Point2D.Double allPoints = new Point2D.Double();
-            int[] labelCycle = new int[phyloGraph.getNodeLabels().size()];
+            int[] labelCycle = new int[numLabels];
             Vector nodes = new Vector();
 
-            for (Iterator allNodes = phyloGraph.nodeIterator(); allNodes.hasNext(); ) {
+            for (Iterator allNodes = phyloGraph.nodes().iterator(); allNodes.hasNext(); ) {
                 Node currentNode = (Node) allNodes.next();
                 if (phyloGraph.getLabel(currentNode) != null) {
                     Point2D currentPoint = phyloGraphView.getLocation(currentNode);
@@ -1299,7 +1302,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
                 }
             }
 
-            Point2D.Double schwerpunkt = new Point2D.Double(allPoints.getX() / phyloGraph.getNodeLabels().size(), allPoints.getY() / phyloGraph.getNodeLabels().size());
+            Point2D.Double schwerpunkt = new Point2D.Double(allPoints.getX() / numLabels, allPoints.getY() / numLabels);
 
             for (int i = 0; i < labelCycle.length; i++) {
                 labelCycle[i] = (Integer) phyloGraph.getTaxa((Node) nodes.get(0)).iterator().next();

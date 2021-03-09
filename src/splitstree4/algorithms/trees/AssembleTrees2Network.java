@@ -298,7 +298,7 @@ public class AssembleTrees2Network implements Trees2Network {
             List toDelete = new LinkedList();
 
             for (Node reticulateNode : reticulateNodes) {
-                Node v = (Node) oldNode2NewNode.get(reticulateNode); // node in copy of graph
+                Node v = (Node) oldNode2NewNode.getValue(reticulateNode); // node in copy of graph
                 int keep = ((t - 1) % v.getInDegree()) + 1;
 
                 int count = 0;

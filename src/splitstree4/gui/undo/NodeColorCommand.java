@@ -106,7 +106,7 @@ public class NodeColorCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new NodeColorCommand(viewer, fg, bg, label, lbg));
 
         for (Node a = viewer.getGraph().getFirstNode(); a != null; a = a.getNext()) {
-            Color color = (Color) colors.get(a);
+            Color color = (Color) colors.getValue(a);
             if (fg)
                 viewer.setColor(a, color);
             if (bg)

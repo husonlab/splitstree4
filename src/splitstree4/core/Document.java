@@ -57,6 +57,7 @@ import splitstree4.externalIO.exports.ExportManager;
 import splitstree4.externalIO.exports.ExporterInfo;
 import splitstree4.externalIO.imports.ImportManager;
 import splitstree4.gui.Director;
+import splitstree4.gui.main.RadiallyLayoutNodeLabels;
 import splitstree4.main.SplitsTreeProperties;
 import splitstree4.nexus.*;
 import splitstree4.util.NexusFileFilter;
@@ -2192,6 +2193,9 @@ public class Document extends DocumentData {
                 String oldPoweredBy = graphView.getPOWEREDBY();
                 graphView.setPOWEREDBY(title);
                 graphView.setAutoLayoutLabels(getAssumptions().getAutoLayoutNodeLabels());
+
+                if (getAssumptions().getRadiallyLayoutNodeLabels())
+                    RadiallyLayoutNodeLabels.doCircularLayoutNodeLabels(graphView);
 
                 try {
                     if (format.equalsIgnoreCase("eps")) {

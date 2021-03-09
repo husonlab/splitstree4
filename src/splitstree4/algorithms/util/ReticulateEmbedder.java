@@ -98,7 +98,7 @@ public class ReticulateEmbedder {
 
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
             if (graph.getSplit(e) == 0) {
-                TaxaSet cluster = (TaxaSet) edge2cluster.get(e);
+                TaxaSet cluster = (TaxaSet) edge2cluster.getValue(e);
                 if (cluster != null) {
                     for (int s = 1; s <= splits.getNsplits(); s++) {
                         if (splits.get(s).equalsAsSplit(cluster, ntax)) {
@@ -118,7 +118,7 @@ public class ReticulateEmbedder {
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
             int s = graph.getSplit(e);
             if (s >= 0) {
-                TaxaSet cluster = (TaxaSet) edge2cluster.get(e);
+                TaxaSet cluster = (TaxaSet) edge2cluster.getValue(e);
                 double height = computeHeight(cluster, cycleInverse, ntax);
                 if (shake)
                     height += 0.5 * (rand.nextFloat() - 0.5) * smallDistance;
@@ -161,7 +161,7 @@ public class ReticulateEmbedder {
                                 weight = 1;
                         } else
                             weight = smallDistance;
-                        double y = (Double) cluster2height.get(edge2cluster.get(e));
+                        double y = (Double) cluster2height.get(edge2cluster.getValue(e));
                         double x = location.getX() + weight;
                         if (shake)
                             x += 0.5 * (rand.nextFloat() - 0.5) * smallDistance;
@@ -195,11 +195,11 @@ public class ReticulateEmbedder {
                     if (v.getOutDegree() == 1) // should always have a single out edge
                     {
                         Edge f = v.getFirstOutEdge();
-                        y = (Double) cluster2height.get(edge2cluster.get(f));
+                        y = (Double) cluster2height.get(edge2cluster.getValue(f));
                     } else // weird, if there is a cluster associated with the edge, use it
                     {
                         Edge e = v.getFirstInEdge();
-                        TaxaSet cluster = (TaxaSet) edge2cluster.get(e);
+                        TaxaSet cluster = (TaxaSet) edge2cluster.getValue(e);
                         if (cluster != null) {
                             y = computeHeight(cluster, cycleInverse, ntax);
                         }
@@ -527,7 +527,7 @@ public class ReticulateEmbedder {
 
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
             if (graph.getSplit(e) == 0) {
-                TaxaSet cluster = (TaxaSet) edge2cluster.get(e);
+                TaxaSet cluster = (TaxaSet) edge2cluster.getValue(e);
                 if (cluster != null) {
                     for (int s = 1; s <= splits.getNsplits(); s++) {
                         if (splits.get(s).equalsAsSplit(cluster, ntax)) {
@@ -543,7 +543,7 @@ public class ReticulateEmbedder {
         EdgeDoubleArray edge2angle = new EdgeDoubleArray(graph);
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
             if (graph.getSplit(e) != -1) {
-                edge2angle.set(e, computeAngle((TaxaSet) edge2cluster.get(e), cycleInverse, ntax, maxAngle));
+                edge2angle.put(e, computeAngle((TaxaSet) edge2cluster.getValue(e), cycleInverse, ntax, maxAngle));
             }
         }
 

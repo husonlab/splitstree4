@@ -169,9 +169,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
 
         }
         // label each edge in the graph with its split
-        Iterator it = graph.edgeIterator();
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
+        for (var e : graph.edges()) {
             BitSet label = new BitSet(splits.getNsplits() + 1);
             label.set(graph.getSplit(e));
             e.setInfo(label);
@@ -213,7 +211,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
         LabelGraph.cleanNodes(graphView, graph);
         if (labelSequences) LabelGraph.writeLabels2Nodes(graphView, graph);
         /*
-        Iterator tmp = graph.nodeIterator();
+        Iterator tmp = graph.nodes().iterator();
         while(tmp.hasNext()){
             Node n = (Node)tmp.next();
             graph.setLabel(n,n.toString());
@@ -315,9 +313,8 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
         if (unvisited.contains(v)) {
             unvisited.remove(v);
             comp.add(v);
-            final Iterator it = graph.adjacentNodes(v).iterator();
-            while (it.hasNext()) {
-                visitComponentRec((Node) it.next(), unvisited, graph, comp);
+            for (var u : v.adjacentNodes()) {
+                visitComponentRec(u, unvisited, graph, comp);
             }
         }
     }

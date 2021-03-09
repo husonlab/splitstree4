@@ -295,12 +295,6 @@ public class SplitsUtilities {
      * @param dist               the distances
      */
     static public void computeFits(boolean forceRecalculation, Splits splits, Distances dist, Document doc) {
-        double dsum = 0;
-        double ssum = 0;
-        double dsumSquare = 0;
-        double ssumSquare = 0;
-        double netsumSquare = 0;
-
         if (splits == null || dist == null)
             return;
 
@@ -329,29 +323,34 @@ public class SplitsUtilities {
                 sdist[i][j] = sdist[j][i] = dij;
             }
         }
+
+        double dsum = 0;
+        double diffSum = 0;
+        double dsumSquare = 0;
+        double diffSumSquared = 0;
+        double netsumSquare = 0;
+
         for (int i = 1; i <= ntax; i++) {
             for (int j = i + 1; j <= ntax; j++) {
                 double sij = sdist[i][j];
                 double dij = dist.get(i, j);
-                double x = Math.abs(sij - dij);
-                ssum += x;
-                ssumSquare += x * x;
+                diffSum += Math.abs(sij - dij);
+                diffSumSquared += (sij - dij) * (sij - dij);
                 dsum += dij;
                 dsumSquare += dij * dij;
                 netsumSquare += sij * sij;
             }
         }
-        double fit = 100 * (1.0 - ssum / dsum);
+        double fit = 100 * (1.0 - diffSum / dsum);
         fit = Math.max(fit, 0.0);
         splits.getProperties().setFit(fit);
 
-        double lsfit = 100.0 * (1.0 - ssumSquare / dsumSquare);
-
+        double lsfit = 100.0 * (1.0 - diffSumSquared / dsumSquare);
 
         lsfit = Math.max(lsfit, 0.0);
         splits.getProperties().setLSFit(lsfit);
 
-        double stress = Math.sqrt(ssumSquare / netsumSquare);
+        double stress = Math.sqrt(diffSumSquared / netsumSquare);
 
         System.err.println("\nRecomputed fit:\n\tfit = " + fit + "\n\tLS fit =" + lsfit + "\n\tstress =" + stress + "\n");
 

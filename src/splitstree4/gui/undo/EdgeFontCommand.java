@@ -32,7 +32,7 @@ import java.util.Iterator;
  */
 public class EdgeFontCommand extends ICommandAdapter implements ICommand {
     MainViewer viewer;
-    EdgeArray fonts;
+    EdgeArray<Font> fonts;
 
     /**
      * constructor
@@ -47,14 +47,14 @@ public class EdgeFontCommand extends ICommandAdapter implements ICommand {
         this.viewer = viewer;
 
         // need to store current fonts now!
-        this.fonts = new EdgeArray(viewer.getGraph());
+        this.fonts = new EdgeArray<>(viewer.getGraph());
 
-        Iterator iter = viewer.getSelectedEdges().iterator();
+        Iterator<Edge> iter = viewer.getSelectedEdges().iterator();
         if (!iter.hasNext() && viewer.getNumberSelectedNodes() == 0)
-            iter = viewer.getGraph().edgeIterator();
+            iter = viewer.getGraph().edges().iterator();
 
-        for (; iter.hasNext(); ) {
-            Edge e = (Edge) iter.next();
+        while (iter.hasNext()) {
+            Edge e = iter.next();
             if (viewer.getLabel(e) != null && viewer.getLabel(e).length() > 0 && viewer.getFont(e) != null) {
                 String familyE = viewer.getFont(e).getFamily();
                 int styleE = viewer.getFont(e).getStyle();
@@ -65,8 +65,7 @@ public class EdgeFontCommand extends ICommandAdapter implements ICommand {
                 if (italics == 1 || (italics == -1 && (styleE == Font.ITALIC || styleE == Font.BOLD + Font.ITALIC)))
                     style += Font.ITALIC;
 
-                Font font = new Font((family != null ? family : familyE), style,
-                        (size == -1 ? sizeE : size));
+                Font font = new Font((family != null ? family : familyE), style, (size == -1 ? sizeE : size));
                 fonts.put(e, font);
             }
         }
@@ -81,8 +80,8 @@ public class EdgeFontCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new EdgeFontCommand(viewer, null, -1, -1, -1));
 
         for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext())
-            if (fonts.get(e) != null)
-                viewer.setFont(e, (Font) fonts.get(e));
+            if (fonts.getValue(e) != null)
+                viewer.setFont(e, (Font) fonts.getValue(e));
         viewer.repaint();
         return getReverseCommand();
     }

@@ -19,7 +19,6 @@
  */
 package splitstree4.algorithms.splits.reticulateTree;
 
-import jloda.graph.Edge;
 import jloda.graph.Node;
 import jloda.graph.NodeSet;
 import jloda.phylo.PhyloSplitsGraph;
@@ -132,9 +131,7 @@ public class LabelGraph {
 
 
     public static void cleanEdges(PhyloGraphView graphView, PhyloSplitsGraph graph, Splits splits) {
-        Iterator it = graph.edgeIterator();
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
+        for (var e : graph.edges()) {
             //e.setInfo(null);
             if (verbose) System.out.println("edge: " + e + "\t" + graphView.getLabel(e));
             graph.setLabel(e, "");
@@ -145,7 +142,7 @@ public class LabelGraph {
     }
 
     public static void cleanNodes(PhyloGraphView graphView, PhyloSplitsGraph graph) {
-        Iterator it = graph.nodeIterator();
+        Iterator it = graph.nodes().iterator();
         while (it.hasNext()) {
             Node n = (Node) it.next();
             //n.setInfo(null);
@@ -160,7 +157,7 @@ public class LabelGraph {
      */
 
     static public void writeLabels2Nodes(PhyloGraphView graphView, PhyloSplitsGraph graph) {
-        Iterator it = graph.nodeIterator();
+        Iterator it = graph.nodes().iterator();
         while (it.hasNext()) {
             Node n = (Node) it.next();
             String label = (String) n.getInfo();
@@ -184,9 +181,8 @@ public class LabelGraph {
      * @throws Exception
      */
     static public void writeSplits2Edges(PhyloSplitsGraph graph, Map splits2Chars) {
-        Iterator it = graph.edgeIterator();
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
+        for (var e : graph.edges()) {
+            ;
             BitSet edgeSplits = (BitSet) e.getInfo();
             BitSet charPositions = new BitSet();
             StringBuilder label = new StringBuilder("");

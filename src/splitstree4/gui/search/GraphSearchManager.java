@@ -304,8 +304,8 @@ public class GraphSearchManager implements SearchManager {
         int numNodesChanged = 0;
         int numEdgesChanged = 0;
 
-        Iterator nodeIterator = viewer.getGraph().nodeIterator();
-        Iterator edgeIterator = viewer.getGraph().edgeIterator();
+        Iterator<Node> nodeIterator = viewer.getGraph().nodes().iterator();
+        Iterator<Edge> edgeIterator = viewer.getGraph().edges().iterator();
 
         if (options.replaceAllSelectionOnly) {
             nodeIterator = viewer.getSelectedNodes().iterator();
@@ -317,7 +317,7 @@ public class GraphSearchManager implements SearchManager {
         //   CompoundCommand compoundCmd = new CompoundCommand();
 
         while (nodeIterator.hasNext()) {
-            Node thisNode = (Node) nodeIterator.next();
+            Node thisNode = nodeIterator.next();
             String label = viewer.getLabel(thisNode);
             if (matchLabel(regExp, label, options)) {
                 label = label.replaceAll(regExp, replaceText);
@@ -348,8 +348,8 @@ public class GraphSearchManager implements SearchManager {
     public void findAll(String searchText, SearchOptions options) {
         Rectangle bbox = null; // need the bbox to adjust the scrollbars
 
-        Iterator nodeIterator = viewer.getGraph().nodeIterator();
-        Iterator edgeIterator = viewer.getGraph().edgeIterator();
+        Iterator<Node> nodeIterator = viewer.getGraph().nodes().iterator();
+        Iterator<Edge> edgeIterator = viewer.getGraph().edges().iterator();
 
         if (options.replaceAllSelectionOnly) {
             nodeIterator = viewer.getSelectedNodes().iterator();
@@ -361,7 +361,7 @@ public class GraphSearchManager implements SearchManager {
         viewer.selectAllEdges(false);
 
         while (nodeIterator.hasNext()) {
-            Node thisNode = (Node) nodeIterator.next();
+            Node thisNode = nodeIterator.next();
             String label = viewer.getLabel(thisNode);
             if (matchLabel(regExp, label, options)) {
                 viewer.setSelected(thisNode, true);

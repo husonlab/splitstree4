@@ -32,6 +32,7 @@
 package splitstree4.util;
 
 import jloda.graph.*;
+import jloda.graphs.algorithms.ConnectedComponents;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.swing.util.Alert;
@@ -62,7 +63,7 @@ public class NetworkUtilities {
         network.syncNetwork2PhyloGraphView(taxa, null, graphView);
 
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
-        if (graph.getNumberConnectedComponents() > 1) {
+        if (ConnectedComponents.count(graph) > 1) {
             new Alert("Given network is not connected, can't embed");
             return;
         }
@@ -187,7 +188,7 @@ public class NetworkUtilities {
                     b = setAnglesRec(graph, view, a, graph.getOpposite(root, e), e, leaves, angle, rand);
 
                     // point towards the segment of the unit circle a...b:
-                    angle.set(e, Math.PI * (a + b) / leaves.size());
+                    angle.put(e, Math.PI * (a + b) / leaves.size());
 
                     a = b;
                 }

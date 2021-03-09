@@ -307,7 +307,7 @@ public class DFilter {
             Node a = graph.getOpposite(v, e);
             for (Edge f = graph.getNextAdjacentEdge(e, v); f != null; f = graph.getNextAdjacentEdge(f, v)) {
                 Node b = graph.getOpposite(v, f);
-                if (!graph.areAdjacent(a, b))
+                if (!a.isAdjacent(b))
                     return true;
             }
         }

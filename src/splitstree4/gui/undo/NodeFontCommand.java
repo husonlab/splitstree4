@@ -52,7 +52,7 @@ public class NodeFontCommand extends ICommandAdapter implements ICommand {
         Iterator iter = viewer.getSelectedNodes().iterator();
 
         if (!iter.hasNext() && viewer.getNumberSelectedEdges() == 0)
-            iter = viewer.getGraph().nodeIterator();
+            iter = viewer.getGraph().nodes().iterator();
 
         for (; iter.hasNext(); ) {
             Node v = (Node) iter.next();
@@ -82,8 +82,8 @@ public class NodeFontCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new NodeFontCommand(viewer, null, -1, -1, -1));
 
         for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext())
-            if (fonts.get(v) != null)
-                viewer.setFont(v, (Font) fonts.get(v));
+            if (fonts.getValue(v) != null)
+                viewer.setFont(v, (Font) fonts.getValue(v));
         viewer.repaint();
         return getReverseCommand();
     }

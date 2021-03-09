@@ -20,6 +20,7 @@
 package splitstree4.util;
 
 import jloda.graph.*;
+import jloda.graphs.algorithms.Dijkstra;
 import jloda.phylo.PhyloTree;
 import jloda.swing.graphview.GraphView;
 import jloda.util.Basic;
@@ -177,11 +178,10 @@ public class TreeCollector {
             System.err.println("graph: " + graph);
 
             // run dijkstras algorithm:
-            List shortestPath = Dijkstra.compute(graph, source, sink);
+            List<Node> shortestPath = Dijkstra.compute(graph, source, sink, z -> (Integer) z.getInfo());
             Trees result = new Trees();
             result.setTranslate(trees.getTranslate());
-            for (Object aShortestPath : shortestPath) {
-                Node v = (Node) aShortestPath;
+            for (Node v : shortestPath) {
                 int t = (Integer) graph.getInfo(v);
                 result.addTree(trees.getName(t), trees.getTree(t), taxa);
             }

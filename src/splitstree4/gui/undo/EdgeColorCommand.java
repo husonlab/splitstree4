@@ -100,7 +100,7 @@ public class EdgeColorCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new EdgeColorCommand(viewer, fg, label, lbg));
 
         for (Edge a = viewer.getGraph().getFirstEdge(); a != null; a = a.getNext()) {
-            Color color = (Color) colors.get(a);
+            Color color = (Color) colors.getValue(a);
             if (fg)
                 viewer.setColor(a, color);
             if (lbg)

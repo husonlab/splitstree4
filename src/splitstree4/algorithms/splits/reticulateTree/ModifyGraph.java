@@ -201,7 +201,7 @@ public class ModifyGraph {
             while (it.hasNext()) {
                 Node v = (Node) it.next();
                 if (!used.contains(v)) {
-                    TaxaSet gateTaxa = (TaxaSet) gate2externalTaxa.get(v);
+                    TaxaSet gateTaxa = (TaxaSet) gate2externalTaxa.getValue(v);
                     if (gateTaxa != null) {
                         if (verbose) System.out.println("gateTaxa: " + gateTaxa);
                         if (origTaxa.equals(gateTaxa)) {

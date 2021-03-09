@@ -485,9 +485,7 @@ public class EqualAngleOld implements Splits2Network {
         doc.notifySetMaximumProgress(graph.getNumberOfEdges());
 
         int count = 0;
-        Iterator it = graph.edgeIterator();
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
+        for (var e : graph.edges()) {
             graph.setAngle(e, split2angle[graph.getSplit(e)]);
             doc.notifySetProgress(++count);
         }
@@ -512,7 +510,7 @@ public class EqualAngleOld implements Splits2Network {
 
             int count = 0;
 
-            Iterator it = Basic.randomize(graph.nodeIterator(), 77 * i);
+            Iterator it = Basic.randomize(graph.nodes().iterator(), 77 * i);
             while (it.hasNext()) {
                 Node v = (Node) it.next();
                 if (graph.getDegree(v) > 1 && !ignore.contains(v)) {

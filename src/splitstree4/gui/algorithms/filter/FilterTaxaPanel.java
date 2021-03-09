@@ -397,7 +397,7 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
 
                     listl.clear();
                     listr.clear();
-                    Iterator it = graph.nodeIterator();
+                    Iterator it = graph.nodes().iterator();
                     while (it.hasNext()) {
                         Node v = (Node) it.next();
                         for (Integer t : graph.getTaxa(v)) {

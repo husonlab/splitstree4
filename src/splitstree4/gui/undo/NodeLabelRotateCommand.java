@@ -54,8 +54,8 @@ public class NodeLabelRotateCommand extends ICommandAdapter implements ICommand 
         setReverseCommand(new NodeLabelRotateCommand(viewer, 0));
 
         for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext()) {
-            if (angles.get(v) != null) {
-                float angle = (Float) angles.get(v);
+            if (angles.getValue(v) != null) {
+                float angle = (Float) angles.getValue(v);
                 viewer.getNV(v).setLabelAngle(angle);
             }
         }

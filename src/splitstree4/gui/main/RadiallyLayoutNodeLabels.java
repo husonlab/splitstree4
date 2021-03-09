@@ -21,6 +21,7 @@ package splitstree4.gui.main;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
+import jloda.swing.graphview.GraphView;
 import jloda.swing.graphview.NodeView;
 import jloda.swing.util.Geometry;
 
@@ -32,7 +33,7 @@ import java.awt.geom.Point2D;
  * Daniel Huson and David Bryant, 2.2008
  */
 public class RadiallyLayoutNodeLabels {
-    public static void doCircularLayoutNodeLabels(MainViewer viewer) {
+    public static void doCircularLayoutNodeLabels(GraphView viewer) {
         for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext()) {
             NodeView nv = viewer.getNV(v);
             if (nv.getLabelLayout() == NodeView.LAYOUT) {

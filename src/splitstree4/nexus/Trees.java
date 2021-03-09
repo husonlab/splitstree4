@@ -22,6 +22,7 @@
  */
 package splitstree4.nexus;
 
+import jloda.graph.Graph;
 import jloda.graph.Node;
 import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloTree;
@@ -650,7 +651,7 @@ public class Trees extends NexusBlock {
         PhyloTree tree = getTree(which);
 
         TaxaSet seen = new TaxaSet();
-        Iterator it = tree.nodeIterator();
+        Iterator it = tree.nodes().iterator();
         while (it.hasNext()) {
             try {
                 String nodeLabel = tree.getLabel((Node) it.next());
@@ -711,9 +712,7 @@ public class Trees extends NexusBlock {
     public void setTaxaFromPartialTrees(Taxa taxa) throws SplitsException {
         Set<String> taxaLabels = new HashSet<>();
         for (int i = 1; i <= getNtrees(); i++) {
-            PhyloTree tree = getTree(i);
-            Set<String> nodeLabels = tree.getNodeLabels();
-            for (String nodeLabel : nodeLabels) {
+            for (String nodeLabel : getNodeLabels(getTree(i))) {
                 taxaLabels.add(translate.get(nodeLabel));
             }
         }
@@ -737,6 +736,20 @@ public class Trees extends NexusBlock {
                 taxa.setLabel(++t, (String) it.next());
             }
         }
+    }
+
+    /**
+     * Gets an enumeration of all node labels.
+     */
+    private static Set<String> getNodeLabels(Graph graph) {
+        Set<String> set = new HashSet<>();
+
+        for (var v : graph.nodes()) {
+            if (v.getLabel() != null && !v.getLabel().isBlank())
+                set.add(v.getLabel());
+        }
+
+        return set;
     }
 
     private Trees originalTrees;

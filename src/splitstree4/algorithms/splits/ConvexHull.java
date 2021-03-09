@@ -302,7 +302,7 @@ public class ConvexHull implements Splits2Network {
 
 
         doc.notifySetProgress(-1);
-        Iterator it = graph.nodeIterator();
+        Iterator it = graph.nodes().iterator();
         while (it.hasNext()) {
             Node n = (Node) it.next();
             graph.setLabel(n, null);
@@ -327,7 +327,7 @@ public class ConvexHull implements Splits2Network {
 
         int maxNumberOfTaxaOnNode = 0;
         for (Node v : graph.nodes()) {
-            graphView.setLocation(v, coords.get(v).getX(), coords.get(v).getY());
+            graphView.setLocation(v, coords.getValue(v).getX(), coords.getValue(v).getY());
             maxNumberOfTaxaOnNode = Math.max(graph.getNumberOfTaxa(v), maxNumberOfTaxaOnNode);
         }
 

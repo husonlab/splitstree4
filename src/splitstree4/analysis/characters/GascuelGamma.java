@@ -162,7 +162,7 @@ public class GascuelGamma implements CharactersAnalysisMethod {
         //Locate the four edges
 
         {
-            final Iterator<Edge> it = T.adjacentEdges(v).iterator();
+            final Iterator<Edge> it = v.adjacentEdges().iterator();
             a = it.next();
             if (a == e)
                 a = it.next();
@@ -172,7 +172,7 @@ public class GascuelGamma implements CharactersAnalysisMethod {
         }
 
         {
-            final Iterator<Edge> it = T.adjacentEdges(w).iterator();
+            final Iterator<Edge> it = w.adjacentEdges().iterator();
             c = it.next();
             if (c == e)
                 c = it.next();

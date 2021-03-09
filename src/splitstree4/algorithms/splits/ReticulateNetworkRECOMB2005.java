@@ -203,11 +203,11 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
         // 9. label nodes by sequences, if desired:
         if (optionShowSequences && node2Sequence != null) {
             for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
-                if (node2Sequence.get(v) != null) {
+                if (node2Sequence.getValue(v) != null) {
                     if (graphView.getLabel(v) == null)
-                        graphView.setLabel(v, (String) node2Sequence.get(v));
+                        graphView.setLabel(v, (String) node2Sequence.getValue(v));
                     else
-                        graphView.setLabel(v, graphView.getLabel(v) + ":" + node2Sequence.get(v));
+                        graphView.setLabel(v, graphView.getLabel(v) + ":" + node2Sequence.getValue(v));
                 }
             }
         }
@@ -224,9 +224,9 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
             for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
                 Node v = e.getSource();
                 Node w = e.getTarget();
-                if (node2Sequence.get(v) != null && node2Sequence.get(w) != null) {
-                    String label = Basic.deltaBinarySequences((String) node2Sequence.get(v),
-                            (String) node2Sequence.get(w));
+                if (node2Sequence.getValue(v) != null && node2Sequence.getValue(w) != null) {
+                    String label = Basic.deltaBinarySequences((String) node2Sequence.getValue(v),
+                            (String) node2Sequence.getValue(w));
                     if (graph.getLabel(e) == null)
                         graph.setLabel(e, label);
                     else
@@ -702,7 +702,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
             while (it.hasNext()) {
                 Node v = (Node) it.next();
                 if (!used.contains(v)) {
-                    TaxaSet gateTaxa = (TaxaSet) gate2externalTaxa.get(v);
+                    TaxaSet gateTaxa = (TaxaSet) gate2externalTaxa.getValue(v);
                     ////System.err.println("gate node " + v);
                     //System.err.println("gate taxa " + gateTaxa);
                     if (gateTaxa != null && origTaxa.equals(gateTaxa)) {
@@ -731,7 +731,7 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
             while (it.hasNext()) {
                 Node v = (Node) it.next();
                 if (!used.contains(v)) {
-                    TaxaSet gateTaxa = (TaxaSet) gate2externalTaxa.get(v);
+                    TaxaSet gateTaxa = (TaxaSet) gate2externalTaxa.getValue(v);
                     if (gateTaxa != null && origTaxa.equals(gateTaxa)) {
                         found = true;
                         used.add(v);
@@ -824,13 +824,13 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
             int lastPosCovered = ret.getLastPositionCovered()[i];
 
             final Node r = induced2gateNode[reticulateTaxon];
-            final String rSequence = (String) node2Sequence.get(r);
+            final String rSequence = (String) node2Sequence.getValue(r);
 
             final Node pa = backbonePos2node[firstPosCovered - 1];
-            final String paSequence = (String) node2Sequence.get(pa);
+            final String paSequence = (String) node2Sequence.getValue(pa);
             final Node pb = backbonePos2succNode[firstPosCovered - 1];
             final Node pc = backbonePos2node[firstPosCovered];
-            final String pcSequence = (String) node2Sequence.get(pc);
+            final String pcSequence = (String) node2Sequence.getValue(pc);
             final String pConsensus = Basic.majorityBinarySequences(paSequence, pcSequence, rSequence);
             final Node pAttach;
             if (pConsensus.equals(paSequence))
@@ -839,8 +839,8 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
                 pAttach = pc;
             else {
                 pAttach = pb;
-                if (node2Sequence.get(pAttach) != null) {
-                    String oldSequence = (String) node2Sequence.get(pAttach);
+                if (node2Sequence.getValue(pAttach) != null) {
+                    String oldSequence = (String) node2Sequence.getValue(pAttach);
                     if (!oldSequence.equals(pConsensus))
                         System.err.println("Replaced: " + oldSequence + "\n"
                                 + "by:       " + pConsensus);
@@ -849,10 +849,10 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
             }
 
             final Node qa = backbonePos2node[lastPosCovered + 1];
-            final String qaSequence = (String) node2Sequence.get(qa);
+            final String qaSequence = (String) node2Sequence.getValue(qa);
             final Node qb = backbonePos2succNode[lastPosCovered];
             final Node qc = backbonePos2node[lastPosCovered];
-            final String qcSequence = (String) node2Sequence.get(qc);
+            final String qcSequence = (String) node2Sequence.getValue(qc);
             final String qConsensus = Basic.majorityBinarySequences(qaSequence, qcSequence, rSequence);
             final Node qAttach;
             if (qConsensus.equals(qaSequence))
@@ -861,8 +861,8 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
                 qAttach = qc;
             else {
                 qAttach = qb;
-                if (node2Sequence.get(qAttach) != null) {
-                    String oldSequence = (String) node2Sequence.get(qAttach);
+                if (node2Sequence.getValue(qAttach) != null) {
+                    String oldSequence = (String) node2Sequence.getValue(qAttach);
                     if (!oldSequence.equals(qConsensus))
                         System.err.println("Replaced: " + oldSequence + "\n"
                                 + "by:       " + qConsensus);

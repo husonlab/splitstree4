@@ -864,7 +864,7 @@ public class Assumptions extends NexusBlock {
                     splitsTransformParam = np.getTokensStringRespectCase(";");
                     updateFirstDirtyBlock(Splits.NAME);
                 } else if (np.peekMatchIgnoreCase("exclude")) {
-                    List tokens = np.getTokensLowerCase("exclude", ";");
+                    var tokens = np.getTokensLowerCase("exclude", ";");
                     excludeGaps = np.findIgnoreCase(tokens, "no gaps", false, excludeGaps);
                     excludeGaps = np.findIgnoreCase(tokens, "gaps", true, excludeGaps);
                     excludeNonParsimony = np.findIgnoreCase(tokens, "no nonparsimony", false,
@@ -1188,7 +1188,8 @@ public class Assumptions extends NexusBlock {
                 theClass = Class.forName(unalignTransform);
             trans = (UnalignedTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
-            System.err.println("Class not found: " + unalignTransform);
+            if (unalignTransform != null)
+                System.err.println("Class not found: " + unalignTransform);
             unalignTransform = "Noalign";
             unalignTransformParam = "";
             trans = new Noalign();
@@ -1228,7 +1229,8 @@ public class Assumptions extends NexusBlock {
                 theClass = Class.forName(charTransform);
             trans = (CharactersTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
-            System.err.println("Class not found: " + charTransform);
+            if (charTransform != null)
+                System.err.println("Class not found: " + charTransform);
             charTransform = Basic.getShortName(Uncorrected_P.class);
             charTransformParam = "";
             trans = new Uncorrected_P();
@@ -1270,7 +1272,8 @@ public class Assumptions extends NexusBlock {
                 theClass = Class.forName(distTransform);
             trans = (DistancesTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
-            System.err.println("Class not found: " + distTransform);
+            if (distTransform != null)
+                System.err.println("Class not found: " + distTransform);
             distTransform = "NeighborNet";
             distTransformParam = "";
             trans = new NeighborNet();
@@ -1309,7 +1312,8 @@ public class Assumptions extends NexusBlock {
                 theClass = Class.forName(quartetsTransform);
             trans = (QuartetsTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
-            System.err.println("Class not found: " + quartetsTransform);
+            if (quartetsTransform != null)
+                System.err.println("Class not found: " + quartetsTransform);
             quartetsTransform = "Coalescent";
             quartetsTransformParam = "";
             trans = new Coalescent();
@@ -1349,7 +1353,8 @@ public class Assumptions extends NexusBlock {
                 theClass = Class.forName(splitsTransform);
             trans = (SplitsTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
-            System.err.println("Class not found: " + splitsTransform);
+            if (splitsTransform != null)
+                System.err.println("Class not found: " + splitsTransform);
             splitsTransform = Basic.getShortName(EqualAngle.class);
             splitsTransformParam = "";
             trans = new EqualAngle();
@@ -1389,7 +1394,8 @@ public class Assumptions extends NexusBlock {
                 theClass = Class.forName(treesTransform);
             trans = (TreesTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
-            System.err.println("Class not found: " + treesTransform);
+            if (treesTransform != null)
+                System.err.println("Class not found: " + treesTransform);
             treesTransform = "TreeSelector";
             treesTransformParam = "";
             trans = new TreeSelector();
@@ -1423,7 +1429,8 @@ public class Assumptions extends NexusBlock {
                 theClass = Class.forName(reticulateTransform);
             trans = (ReticulateTransform) (theClass.getConstructor().newInstance());
         } catch (Exception ex) {
-            System.err.println("Class not found: " + reticulateTransform);
+            if (reticulateTransform != null)
+                System.err.println("Class not found: " + reticulateTransform);
             reticulateTransform = Basic.getShortName(ReticulateEqualAngle.class);
             reticulateTransformParam = "";
             trans = new ReticulateEqualAngle();

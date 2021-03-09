@@ -536,15 +536,15 @@ public class GraphViewListener implements IGraphViewListener {
             }
             {
                 for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext()) {
-                    Point2D startPoint = (Point2D) startInternalPoints.get(e);
+                    Point2D startPoint = (Point2D) startInternalPoints.getValue(e);
                     if (startPoint != null) {
                         Node v;
-                        if (((Point2D) startCoordinates.get(e.getSource())).getY() == startPoint.getY())
+                        if (((Point2D) startCoordinates.getValue(e.getSource())).getY() == startPoint.getY())
                             v = e.getSource();
                         else
                             v = e.getTarget();
 
-                        Point2D aPt = (Point2D) startCoordinates.get(v);
+                        Point2D aPt = (Point2D) startCoordinates.getValue(v);
                         diff = Geometry.diff(viewer.getLocation(v), aPt);
                         java.util.List<Point2D> list = new LinkedList<>();
                         list.add(new Point2D.Double(startPoint.getX() + diff.getX(), startPoint.getY() + diff.getY()));

@@ -162,9 +162,7 @@ public class GalledNetwork implements Splits2Network {
         }
 
         // label each edge in the graph with its split
-        Iterator it = graph.edgeIterator();
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
+        for (var e : graph.edges()) {
             BitSet label = new BitSet(splits.getNsplits() + 1);
             label.set(graph.getSplit(e));
             e.setInfo(label);
@@ -206,7 +204,7 @@ public class GalledNetwork implements Splits2Network {
         LabelGraph.cleanNodes(graphView, graph);
         if (optionShowSequences) LabelGraph.writeLabels2Nodes(graphView, graph);
         /*
-        Iterator tmp = graph.nodeIterator();
+        Iterator tmp = graph.nodes().iterator();
         while(tmp.hasNext()){
             Node n = (Node)tmp.next();
             graph.setLabel(n,n.toString());

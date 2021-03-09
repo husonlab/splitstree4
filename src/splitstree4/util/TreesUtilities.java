@@ -152,7 +152,7 @@ public class TreesUtilities {
 
         // label the nodes:
         try {
-            Iterator it = tree.nodeIterator();
+            Iterator it = tree.nodes().iterator();
             while (it.hasNext()) {
                 Node v = (Node) it.next();
                 BitSet bs = ((TaxaSet) tree.getInfo(v)).getBits();
@@ -233,7 +233,7 @@ public class TreesUtilities {
      */
     public static void verifyTree(PhyloTree tree, Map translate, Taxa taxa, boolean allowAddTaxa) throws SplitsException {
         TaxaSet seen = new TaxaSet();
-        Iterator it = tree.nodeIterator();
+        Iterator it = tree.nodes().iterator();
         while (it.hasNext()) {
             try {
                 String nodeLabel = tree.getLabel((Node) it.next());
@@ -324,10 +324,8 @@ public class TreesUtilities {
     static public TaxaSet getTaxaPresentInPartialTree(Taxa taxa, Trees trees, int which) {
         TaxaSet result = new TaxaSet();
         PhyloTree tree = trees.getTree(which);
-        Set nodeLabels = tree.getNodeLabels();
-        for (Object nodeLabel1 : nodeLabels) {
-            String nodeLabel = (String) nodeLabel1;
-            result.set(taxa.indexOf((String) trees.getTranslate().get(nodeLabel)));
+        for (var label : tree.getNodeLabels()) {
+            result.set(taxa.indexOf(trees.getTranslate().get(label)));
         }
         return result;
     }

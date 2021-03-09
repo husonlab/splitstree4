@@ -1347,8 +1347,8 @@ public class Network extends NexusBlock {
                 ed.line = widths.get(ed.e);
                 graphView.setLineWidth(ed.e, ed.line);
             }
-            if (colors.get(ed.e) != null) {
-                ed.fgc = (Color) colors.get(ed.e);
+            if (colors.getValue(ed.e) != null) {
+                ed.fgc = (Color) colors.getValue(ed.e);
                 graphView.setColor(ed.e, ed.fgc);
             }
         }

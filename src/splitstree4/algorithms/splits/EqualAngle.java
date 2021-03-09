@@ -357,8 +357,8 @@ public class EqualAngle implements Splits2Network {
 
             for (Node v = G.getFirstNode(); v != null; v = G.getNextNode(v)) {
                 Point2D p = phyloGraphView.getLocation(v);
-                xPos.set(v, p.getX());
-                yPos.set(v, p.getY());
+                xPos.put(v, p.getX());
+                yPos.put(v, p.getY());
             }
 
             // run iterations of spring embedding:
@@ -389,8 +389,8 @@ public class EqualAngle implements Splits2Network {
                         if (dist < 1e-3)
                             dist = 1e-3;
                         double frepulse = k * k / dist;
-                        xDispl.set(v, xDispl.getValue(v) + frepulse * xdist);
-                        yDispl.set(v, yDispl.getValue(v) + frepulse * ydist);
+                        xDispl.put(v, xDispl.getValue(v) + frepulse * xdist);
+                        yDispl.put(v, yDispl.getValue(v) + frepulse * ydist);
                     }
 
                     for (Edge e = G.getFirstEdge(); e != null; e = G.getNextEdge(e)) {
@@ -405,8 +405,8 @@ public class EqualAngle implements Splits2Network {
                         double dist = xdist * xdist + ydist * ydist;
                         if (dist < 1e-3) dist = 1e-3;
                         double frepulse = k * k / dist;
-                        xDispl.set(v, xDispl.getValue(v) + frepulse * xdist);
-                        yDispl.set(v, yDispl.getValue(v) + frepulse * ydist);
+                        xDispl.put(v, xDispl.getValue(v) + frepulse * xdist);
+                        yDispl.put(v, yDispl.getValue(v) + frepulse * ydist);
                     }
                 }
 
@@ -425,10 +425,10 @@ public class EqualAngle implements Splits2Network {
 
                     dist /= f;
 
-                    xDispl.set(v, xDispl.getValue(v) - xdist * dist / k);
-                    yDispl.set(v, yDispl.getValue(v) - ydist * dist / k);
-                    xDispl.set(u, xDispl.getValue(u) + xdist * dist / k);
-                    yDispl.set(u, yDispl.getValue(u) + ydist * dist / k);
+                    xDispl.put(v, xDispl.getValue(v) - xdist * dist / k);
+                    yDispl.put(v, yDispl.getValue(v) - ydist * dist / k);
+                    xDispl.put(u, xDispl.getValue(u) + xdist * dist / k);
+                    yDispl.put(u, yDispl.getValue(u) + ydist * dist / k);
                 }
 
                 // preventions
@@ -445,8 +445,8 @@ public class EqualAngle implements Splits2Network {
                     double xp = xPos.getValue(v) + xd;
                     double yp = yPos.getValue(v) + yd;
 
-                    xPos.set(v, xp);
-                    yPos.set(v, yp);
+                    xPos.put(v, xp);
+                    yPos.put(v, yp);
                 }
                 doc.notifySetProgress(count);
             }
@@ -726,10 +726,8 @@ public class EqualAngle implements Splits2Network {
 
         assignAnglesToSplits(TaxaAngles, split2angle, splits, cycle);
 
-        Iterator it = graph.edgeIterator();
-        while (it.hasNext()) {
-            Edge e = (Edge) it.next();
-            if (!forbiddenSplits.contains((int) (graph.getSplit(e)))) {
+        for (var e : graph.edges()) {
+            if (!forbiddenSplits.contains((graph.getSplit(e)))) {
                 graph.setAngle(e, split2angle[graph.getSplit(e)]);
             }
         }
@@ -808,7 +806,7 @@ public class EqualAngle implements Splits2Network {
 
                 int count = 0;
 
-                Iterator it = Basic.randomize(graph.nodeIterator(), 77 * i);
+                Iterator it = Basic.randomize(graph.nodes().iterator(), 77 * i);
                 while (it.hasNext()) {
                     Node v = (Node) it.next();
                     doc.notifySetProgress(++count);
@@ -1227,18 +1225,18 @@ public class EqualAngle implements Splits2Network {
                     currentEdge = (Edge) currentEdgesIt.next();
 
                     for (Node adjNode : currentEdge.getSource().adjacentNodes()) {
-                        if (A2Edge.get(currentEdge) != null)
+                        if (A2Edge.getValue(currentEdge) != null)
                             break;
                         if (adjNode != currentEdge.getTarget()) {
 
                             for (Edge parallEdge : adjNode.adjacentEdges()) {
                                 if (graph.getSplit(parallEdge) == graph.getSplit(currentEdge)) {
-                                    if (A1Edge.get(currentEdge) == null) {
+                                    if (A1Edge.getValue(currentEdge) == null) {
                                         A1Edge.put(currentEdge, parallEdge);
                                         adjNb.put(currentEdge, 1);
                                         //System.out.println("First parallel neighbour of "+CurrentEdge+" : "+ParallEdge);
                                     } else {
-                                        if (A2Edge.get(currentEdge) == null) {
+                                        if (A2Edge.getValue(currentEdge) == null) {
                                             A2Edge.put(currentEdge, parallEdge);
                                             adjNb.put(currentEdge, 2);
                                             //System.out.println("Second parallel neighbour of "+CurrentEdge+" : "+ParallEdge);
@@ -1255,28 +1253,28 @@ public class EqualAngle implements Splits2Network {
                 //Not necessary CurrentEdges=(List) EdgeSplits.get(CurrentSplit);
                 currentEdgesIt = currentEdges.iterator();
                 currentEdge = (Edge) currentEdgesIt.next();
-                while ((currentEdgesIt.hasNext()) && (adjNb.get(currentEdge) != 1)) {
+                while ((currentEdgesIt.hasNext()) && (adjNb.getValue(currentEdge) != 1)) {
                     currentEdge = (Edge) currentEdgesIt.next();
                     //System.out.println("Current edge "+CurrentEdge+" : "+((Integer) AdjNb.get(CurrentEdge)).intValue());
                 }
 
                 //We check if everything is all right:
-                if ((adjNb.get(currentEdge)) != 1) {
-                    System.out.println("(the graph is not planar! Big Problem here!!! " + adjNb.get(currentEdge));
+                if ((adjNb.getValue(currentEdge)) != 1) {
+                    System.out.println("(the graph is not planar! Big Problem here!!! " + adjNb.getValue(currentEdge));
                 }
 
                 //Then we go through all the edges of the split to identify the 4 extreme nodes,
                 //so our stop condition is to reach the other extreme edge
-                Edge TheNextEdge = A1Edge.get(currentEdge);
+                Edge TheNextEdge = A1Edge.getValue(currentEdge);
                 currentEdges = new ArrayList<>();
-                while ((adjNb.get(TheNextEdge)) > 1) {
+                while ((adjNb.getValue(TheNextEdge)) > 1) {
                     currentEdges.add(currentEdge);
-                    if (A1Edge.get(TheNextEdge) == currentEdge) {
+                    if (A1Edge.getValue(TheNextEdge) == currentEdge) {
                         currentEdge = TheNextEdge;
-                        TheNextEdge = A2Edge.get(TheNextEdge);
+                        TheNextEdge = A2Edge.getValue(TheNextEdge);
                     } else {
                         currentEdge = TheNextEdge;
-                        TheNextEdge = A1Edge.get(TheNextEdge);
+                        TheNextEdge = A1Edge.getValue(TheNextEdge);
                     }
                 }
 

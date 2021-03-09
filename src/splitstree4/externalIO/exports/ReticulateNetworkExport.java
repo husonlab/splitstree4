@@ -70,7 +70,7 @@ public class ReticulateNetworkExport extends ExporterAdapter implements Exporter
         net.syncNetwork2PhyloGraphView(taxa, doc.getSplits(), graphView);
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
         Node root = null;
-        Iterator it = graph.nodeIterator();
+        Iterator it = graph.nodes().iterator();
         while (root == null && it.hasNext()) {
             Node n = (Node) it.next();
             if (n.getInDegree() == 0) root = n;
@@ -135,13 +135,14 @@ public class ReticulateNetworkExport extends ExporterAdapter implements Exporter
             System.out.println("NODE: " + rTaxaName2Node.get(key) + "\tlabel: " + key);
         }
         System.out.println("------------------------");
-        it = g.edgeIterator();
-        while (it.hasNext()) System.out.println("EDGE: " + it.next());
+        for (var e : g.edges()) {
+            System.out.println("EDGE: " + e);
+        }
 
         // sort nodes by their OutDegree
         ArrayList<Node> list = new ArrayList<>();
 
-        it = g.nodeIterator();
+        it = g.nodes().iterator();
         while (it.hasNext()) {
             Node n = (Node) it.next();
             System.out.println("Node: " + n + "\toutdegree: " + n.getOutDegree());

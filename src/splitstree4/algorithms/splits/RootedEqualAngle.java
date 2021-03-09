@@ -630,7 +630,7 @@ public class RootedEqualAngle implements Splits2Network {
         Node rootNode = graphView.getPhyloGraph().getTaxon2Node(taxa.getNtax());// root is last node
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
         for (int i = 1; i <= getBrokenOptionDaylightIterations(); i++) {
-            var it = Basic.randomize(graph.nodeIterator(), 77 * i);
+            var it = Basic.randomize(graph.nodes().iterator(), 77 * i);
             while (it.hasNext()) {
                 final Node v = it.next();
                 if (graph.getDegree(v) > 1) {
