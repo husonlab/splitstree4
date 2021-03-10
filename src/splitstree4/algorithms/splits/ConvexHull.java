@@ -323,7 +323,7 @@ public class ConvexHull implements Splits2Network {
             graph.setTaxon2Cycle(cyclicOrdering[i], i);
         }
 
-        NodeArray<APoint2D> coords = PhyloSplitsGraphUtils.embed(graph, cyclicOrdering, getOptionWeights(), true);
+        NodeArray<APoint2D<?>> coords = PhyloSplitsGraphUtils.embed(graph, cyclicOrdering, getOptionWeights(), true);
 
         int maxNumberOfTaxaOnNode = 0;
         for (Node v : graph.nodes()) {

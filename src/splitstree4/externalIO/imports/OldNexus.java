@@ -20,13 +20,14 @@
 package splitstree4.externalIO.imports;
 
 
+import jloda.graph.Graph;
 import jloda.graph.Node;
 import jloda.phylo.PhyloTree;
 import jloda.util.Basic;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.*;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -236,7 +237,7 @@ public class OldNexus extends FileFilter implements Importer {
                     PhyloTree pt = new PhyloTree();
                     try {
                         pt.parseBracketNotation(sk.sval.substring(0, sk.sval.length() - 1));
-                        ntax = pt.computeNumLabeledNodes();
+                        ntax = countLabeledNodes(pt);
                         //If we haven't encountered a translate block we guess taxa names from
                         //the trees.
                         if (!hasTranslateBlock) {
@@ -265,18 +266,29 @@ public class OldNexus extends FileFilter implements Importer {
         return head.toString() + taxa + body.toString();
     }
 
+
+    /**
+     * Returns the number of nodes that have a label.
+     *
+     * @return count int
+     */
+    public static int countLabeledNodes(Graph graph) {
+        int count = 0;
+        for (var v : graph.nodes()) {
+            if (v.getLabel() != null)
+                count++;
+        }
+        return count;
+    }
+
+
     /**
      * gets the list of file extensions
      *
      * @return file extensions
      */
-    public List getFileExtensions() {
-        List extensions = new LinkedList();
-        extensions.add("nxs");
-        extensions.add("nex");
-        extensions.add("nexus");
-        return extensions;
-
+    public List<String> getFileExtensions() {
+        return Arrays.asList("nxs", "nex", "nexus");
     }
 
     /**

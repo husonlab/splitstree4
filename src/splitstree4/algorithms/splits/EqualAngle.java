@@ -185,7 +185,7 @@ public class EqualAngle implements Splits2Network {
             runOptimizeBoxes(phyloGraphView, forbiddenSplits);
 
             //We build the list of all existing splits so far
-            for (int splitNb = 0; splitNb < graph.getNumberOfSplits(); splitNb++) {
+            for (int splitNb = 0; splitNb < graph.countSplits(); splitNb++) {
                 if (!forbiddenSplits.contains(graph.getSplitIds()[splitNb])) {
                     forbiddenSplits.add(graph.getSplitIds()[splitNb]);
                 }
@@ -937,7 +937,7 @@ public class EqualAngle implements Splits2Network {
         try {
             int nbIterations = optionOptimizeBoxesIterations;
             doc.notifySubtask("optimize boxes");
-            doc.notifySetMaximumProgress(nbIterations * graph.getNumberOfSplits());
+            doc.notifySetMaximumProgress(nbIterations * graph.countSplits());
             doc.notifySetProgress(1);
             int counter = 0;
 
