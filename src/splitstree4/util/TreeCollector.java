@@ -20,7 +20,7 @@
 package splitstree4.util;
 
 import jloda.graph.*;
-import jloda.graphs.algorithms.Dijkstra;
+import jloda.graph.algorithms.Dijkstra;
 import jloda.phylo.PhyloTree;
 import jloda.swing.graphview.GraphView;
 import jloda.util.Basic;

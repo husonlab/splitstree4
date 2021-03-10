@@ -156,7 +156,7 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
                         haveWarnedMultipleLabels = true;
                     }
                 }
-                for (String label : tree.getNodeLabels()) {
+                for (String label : tree.nodeLabels()) {
                     labels.add(label);
                 }
                 // this is for partial Trees

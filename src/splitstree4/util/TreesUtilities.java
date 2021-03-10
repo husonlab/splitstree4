@@ -324,7 +324,7 @@ public class TreesUtilities {
     static public TaxaSet getTaxaPresentInPartialTree(Taxa taxa, Trees trees, int which) {
         TaxaSet result = new TaxaSet();
         PhyloTree tree = trees.getTree(which);
-        for (var label : tree.getNodeLabels()) {
+        for (var label : tree.nodeLabels()) {
             result.set(taxa.indexOf(trees.getTranslate().get(label)));
         }
         return result;

@@ -32,7 +32,7 @@
 package splitstree4.util;
 
 import jloda.graph.*;
-import jloda.graphs.algorithms.ConnectedComponents;
+import jloda.graph.algorithms.ConnectedComponents;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.swing.util.Alert;

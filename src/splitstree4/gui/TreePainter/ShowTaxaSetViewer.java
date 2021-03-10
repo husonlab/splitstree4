@@ -1287,7 +1287,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
 
         if (cycle == null) {
 
-            int numLabels = Math.max(1, IterationUtils.count(phyloGraph.getNodeLabels()));
+            int numLabels = Math.max(1, IterationUtils.count(phyloGraph.nodeLabels()));
 
             Point2D.Double allPoints = new Point2D.Double();
             int[] labelCycle = new int[numLabels];
