@@ -78,8 +78,8 @@ public class NodeLabelsCommand extends ICommandAdapter implements ICommand {
         if (isReverseCommand) // we are doing a reverse operation
         {
             for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext()) {
-                if (origLabels.getValue(v) != null) {
-                    viewer.setLabel(v, (String) origLabels.getValue(v));
+                if (origLabels.get(v) != null) {
+                    viewer.setLabel(v, (String) origLabels.get(v));
                 }
             }
         } else // really modify

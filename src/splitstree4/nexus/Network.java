@@ -38,7 +38,7 @@ import jloda.swing.graphview.NodeView;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.swing.util.BasicSwing;
 import jloda.util.Basic;
-import jloda.util.IterationUtils;
+import jloda.util.IteratorUtils;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.core.TaxaSet;
 import splitstree4.util.Interval;
@@ -808,7 +808,7 @@ public class Network extends NexusBlock {
         vertices = new VertexDescription[nvertices + 1];
         edges = new EdgeDescription[nedges + 1];
 
-        NodeIntegerArray node2id = new NodeIntegerArray(graph);
+        NodeIntArray node2id = new NodeIntArray(graph);
 
         int vi = 1;
         for (Node v = graph.getFirstNode(); v != null; v = graph.getNextNode(v)) {
@@ -856,7 +856,7 @@ public class Network extends NexusBlock {
             if (nv.getLabelBackgroundColor() != null) {
                 vd.labelBgc = nv.getLabelBackgroundColor();
             }
-            setTranslate(taxa, vi, IterationUtils.asList(graph.getTaxa(v)));
+            setTranslate(taxa, vi, IteratorUtils.asList(graph.getTaxa(v)));
 
             if (nv.isLabelVisible() && nv.getLabel() != null && nv.getLabel().length() > 0) {
                 vd.label = nv.getLabel();
@@ -880,8 +880,8 @@ public class Network extends NexusBlock {
             ed.id = ei;
             ed.e = e;
             ed.eclass = sid;
-            ed.source = node2id.getValue(graph.getSource(e));
-            ed.target = node2id.getValue(graph.getTarget(e));
+            ed.source = node2id.get(graph.getSource(e));
+            ed.target = node2id.get(graph.getTarget(e));
             ed.weight = (float) graph.getWeight(e);
             ed.internal = graphView.getInternalPoints(e);
             ed.line = graphView.getLineWidth(e);
@@ -1083,7 +1083,7 @@ public class Network extends NexusBlock {
             getDraw().modifyShowEdgeIntervals = false;
         }
         if (getDraw().modifyConfidenceEdgeWidth || getDraw().modifyConfidenceEdgeShading) {
-            EdgeIntegerArray widths = new EdgeIntegerArray(graph);
+            EdgeIntArray widths = new EdgeIntArray(graph);
             EdgeArray colors = new EdgeArray(graph);
             getEdgeConfidenceHightlighting(getDraw().modifyConfidenceEdgeWidth, getDraw().modifyConfidenceEdgeShading,
                     splits, graphView, false, widths, colors);
@@ -1297,7 +1297,7 @@ public class Network extends NexusBlock {
      * @param widths       will return the new edge widths here
      * @param colors       will return the new edge colors here
      */
-    public void getEdgeConfidenceHightlighting(boolean edgeWidth, boolean edgeShading, Splits splits, PhyloGraphView graphView, boolean selectedOnly, EdgeIntegerArray widths, EdgeArray<Color> colors) {
+    public void getEdgeConfidenceHightlighting(boolean edgeWidth, boolean edgeShading, Splits splits, PhyloGraphView graphView, boolean selectedOnly, EdgeIntArray widths, EdgeArray<Color> colors) {
 
         if (splits == null || graphView == null)
             return;
@@ -1336,19 +1336,19 @@ public class Network extends NexusBlock {
      * @param widths to apply to edges
      * @param colors to apply to edges
      */
-    public void applyWidthsColors(PhyloGraphView graphView, EdgeIntegerArray widths, EdgeArray colors) {
+    public void applyWidthsColors(PhyloGraphView graphView, EdgeIntArray widths, EdgeArray colors) {
 
         if (graphView == null)
             return;
         for (int ei = 1; ei <= getNedges(); ei++) {
             EdgeDescription ed = edges[ei];
 
-            if (widths.getValue(ed.e) != null) {
-                ed.line = widths.get(ed.e);
+            if (widths.get(ed.e) != null) {
+                ed.line = widths.getInt(ed.e);
                 graphView.setLineWidth(ed.e, ed.line);
             }
-            if (colors.getValue(ed.e) != null) {
-                ed.fgc = (Color) colors.getValue(ed.e);
+            if (colors.get(ed.e) != null) {
+                ed.fgc = (Color) colors.get(ed.e);
                 graphView.setColor(ed.e, ed.fgc);
             }
         }

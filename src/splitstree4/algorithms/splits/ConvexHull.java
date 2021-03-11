@@ -30,7 +30,7 @@ import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.APoint2D;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
-import jloda.util.IterationUtils;
+import jloda.util.IteratorUtils;
 import splitstree4.core.Document;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Network;
@@ -143,7 +143,7 @@ public class ConvexHull implements Splits2Network {
         //process one split at a time
         doc.notifySetMaximumProgress(order.length);    //initialize maximum progress
         try {
-            final NodeIntegerArray hulls = new NodeIntegerArray(graph);
+            final NodeIntArray hulls = new NodeIntArray(graph);
             //is 0, if the node is member of convex hull for the "0"-side of the current split,
             //is 1, if the node is member of convex hull for the "1"-side of the current split,
             //is 2, if the node is member of both hulls
@@ -229,7 +229,7 @@ public class ConvexHull implements Splits2Network {
                     graph.setWeight(e, splits.getWeight(order[z]));
                     graph.setLabel(e, "" + order[z]);
 
-                    final Set<Integer> set = IterationUtils.asSet(graph.getTaxa(v)); // make a copy!
+                    final Set<Integer> set = IteratorUtils.asSet(graph.getTaxa(v)); // make a copy!
                     graph.clearTaxa(v);
 
                     for (Integer t : set) {
@@ -263,15 +263,15 @@ public class ConvexHull implements Splits2Network {
 
                         Node w = consider.getOpposite(v);
 
-                        if (hulls.get(w) == 0) {
-                        } else if (hulls.get(w) == 1) {        //node belongs to other side
+                        if (hulls.getInt(w) == 0) {
+                        } else if (hulls.getInt(w) == 1) {        //node belongs to other side
                             Edge considerDup = graph.newEdge(v1, w);
                             graph.setLabel(considerDup, "" + graph.getSplit(consider));
                             graph.setSplit(considerDup, graph.getSplit(consider));
                             graph.setWeight(considerDup, graph.getWeight(consider));
                             graph.setAngle(considerDup, graph.getAngle(consider));
                             graph.deleteEdge(consider);
-                        } else if (hulls.get(w) == 2) {                                    //node is in intersection
+                        } else if (hulls.getInt(w) == 2) {                                    //node is in intersection
                             Node w1 = null;
 
                             for (Edge toW1 : w.adjacentEdges()) {
@@ -327,7 +327,7 @@ public class ConvexHull implements Splits2Network {
 
         int maxNumberOfTaxaOnNode = 0;
         for (Node v : graph.nodes()) {
-            graphView.setLocation(v, coords.getValue(v).getX(), coords.getValue(v).getY());
+            graphView.setLocation(v, coords.get(v).getX(), coords.get(v).getY());
             maxNumberOfTaxaOnNode = Math.max(graph.getNumberOfTaxa(v), maxNumberOfTaxaOnNode);
         }
 
@@ -356,7 +356,7 @@ public class ConvexHull implements Splits2Network {
     }//end apply
 
 
-    private void convexHullPath(PhyloSplitsGraph graph, Node start, NodeIntegerArray hulls, BitSet allowedSplits, ArrayList<Node> intersectionNodes, int side) throws Exception {
+    private void convexHullPath(PhyloSplitsGraph graph, Node start, NodeIntArray hulls, BitSet allowedSplits, ArrayList<Node> intersectionNodes, int side) throws Exception {
         final EdgeSet seen = new EdgeSet(graph);
         final Stack<Node> todo = new Stack<>();
         todo.push(start);
@@ -373,16 +373,16 @@ public class ConvexHull implements Splits2Network {
                     System.err.println("got: " + graph.getSplit(f));
 
                 if (!seen.contains(f) && allowedSplits.get(graph.getSplit(f))) {
-                    //if(hulls.getValue(m)==side) continue;
+                    //if(hulls.get(m)==side) continue;
                     seen.add(f);
 
                     if (false)
-                        System.err.println("hulls(" + m + "): " + hulls.getValue(m));
+                        System.err.println("hulls(" + m + "): " + hulls.get(m));
 
-                    if (hulls.getValue(m) == null) {
+                    if (hulls.get(m) == null) {
                         hulls.set(m, side);
                         todo.push(m);
-                    } else if (hulls.getValue(m) == Math.abs(side - 1)) {
+                    } else if (hulls.get(m) == Math.abs(side - 1)) {
                         hulls.set(m, 2);
                         intersectionNodes.add(m);
                         todo.push(m);

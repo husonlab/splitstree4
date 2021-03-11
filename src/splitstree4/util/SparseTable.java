@@ -119,12 +119,12 @@ public class SparseTable<V> {
             super(i, j);
         }
 
-        public Integer get1() {
-            return super.get1();
+        public Integer getFirst() {
+            return super.getFirst();
         }
 
-        public Integer get2() {
-            return super.get2();
+        public Integer getSecond() {
+            return super.getSecond();
         }
 
         @Override

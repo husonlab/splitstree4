@@ -20,7 +20,7 @@
 package splitstree4.gui.undo;
 
 import jloda.graph.Edge;
-import jloda.graph.EdgeIntegerArray;
+import jloda.graph.EdgeIntArray;
 import jloda.phylo.PhyloSplitsGraph;
 import splitstree4.gui.main.MainViewer;
 
@@ -30,7 +30,7 @@ import splitstree4.gui.main.MainViewer;
  */
 public class EdgeShapeCommand extends ICommandAdapter implements ICommand {
     MainViewer viewer;
-    EdgeIntegerArray shapes;
+    EdgeIntArray shapes;
 
     /**
      * constructor
@@ -42,7 +42,7 @@ public class EdgeShapeCommand extends ICommandAdapter implements ICommand {
         this.viewer = viewer;
 
         PhyloSplitsGraph graph = viewer.getPhyloGraph();
-        shapes = new EdgeIntegerArray(graph);
+        shapes = new EdgeIntArray(graph);
 
         //Todo: checkSelectALL
         boolean noneSelected = viewer.getSelectedEdges().isEmpty();
@@ -62,8 +62,8 @@ public class EdgeShapeCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new EdgeShapeCommand(viewer, -1));
 
         for (Edge a = viewer.getGraph().getFirstEdge(); a != null; a = a.getNext()) {
-            if (shapes.getValue(a) != null) {
-                viewer.setShape(a, (byte) shapes.get(a));
+            if (shapes.get(a) != null) {
+                viewer.setShape(a, (byte) shapes.getInt(a));
             }
         }
         viewer.repaint();

@@ -31,7 +31,7 @@ import jloda.swing.util.Geometry;
 import jloda.swing.util.ResourceManager;
 import jloda.swing.window.WindowListenerAdapter;
 import jloda.util.Basic;
-import jloda.util.IterationUtils;
+import jloda.util.IteratorUtils;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
 import splitstree4.gui.DirectorActions;
@@ -1287,7 +1287,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
 
         if (cycle == null) {
 
-            int numLabels = Math.max(1, IterationUtils.count(phyloGraph.nodeLabels()));
+            int numLabels = Math.max(1, IteratorUtils.count(phyloGraph.nodeLabels()));
 
             Point2D.Double allPoints = new Point2D.Double();
             int[] labelCycle = new int[numLabels];

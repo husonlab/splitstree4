@@ -23,7 +23,7 @@ import jloda.graph.*;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
-import jloda.util.IterationUtils;
+import jloda.util.IteratorUtils;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
@@ -158,7 +158,7 @@ public class ModifyGraph {
         TaxaSet result = new TaxaSet();
         for (Node u : visited) {
             if (graph.hasTaxa(u))
-                result.setAll(IterationUtils.asList(graph.getTaxa(u)));
+                result.setAll(IteratorUtils.asList(graph.getTaxa(u)));
         }
         return result;
     }
@@ -201,7 +201,7 @@ public class ModifyGraph {
             while (it.hasNext()) {
                 Node v = (Node) it.next();
                 if (!used.contains(v)) {
-                    TaxaSet gateTaxa = (TaxaSet) gate2externalTaxa.getValue(v);
+                    TaxaSet gateTaxa = (TaxaSet) gate2externalTaxa.get(v);
                     if (gateTaxa != null) {
                         if (verbose) System.out.println("gateTaxa: " + gateTaxa);
                         if (origTaxa.equals(gateTaxa)) {

@@ -558,8 +558,8 @@ public class AlgorithmsTab extends JPanel {
                         public void actionPerformed(ActionEvent e) {
                         /*
                         Transformation transform =
-                                (Transformation) getValue(DirectorActions.TRANSFORM);
-                        Method method = (Method) getValue(OPT_SETTER);
+                                (Transformation) get(DirectorActions.TRANSFORM);
+                        Method method = (Method) get(OPT_SETTER);
                          */
 
                             JFileChooser chooser = (JFileChooser) getValue(FILE_CHOOSER);
@@ -612,7 +612,7 @@ public class AlgorithmsTab extends JPanel {
             for (Object aList : list) {
                 AbstractAction action = (AbstractAction) aList;
 
-                //System.err.println( (action.getValue(DirectorActions.TRANSFORM)).getClass());
+                //System.err.println( (action.get(DirectorActions.TRANSFORM)).getClass());
 
                 Transformation transform = (Transformation) action.getValue(DirectorActions.TRANSFORM);
 
@@ -752,7 +752,7 @@ public class AlgorithmsTab extends JPanel {
                     currentIndex = i + 1;
                 }
                 //System.out.println(tempItemName);
-                //System.out.println((String) (((AbstractAction) currentItem).getValue(AbstractAction.NAME)));
+                //System.out.println((String) (((AbstractAction) currentItem).get(AbstractAction.NAME)));
             } else {
                 currentItem = combo.getItemAt(i);
             }

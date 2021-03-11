@@ -1039,7 +1039,7 @@ public class AlgorithmsWindow implements IDirectableViewer {
                     currentIndex = i + 1;
                 }
                 //System.out.println(tempItemName);
-                //System.out.println((String) (((AbstractAction) currentItem).getValue(AbstractAction.NAME)));
+                //System.out.println((String) (((AbstractAction) currentItem).get(AbstractAction.NAME)));
             } else {
                 currentItem = comboBox.getItemAt(i);
             }

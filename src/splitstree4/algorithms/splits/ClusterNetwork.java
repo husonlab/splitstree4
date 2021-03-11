@@ -709,12 +709,12 @@ public class ClusterNetwork implements Splits2Network {
      */
     private void simplify(Node root, EdgeSet blueEdges) {
         // 1. determine all black connected components
-        NodeIntegerArray node2component = new NodeIntegerArray(graph);
+        NodeIntArray node2component = new NodeIntArray(graph);
         Vector indegree2RootList = new Vector();
 
         int count = 0;
         for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
-            if (node2component.getValue(v) == 0) {
+            if (node2component.get(v) == 0) {
                 int indegree = v.getInDegree();
                 if (indegree > 1 || v == root) // root of a black component
                 {
@@ -733,7 +733,7 @@ public class ClusterNetwork implements Splits2Network {
         }
         // todo: for debugging:
         for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
-            int component = node2component.getValue(v);
+            int component = node2component.get(v);
             /*
             if (graph.getLabel(v) == null)
                 graph.setLabel(v, "(" + component + ")");
@@ -855,7 +855,7 @@ public class ClusterNetwork implements Splits2Network {
      * @param node2component
      * @param component
      */
-    private void determineBlackComponentRec(Node v, Edge e, EdgeSet blueEdges, NodeIntegerArray node2component, int component) {
+    private void determineBlackComponentRec(Node v, Edge e, EdgeSet blueEdges, NodeIntArray node2component, int component) {
         node2component.set(v, component);
 
         for (Edge f = v.getFirstAdjacentEdge(); f != null; f = v.getNextAdjacentEdge(f)) {

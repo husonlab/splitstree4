@@ -21,7 +21,7 @@ package splitstree4.gui.undo;
 
 import jloda.graph.Edge;
 import jloda.graph.EdgeArray;
-import jloda.graph.EdgeIntegerArray;
+import jloda.graph.EdgeIntArray;
 import jloda.phylo.PhyloSplitsGraph;
 import splitstree4.gui.main.MainViewer;
 import splitstree4.nexus.Network;
@@ -33,7 +33,7 @@ import splitstree4.nexus.Splits;
  */
 public class EdgeConfidenceHighlight extends ICommandAdapter implements ICommand {
     MainViewer viewer;
-    EdgeIntegerArray widths;
+    EdgeIntArray widths;
     EdgeArray colors;
     Network network;
     boolean selectedOnly;
@@ -51,7 +51,7 @@ public class EdgeConfidenceHighlight extends ICommandAdapter implements ICommand
         this.selectedOnly = selectedOnly;
 
         PhyloSplitsGraph graph = viewer.getPhyloGraph();
-        widths = new EdgeIntegerArray(graph);
+        widths = new EdgeIntArray(graph);
         colors = new EdgeArray(graph);
 
         Splits splits = viewer.getDir().getDocument().getSplits();
@@ -71,7 +71,7 @@ public class EdgeConfidenceHighlight extends ICommandAdapter implements ICommand
         this.selectedOnly = selectedOnly;
 
         PhyloSplitsGraph graph = viewer.getPhyloGraph();
-        widths = new EdgeIntegerArray(graph);
+        widths = new EdgeIntArray(graph);
         colors = new EdgeArray(graph);
 
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {

@@ -80,7 +80,7 @@ public class EdgeLabelsCommand extends ICommandAdapter implements ICommand {
         if (isReverseCommand) // we are doing a reverse operation
         {
             for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext()) {
-                String label = (String) origLabels.getValue(e);
+                String label = (String) origLabels.get(e);
                 viewer.setLabel(e, label);
                 viewer.getPhyloGraph().setLabel(e, label);
                 viewer.setLabelVisible(e, label != null);

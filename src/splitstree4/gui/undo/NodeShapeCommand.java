@@ -20,7 +20,7 @@
 package splitstree4.gui.undo;
 
 import jloda.graph.Node;
-import jloda.graph.NodeIntegerArray;
+import jloda.graph.NodeIntArray;
 import jloda.phylo.PhyloSplitsGraph;
 import splitstree4.gui.main.MainViewer;
 
@@ -30,7 +30,7 @@ import splitstree4.gui.main.MainViewer;
  */
 public class NodeShapeCommand extends ICommandAdapter implements ICommand {
     MainViewer viewer;
-    NodeIntegerArray shapes;
+    NodeIntArray shapes;
 
     /**
      * constructor
@@ -42,7 +42,7 @@ public class NodeShapeCommand extends ICommandAdapter implements ICommand {
         this.viewer = viewer;
 
         PhyloSplitsGraph graph = viewer.getPhyloGraph();
-        shapes = new NodeIntegerArray(graph);
+        shapes = new NodeIntArray(graph);
 
         //Todo: checkSelectALL
         boolean noneSelected = viewer.getSelectedNodes().isEmpty();
@@ -62,8 +62,8 @@ public class NodeShapeCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new NodeShapeCommand(viewer, -1));
 
         for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext()) {
-            if (shapes.getValue(v) != null) {
-                viewer.setShape(v, shapes.getValue(v).byteValue());
+            if (shapes.get(v) != null) {
+                viewer.setShape(v, shapes.get(v).byteValue());
             }
         }
         viewer.repaint();

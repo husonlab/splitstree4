@@ -196,8 +196,8 @@ public class Phylogram implements Splits2Network {
 
     private void computeCoordinates(double correction, NodeArray reach, PhyloGraphView gv, Node actual, Point2D last, Edge e, int nTax, boolean mt) throws NotOwnerException {
         PhyloSplitsGraph graph = gv.getPhyloGraph();
-        double indexLeft = (double) ((int[]) reach.getValue(actual))[0];
-        double indexRight = (double) ((int[]) reach.getValue(actual))[1];
+        double indexLeft = (double) ((int[]) reach.get(actual))[0];
+        double indexRight = (double) ((int[]) reach.get(actual))[1];
         double yCoord = (indexLeft + indexRight) / 2.0;
         yCoord *= correction;
         if (/*!getOptionSlanted()*/ true) {
@@ -216,8 +216,8 @@ public class Phylogram implements Splits2Network {
             if (e != null) {
 
                 Node lastNode = gv.getGraph().getOpposite(actual, e);
-                double lastIndexLeft = (double) ((int[]) reach.getValue(lastNode))[0];
-                double lastIndexRight = (double) ((int[]) reach.getValue(lastNode))[1];
+                double lastIndexLeft = (double) ((int[]) reach.get(lastNode))[0];
+                double lastIndexRight = (double) ((int[]) reach.get(lastNode))[1];
 
                 boolean m = false;
                 if ((indexRight - indexLeft) > ((lastIndexRight - lastIndexLeft) / 2.0)) m = true;
@@ -250,8 +250,8 @@ public class Phylogram implements Splits2Network {
     private void computeCoordinatesCladogram(NodeArray reach, PhyloGraphView gv, Node actual, Edge e) throws NotOwnerException {
         PhyloSplitsGraph graph = gv.getPhyloGraph();
 
-        double indexLeft = (double) ((int[]) reach.getValue(actual))[0];
-        double indexRight = (double) ((int[]) reach.getValue(actual))[1];
+        double indexLeft = (double) ((int[]) reach.get(actual))[0];
+        double indexRight = (double) ((int[]) reach.get(actual))[1];
         double yCoord = (indexLeft + indexRight) / 2.0;
         double xCoord = 0.0;
         if (gv.getGraph().getDegree(actual) == 1)

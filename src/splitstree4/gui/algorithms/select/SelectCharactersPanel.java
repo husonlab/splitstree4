@@ -97,7 +97,7 @@ public class SelectCharactersPanel extends JPanel implements IUpdateableView {
         textArea.setToolTipText((String) action.getValue(AbstractAction.SHORT_DESCRIPTION));
 
         // ((JTextArea) comp).addPropertyChangeListener(action);
-        // textArea.setToolTipText((String) action.getValue(AbstractAction.SHORT_DESCRIPTION));
+        // textArea.setToolTipText((String) action.get(AbstractAction.SHORT_DESCRIPTION));
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 1;

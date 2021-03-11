@@ -80,8 +80,8 @@ public class EdgeFontCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new EdgeFontCommand(viewer, null, -1, -1, -1));
 
         for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext())
-            if (fonts.getValue(e) != null)
-                viewer.setFont(e, (Font) fonts.getValue(e));
+            if (fonts.get(e) != null)
+                viewer.setFont(e, (Font) fonts.get(e));
         viewer.repaint();
         return getReverseCommand();
     }

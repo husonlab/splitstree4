@@ -77,13 +77,13 @@ public class ShowLabelsCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new ShowLabelsCommand(viewer, !show, selectedOnly));
 
         for (Node a = viewer.getGraph().getFirstNode(); a != null; a = a.getNext()) {
-            if (showNodeLabels.getValue(a) != null) {
-                viewer.setLabelVisible(a, (Boolean) showNodeLabels.getValue(a));
+            if (showNodeLabels.get(a) != null) {
+                viewer.setLabelVisible(a, (Boolean) showNodeLabels.get(a));
             }
         }
         for (Edge a = viewer.getGraph().getFirstEdge(); a != null; a = a.getNext()) {
-            if (showEdgeLabels.getValue(a) != null) {
-                viewer.setLabelVisible(a, (Boolean) showEdgeLabels.getValue(a));
+            if (showEdgeLabels.get(a) != null) {
+                viewer.setLabelVisible(a, (Boolean) showEdgeLabels.get(a));
             }
         }
         viewer.repaint();

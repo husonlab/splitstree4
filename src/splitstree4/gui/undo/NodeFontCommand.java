@@ -82,8 +82,8 @@ public class NodeFontCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new NodeFontCommand(viewer, null, -1, -1, -1));
 
         for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext())
-            if (fonts.getValue(v) != null)
-                viewer.setFont(v, (Font) fonts.getValue(v));
+            if (fonts.get(v) != null)
+                viewer.setFont(v, (Font) fonts.get(v));
         viewer.repaint();
         return getReverseCommand();
     }

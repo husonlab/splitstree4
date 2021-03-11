@@ -20,7 +20,7 @@
 package splitstree4.gui.undo;
 
 import jloda.graph.Node;
-import jloda.graph.NodeIntegerArray;
+import jloda.graph.NodeIntArray;
 import jloda.phylo.PhyloSplitsGraph;
 import splitstree4.gui.main.MainViewer;
 
@@ -30,8 +30,8 @@ import splitstree4.gui.main.MainViewer;
  */
 public class NodeSizeCommand extends ICommandAdapter implements ICommand {
     MainViewer viewer;
-    NodeIntegerArray widths;
-    NodeIntegerArray heights;
+    NodeIntArray widths;
+    NodeIntArray heights;
 
     /**
      * constructor
@@ -44,8 +44,8 @@ public class NodeSizeCommand extends ICommandAdapter implements ICommand {
         this.viewer = viewer;
 
         PhyloSplitsGraph graph = viewer.getPhyloGraph();
-        widths = new NodeIntegerArray(graph, -1);
-        heights = new NodeIntegerArray(graph);
+        widths = new NodeIntArray(graph, -1);
+        heights = new NodeIntArray(graph);
 
         boolean noneSelected = viewer.getSelectedNodes().isEmpty(); //No nodes currently selected... apply to all.
         for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
@@ -65,9 +65,9 @@ public class NodeSizeCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new NodeSizeCommand(viewer, -1, -1));
 
         for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext()) {
-            if (widths.getValue(v) != -1) {
-                viewer.setWidth(v, widths.getValue(v));
-                viewer.setHeight(v, heights.getValue(v));
+            if (widths.get(v) != -1) {
+                viewer.setWidth(v, widths.get(v));
+                viewer.setHeight(v, heights.get(v));
             }
         }
         viewer.repaint();

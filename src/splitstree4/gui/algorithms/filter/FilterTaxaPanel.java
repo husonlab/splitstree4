@@ -278,9 +278,9 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
         /*
         for (Iterator it = all.iterator(); it.hasNext();) {
             AbstractAction action = (AbstractAction) it.next();
-            if ((action.getValue(MainViewerActions.DEPENDS_ON_NODESELECTION) != null))
+            if ((action.get(MainViewerActions.DEPENDS_ON_NODESELECTION) != null))
                     action.setEnableCancel(dir.getMainViewer().getNumberSelectedNodes() >0);
-            if((action.getValue(MainViewerActions.DEPENDS_ON_EDGESELECTION) != null))
+            if((action.get(MainViewerActions.DEPENDS_ON_EDGESELECTION) != null))
             action.setEnableCancel(dir.getMainViewer().getNumberSelectedEdges() >0);
         }
         */

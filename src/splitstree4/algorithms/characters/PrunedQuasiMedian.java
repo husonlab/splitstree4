@@ -266,16 +266,16 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
                                     HashSet currentPath,
                                     Set bestPath, double[][] scores) {
         if (v == end) {
-            if (currentScore > bestScore.getValue(end)) {
-                //  System.err.println("Updating best score: " + bestScore.getValue(end) + " -> " + currentScore);
+            if (currentScore > bestScore.get(end)) {
+                //  System.err.println("Updating best score: " + bestScore.get(end) + " -> " + currentScore);
                 bestPath.clear();
                 bestPath.addAll(currentPath);
                 bestScore.put(v, currentScore);
-            } else if (currentScore == bestScore.getValue(end)) {
+            } else if (currentScore == bestScore.get(end)) {
                 bestPath.addAll(currentPath); // don't break ties
             }
         } else {
-            if (currentScore >= bestScore.getValue(v)) {
+            if (currentScore >= bestScore.get(v)) {
                 bestScore.put(v, currentScore);
                 for (Edge f = v.getFirstAdjacentEdge(); f != null; f = v.getNextAdjacentEdge(f)) {
                     if (f != e) {

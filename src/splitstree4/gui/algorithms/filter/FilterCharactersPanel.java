@@ -134,7 +134,7 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
         }
         System.err.println("Excluded sites:");
         System.err.println(text);
-        //JTextArea textArea = (JTextArea) getActions().getInput().getValue(FilterCharactersActions.JTEXTAREA);
+        //JTextArea textArea = (JTextArea) getActions().getInput().get(FilterCharactersActions.JTEXTAREA);
         //textArea.setText(text);
 
         //Prepare message below
@@ -197,7 +197,7 @@ public class FilterCharactersPanel extends JPanel implements IUpdateableView, Ch
         JScrollPane scrollP = new JScrollPane(textArea);
 
         // ((JTextArea) comp).addPropertyChangeListener(action);
-        // textArea.setToolTipText((String) action.getValue(AbstractAction.SHORT_DESCRIPTION));
+        // textArea.setToolTipText((String) action.get(AbstractAction.SHORT_DESCRIPTION));
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 1;

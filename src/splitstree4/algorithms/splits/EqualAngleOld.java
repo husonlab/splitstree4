@@ -537,7 +537,7 @@ public class EqualAngleOld implements Splits2Network {
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
         int numComp = 0;
-        EdgeIntegerArray edge2comp = new EdgeIntegerArray(graph);
+        EdgeIntArray edge2comp = new EdgeIntArray(graph);
         double[] comp2MinAngle = new double[taxa.getNtax() + 1];
         double[] comp2MaxAngle = new double[taxa.getNtax() + 1];
 
@@ -545,7 +545,7 @@ public class EqualAngleOld implements Splits2Network {
         for (Edge e : v.adjacentEdges()) {
             doc.getProgressListener().checkForCancel();
 
-            if (edge2comp.get(e) == 0) {
+            if (edge2comp.getInt(e) == 0) {
                 edge2comp.set(e, ++numComp);
                 Node w = graph.getOpposite(v, e);
 
@@ -583,7 +583,7 @@ public class EqualAngleOld implements Splits2Network {
                     comp2epsilon[c] = alpha - comp2MinAngle[c];
                 }
                 for (Edge e = graph.getFirstEdge(); e != null; e = graph.getNextEdge(e)) {
-                    int c = edge2comp.get(e);
+                    int c = edge2comp.getInt(e);
                     graph.setAngle(e, graph.getAngle(e) + comp2epsilon[c]);
                 }
             }
@@ -603,7 +603,7 @@ public class EqualAngleOld implements Splits2Network {
      * @param visited
      * @param minMaxAngle
      */
-    private void visitComponentRec(Node root, Node v, Edge e, EdgeIntegerArray edge2comp,
+    private void visitComponentRec(Node root, Node v, Edge e, EdgeIntArray edge2comp,
                                    int numComp, PhyloSplitsGraph graph, PhyloGraphView graphView,
                                    NodeSet visited, double angle,
                                    Pair minMaxAngle) throws NotOwnerException, CanceledException {
@@ -613,7 +613,7 @@ public class EqualAngleOld implements Splits2Network {
 
             visited.add(v);
             for (Edge f = graph.getFirstAdjacentEdge(v); f != null; f = graph.getNextAdjacentEdge(f, v)) {
-                if (f != e && edge2comp.get(f) == 0) {
+                if (f != e && edge2comp.getInt(f) == 0) {
                     edge2comp.set(f, numComp);
                     Node w = graph.getOpposite(v, f);
                     double newAngle = angle + Geometry.computeObservedAngle(graphView.getLocation(root),

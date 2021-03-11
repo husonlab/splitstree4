@@ -777,7 +777,7 @@ public class PreferencesWindow implements IDirectableViewer {
         JScrollPane scrollP = new JScrollPane(cycleText);
 
 // ((JTextArea) comp).addPropertyChangeListener(action);
-// textArea.setToolTipText((String) action.getValue(AbstractAction.SHORT_DESCRIPTION));
+// textArea.setToolTipText((String) action.get(AbstractAction.SHORT_DESCRIPTION));
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 1;

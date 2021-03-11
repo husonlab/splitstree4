@@ -57,10 +57,10 @@ public class MoveNodesCommand extends ICommandAdapter implements ICommand {
         setReverseCommand(new MoveNodesCommand(viewer, newLocations, oldLocations, newInternalPoints, oldInternalPoints));
 
         for (Node v = viewer.getGraph().getFirstNode(); v != null; v = v.getNext())
-            viewer.setLocation(v, (Point2D) newLocations.getValue(v));
+            viewer.setLocation(v, (Point2D) newLocations.get(v));
 
         for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext())
-            if (newInternalPoints.getValue(e) != null && ((List) newInternalPoints.getValue(e)).size() == 1)
+            if (newInternalPoints.get(e) != null && ((List) newInternalPoints.get(e)).size() == 1)
                 viewer.setInternalPoints(e, viewer.getInternalPoints(e));
 
         viewer.repaint();

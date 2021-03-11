@@ -197,7 +197,7 @@ public class MainViewerActions {
                 action.setEnabled(false);
             if (action.getValue(DEPENDS_ON_EDGESELECTION) != null && viewer.getNumberSelectedEdges() == 0)
                 action.setEnabled(false);
-            //       if(action.getValue(DEPENDS_ON_ROOTED)!=null && (doc.getNetwork()==null || doc.getAssumptions().getSplitsTransformName()!=Basic.getShortName(RootedEqualAngle.class)))
+            //       if(action.get(DEPENDS_ON_ROOTED)!=null && (doc.getNetwork()==null || doc.getAssumptions().getSplitsTransformName()!=Basic.getShortName(RootedEqualAngle.class)))
             //              action.setEnabled(false);
 
             // if any of the OK_WITH values are set, one of the tabs must be selected:
@@ -2151,19 +2151,19 @@ public class MainViewerActions {
                         Edge e = (Edge) it.next();
                         int s = graph.getSplit(e);
                         if (s >= 1 && s <= splits.getNsplits()) {
-                            if (node2selectedSplits.getValue(e.getSource()) == null)
+                            if (node2selectedSplits.get(e.getSource()) == null)
                                 node2selectedSplits.put(e.getSource(), new BitSet());
-                            ((BitSet) node2selectedSplits.getValue(e.getSource())).set(s);
-                            if (node2selectedSplits.getValue(e.getTarget()) == null)
+                            ((BitSet) node2selectedSplits.get(e.getSource())).set(s);
+                            if (node2selectedSplits.get(e.getTarget()) == null)
                                 node2selectedSplits.put(e.getTarget(), new BitSet());
-                            ((BitSet) node2selectedSplits.getValue(e.getTarget())).set(s);
+                            ((BitSet) node2selectedSplits.get(e.getTarget())).set(s);
                         }
                     }
                     for (Edge f = graph.getFirstEdge(); f != null; f = f.getNext()) {
                         int s = graph.getSplit(f);
 
-                        BitSet A = (BitSet) node2selectedSplits.getValue(f.getSource());
-                        BitSet B = (BitSet) node2selectedSplits.getValue(f.getTarget());
+                        BitSet A = (BitSet) node2selectedSplits.get(f.getSource());
+                        BitSet B = (BitSet) node2selectedSplits.get(f.getTarget());
                         if (A != null && B != null && !A.get(s)
                                 && !B.get(s) && A.intersects(B))
                             toHide.set(s);

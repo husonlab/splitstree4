@@ -1505,7 +1505,7 @@ public class Characters extends NexusBlock {
             return;
 
         for (SparseTable.Key key : replacedStates.keyset()) {
-            set(key.get1(), key.get2(), replacedStates.get(key));
+            set(key.getFirst(), key.getSecond(), replacedStates.get(key));
         }
     }
 

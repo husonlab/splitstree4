@@ -377,20 +377,20 @@ public class EqualAngle implements Splits2Network {
                 // repulsive forces
 
                 for (Node v = G.getFirstNode(); v != null; v = G.getNextNode(v)) {
-                    double xv = xPos.getValue(v);
-                    double yv = yPos.getValue(v);
+                    double xv = xPos.get(v);
+                    double yv = yPos.get(v);
 
                     for (Node u = G.getFirstNode(); u != null; u = G.getNextNode(u)) {
                         if (u == v)
                             continue;
-                        double xdist = xv - xPos.getValue(u);
-                        double ydist = yv - yPos.getValue(u);
+                        double xdist = xv - xPos.get(u);
+                        double ydist = yv - yPos.get(u);
                         double dist = xdist * xdist + ydist * ydist;
                         if (dist < 1e-3)
                             dist = 1e-3;
                         double frepulse = k * k / dist;
-                        xDispl.put(v, xDispl.getValue(v) + frepulse * xdist);
-                        yDispl.put(v, yDispl.getValue(v) + frepulse * ydist);
+                        xDispl.put(v, xDispl.get(v) + frepulse * xdist);
+                        yDispl.put(v, yDispl.get(v) + frepulse * ydist);
                     }
 
                     for (Edge e = G.getFirstEdge(); e != null; e = G.getNextEdge(e)) {
@@ -399,14 +399,14 @@ public class EqualAngle implements Splits2Network {
                         if (a == v || b == v)
                             continue;
                         double xdist = xv -
-                                (xPos.getValue(a) + xPos.getValue(b)) / 2;
+                                (xPos.get(a) + xPos.get(b)) / 2;
                         double ydist = yv -
-                                (yPos.getValue(a) + yPos.getValue(b)) / 2;
+                                (yPos.get(a) + yPos.get(b)) / 2;
                         double dist = xdist * xdist + ydist * ydist;
                         if (dist < 1e-3) dist = 1e-3;
                         double frepulse = k * k / dist;
-                        xDispl.put(v, xDispl.getValue(v) + frepulse * xdist);
-                        yDispl.put(v, yDispl.getValue(v) + frepulse * ydist);
+                        xDispl.put(v, xDispl.get(v) + frepulse * xdist);
+                        yDispl.put(v, yDispl.get(v) + frepulse * ydist);
                     }
                 }
 
@@ -416,8 +416,8 @@ public class EqualAngle implements Splits2Network {
                     Node u = G.getSource(e);
                     Node v = G.getTarget(e);
 
-                    double xdist = xPos.getValue(v) - xPos.getValue(u);
-                    double ydist = yPos.getValue(v) - yPos.getValue(u);
+                    double xdist = xPos.get(v) - xPos.get(u);
+                    double ydist = yPos.get(v) - yPos.get(u);
 
                     double dist = Math.sqrt(xdist * xdist + ydist * ydist);
 
@@ -425,25 +425,25 @@ public class EqualAngle implements Splits2Network {
 
                     dist /= f;
 
-                    xDispl.put(v, xDispl.getValue(v) - xdist * dist / k);
-                    yDispl.put(v, yDispl.getValue(v) - ydist * dist / k);
-                    xDispl.put(u, xDispl.getValue(u) + xdist * dist / k);
-                    yDispl.put(u, yDispl.getValue(u) + ydist * dist / k);
+                    xDispl.put(v, xDispl.get(v) - xdist * dist / k);
+                    yDispl.put(v, yDispl.get(v) - ydist * dist / k);
+                    xDispl.put(u, xDispl.get(u) + xdist * dist / k);
+                    yDispl.put(u, yDispl.get(u) + ydist * dist / k);
                 }
 
                 // preventions
 
                 for (Node v = G.getFirstNode(); v != null; v = G.getNextNode(v)) {
-                    double xd = xDispl.getValue(v);
-                    double yd = yDispl.getValue(v);
+                    double xd = xDispl.get(v);
+                    double yd = yDispl.get(v);
 
                     double dist = Math.sqrt(xd * xd + yd * yd);
 
                     xd = tx * xd / dist;
                     yd = ty * yd / dist;
 
-                    double xp = xPos.getValue(v) + xd;
-                    double yp = yPos.getValue(v) + yd;
+                    double xp = xPos.get(v) + xd;
+                    double yp = yPos.get(v) + yd;
 
                     xPos.put(v, xp);
                     yPos.put(v, yp);
@@ -455,7 +455,7 @@ public class EqualAngle implements Splits2Network {
         } finally {
             // set node positions
             for (Node v = G.getFirstNode(); v != null; v = G.getNextNode(v)) {
-                phyloGraphView.setLocation(v, xPos.getValue(v), yPos.getValue(v));
+                phyloGraphView.setLocation(v, xPos.get(v), yPos.get(v));
             }
         }
     }
@@ -832,14 +832,14 @@ public class EqualAngle implements Splits2Network {
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
 
         int numComp = 0;
-        EdgeIntegerArray edge2comp = new EdgeIntegerArray(graph);
+        EdgeIntArray edge2comp = new EdgeIntArray(graph);
         double[] comp2MinAngle = new double[taxa.getNtax() + 1];
         double[] comp2MaxAngle = new double[taxa.getNtax() + 1];
 
         for (Edge e : v.adjacentEdges()) {
             doc.getProgressListener().checkForCancel();
 
-            if (edge2comp.get(e) == 0) {
+            if (edge2comp.getInt(e) == 0) {
                 edge2comp.set(e, ++numComp);
                 Node w = graph.getOpposite(v, e);
 
@@ -877,7 +877,7 @@ public class EqualAngle implements Splits2Network {
                     comp2epsilon[c] = alpha - comp2MinAngle[c];
                 }
                 for (Edge e = graph.getFirstEdge(); e != null; e = graph.getNextEdge(e)) {
-                    int c = edge2comp.get(e);
+                    int c = edge2comp.getInt(e);
                     graph.setAngle(e, graph.getAngle(e) + comp2epsilon[c]);
                 }
             }
@@ -898,7 +898,7 @@ public class EqualAngle implements Splits2Network {
      * @param visited
      * @param minMaxAngle
      */
-    private void visitComponentRec(Node root, Node v, Edge e, EdgeIntegerArray edge2comp, int numComp, PhyloSplitsGraph graph, PhyloGraphView graphView, NodeSet visited,
+    private void visitComponentRec(Node root, Node v, Edge e, EdgeIntArray edge2comp, int numComp, PhyloSplitsGraph graph, PhyloGraphView graphView, NodeSet visited,
                                    double angle, Pair<Double, Double> minMaxAngle) throws NotOwnerException, CanceledException {
 
         if (v != root && !visited.contains(v)) {
@@ -906,7 +906,7 @@ public class EqualAngle implements Splits2Network {
 
             visited.add(v);
             for (Edge f = graph.getFirstAdjacentEdge(v); f != null; f = graph.getNextAdjacentEdge(f, v)) {
-                if (f != e && edge2comp.get(f) == 0) {
+                if (f != e && edge2comp.getInt(f) == 0) {
                     edge2comp.set(f, numComp);
                     Node w = graph.getOpposite(v, f);
                     double newAngle = angle + Geometry.computeObservedAngle(graphView.getLocation(root),
@@ -1225,18 +1225,18 @@ public class EqualAngle implements Splits2Network {
                     currentEdge = (Edge) currentEdgesIt.next();
 
                     for (Node adjNode : currentEdge.getSource().adjacentNodes()) {
-                        if (A2Edge.getValue(currentEdge) != null)
+                        if (A2Edge.get(currentEdge) != null)
                             break;
                         if (adjNode != currentEdge.getTarget()) {
 
                             for (Edge parallEdge : adjNode.adjacentEdges()) {
                                 if (graph.getSplit(parallEdge) == graph.getSplit(currentEdge)) {
-                                    if (A1Edge.getValue(currentEdge) == null) {
+                                    if (A1Edge.get(currentEdge) == null) {
                                         A1Edge.put(currentEdge, parallEdge);
                                         adjNb.put(currentEdge, 1);
                                         //System.out.println("First parallel neighbour of "+CurrentEdge+" : "+ParallEdge);
                                     } else {
-                                        if (A2Edge.getValue(currentEdge) == null) {
+                                        if (A2Edge.get(currentEdge) == null) {
                                             A2Edge.put(currentEdge, parallEdge);
                                             adjNb.put(currentEdge, 2);
                                             //System.out.println("Second parallel neighbour of "+CurrentEdge+" : "+ParallEdge);
@@ -1253,28 +1253,28 @@ public class EqualAngle implements Splits2Network {
                 //Not necessary CurrentEdges=(List) EdgeSplits.get(CurrentSplit);
                 currentEdgesIt = currentEdges.iterator();
                 currentEdge = (Edge) currentEdgesIt.next();
-                while ((currentEdgesIt.hasNext()) && (adjNb.getValue(currentEdge) != 1)) {
+                while ((currentEdgesIt.hasNext()) && (adjNb.get(currentEdge) != 1)) {
                     currentEdge = (Edge) currentEdgesIt.next();
                     //System.out.println("Current edge "+CurrentEdge+" : "+((Integer) AdjNb.get(CurrentEdge)).intValue());
                 }
 
                 //We check if everything is all right:
-                if ((adjNb.getValue(currentEdge)) != 1) {
-                    System.out.println("(the graph is not planar! Big Problem here!!! " + adjNb.getValue(currentEdge));
+                if ((adjNb.get(currentEdge)) != 1) {
+                    System.out.println("(the graph is not planar! Big Problem here!!! " + adjNb.get(currentEdge));
                 }
 
                 //Then we go through all the edges of the split to identify the 4 extreme nodes,
                 //so our stop condition is to reach the other extreme edge
-                Edge TheNextEdge = A1Edge.getValue(currentEdge);
+                Edge TheNextEdge = A1Edge.get(currentEdge);
                 currentEdges = new ArrayList<>();
-                while ((adjNb.getValue(TheNextEdge)) > 1) {
+                while ((adjNb.get(TheNextEdge)) > 1) {
                     currentEdges.add(currentEdge);
-                    if (A1Edge.getValue(TheNextEdge) == currentEdge) {
+                    if (A1Edge.get(TheNextEdge) == currentEdge) {
                         currentEdge = TheNextEdge;
-                        TheNextEdge = A2Edge.getValue(TheNextEdge);
+                        TheNextEdge = A2Edge.get(TheNextEdge);
                     } else {
                         currentEdge = TheNextEdge;
-                        TheNextEdge = A1Edge.getValue(TheNextEdge);
+                        TheNextEdge = A1Edge.get(TheNextEdge);
                     }
                 }
 

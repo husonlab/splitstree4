@@ -108,7 +108,7 @@ public class SelectTreesPanel extends JPanel implements IUpdateableView {
         JScrollPane scrollP = new JScrollPane(list);
 
         // ((JTextArea) comp).addPropertyChangeListener(action);
-        // textArea.setToolTipText((String) action.getValue(AbstractAction.SHORT_DESCRIPTION));
+        // textArea.setToolTipText((String) action.get(AbstractAction.SHORT_DESCRIPTION));
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 1;

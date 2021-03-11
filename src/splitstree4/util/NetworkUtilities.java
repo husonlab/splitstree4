@@ -69,15 +69,15 @@ public class NetworkUtilities {
         }
 
         // select spanning tree:
-        NodeIntegerArray components = new NodeIntegerArray(graph);
+        NodeIntArray components = new NodeIntArray(graph);
         int count = 0;
         for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
             components.set(v, ++count);
         }
 
         for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
-            if (components.getValue(e.getSource()) != components.getValue(e.getTarget())) {
-                renumberComponent(graph, graphView, e.getSource(), null, components.getValue(e.getTarget()), components);
+            if (components.get(e.getSource()) != components.get(e.getTarget())) {
+                renumberComponent(graph, graphView, e.getSource(), null, components.get(e.getTarget()), components);
                 graphView.setSelected(e, true);
             }
         }
@@ -106,10 +106,10 @@ public class NetworkUtilities {
      * @param components
      */
     private static void renumberComponent(PhyloSplitsGraph graph, PhyloGraphView view, Node v,
-                                          Edge e, int number, NodeIntegerArray components) {
+                                          Edge e, int number, NodeIntArray components) {
         components.set(v, number);
         for (Edge f = v.getFirstAdjacentEdge(); f != null; f = f.getNextIncidentTo(v)) {
-            if (f != e && view.getSelected(f) && components.getValue(v.getOpposite(f)) != number)
+            if (f != e && view.getSelected(f) && components.get(v.getOpposite(f)) != number)
                 renumberComponent(graph, view, v.getOpposite(f), f, number, components);
         }
     }
@@ -212,7 +212,7 @@ public class NetworkUtilities {
 
                 // translate in the computed direction by the given amount
                 view.setLocation(v,
-                        Geometry.translateByAngle(view.getLocation(root), angle.get(e), 1));
+                        Geometry.translateByAngle(view.getLocation(root), angle.getDouble(e), 1));
 
                 setCoordsRec(graph, view, v, e, angle);
             }
