@@ -28,7 +28,6 @@ import jloda.phylo.PhyloSplitsGraph;
 import jloda.phylo.PhyloSplitsGraphUtils;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.APoint2D;
-import jloda.util.Basic;
 import jloda.util.CanceledException;
 import jloda.util.IteratorUtils;
 import splitstree4.core.Document;
@@ -164,7 +163,7 @@ public class ConvexHull implements Splits2Network {
                 splits1.clear();
 
                 final TaxaSet currentSplitPartA = splits.get(order[z]);
-                System.err.println("Current split: (" + currentSplitPartA.cardinality() + " of " + taxa.getNtax() + "): " + Basic.toString(currentSplitPartA.getBits()));
+                // System.err.println("Current split: (" + currentSplitPartA.cardinality() + " of " + taxa.getNtax() + "): " + Basic.toString(currentSplitPartA.getBits()));
 
                 //find splits, where taxa of side "0" of current split are divided
                 for (int i = 1; i <= splits.getNsplits(); i++) {
@@ -218,7 +217,7 @@ public class ConvexHull implements Splits2Network {
 
                 convexHullPath(graph, start1, hulls, splits1, intersectionNodes, 1);
 
-                System.err.println("Intersection: " + intersectionNodes.size());
+                // System.err.println("Intersection: " + intersectionNodes.size());
 
                 //first duplicate the intersection nodes, set an edge between each node and its duplicate and label new edges and nodes
                 for (Node v : intersectionNodes) {
@@ -367,17 +366,14 @@ public class ConvexHull implements Splits2Network {
             for (final Edge f : n.adjacentEdges()) {
                 final Node m = f.getOpposite(n);
 
-                if (false)
-                    System.err.println("allowed: " + Basic.toString(allowedSplits));
-                if (false)
-                    System.err.println("got: " + graph.getSplit(f));
+                //   System.err.println("allowed: " + Basic.toString(allowedSplits));
+                // System.err.println("got: " + graph.getSplit(f));
 
                 if (!seen.contains(f) && allowedSplits.get(graph.getSplit(f))) {
                     //if(hulls.get(m)==side) continue;
                     seen.add(f);
 
-                    if (false)
-                        System.err.println("hulls(" + m + "): " + hulls.get(m));
+                    //   System.err.println("hulls(" + m + "): " + hulls.get(m));
 
                     if (hulls.get(m) == null) {
                         hulls.set(m, side);
