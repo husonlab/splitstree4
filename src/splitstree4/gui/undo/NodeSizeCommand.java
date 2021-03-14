@@ -44,11 +44,12 @@ public class NodeSizeCommand extends ICommandAdapter implements ICommand {
         this.viewer = viewer;
 
         PhyloSplitsGraph graph = viewer.getPhyloGraph();
-        widths = new NodeIntArray(graph, -1);
-        heights = new NodeIntArray(graph);
+        widths = graph.newNodeIntArray();
+        heights = graph.newNodeIntArray();
 
         boolean noneSelected = viewer.getSelectedNodes().isEmpty(); //No nodes currently selected... apply to all.
-        for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
+        for (var v : graph.nodes()) {
+            widths.set(v, -1);
             if (viewer.getSelected(v) || noneSelected) {
                 widths.set(v, width != -1 ? width : viewer.getWidth(v));
                 heights.set(v, height != -1 ? height : viewer.getHeight(v));

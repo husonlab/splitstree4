@@ -141,7 +141,7 @@ public class Phylogram implements Splits2Network {
         doc.notifySetProgress(18);
 
         /*mark nodes with intervals of cycle*/
-        NodeArray<int[]> reach = new NodeArray<>(graph, new int[2]);
+        NodeArray<int[]> reach = graph.newNodeArray();
         markNodes(reach, root, null, graph);
 
         doc.notifySetProgress(25);
@@ -194,10 +194,10 @@ public class Phylogram implements Splits2Network {
         return network;
     }
 
-    private void computeCoordinates(double correction, NodeArray reach, PhyloGraphView gv, Node actual, Point2D last, Edge e, int nTax, boolean mt) throws NotOwnerException {
+    private void computeCoordinates(double correction, NodeArray<int[]> reach, PhyloGraphView gv, Node actual, Point2D last, Edge e, int nTax, boolean mt) throws NotOwnerException {
         PhyloSplitsGraph graph = gv.getPhyloGraph();
-        double indexLeft = (double) ((int[]) reach.get(actual))[0];
-        double indexRight = (double) ((int[]) reach.get(actual))[1];
+        double indexLeft = reach.get(actual)[0];
+        double indexRight = reach.get(actual)[1];
         double yCoord = (indexLeft + indexRight) / 2.0;
         yCoord *= correction;
         if (/*!getOptionSlanted()*/ true) {
@@ -216,8 +216,8 @@ public class Phylogram implements Splits2Network {
             if (e != null) {
 
                 Node lastNode = gv.getGraph().getOpposite(actual, e);
-                double lastIndexLeft = (double) ((int[]) reach.get(lastNode))[0];
-                double lastIndexRight = (double) ((int[]) reach.get(lastNode))[1];
+                double lastIndexLeft = reach.get(lastNode)[0];
+                double lastIndexRight = reach.get(lastNode)[1];
 
                 boolean m = false;
                 if ((indexRight - indexLeft) > ((lastIndexRight - lastIndexLeft) / 2.0)) m = true;
@@ -228,7 +228,7 @@ public class Phylogram implements Splits2Network {
                 }
 
                 Point2D.Double actualCoords = new Point2D.Double();
-                double ang = Math.toRadians((120 / (nTax * 2)) * ((1 + lastIndexRight - lastIndexLeft)));
+                double ang = Math.toRadians((120.0 / (nTax * 2)) * ((1 + lastIndexRight - lastIndexLeft)));
                 AffineTransform trans;
                 if (!m)
                     trans = AffineTransform.getTranslateInstance(graph.getWeight(e) * Math.cos(ang), -graph.getWeight(e) * Math.sin(ang));
@@ -247,11 +247,11 @@ public class Phylogram implements Splits2Network {
 
     }
 
-    private void computeCoordinatesCladogram(NodeArray reach, PhyloGraphView gv, Node actual, Edge e) throws NotOwnerException {
+    private void computeCoordinatesCladogram(NodeArray<int[]> reach, PhyloGraphView gv, Node actual, Edge e) throws NotOwnerException {
         PhyloSplitsGraph graph = gv.getPhyloGraph();
 
-        double indexLeft = (double) ((int[]) reach.get(actual))[0];
-        double indexRight = (double) ((int[]) reach.get(actual))[1];
+        double indexLeft = reach.get(actual)[0];
+        double indexRight = reach.get(actual)[1];
         double yCoord = (indexLeft + indexRight) / 2.0;
         double xCoord = 0.0;
         if (gv.getGraph().getDegree(actual) == 1)

@@ -19,9 +19,7 @@
  */
 package splitstree4.gui.undo;
 
-import jloda.graph.Edge;
 import jloda.graph.EdgeIntArray;
-import jloda.phylo.PhyloSplitsGraph;
 import splitstree4.gui.main.MainViewer;
 
 /**
@@ -41,11 +39,12 @@ public class EdgeWidthCommand extends ICommandAdapter implements ICommand {
     public EdgeWidthCommand(MainViewer viewer, int width) {
         this.viewer = viewer;
 
-        PhyloSplitsGraph graph = viewer.getPhyloGraph();
-        widths = new EdgeIntArray(graph, -1);
+        var graph = viewer.getPhyloGraph();
+        widths = graph.newEdgeIntArray();
 
         boolean noneSelected = viewer.getSelectedEdges().isEmpty(); //No nodes currently selected... apply to all.
-        for (Edge e = graph.getFirstEdge(); e != null; e = e.getNext()) {
+        for (var e : graph.edges()) {
+            widths.set(e, -1);
             if (viewer.getSelected(e) || noneSelected) {
                 widths.set(e, width != -1 ? width : viewer.getLineWidth(e));
             }
@@ -61,7 +60,8 @@ public class EdgeWidthCommand extends ICommandAdapter implements ICommand {
         if (getReverseCommand() == null)
             setReverseCommand(new EdgeWidthCommand(viewer, -1));
 
-        for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext()) {
+        var graph = viewer.getPhyloGraph();
+        for (var e : graph.edges()) {
             if (widths.getInt(e) != -1) {
                 viewer.setLineWidth(e, widths.getInt(e));
             }

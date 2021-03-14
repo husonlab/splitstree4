@@ -245,7 +245,7 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
 
         Set bestPath = new HashSet();
         NodeSet inPath = new NodeSet(graph);
-        NodeDoubleArray bestScore = new NodeDoubleArray(graph, Double.NEGATIVE_INFINITY);
+        NodeDoubleArray bestScore = new NodeDoubleArray(graph);
         inPath.add(start);
         // System.err.println("Finding best geodesic:");
         computeBestPathRec(graph, end, start, null, bestScore, inPath, 0, new HashSet(), bestPath, scores);
@@ -266,7 +266,7 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
                                     HashSet currentPath,
                                     Set bestPath, double[][] scores) {
         if (v == end) {
-            if (currentScore > bestScore.get(end)) {
+            if (bestScore.get(end) == null || currentScore > bestScore.get(end)) {
                 //  System.err.println("Updating best score: " + bestScore.get(end) + " -> " + currentScore);
                 bestPath.clear();
                 bestPath.addAll(currentPath);
@@ -274,25 +274,23 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
             } else if (currentScore == bestScore.get(end)) {
                 bestPath.addAll(currentPath); // don't break ties
             }
-        } else {
-            if (currentScore >= bestScore.get(v)) {
-                bestScore.put(v, currentScore);
-                for (Edge f = v.getFirstAdjacentEdge(); f != null; f = v.getNextAdjacentEdge(f)) {
-                    if (f != e) {
-                        Node w = f.getOpposite(v);
-                        if (!inPath.contains(w)) {
-                            inPath.add(w);
-                            String seq = (String) graph.getInfo(w);
-                            double add = getScore(seq, scores);
-                            currentPath.add(seq);
-                            computeBestPathRec(graph, end, w, f, bestScore, inPath, currentScore + add, currentPath, bestPath, scores);
+        } else if (bestScore.get(v) == null || currentScore >= bestScore.get(v)) {
+            bestScore.put(v, currentScore);
+            for (Edge f = v.getFirstAdjacentEdge(); f != null; f = v.getNextAdjacentEdge(f)) {
+                if (f != e) {
+                    Node w = f.getOpposite(v);
+                    if (!inPath.contains(w)) {
+                        inPath.add(w);
+                        String seq = (String) graph.getInfo(w);
+                        double add = getScore(seq, scores);
+                        currentPath.add(seq);
+                        computeBestPathRec(graph, end, w, f, bestScore, inPath, currentScore + add, currentPath, bestPath, scores);
                             currentPath.remove(seq);
                             inPath.remove(w);
                         }
                     }
                 }
             }
-        }
     }
 
     /**
