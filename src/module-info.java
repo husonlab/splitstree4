@@ -59,6 +59,7 @@ module splitstree {
     exports splitstree4.util;
     exports splitstree4.util.matrix;
 
+    exports splitstree4.resources;
     opens splitstree4.resources.icons;
     opens splitstree4.resources.images;
 

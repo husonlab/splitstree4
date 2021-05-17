@@ -70,7 +70,7 @@ public class SplitsTree {
      * @throws java.lang.Exception
      */
     public void parseArguments(String[] args) throws Exception {
-        ResourceManager.addResourceRoot(SplitsTree.class, "splitstree4.resources");
+        ResourceManager.insertResourceRoot(splitstree4.resources.Resources.class);
         Basic.startCollectionStdErr();
 
         ProgramProperties.setProgramName(Version.NAME);
