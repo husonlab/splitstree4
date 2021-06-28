@@ -36,8 +36,7 @@ public interface BootstrapAnalysisMethod extends AnalysisMethod {
      * @param doc
      * @return true, if method applies to given data
      */
-    boolean isApplicable(Document doc)
-    ;
+    boolean isApplicable(Document doc);
 
 
     /**

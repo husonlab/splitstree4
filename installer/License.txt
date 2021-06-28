@@ -1,7 +1,7 @@
 SplitsTree4 - Interactive tool for computation and analysis of phylogenetic networks
 
 
-Copyright (c) 2015, Daniel H. Huson and David J. Bryant
+Copyright (c) 2021, Daniel H. Huson and David J. Bryant
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

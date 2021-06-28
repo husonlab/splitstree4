@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="8.0.4" transformSequenceNumber="8">
-  <directoryPresets config="../../javafx-jmods" />
+  <directoryPresets config="../jars/Jama-NOTICE.txt" />
   <application name="SplitsTree4" applicationId="1505-7129-3447-4151" mediaDir="../../../builds" shortName="splitstree4" publisher="Daniel Huson and David Bryant" publisherWeb="www.splitstree.org" version="4.13" allPathsRelative="true" macVolumeId="b8c0a1154e563a9a" javaMinVersion="13">
     <codeSigning macEnabled="true" macPkcs12File="../../../../etc/application.p12" windowsEnabled="true" windowsPkcs12File="../../../../etc/windows.pfx" />
     <jreBundles jdkProviderId="AdoptOpenJDK" release="openjdk14/jdk-14.0.1+7">
@@ -15,7 +15,8 @@
     </mountPoints>
     <entries>
       <dirEntry mountPoint="1691242167" file="../../jloda/jars" subDirectory="jars" />
-      <dirEntry mountPoint="1691242167" file="../jars" subDirectory="jars" />
+      <fileEntry mountPoint="1691242167" file="../jars/Jama-1.0.3.jar" />
+      <fileEntry mountPoint="1691242167" file="../jars/Jama-NOTICE.txt" />
       <fileEntry mountPoint="1691242167" file="../antbuild/jloda.jar" />
       <fileEntry mountPoint="1691242167" file="../antbuild/splitstree4.jar" />
       <fileEntry mountPoint="1691242153" file="../examples/algae.nex" overwriteMode="3" overrideFileMode="true" overrideOverwriteMode="true" overrideUninstallMode="true" />
@@ -1154,5 +1155,5 @@ return true;</property>
   <buildIds buildAll="false">
     <mediaSet refId="1691242288" />
   </buildIds>
-  <buildOptions verbose="true" disableNotarization="true" />
+  <buildOptions disableSigning="true" disableNotarization="true" />
 </install4j>
