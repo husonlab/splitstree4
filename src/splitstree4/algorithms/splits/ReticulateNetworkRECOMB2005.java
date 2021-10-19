@@ -225,8 +225,8 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
                 Node v = e.getSource();
                 Node w = e.getTarget();
                 if (node2Sequence.get(v) != null && node2Sequence.get(w) != null) {
-                    String label = Basic.deltaBinarySequences((String) node2Sequence.get(v),
-                            (String) node2Sequence.get(w));
+                    String label = AlgorithmRECOMB2005.deltaBinarySequences((String) node2Sequence.get(v),
+							(String) node2Sequence.get(w));
                     if (graph.getLabel(e) == null)
                         graph.setLabel(e, label);
                     else
@@ -830,9 +830,9 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
             final String paSequence = (String) node2Sequence.get(pa);
             final Node pb = backbonePos2succNode[firstPosCovered - 1];
             final Node pc = backbonePos2node[firstPosCovered];
-            final String pcSequence = (String) node2Sequence.get(pc);
-            final String pConsensus = Basic.majorityBinarySequences(paSequence, pcSequence, rSequence);
-            final Node pAttach;
+			final String pcSequence = (String) node2Sequence.get(pc);
+			final String pConsensus = AlgorithmRECOMB2005.majorityBinarySequences(paSequence, pcSequence, rSequence);
+			final Node pAttach;
             if (pConsensus.equals(paSequence))
                 pAttach = pa;
             else if (pConsensus.equals(pcSequence))
@@ -852,9 +852,9 @@ public class ReticulateNetworkRECOMB2005 implements Splits2Network {
             final String qaSequence = (String) node2Sequence.get(qa);
             final Node qb = backbonePos2succNode[lastPosCovered];
             final Node qc = backbonePos2node[lastPosCovered];
-            final String qcSequence = (String) node2Sequence.get(qc);
-            final String qConsensus = Basic.majorityBinarySequences(qaSequence, qcSequence, rSequence);
-            final Node qAttach;
+			final String qcSequence = (String) node2Sequence.get(qc);
+			final String qConsensus = AlgorithmRECOMB2005.majorityBinarySequences(qaSequence, qcSequence, rSequence);
+			final Node qAttach;
             if (qConsensus.equals(qaSequence))
                 qAttach = qa;
             else if (qConsensus.equals(qcSequence))

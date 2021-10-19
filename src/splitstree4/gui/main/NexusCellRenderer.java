@@ -19,7 +19,7 @@
  */
 package splitstree4.gui.main;
 
-import jloda.util.Basic;
+import jloda.util.StringUtils;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.gui.Director;
 import splitstree4.nexus.*;
@@ -102,8 +102,8 @@ public class NexusCellRenderer implements TreeCellRenderer {
                 } else if (block instanceof Assumptions) {
                     text = text.replaceFirst("st_Assumptions;", "st_Assumptions;" + BLACK + "\n");
                 }
-                text = Basic.trimEmptyLines(text).replaceAll("\t", "&#9;");
-                text = "<html><pre><font face=\"monospace\" size=\"3\">" + text + "</font></pre></html>";
+				text = StringUtils.trimEmptyLines(text).replaceAll("\t", "&#9;");
+				text = "<html><pre><font face=\"monospace\" size=\"3\">" + text + "</font></pre></html>";
             }
         } catch (Exception ex) // not in nexus format, must be simple name or comments
         {

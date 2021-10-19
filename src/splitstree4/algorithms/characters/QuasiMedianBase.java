@@ -26,7 +26,8 @@ import jloda.swing.graphview.NodeView;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
-import jloda.util.ProgressListener;
+import jloda.util.progress.ProgressListener;
+import jloda.util.StringUtils;
 import splitstree4.core.Document;
 import splitstree4.nexus.Characters;
 import splitstree4.nexus.Network;
@@ -97,7 +98,7 @@ public abstract class QuasiMedianBase {
             System.err.println();
             System.err.println("Condensed to orig:");
             for (int t = 0; t < condensed2OrigPos.length; t++) {
-                System.err.println(t + ": " + Basic.toString(condensed2OrigPos[t]));
+				System.err.println(t + ": " + StringUtils.toString(condensed2OrigPos[t]));
             }
         }
         Set condensedInputSet = new TreeSet();

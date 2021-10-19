@@ -25,8 +25,8 @@ import jloda.graph.Node;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.swing.graphview.NodeView;
 import jloda.swing.graphview.PhyloGraphView;
-import jloda.util.Basic;
-import jloda.util.ProgressListener;
+import jloda.util.progress.ProgressListener;
+import jloda.util.StringUtils;
 import splitstree4.core.Document;
 import splitstree4.nexus.Distances;
 import splitstree4.nexus.Network;
@@ -185,8 +185,8 @@ public class PCoA implements Distances2Network {
         for (int j = 0; j < numberOfPositiveEigenValues; j++) {
             eigenValues[j] = positiveEigenValues.get(indices[j], indices[j]);
         }
-        System.err.println("Positive eigenvalues:");
-        System.err.println(Basic.toString(eigenValues, ", "));
+		System.err.println("Positive eigenvalues:");
+		System.err.println(StringUtils.toString(eigenValues, ", "));
 
 
         for (int i = 0; i < rank; i++) {

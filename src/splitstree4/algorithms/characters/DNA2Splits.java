@@ -21,6 +21,7 @@ package splitstree4.algorithms.characters;
 
 import jloda.util.Basic;
 import jloda.util.CanceledException;
+import jloda.util.StringUtils;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
 import splitstree4.core.TaxaSet;
@@ -198,7 +199,7 @@ public class DNA2Splits implements Characters2Splits {
         // label splits by mutations:
         if (getOptionLabelEdges()) {
             for (int s = 1; s <= splits.getNsplits(); s++)
-                splits.setLabel(s, Basic.toString((BitSet) split2Chars.get(s)));
+				splits.setLabel(s, StringUtils.toString((BitSet) split2Chars.get(s)));
         }
 
         if (getOptionMinSplitWeight() <= 1)

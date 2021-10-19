@@ -25,6 +25,7 @@ import jloda.graph.Node;
 import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.Basic;
+import jloda.util.StringUtils;
 import splitstree4.core.SplitsException;
 import splitstree4.nexus.Network;
 import splitstree4.nexus.Reticulate;
@@ -107,8 +108,8 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
             if (aLine != null) str += aLine;
             System.out.println(str);
             if (str.trim().length() != 0) {
-                str = str.replaceAll(" ", "").replaceAll("\t", "");
-                str = Basic.removeComments(str, '[', ']');
+				str = str.replaceAll(" ", "").replaceAll("\t", "");
+				str = StringUtils.removeComments(str, '[', ']');
                 // if str contains a "=" its a specification of a suptree
                 System.out.println("reading: " + str);
                 if (str.contains("=")) {

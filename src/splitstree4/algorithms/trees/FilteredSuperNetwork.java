@@ -24,7 +24,7 @@ import jloda.phylo.PhyloTree;
 import jloda.swing.util.HistogramPanel;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
-import jloda.util.ProgressCmdLine;
+import jloda.util.progress.ProgressCmdLine;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
 import splitstree4.nexus.Splits;

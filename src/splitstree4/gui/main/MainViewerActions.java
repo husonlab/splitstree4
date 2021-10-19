@@ -46,6 +46,8 @@ import jloda.swing.util.Alert;
 import jloda.swing.util.ChooseFileDialog;
 import jloda.swing.util.ResourceManager;
 import jloda.util.*;
+import jloda.util.progress.ProgressCmdLine;
+import jloda.util.progress.ProgressSilent;
 import splitstree4.algorithms.splits.EqualAngle;
 import splitstree4.algorithms.trees.TreeSelector;
 import splitstree4.algorithms.trees.TreesTransform;
@@ -490,8 +492,8 @@ public class MainViewerActions {
                     fileBaseName = dir.getDocument().getFile().getName();
                 if (fileBaseName == null)
                     fileBaseName = "Untitled";
-                fileBaseName = Basic.getFileBaseName(fileBaseName);
-                viewer.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				fileBaseName = FileUtils.getFileBaseName(fileBaseName);
+				viewer.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 SaveImageDialog.useAWTDialog = (ProgramProperties.isMacOS() &&
                         (event != null && (event.getModifiers() & Event.SHIFT_MASK) == 0));
                 new SaveImageDialog(viewer.getFrame(), viewer, viewer.getScrollPane(), fileBaseName);
@@ -1535,7 +1537,7 @@ public class MainViewerActions {
                 try {
                     StringBuilder buf = new StringBuilder();
                     for (File file : files) {
-                        buf.append(" '").append(Basic.doubleBackSlashes(file.getAbsolutePath())).append("'");
+						buf.append(" '").append(StringUtils.doubleBackSlashes(file.getAbsolutePath())).append("'");
                     }
                     viewer.getDir().execute("load treeFiles=" + buf.toString() + ";update;");
                 } catch (Exception ex) {
@@ -1685,7 +1687,7 @@ public class MainViewerActions {
                 try {
                     StringBuilder buf = new StringBuilder();
                     for (Object file : files) {
-                        buf.append(" '").append(Basic.doubleBackSlashes((String) file)).append("'");
+						buf.append(" '").append(StringUtils.doubleBackSlashes((String) file)).append("'");
                     }
                     viewer.getDir().execute("load charfiles=" + buf.toString() + ";update;");
                 } catch (Exception ex) {

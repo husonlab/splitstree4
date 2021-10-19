@@ -46,21 +46,80 @@ import java.util.List;
  * Date: 17-Sep-2004
  */
 public class AlgorithmRECOMB2005 {
-    final static int FAILED = 0;
-    final static int CONTAINED = 1;
-    final static int COMPLETE = 2;
+	final static int FAILED = 0;
+	final static int CONTAINED = 1;
+	final static int COMPLETE = 2;
 
-    public boolean apply(Taxa taxa, Splits splits, int outGroupId, Reticulation result, int which) throws Exception {
+	/**
+	 * returns the delta between two binary strings
+	 *
+	 * @return delta
+	 */
+	static public String deltaBinarySequences(String a, String b) {
+		var buf = new StringBuilder();
+		var diffStart = -1;
+		var first = true;
+		for (var i = 0; i < a.length(); i++) {
+			if (a.charAt(i) == b.charAt(i)) {
+				if (diffStart > -1) {
+					if (first)
+						first = false;
+					else
+						buf.append(",");
+					if (i - 1 == diffStart)
+						buf.append(diffStart + 1);
+					else
+						buf.append(diffStart + 1).append("-").append(i);
+					diffStart = -1;
+				}
+			} else // chars differ
+			{
+				if (diffStart == -1)
+					diffStart = i;
+			}
+		}
+		if (diffStart > -1) {
+			if (!first)
+				buf.append(",");
+			if (diffStart == a.length() - 1)
+				buf.append(diffStart + 1);
+			else
+				buf.append(diffStart + 1).append("-").append(a.length());
+		}
+		if (buf.length() > 0)
+			return buf.toString();
+		else
+			return null;
+	}
 
-        System.err.println("# Running AlgorithmRECOMB2005:");
-        List endPairs;
+	/**
+	 * compute the majority sequence of three binary sequences
+	 *
+	 * @return majority sequence
+	 */
+	static public String majorityBinarySequences(String a, String b, String c) {
+		var buf = new StringBuilder();
+		for (var i = 0; i < a.length(); i++) {
+			if ((a.charAt(i) == '1' && (b.charAt(i) == '1' || c.charAt(i) == '1'))
+				|| (b.charAt(i) == '1' && c.charAt(i) == '1'))
+				buf.append('1');
+			else
+				buf.append('0');
+		}
+		return buf.toString();
+	}
 
-        endPairs = computeAllEndPairs(taxa, splits);
-        System.err.println("# Possible end pairs: " + endPairs.size());
+	public boolean apply(Taxa taxa, Splits splits, int outGroupId, Reticulation result, int which) throws Exception {
 
-        PhyloGraphView graphView;
-        {
-            Document tmpDoc = new Document();
+		System.err.println("# Running AlgorithmRECOMB2005:");
+		List endPairs;
+
+		endPairs = computeAllEndPairs(taxa, splits);
+		System.err.println("# Possible end pairs: " + endPairs.size());
+
+		PhyloGraphView graphView;
+		{
+			Document tmpDoc = new Document();
             tmpDoc.setTaxa(taxa);
             tmpDoc.setSplits(splits);
             SplitsUtilities.computeCycle(tmpDoc, taxa, splits, 0);

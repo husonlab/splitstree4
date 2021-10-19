@@ -41,6 +41,7 @@ import jloda.phylo.PhyloTree;
 import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import jloda.util.Pair;
+import jloda.util.StringUtils;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
 import splitstree4.core.TaxaSet;
@@ -86,8 +87,8 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
         try {
             String str;
             BufferedReader br = new BufferedReader(input);
-            str = br.readLine().trim();
-            str = Basic.removeComments(str, '[', ']');
+			str = br.readLine().trim();
+			str = StringUtils.removeComments(str, '[', ']');
             if (str.length() > 0 && str.charAt(0) == '(')
                 return true;
         } catch (Exception ex) {
@@ -131,7 +132,7 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
                 str = str.replaceAll(" ", "").replaceAll("\t", "");
                 PhyloTree tree = new PhyloTree();
                 try {
-                    tree.parseBracketNotation(Basic.removeComments(str, '[', ']'), true);
+					tree.parseBracketNotation(StringUtils.removeComments(str, '[', ']'), true);
                     if (TreesUtilities.hasNumbersOnInternalNodes(tree))
                         TreesUtilities.changeNumbersOnInternalNodesToEdgeConfidencies(tree);
                 } catch (Exception ex) {

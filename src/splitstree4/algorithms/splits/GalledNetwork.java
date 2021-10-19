@@ -24,6 +24,7 @@ import jloda.phylo.PhyloSplitsGraph;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.util.Basic;
 import jloda.util.Pair;
+import jloda.util.StringUtils;
 import splitstree4.algorithms.splits.reticulateTree.HybridFinderWithTree;
 import splitstree4.algorithms.splits.reticulateTree.LabelGraph;
 import splitstree4.algorithms.splits.reticulateTree.ModifyGraph;
@@ -176,7 +177,7 @@ public class GalledNetwork implements Splits2Network {
         NodeSet gateNodes = new NodeSet(graph);
         NodeSet[] nettedComps = computeNettedComps(split2incomp, graph, gateNodes, incompComponents.length);
         for (TaxaSet[] anInducedTaxa2origsTaxa : inducedTaxa2origsTaxa) {
-            if (verbose) System.out.println(Basic.toString(anInducedTaxa2origsTaxa, ","));
+			if (verbose) System.out.println(StringUtils.toString(anInducedTaxa2origsTaxa, ","));
         }
 
         int numNettedComps = 0;

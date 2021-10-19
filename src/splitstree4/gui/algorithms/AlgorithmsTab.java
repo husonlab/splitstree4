@@ -21,6 +21,7 @@ package splitstree4.gui.algorithms;
 
 import jloda.util.Basic;
 import jloda.util.ProgramProperties;
+import jloda.util.StringUtils;
 import splitstree4.algorithms.Transformation;
 import splitstree4.algorithms.util.Configurator;
 import splitstree4.core.Document;
@@ -203,7 +204,7 @@ public class AlgorithmsTab extends JPanel {
      */
     private static String decodeOptionName(String x) {
 
-        return Basic.insertSpacesBetweenLowerCaseAndUpperCaseLetters(x);
+		return StringUtils.insertSpacesBetweenLowerCaseAndUpperCaseLetters(x);
     }
 
     /**

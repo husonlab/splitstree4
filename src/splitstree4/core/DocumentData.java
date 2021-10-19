@@ -23,7 +23,7 @@
 package splitstree4.core;
 
 
-import jloda.util.Basic;
+import jloda.util.FileUtils;
 import splitstree4.nexus.*;
 
 import java.io.File;
@@ -464,7 +464,7 @@ public class DocumentData {
      */
     public void setFile(String name, boolean unique) {
         if (unique) {
-            file = Basic.getFileWithNewUniqueName(name);
+			file = FileUtils.getFileWithNewUniqueName(name);
         } else {
             file = new File(name);
         }

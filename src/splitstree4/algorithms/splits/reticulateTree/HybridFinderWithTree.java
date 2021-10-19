@@ -23,7 +23,7 @@ import jloda.graph.Edge;
 import jloda.graph.Node;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.swing.graphview.PhyloGraphView;
-import jloda.util.ProgressSilent;
+import jloda.util.progress.ProgressSilent;
 import splitstree4.algorithms.splits.EqualAngle;
 import splitstree4.core.Document;
 import splitstree4.core.TaxaSet;

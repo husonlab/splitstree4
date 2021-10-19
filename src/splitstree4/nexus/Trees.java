@@ -27,6 +27,7 @@ import jloda.graph.Node;
 import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloTree;
 import jloda.util.Basic;
+import jloda.util.IteratorUtils;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.algorithms.trees.TreeSelector;
 import splitstree4.core.Document;
@@ -504,8 +505,8 @@ public class Trees extends NexusBlock {
                 stack.push(tree.getRoot());
                 while (stack.size() > 0) {
                     Node v = stack.pop();
-                    count++;
-                    stack.addAll(Basic.asList(v.children()));
+					count++;
+					stack.addAll(IteratorUtils.asList(v.children()));
                 }
                 System.err.println("nodes " + tree.getNumberOfNodes() + " vs " + count);
             }

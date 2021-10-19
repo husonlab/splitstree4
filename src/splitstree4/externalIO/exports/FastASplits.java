@@ -19,6 +19,7 @@
  */
 package splitstree4.externalIO.exports;
 
+import jloda.seq.FastA;
 import splitstree4.core.Document;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
@@ -56,7 +57,7 @@ public class FastASplits extends ExporterAdapter implements Exporter {
         Taxa taxa = doc.getTaxa();
         Splits splits = doc.getSplits();
 
-        jloda.util.FastA fasta = new jloda.util.FastA();
+		FastA fasta = new FastA();
         for (int t = 1; t <= taxa.getNtax(); t++) {
             char[] seq = new char[splits.getNsplits()];
             for (int s = 1; s <= splits.getNsplits(); s++) {

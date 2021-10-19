@@ -37,7 +37,8 @@
 package splitstree4.externalIO.imports;
 
 import jloda.swing.util.Alert;
-import jloda.util.Basic;
+import jloda.util.FileUtils;
+import jloda.util.StringUtils;
 import splitstree4.nexus.Characters;
 import splitstree4.util.CharactersUtilities;
 
@@ -126,7 +127,7 @@ public class FastA extends FileFilter implements Importer {
                     }
                     buf = new StringBuilder();
                     aLine = aLine.substring(1).trim();
-                    String name = Basic.getFirstWord(aLine);
+					String name = StringUtils.getFirstWord(aLine);
                     taxonNames.add(name);
                     headerLines.add(aLine);
                     if (headerLinesEqualTaxonNames && !name.equals(aLine))
@@ -276,7 +277,7 @@ public class FastA extends FileFilter implements Importer {
         if (f != null) {
             if (f.isDirectory()) return true;
             try {// Get the file extension
-                String extension = Basic.getFileSuffix(f.getName());
+				String extension = FileUtils.getFileSuffix(f.getName());
                 if (extension != null && getFileExtensions().contains(extension))
                     return true;
             } catch (Exception e) {

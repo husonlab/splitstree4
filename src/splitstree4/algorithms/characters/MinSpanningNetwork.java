@@ -24,7 +24,7 @@ import jloda.graph.Node;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.CanceledException;
 import jloda.util.Pair;
-import jloda.util.ProgressListener;
+import jloda.util.progress.ProgressListener;
 import splitstree4.algorithms.distances.MinSpanningNetworkForDistances;
 import splitstree4.core.Document;
 import splitstree4.nexus.Characters;

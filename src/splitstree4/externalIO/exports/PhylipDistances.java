@@ -19,7 +19,7 @@
  */
 package splitstree4.externalIO.exports;
 
-import jloda.util.PhylipUtils;
+import splitstree4.util.PhylipUtils;
 import splitstree4.core.Document;
 import splitstree4.nexus.Distances;
 import splitstree4.nexus.Taxa;

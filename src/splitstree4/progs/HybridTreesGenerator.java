@@ -23,7 +23,7 @@ import jloda.graph.Edge;
 import jloda.graph.Node;
 import jloda.phylo.PhyloTree;
 import jloda.swing.util.CommandLineOptions;
-import jloda.util.Basic;
+import jloda.util.StringUtils;
 import splitstree4.core.Document;
 import splitstree4.nexus.Taxa;
 import splitstree4.nexus.Trees;
@@ -70,7 +70,7 @@ public class HybridTreesGenerator {
                     + "precisely one attachment node labeled h_i. For each such attachment node h_i, the base tree T "
                     + "must contain precisely two copies, h_iP and hi_Q that indicate the two alternative places "
                     + "where T_i attaches to T. For all other taxa we have X_i n X is empty and X_i n X_j is empty.";
-            System.out.println(Basic.toMessageString(description));
+			System.out.println(StringUtils.toMessageString(description));
 
         }
 

@@ -23,7 +23,7 @@ import jloda.swing.util.ArgsOptions;
 import jloda.swing.util.ResourceManager;
 import jloda.util.Basic;
 import jloda.util.ProgramProperties;
-import jloda.util.ProgressCmdLine;
+import jloda.util.progress.ProgressCmdLine;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
 import splitstree4.util.NexusFileFilter;

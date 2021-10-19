@@ -23,8 +23,8 @@ import jloda.graph.*;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.swing.util.Geometry;
-import jloda.util.Basic;
 import jloda.util.CanceledException;
+import jloda.util.IteratorUtils;
 import jloda.util.Pair;
 import splitstree4.core.Document;
 import splitstree4.core.TaxaSet;
@@ -806,7 +806,7 @@ public class EqualAngle implements Splits2Network {
 
                 int count = 0;
 
-                Iterator it = Basic.randomize(graph.nodes().iterator(), 77 * i);
+				Iterator it = IteratorUtils.randomize(graph.nodes().iterator(), 77 * i);
                 while (it.hasNext()) {
                     Node v = (Node) it.next();
                     doc.notifySetProgress(++count);

@@ -22,7 +22,7 @@ package splitstree4.algorithms.characters;
 import jloda.graph.*;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.CanceledException;
-import jloda.util.ProgressListener;
+import jloda.util.progress.ProgressListener;
 import splitstree4.core.Document;
 import splitstree4.nexus.Characters;
 import splitstree4.nexus.Taxa;

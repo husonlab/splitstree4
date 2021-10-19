@@ -23,10 +23,8 @@ import jloda.graph.*;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.swing.util.Geometry;
-import jloda.util.Basic;
-import jloda.util.CanceledException;
-import jloda.util.Pair;
-import jloda.util.ProgressListener;
+import jloda.util.*;
+import jloda.util.progress.ProgressListener;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
 import splitstree4.core.TaxaSet;
@@ -630,7 +628,7 @@ public class RootedEqualAngle implements Splits2Network {
         Node rootNode = graphView.getPhyloGraph().getTaxon2Node(taxa.getNtax());// root is last node
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
         for (int i = 1; i <= getBrokenOptionDaylightIterations(); i++) {
-            var it = Basic.randomize(graph.nodes().iterator(), 77 * i);
+			var it = IteratorUtils.randomize(graph.nodes().iterator(), 77 * i);
             while (it.hasNext()) {
                 final Node v = it.next();
                 if (graph.getDegree(v) > 1) {

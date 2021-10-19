@@ -29,6 +29,8 @@ import jloda.swing.util.Alert;
 import jloda.util.*;
 import jloda.util.parse.NexusStreamParser;
 import jloda.util.parse.NexusStreamTokenizer;
+import jloda.util.progress.ProgressCmdLine;
+import jloda.util.progress.ProgressListener;
 import splitstree4.algorithms.Transformation;
 import splitstree4.algorithms.additional.ClosestTree;
 import splitstree4.algorithms.additional.GreedyCompatible;
@@ -2130,8 +2132,8 @@ public class Document extends DocumentData {
                     throw new SplitsException("EXPORT: Must specify FILE=filename");
                 boolean replace = np.findIgnoreCase(tokens, "replace=", "yes no", "no").equals("yes");
                 boolean append = np.findIgnoreCase(tokens, "append=", "yes no", "no").equals("yes");
-                boolean complete = np.findIgnoreCase(tokens, "complete=", "yes no", "yes").equals("yes");
-                String exporter = np.findIgnoreCase(tokens, "format=", Basic.collection2string(ExportManager.getExportNames()), "Nexus");
+				boolean complete = np.findIgnoreCase(tokens, "complete=", "yes no", "yes").equals("yes");
+				String exporter = np.findIgnoreCase(tokens, "format=", StringUtils.collection2string(ExportManager.getExportNames()), "Nexus");
 
                 Collection blocks = null;
                 if (!np.findIgnoreCase(tokens, "data=all", true, false)) {

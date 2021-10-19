@@ -20,6 +20,7 @@
 package splitstree4.externalIO.exports;
 
 
+import jloda.seq.FastA;
 import splitstree4.core.Document;
 import splitstree4.nexus.Characters;
 
@@ -62,7 +63,7 @@ public class FastASequences extends ExporterAdapter implements Exporter {
         if (getOptionExportAll()
                 || chars.getMask() == null || chars.getNactive() == chars.getNchar()) {
             System.err.println("# Exporting all sites");
-            jloda.util.FastA fasta = new jloda.util.FastA();
+			FastA fasta = new FastA();
             for (int t = 1; t <= doc.getTaxa().getNtax(); t++) {
                 char[] seq = new char[chars.getNchar()];
                 for (int c = 1; c <= chars.getNchar(); c++)
@@ -75,7 +76,7 @@ public class FastASequences extends ExporterAdapter implements Exporter {
             System.err.println("# Exporting active sites");
             int numActive = chars.getNactive();
 
-            jloda.util.FastA fasta = new jloda.util.FastA();
+			FastA fasta = new FastA();
             for (int t = 1; t <= doc.getTaxa().getNtax(); t++) {
                 char[] seq = new char[numActive];
                 for (int cOrig = 1, c = 0; c < numActive; c++, cOrig++) {

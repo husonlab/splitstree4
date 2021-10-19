@@ -25,6 +25,7 @@ import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.swing.util.Alert;
 import jloda.util.Basic;
+import jloda.util.StringUtils;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
@@ -295,7 +296,7 @@ public class SelectCharactersActions implements UpdateableActions {
                     return;
                 }
                 BitSet supportingCharacters = ComputeSupportingCharacters.apply(doc, selectedSplits);
-                inputTA.setText(Basic.toString(supportingCharacters));
+				inputTA.setText(StringUtils.toString(supportingCharacters));
 
             }
         };

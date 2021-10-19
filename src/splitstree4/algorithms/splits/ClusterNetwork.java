@@ -25,8 +25,8 @@ import jloda.swing.graphview.EdgeView;
 import jloda.swing.graphview.NodeView;
 import jloda.swing.graphview.PhyloGraphView;
 import jloda.swing.util.Geometry;
-import jloda.util.Basic;
 import jloda.util.Pair;
+import jloda.util.StringUtils;
 import splitstree4.core.Document;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Network;
@@ -188,7 +188,7 @@ public class ClusterNetwork implements Splits2Network {
             NodeView nv = graphView.getNV(v);
             //nv.setLocation(new Point(card2clusters[cluster.cardinality()].size(), cluster.cardinality()));
             if (optionShowClusters)
-                nv.setLabel(Basic.toString(cluster.getBits()));
+				nv.setLabel(StringUtils.toString(cluster.getBits()));
             v.setInfo(cluster);
             root = v; // outgroup cluster will be last cluster in ordering
         }

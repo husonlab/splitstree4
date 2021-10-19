@@ -24,6 +24,7 @@ import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.Basic;
 import jloda.util.Pair;
+import jloda.util.progress.ProgressCmdLine;
 import splitstree4.algorithms.trees.TreeSelector;
 import splitstree4.core.Document;
 import splitstree4.core.TaxaSet;
@@ -141,7 +142,7 @@ public class SelectTreesActions implements UpdateableActions {
 
                 JList<String> list = ((JList<String>) input.getValue(JLIST));
                 Document doc = dir.getDocument();
-                doc.setProgressListener(new jloda.util.ProgressCmdLine());
+				doc.setProgressListener(new ProgressCmdLine());
 
                 Taxa taxa = doc.getTaxa();
                 Trees trees = doc.getTrees();

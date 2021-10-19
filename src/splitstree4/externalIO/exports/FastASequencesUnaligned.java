@@ -20,6 +20,7 @@
 package splitstree4.externalIO.exports;
 
 
+import jloda.seq.FastA;
 import splitstree4.core.Document;
 import splitstree4.nexus.Characters;
 import splitstree4.nexus.Unaligned;
@@ -59,7 +60,7 @@ public class FastASequencesUnaligned extends ExporterAdapter implements Exporter
 
         Unaligned unalign = doc.getUnaligned();
 
-        jloda.util.FastA fasta = new jloda.util.FastA();
+		FastA fasta = new FastA();
         //System.out.println("Length: " + unalign.getMaxLength());
         for (int t = 1; t <= doc.getTaxa().getNtax(); t++) {
 
