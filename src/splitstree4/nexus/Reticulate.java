@@ -25,6 +25,7 @@ import jloda.graph.Node;
 import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.util.Basic;
+import jloda.util.StringUtils;
 import jloda.util.parse.NexusStreamParser;
 import jloda.util.parse.NexusStreamTokenizer;
 import splitstree4.core.SplitsException;
@@ -1264,14 +1265,14 @@ public class Reticulate extends NexusBlock implements Cloneable {
      */
     private Node parseBracketNotation(String str, HashMap label2Node, HashSet workedLabels, PhyloSplitsGraph reticulationNetwork, Vector activeNettedComponentsBackbones, TreeSet activeNettedComponents) throws IOException {
         // we have to read the first node special, its the root and phylograph has no root!!!
-        int i = Basic.skipSpaces(str, 0);
+		int i = StringUtils.skipSpaces(str, 0);
         if (str.charAt(i) == '(') {
             HashMap node2internalLabel = new HashMap();
             Node root = reticulationNetwork.newNode();
             i = parseBracketNotationRecursively(1, root, i + 1, str, label2Node, workedLabels, reticulationNetwork, activeNettedComponentsBackbones, activeNettedComponents, node2internalLabel);
             if (str.charAt(i) != ')')
                 throw new IOException("Expected ')' at position " + i);
-            i = Basic.skipSpaces(str, i + 1);
+			i = StringUtils.skipSpaces(str, i + 1);
             if (i < str.length() && Character.isLetterOrDigit(str.charAt(i))) // must be a internal label
             {
                 int i0 = i;
@@ -1325,17 +1326,17 @@ public class Reticulate extends NexusBlock implements Cloneable {
      */
     private int parseBracketNotationRecursively(int depth, Node v, int i, String str, HashMap label2Node, HashSet workedLabels, PhyloSplitsGraph reticulationNetwork, Vector activeNettedComponentsBackbones, TreeSet activeNettedComponents, HashMap node2internalLabel) throws IOException {
         try {
-            for (i = Basic.skipSpaces(str, i); i < str.length(); i = Basic.skipSpaces(str, i + 1)) {
-                Node w = reticulationNetwork.newNode();
-                if (str.charAt(i) == '(') {
-                    i = parseBracketNotationRecursively(depth + 1, w, i + 1, str, label2Node, workedLabels, reticulationNetwork, activeNettedComponentsBackbones, activeNettedComponents, node2internalLabel);
-                    if (str.charAt(i) != ')')
-                        throw new IOException("Expected ')' at position " + i);
-                    i = Basic.skipSpaces(str, i + 1);
-                    if (i < str.length() && Character.isLetterOrDigit(str.charAt(i))) // must be internal label
-                    {
-                        int i0 = i;
-                        StringBuilder buf = new StringBuilder();
+			for (i = StringUtils.skipSpaces(str, i); i < str.length(); i = StringUtils.skipSpaces(str, i + 1)) {
+				Node w = reticulationNetwork.newNode();
+				if (str.charAt(i) == '(') {
+					i = parseBracketNotationRecursively(depth + 1, w, i + 1, str, label2Node, workedLabels, reticulationNetwork, activeNettedComponentsBackbones, activeNettedComponents, node2internalLabel);
+					if (str.charAt(i) != ')')
+						throw new IOException("Expected ')' at position " + i);
+					i = StringUtils.skipSpaces(str, i + 1);
+					if (i < str.length() && Character.isLetterOrDigit(str.charAt(i))) // must be internal label
+					{
+						int i0 = i;
+						StringBuilder buf = new StringBuilder();
                         while (i < str.length() && punct.indexOf(str.charAt(i)) == -1)
                             buf.append(str.charAt(i++));
                         String label = buf.toString().trim();
@@ -1440,7 +1441,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
                     }
 
                 // detect and read embedded bootstrap values:
-                i = Basic.skipSpaces(str, i);
+				i = StringUtils.skipSpaces(str, i);
                 if (i < str.length() && startOfNumber.indexOf(str.charAt(i)) >= 0) // edge weight is following
                 {
                     int i0 = i;
@@ -1460,7 +1461,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
                 // read edge weights
                 if (i < str.length() && str.charAt(i) == ':') // edge weight is following
                 {
-                    i = Basic.skipSpaces(str, i + 1);
+					i = StringUtils.skipSpaces(str, i + 1);
                     int i0 = i;
                     StringBuilder buf = new StringBuilder();
                     while (i < str.length() && punct.indexOf(str.charAt(i)) == -1)

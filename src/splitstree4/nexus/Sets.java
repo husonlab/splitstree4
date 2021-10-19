@@ -29,7 +29,7 @@
 package splitstree4.nexus;
 
 import jloda.phylo.PhyloTree;
-import jloda.util.Basic;
+import jloda.util.NumberUtils;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.core.TaxaSet;
 import splitstree4.util.Partition;
@@ -503,12 +503,12 @@ public class Sets extends NexusBlock implements Cloneable {
             } else {
                 String next = np.getWordRespectCase();
                 int current = -1;
-                if (Basic.isInteger(next)) {
-                    np.pushBack();
-                    current = np.getInt(1, taxa.getNtax());
-                }
-                if (current == -1 && next.equals("."))
-                    current = taxa.getNtax();
+				if (NumberUtils.isInteger(next)) {
+					np.pushBack();
+					current = np.getInt(1, taxa.getNtax());
+				}
+				if (current == -1 && next.equals("."))
+					current = taxa.getNtax();
                 if (current == -1) // not a number, maybe a name?
                 {
                     result.add(next);
@@ -623,8 +623,8 @@ public class Sets extends NexusBlock implements Cloneable {
                     blockName = Integer.toString(blockNumber);
                 } else {
                     String next = np.getWordRespectCase();
-                    if (Basic.isInteger(next))
-                        throw new IOException("line " + np.lineno() + ": Incorrect partition block number: " + next);
+					if (NumberUtils.isInteger(next))
+						throw new IOException("line " + np.lineno() + ": Incorrect partition block number: " + next);
                     np.matchIgnoreCase(":");
                     blockName = next;
                 }
@@ -658,17 +658,17 @@ public class Sets extends NexusBlock implements Cloneable {
                         expectNextBlock = true;
                     } else {
                         String next = np.getWordRespectCase();
-                        if (Basic.isInteger(next)) {
-                            np.pushBack();
-                            int current = np.getInt(1, chars.getNchar());
-                            block.add(current);
-                            previous = current;
-                        } else // should be a defined character set
-                        {
-                            Set<Integer> cSet = this.getCharSet(next);
-                            if (cSet == null)
-                                throw new IOException("line " + np.lineno() + ": Illegal character or character set: " + previous + " - " + next);
-                            block.addAll(cSet);
+						if (NumberUtils.isInteger(next)) {
+							np.pushBack();
+							int current = np.getInt(1, chars.getNchar());
+							block.add(current);
+							previous = current;
+						} else // should be a defined character set
+						{
+							Set<Integer> cSet = this.getCharSet(next);
+							if (cSet == null)
+								throw new IOException("line " + np.lineno() + ": Illegal character or character set: " + previous + " - " + next);
+							block.addAll(cSet);
                             previous = -1;
                             expectComma = true;
                         }

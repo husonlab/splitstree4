@@ -24,7 +24,7 @@ import jloda.graph.Node;
 import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloSplitsGraph;
 import jloda.swing.graphview.PhyloGraphView;
-import jloda.util.Basic;
+import jloda.util.CollectionUtils;
 import jloda.util.Pair;
 import splitstree4.algorithms.splits.EqualAngle;
 import splitstree4.core.Document;
@@ -139,7 +139,7 @@ public class AlgorithmRECOMB2005 {
         System.err.println("# Possible arrangements: " + arrangements.size());
 
         // sort backbones by decreasing length:
-        Basic.sort(arrangements, new Reticulation());
+		CollectionUtils.sort(arrangements, new Reticulation());
 
         it = arrangements.iterator();
         boolean found = false;

@@ -603,9 +603,9 @@ public class RootedEqualAngle implements Splits2Network {
                 split2angle[s] = Math.PI + (0.25 * getOptionMaxAngle() / 90.0 * Math.PI * (xp + xq)) / (double) ntaxa;
             } else {
                 double dp = 0.5 * origNtaxa - (xp - 1);
-                double pAngle = 1.5 * Math.PI - Basic.sign(dp) * Math.atan(Math.abs(dp) / h);
-                double dq = 0.5 * origNtaxa - (xq - 1);
-                double qAngle = 1.5 * Math.PI - Basic.sign(dq) * Math.atan(Math.abs(dq) / h);
+				double pAngle = 1.5 * Math.PI - NumberUtils.sign(dp) * Math.atan(Math.abs(dp) / h);
+				double dq = 0.5 * origNtaxa - (xq - 1);
+				double qAngle = 1.5 * Math.PI - NumberUtils.sign(dq) * Math.atan(Math.abs(dq) / h);
                 split2angle[s] = 0.5 * (pAngle + qAngle);
 
             }

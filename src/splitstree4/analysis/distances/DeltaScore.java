@@ -23,6 +23,7 @@ import jloda.phylo.PhyloTree;
 import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
+import jloda.util.NumberUtils;
 import splitstree4.algorithms.characters.Characters2Distances;
 import splitstree4.algorithms.distances.NJ;
 import splitstree4.algorithms.util.PaupNode;
@@ -186,25 +187,25 @@ public class DeltaScore implements DistancesAnalysisMethod {
         }
 
         System.out.println("Delta scores for individual taxa\nId\tTaxon\tDelta Score \tQ-residual");
-        for (int i = 0; i < selectedTaxa.length; i++) {
-            System.out.print("" + selectedTaxa[i] + "\t" + doc.getTaxa().getLabel(selectedTaxa[i]));
-            System.out.println("\t" + Basic.roundSigFig(taxonAverages[0][i], 5) + "\t" + Basic.roundSigFig(taxonAverages[1][i] / scale, 5));
-        }
-        System.out.println("===========================");
-        //   System.out.println("Average delta score for selection = " + Basic.roundSigFig(totalAverage[0], 5) + "\nAverage Q-residual = " + Basic.roundSigFig(totalAverage[1], 5) + "\n");
-        //  System.out.println("Average distance = " + (avDistance));
+		for (int i = 0; i < selectedTaxa.length; i++) {
+			System.out.print("" + selectedTaxa[i] + "\t" + doc.getTaxa().getLabel(selectedTaxa[i]));
+			System.out.println("\t" + NumberUtils.roundSigFig(taxonAverages[0][i], 5) + "\t" + NumberUtils.roundSigFig(taxonAverages[1][i] / scale, 5));
+		}
+		System.out.println("===========================");
+		//   System.out.println("Average delta score for selection = " + Basic.roundSigFig(totalAverage[0], 5) + "\nAverage Q-residual = " + Basic.roundSigFig(totalAverage[1], 5) + "\n");
+		//  System.out.println("Average distance = " + (avDistance));
 
 
-        // double[] pvals = computeParametricPval(doc, 100, selectedTaxa, totalAverage);
-        String result = "\nDelta score = " + Basic.roundSigFig(totalAverage[0], 4);//+ " (p-val = " + Basic.roundSigFig(pvals[0], 4)+")";
-        result += "\nQ-residual score = " + Basic.roundSigFig(totalAverage[1], 4);// + " (p-val = " + Basic.roundSigFig(pvals[1], 4)+")";
+		// double[] pvals = computeParametricPval(doc, 100, selectedTaxa, totalAverage);
+		String result = "\nDelta score = " + NumberUtils.roundSigFig(totalAverage[0], 4);//+ " (p-val = " + Basic.roundSigFig(pvals[0], 4)+")";
+		result += "\nQ-residual score = " + NumberUtils.roundSigFig(totalAverage[1], 4);// + " (p-val = " + Basic.roundSigFig(pvals[1], 4)+")";
 
 
-        // String result = "\nDelta score = " + Basic.roundSigFig(totalAverage[0], 4) + " (p-val = " + Basic.roundSigFig(pvals[0], 4)+")";
-        //result += "\nQ-residual score = " + Basic.roundSigFig(totalAverage[1], 4) + " (p-val = " + Basic.roundSigFig(pvals[1], 4)+")";
+		// String result = "\nDelta score = " + Basic.roundSigFig(totalAverage[0], 4) + " (p-val = " + Basic.roundSigFig(pvals[0], 4)+")";
+		//result += "\nQ-residual score = " + Basic.roundSigFig(totalAverage[1], 4) + " (p-val = " + Basic.roundSigFig(pvals[1], 4)+")";
 
-        return result;
-    }
+		return result;
+	}
 
     /**
      * Determine whether given method can be applied to given data.

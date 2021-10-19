@@ -62,7 +62,6 @@ import splitstree4.gui.Director;
 import splitstree4.gui.main.RadiallyLayoutNodeLabels;
 import splitstree4.main.SplitsTreeProperties;
 import splitstree4.nexus.*;
-import splitstree4.util.NexusFileFilter;
 import splitstree4.util.*;
 
 import javax.swing.*;
@@ -778,7 +777,7 @@ public class Document extends DocumentData {
 
             //Hide splits
             if (assumptions.getExSplits() != null) {
-                splits.hideSplits(originalTaxa, Basic.asBitSet(assumptions.getExSplits()));
+                splits.hideSplits(originalTaxa, BitSetUtils.asBitSet(assumptions.getExSplits()));
             }
 
             //Hide taxa in splits
@@ -1909,11 +1908,11 @@ public class Document extends DocumentData {
                 String label = np.getWordRespectCase();
                 np.matchIgnoreCase("=");
                 String value = np.getWordFileNamePunctuation();
-                if (Basic.isBoolean(value)) {
+                if (NumberUtils.isBoolean(value)) {
                     ProgramProperties.put(label, Boolean.parseBoolean(value));
-                } else if (Basic.isInteger(value)) {
+                } else if (NumberUtils.isInteger(value)) {
                     ProgramProperties.put(label, Integer.parseInt(value));
-                } else if (Basic.isFloat(value)) {
+                } else if (NumberUtils.isFloat(value)) {
                     ProgramProperties.put(label, Float.parseFloat(value));
                 } else
                     ProgramProperties.put(label, value);

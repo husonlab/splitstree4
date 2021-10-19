@@ -26,7 +26,7 @@
 //package exportDialogs; //use this for netbeans
 package splitstree4.externalIO.exports;
 
-import jloda.util.Basic;
+import jloda.util.NumberUtils;
 import splitstree4.core.Document;
 import splitstree4.nexus.Distances;
 
@@ -824,7 +824,7 @@ public class SnapExportDialog extends javax.swing.JDialog {
 
 
     private String sfg(double x) {
-        return Double.toString(Basic.roundSigFig(x, 4));
+		return Double.toString(NumberUtils.roundSigFig(x, 4));
     }
 
 

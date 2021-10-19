@@ -20,6 +20,7 @@
 package splitstree4.gui.main;
 
 import jloda.util.Basic;
+import jloda.util.NumberUtils;
 import splitstree4.algorithms.trees.TreeSelector;
 import splitstree4.core.Document;
 import splitstree4.nexus.*;
@@ -73,10 +74,10 @@ public class StatusBar extends jloda.swing.util.StatusBar {
                 }
 
                 if (fit && doc.isValidByName(Splits.NAME) && doc.getSplits().getProperties().getFit() >= 0)
-                    status += "Fit=" + Basic.roundSigFig(doc.getSplits().getProperties().getFit(), 5);
+					status += "Fit=" + NumberUtils.roundSigFig(doc.getSplits().getProperties().getFit(), 5);
 
                 if (lsFit && doc.isValidByName(Splits.NAME) && (doc.getSplits().getProperties().getLSFit() > 0))
-                    status += " LSFit=" + Basic.roundSigFig(doc.getSplits().getProperties().getLSFit(), 5);
+					status += " LSFit=" + NumberUtils.roundSigFig(doc.getSplits().getProperties().getLSFit(), 5);
 
                 if (taxa && doc.isValidByName(Taxa.NAME)) {
                     status += " Taxa=" + doc.getTaxa().getNtax();

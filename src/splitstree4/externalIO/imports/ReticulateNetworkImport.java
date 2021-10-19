@@ -251,13 +251,13 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
     public Node parseBracketNotation(String str, PhyloSplitsGraph graph, HashMap knownSubtrees) throws IOException {
         Map seen = new HashMap();
         // we have to tread the first node special, its the root and phylograph has no root!!!
-        int i = Basic.skipSpaces(str, 0);
+        int i = StringUtils.skipSpaces(str, 0);
         if (str.charAt(i) == '(') {
             Node root = graph.newNode();
             i = parseBracketNotationRecursively(seen, 1, root, i + 1, str, graph, knownSubtrees);
             if (str.charAt(i) != ')')
                 throw new IOException("Expected ')' at position " + i);
-            i = Basic.skipSpaces(str, i + 1);
+			i = StringUtils.skipSpaces(str, i + 1);
             if (i < str.length() && Character.isLetterOrDigit(str.charAt(i))) // must be a internal label
             {
                 int i0 = i;
@@ -292,17 +292,17 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
      */
     public int parseBracketNotationRecursively(Map seen, int depth, Node v, int i, String str, PhyloSplitsGraph graph, HashMap knownSubtrees) throws IOException {
         try {
-            for (i = Basic.skipSpaces(str, i); i < str.length(); i = Basic.skipSpaces(str, i + 1)) {
-                Node w = graph.newNode();
-                if (str.charAt(i) == '(') {
-                    i = parseBracketNotationRecursively(seen, depth + 1, w, i + 1, str, graph, knownSubtrees);
-                    if (str.charAt(i) != ')')
-                        throw new IOException("Expected ')' at position " + i);
-                    i = Basic.skipSpaces(str, i + 1);
-                    if (i < str.length() && Character.isLetterOrDigit(str.charAt(i))) // must be internal label
-                    {
-                        int i0 = i;
-                        StringBuilder buf = new StringBuilder();
+			for (i = StringUtils.skipSpaces(str, i); i < str.length(); i = StringUtils.skipSpaces(str, i + 1)) {
+				Node w = graph.newNode();
+				if (str.charAt(i) == '(') {
+					i = parseBracketNotationRecursively(seen, depth + 1, w, i + 1, str, graph, knownSubtrees);
+					if (str.charAt(i) != ')')
+						throw new IOException("Expected ')' at position " + i);
+					i = StringUtils.skipSpaces(str, i + 1);
+					if (i < str.length() && Character.isLetterOrDigit(str.charAt(i))) // must be internal label
+					{
+						int i0 = i;
+						StringBuilder buf = new StringBuilder();
                         while (i < str.length() && punct.indexOf(str.charAt(i)) == -1)
                             buf.append(str.charAt(i++));
                         String label = buf.toString().trim();
@@ -350,7 +350,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
                     }
 
                 // detect and read embedded bootstrap values:
-                i = Basic.skipSpaces(str, i);
+				i = StringUtils.skipSpaces(str, i);
                 if (i < str.length() && startOfNumber.indexOf(str.charAt(i)) >= 0) // edge weight is following
                 {
                     int i0 = i;
@@ -370,7 +370,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
                 // read edge weights
                 if (i < str.length() && str.charAt(i) == ':') // edge weight is following
                 {
-                    i = Basic.skipSpaces(str, i + 1);
+					i = StringUtils.skipSpaces(str, i + 1);
                     int i0 = i;
                     StringBuilder buf = new StringBuilder();
                     while (i < str.length() && punct.indexOf(str.charAt(i)) == -1)

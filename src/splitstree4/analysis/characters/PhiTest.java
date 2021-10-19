@@ -20,7 +20,7 @@
 package splitstree4.analysis.characters;
 
 
-import jloda.util.Basic;
+import jloda.util.NumberUtils;
 import splitstree4.core.Document;
 import splitstree4.nexus.Characters;
 import splitstree4.nexus.Taxa;
@@ -515,7 +515,7 @@ public class PhiTest implements CharactersAnalysisMethod {
     public String apply(Document doc) {
 
         double pval = approxPhi(doc.getCharacters());
-        pval = Basic.roundSigFig(pval, 4);
+        pval = NumberUtils.roundSigFig(pval, 4);
         String result;
 
         if (pval < 0)

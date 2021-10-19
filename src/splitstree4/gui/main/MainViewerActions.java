@@ -671,7 +671,7 @@ public class MainViewerActions {
                 String label = "" + (float) (100.0 / viewer.trans.getScaleX());
 
                 label = JOptionPane.showInputDialog(viewer.getFrame(), "Set units per 100 pixel: ", label);
-                if (label != null && Basic.isDouble(label)) {
+                if (label != null && NumberUtils.isDouble(label)) {
                     double value = 100.0 / Double.parseDouble(label);
                     if (viewer.trans.getLockXYScale())
                         viewer.trans.setScale(value, value);
@@ -2230,9 +2230,9 @@ public class MainViewerActions {
 
                     if (splits.getOriginal() != null)
                         toHide = SplitsUtilities.matchPartialSplits(taxa, splits, toHide, splits.getOriginal());
-                    BitSet hidden = Basic.asBitSet(dir.getDocument().getAssumptions().getExSplits());
+                    BitSet hidden = BitSetUtils.asBitSet(dir.getDocument().getAssumptions().getExSplits());
                     toHide.or(hidden);
-                    dir.getDocument().getAssumptions().setExSplits(Basic.asList(toHide));
+                    dir.getDocument().getAssumptions().setExSplits(BitSetUtils.asList(toHide));
                     dir.execute("update " + Splits.NAME);
                 } catch (NotOwnerException ex) {
                     Basic.caught(ex);

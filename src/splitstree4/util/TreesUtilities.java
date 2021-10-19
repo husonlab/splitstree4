@@ -24,6 +24,7 @@ import jloda.graph.Node;
 import jloda.graph.NotOwnerException;
 import jloda.phylo.PhyloTree;
 import jloda.util.Basic;
+import jloda.util.NumberUtils;
 import splitstree4.algorithms.trees.TreeSelector;
 import splitstree4.core.Document;
 import splitstree4.core.SplitsException;
@@ -473,7 +474,7 @@ public class TreesUtilities {
             if (v.getOutDegree() != 0 && v.getInDegree() != 0) {
                 String label = tree.getLabel(v);
                 if (label != null) {
-                    if (Basic.isDouble(label))
+                    if (NumberUtils.isDouble(label))
                         hasNumbersOnInternalNodes = true;
                     else
                         return false;
@@ -493,8 +494,8 @@ public class TreesUtilities {
             if (v.getOutDegree() != 0 && v.getInDegree() == 1) {
                 String label = tree.getLabel(v);
                 if (label != null) {
-                    if (Basic.isDouble(label)) {
-                        tree.setConfidence(v.getFirstInEdge(), Basic.parseDouble(label));
+                    if (NumberUtils.isDouble(label)) {
+                        tree.setConfidence(v.getFirstInEdge(), NumberUtils.parseDouble(label));
                         tree.setLabel(v, null);
                     }
                 }
