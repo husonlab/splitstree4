@@ -392,54 +392,53 @@ public class DCMPartialTrees implements Characters2Trees {
     }
 
     /**
-     * determine which characters to hide
-     *
-     * @param nchar
-     * @param currentTaxa
-     * @param taxon2start
-     * @param taxon2end
-     * @param minCover
-     * @return
-     */
-    private List determineCharToHide(int nchar, TaxaSet currentTaxa, int[] taxon2start, int[] taxon2end, int minCover) {
+	 * determine which characters to hide
+	 *
+	 * @param nchar
+	 * @param currentTaxa
+	 * @param taxon2start
+	 * @param taxon2end
+	 * @param minCover
+	 * @return
+	 */
+	private List<Integer> determineCharToHide(int nchar, TaxaSet currentTaxa, int[] taxon2start, int[] taxon2end, int minCover) {
 
-        SortedSet sorted = new TreeSet();
-        for (int t = currentTaxa.getBits().nextSetBit(1); t >= 0; t = currentTaxa.getBits().nextSetBit(t + 1)) {
-            Pair pair = new Pair(taxon2start[t], t);// +t: is start
-            sorted.add(pair);
-            pair = new Pair(taxon2end[t], -t);     // -t: is end
-            sorted.add(pair);
-        }
+		var sorted = new TreeSet<Pair<Integer, Integer>>();
+		for (int t = currentTaxa.getBits().nextSetBit(1); t >= 0; t = currentTaxa.getBits().nextSetBit(t + 1)) {
+			var pair = new Pair<>(taxon2start[t], t);// +t: is start
+			sorted.add(pair);
+			pair = new Pair<>(taxon2end[t], -t);     // -t: is end
+			sorted.add(pair);
+		}
 
-        int cover = 0;
-        int start = 0;
-        int end = 0;
+		int cover = 0;
+		int start = 0;
+		int end = 0;
 
-        for (Object aSorted : sorted) {
-            Pair pair = (Pair) aSorted;
-            if (pair.getSecondInt() > 0)//is start
-            {
-                cover++;
-                if (cover >= minCover && start == 0)
-                    start = pair.getFirstInt();
+		for (var pair : sorted) {
+			if (pair.getSecond() > 0)//is start
+			{
+				cover++;
+				if (cover >= minCover && start == 0)
+					start = pair.getFirst();
 
-            } else        // is end
-            {
-                if (cover >= minCover)
-                    end = pair.getFirstInt();
-                cover--;
-                if (start > 0 && cover < minCover)
-                    break; // coverage has dropped back below min, break!
-            }
-        }
-        System.err.println("# Character range: " + start + " - " + end);
-        List list = new LinkedList();
-        for (int i = 1; i < start; i++)
-            list.add(i);
-        for (int i = end + 1; i <= nchar; i++)
-            list.add(i);
-        return list;
-    }
+			} else        // is end
+			{
+				if (cover >= minCover)
+					end = pair.getFirst();
+				cover--;
+				if (start > 0 && cover < minCover)
+					break; // coverage has dropped back below min, break!
+			}
+		}
+		System.err.println("# Character range: " + start + " - " + end);
+		var list = new ArrayList<Integer>();
+		for (var i = 1; i < start; i++)
+			list.add(i);
+		for (int i = end + 1; i <= nchar; i++)
+			list.add(i);
+		return list;
+	}
 
     /**
      * determines which taxa need to be hidden in origTaxa so that we get currentTaxa

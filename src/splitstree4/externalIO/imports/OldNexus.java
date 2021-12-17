@@ -236,7 +236,7 @@ public class OldNexus extends FileFilter implements Importer {
                     body.append(sk.sval).append("\n");
                     PhyloTree pt = new PhyloTree();
                     try {
-                        pt.parseBracketNotation(sk.sval.substring(0, sk.sval.length() - 1));
+                        pt.parseBracketNotation(sk.sval.substring(0, sk.sval.length() - 1), false);
                         ntax = countLabeledNodes(pt);
                         //If we haven't encountered a translate block we guess taxa names from
                         //the trees.

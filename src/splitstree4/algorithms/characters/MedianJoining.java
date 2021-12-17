@@ -209,55 +209,53 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
             double threshold = value;
             if (threshold > maxValue)
                 break;
-            List ijPairs = (List) value2pairs.get(value);
+            var ijPairs = (List<Pair<Integer, Integer>>) value2pairs.get(value);
 
             // update threshold graph components:
             for (int i = 0; i < array.length; i++) {
                 for (int j = i + 1; j < array.length; j++) {
                     if (componentsOfThresholdGraph[i] != componentsOfThresholdGraph[j] && matrix[i][j] < threshold - epsilon) {
                         int oldComponent = componentsOfThresholdGraph[i];
-                        int newComponent = componentsOfThresholdGraph[j];
-                        for (int k = 0; k < array.length; k++) {
-                            if (componentsOfThresholdGraph[k] == oldComponent)
-                                componentsOfThresholdGraph[k] = newComponent;
-                        }
-                    }
-                }
-            }
+						int newComponent = componentsOfThresholdGraph[j];
+						for (int k = 0; k < array.length; k++) {
+							if (componentsOfThresholdGraph[k] == oldComponent)
+								componentsOfThresholdGraph[k] = newComponent;
+						}
+					}
+				}
+			}
 
-            // determine new edges for minimum spanning network and determine feasible links
-            List newPairs = new LinkedList();
-            for (Object ijPair1 : ijPairs) {
-                Pair ijPair = (Pair) ijPair1;
-                int i = ijPair.getFirstInt();
-                int j = ijPair.getSecondInt();
+			// determine new edges for minimum spanning network and determine feasible links
+			var newPairs = new ArrayList<Pair<Integer, Integer>>();
+			for (var ijPair : ijPairs) {
+				int i = ijPair.getFirst();
+				int j = ijPair.getSecond();
 
-                Edge e = graph.newEdge(nodes[i], nodes[j]);
-                graph.setWeight(e, matrix[i][j]);
+				Edge e = graph.newEdge(nodes[i], nodes[j]);
+				graph.setWeight(e, matrix[i][j]);
 
-                if (feasibleLinks != null && componentsOfThresholdGraph[i] != componentsOfThresholdGraph[j]) {
-                    feasibleLinks.add(e);
-                    if (false)
-                        System.err.println("ERROR nodes are connected: " + i + ", " + j);
-                }
-                newPairs.add(new Pair(i, j));
-            }
+				if (feasibleLinks != null && componentsOfThresholdGraph[i] != componentsOfThresholdGraph[j]) {
+					feasibleLinks.add(e);
+					if (false)
+						System.err.println("ERROR nodes are connected: " + i + ", " + j);
+				}
+				newPairs.add(new Pair<>(i, j));
+			}
 
-            // update MSN components
-            for (Object newPair : newPairs) {
-                Pair pair = (Pair) newPair;
-                int i = pair.getFirstInt();
-                int j = pair.getSecondInt();
-                if (componentsOfMSN[i] != componentsOfMSN[j]) {
-                    numComponentsMSN--;
-                    int oldComponent = componentsOfMSN[i];
-                    int newComponent = componentsOfMSN[j];
-                    for (int k = 0; k < array.length; k++)
-                        if (componentsOfMSN[k] == oldComponent)
-                            componentsOfMSN[k] = newComponent;
-                }
-            }
-            if (numComponentsMSN == 1 && maxValue == Double.MAX_VALUE)
+			// update MSN components
+			for (var pair : newPairs) {
+				int i = pair.getFirst();
+				int j = pair.getSecond();
+				if (componentsOfMSN[i] != componentsOfMSN[j]) {
+					numComponentsMSN--;
+					int oldComponent = componentsOfMSN[i];
+					int newComponent = componentsOfMSN[j];
+					for (int k = 0; k < array.length; k++)
+						if (componentsOfMSN[k] == oldComponent)
+							componentsOfMSN[k] = newComponent;
+				}
+			}
+			if (numComponentsMSN == 1 && maxValue == Double.MAX_VALUE)
                 maxValue = threshold + epsilon; // once network is connected, add all edges upto threshold+epsilon
         }
     }
