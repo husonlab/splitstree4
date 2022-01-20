@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="8.0.4" transformSequenceNumber="8">
+<install4j version="8.0.11" transformSequenceNumber="8">
   <directoryPresets config="../jars/Jama-NOTICE.txt" />
-  <application name="SplitsTree4" applicationId="1505-7129-3447-4151" mediaDir="../../../builds" shortName="splitstree4" publisher="Daniel Huson and David Bryant" publisherWeb="www.splitstree.org" version="4.13" allPathsRelative="true" macVolumeId="b8c0a1154e563a9a" javaMinVersion="13">
+  <application name="SplitsTree4" applicationId="1505-7129-3447-4151" mediaDir="../../../builds" shortName="splitstree4" publisher="Daniel Huson and David Bryant" publisherWeb="www.splitstree.org" version="4.13" allPathsRelative="true" macVolumeId="b8c0a1154e563a9a" javaMinVersion="16">
     <codeSigning macEnabled="true" macPkcs12File="../../../../etc/application.p12" windowsEnabled="true" windowsPkcs12File="../../../../etc/windows.pfx" />
-    <jreBundles jdkProviderId="AdoptOpenJDK" release="openjdk14/jdk-14.0.1+7">
+    <jreBundles jdkProviderId="AdoptOpenJDK" release="openjdk16/jdk-16+36">
       <modules />
     </jreBundles>
   </application>
@@ -1153,7 +1153,7 @@ return true;</property>
     </windows>
   </mediaSets>
   <buildIds buildAll="false">
-    <mediaSet refId="1691242288" />
+    <mediaSet refId="1691242165" />
   </buildIds>
   <buildOptions disableSigning="true" disableNotarization="true" />
 </install4j>

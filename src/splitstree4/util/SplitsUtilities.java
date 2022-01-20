@@ -171,6 +171,17 @@ public class SplitsUtilities {
         return NeighborNet.computeNeighborNetOrdering(dist);
     }
 
+    public static int computeCompatibility(Taxa taxa, Splits splits) {
+        if (isCompatible(splits))
+            return Splits.Properties.COMPATIBLE;
+        else if (isCyclic(taxa, splits))
+            return Splits.Properties.CYCLIC;
+        else if (isWeaklyCompatible(splits))
+            return Splits.Properties.WEAKLY_COMPATIBLE;
+        else
+            return Splits.Properties.INCOMPATIBLE;
+    }
+
 
     /**
      * Computes a cycle for the given splits system

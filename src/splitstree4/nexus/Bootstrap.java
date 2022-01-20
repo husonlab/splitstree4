@@ -811,9 +811,8 @@ public class Bootstrap extends NexusBlock {
         //store more splits than in the original block.
         nOriginalSplits = splits.getNsplits();
 
-
         if (np.peekMatchIgnoreCase("FORMAT")) {
-            List tokens = np.getTokensLowerCase("format", ";");
+            List<String> tokens = np.getTokensLowerCase("format", ";");
 
             getFormat().labels = np.findIgnoreCase(tokens, "labels=left", true, getFormat().labels);
             getFormat().labels = np.findIgnoreCase(tokens, "labels=no", false, getFormat().labels);

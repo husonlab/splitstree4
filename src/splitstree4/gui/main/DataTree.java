@@ -21,6 +21,7 @@ package splitstree4.gui.main;
 
 import splitstree4.core.Document;
 import splitstree4.gui.Director;
+import splitstree4.nexus.Assumptions;
 import splitstree4.nexus.Taxa;
 
 import javax.swing.*;
@@ -102,8 +103,8 @@ public class DataTree extends JTree {
 
             // Traverse children
             if (node.getChildCount() >= 0) {
-                for (Enumeration e = node.children(); e.hasMoreElements(); ) {
-                    TreeNode n = (TreeNode) e.nextElement();
+                for (Enumeration<? extends TreeNode> e = node.children(); e.hasMoreElements(); ) {
+                    TreeNode n = e.nextElement();
                     TreePath path = parent.pathByAddingChild(n);
                     TreePath result = findRec(path, names, depth + 1);
                     // Found a match
@@ -163,10 +164,8 @@ public class DataTree extends JTree {
             desc = new DefaultMutableTreeNode(doc.getTopComments());
 
             // Construct the expandedRows HashMap if necessary
-            if (expandedRows.get("[#Nexus, [" + name + "]]") == null) {
-                expandedRows.put("[#Nexus, [" + name + "]]", false);
-                // System.err.println("[Data, [" + name + "]]" + " just got his value updated to false");
-            }
+            // System.err.println("[Data, [" + name + "]]" + " just got his value updated to false");
+            expandedRows.putIfAbsent("[#Nexus, [" + name + "]]", false);
             child.add(desc);
             treeRoot.add(child);
         }
@@ -182,15 +181,17 @@ public class DataTree extends JTree {
                     DefaultMutableTreeNode desc = null;
                     try {
                         StringWriter w = new StringWriter();
-                        doc.getBlockByName(name).write(w, doc.getTaxa());
+                        var block = doc.getBlockByName(name);
+                        if (block instanceof Assumptions)
+                            ((Assumptions) block).write(w, doc);
+                        else
+                            block.write(w, doc.getTaxa());
                         desc = new DefaultMutableTreeNode(w.toString());
-                    } catch (IOException e) {
+                    } catch (IOException ignored) {
                     }
 
                     // Construct the expandedRows HashMap if necessary
-                    if (expandedRows.get("[#Nexus, [" + name + "]]") == null) {
-                        expandedRows.put("[#Nexus, [" + name + "]]", false);
-                    }
+                    expandedRows.putIfAbsent("[#Nexus, [" + name + "]]", false);
                     if (desc != null)
                         child.add(desc);
                 }

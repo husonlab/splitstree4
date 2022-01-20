@@ -20,6 +20,8 @@
 package splitstree4.util;
 
 
+import jloda.util.StringUtils;
+
 /**
  * Created by IntelliJ IDEA.
  * User: bryant
@@ -37,18 +39,17 @@ public class Interval {
         low = high = 0;
     }
 
-    public Interval(float low, float high) {
-        this.low = low;
-        this.high = high;
-    }
+	public Interval(float low, float high) {
+		this.low = low;
+		this.high = high;
+	}
 
-    public Interval(double low, double high) {
-        this.low = (float) low;
-        this.high = (float) high;
-    }
+	public Interval(double low, double high) {
+		this.low = (float) low;
+		this.high = (float) high;
+	}
 
-    public String print() {
-        DecimalFormatUS dec = new DecimalFormatUS("#0.0#####");
-        return "(" + dec.format(low) + "," + dec.format(high) + ")";
-    }
+	public String toString() {
+		return "(" + StringUtils.removeTrailingZerosAfterDot(String.format("%.3f", low)) + "," + StringUtils.removeTrailingZerosAfterDot(String.format("%.3f", high)) + ")";
+	}
 }

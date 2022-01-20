@@ -1,4 +1,4 @@
-/**
+/*
  * Document.java
  * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
  * <p/>
@@ -16,9 +16,6 @@
  * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-/*
- * $Id: Document.java,v 1.201 2010-06-15 09:17:07 huson Exp $
  */
 
 package splitstree4.core;
@@ -48,6 +45,7 @@ import splitstree4.algorithms.trees.Trees2Network;
 import splitstree4.algorithms.trees.Trees2Splits;
 import splitstree4.algorithms.trees.TreesTransform;
 import splitstree4.algorithms.unaligned.*;
+import splitstree4.algorithms.util.ConfidenceNetwork;
 import splitstree4.algorithms.util.Configurator;
 import splitstree4.algorithms.util.MultiGeneAnalysis;
 import splitstree4.algorithms.util.Transforms;
@@ -642,7 +640,6 @@ public class Document extends DocumentData {
                     }
                 } else
                     throw new SplitsException("update failed for SPLITS");
-
             }
 
             if (SplitsTreeProperties.ALLOW_RETICULATE) {
@@ -1933,12 +1930,12 @@ public class Document extends DocumentData {
                 boolean replace = np.findIgnoreCase(tokens, "replace=", "yes no", "no").equals("yes");
                 boolean append = np.findIgnoreCase(tokens, "append=", "yes no", "no").equals("yes");
 
-                List blocks = null;
+                List<String> blocks = null;
                 if (!np.findIgnoreCase(tokens, "data=all", true, false)) {
                     if (np.findIgnoreCase(tokens, "data=", true, false))
                         blocks = tokens; // remaining tokens must be block names
                 }
-                System.err.print("Writing file " + fname + ":");
+                System.err.print("Saving file " + fname + ":");
                 File file = new File(fname);
                 if (!replace && file.exists())
                     throw new SplitsException("File exists: " + fname + ", use REPLACE=yes to overwrite");
@@ -2134,7 +2131,7 @@ public class Document extends DocumentData {
 				boolean complete = np.findIgnoreCase(tokens, "complete=", "yes no", "yes").equals("yes");
 				String exporter = np.findIgnoreCase(tokens, "format=", StringUtils.collection2string(ExportManager.getExportNames()), "Nexus");
 
-                Collection blocks = null;
+                Collection<String> blocks = null;
                 if (!np.findIgnoreCase(tokens, "data=all", true, false)) {
                     if (np.findIgnoreCase(tokens, "data=", true, false))
                         blocks = tokens; // remaining tokens must be block names
@@ -2149,6 +2146,7 @@ public class Document extends DocumentData {
                 if (!replace && file.exists())
                     throw new SplitsException("File exists: " + fname + ", use REPLACE=yes to overwrite");
 
+                System.err.println("Exporting to: " + file);
                 ExportManager.exportData(file, append, complete, exporter, blocks, this);
             } else if (np.peekMatchIgnoreCase("draw")) // change draw parameters of graph
             {
@@ -2326,6 +2324,42 @@ public class Document extends DocumentData {
                 }
                 if (getBootstrap() != null && getAnalysis() != null)
                     getAnalysis().apply(this, getTaxa(), Bootstrap.NAME);
+            } else if (np.peekMatchIgnoreCase("confidence_splits")) {
+                np.matchIgnoreCase("confidence_splits");
+                var level = 95;
+                if (np.peekMatchIgnoreCase("level")) {
+                    np.matchIgnoreCase("level=");
+                    level = np.getInt(1, 100);
+                }
+                var file = "stdout";
+                if (np.peekMatchIgnoreCase("file")) {
+                    np.matchIgnoreCase("file=");
+                    file = np.getWordFileNamePunctuation();
+                }
+                np.matchIgnoreCase(";");
+                if (getBootstrap() == null)
+                    throw new SplitsException("Confidence splits: boostrap block found");
+
+                var M = getBootstrap().getSplitMatrix();
+                System.err.println("Computing " + level + "% Confidence Network");
+
+                notifySubtask("Computing confidence network");
+                Splits splits = ConfidenceNetwork.getConfidenceNetwork(M, (double) level / 100, this);
+                try {
+                    splits.setCycle(SplitsUtilities.computeCycle(splits));
+                    splits.getProperties().setCompatibility(SplitsUtilities.computeCompatibility(taxa, splits));
+                } catch (SplitsException e) {
+                    Basic.caught(e);
+                }
+                if (file.equals("stdout")) {
+                    splits.write(new OutputStreamWriter(System.out), getTaxa());
+                    System.out.flush();
+                } else try (var w = new OutputStreamWriter(FileUtils.getOutputStreamPossiblyZIPorGZIP(file))) {
+                    System.err.println("Writing to: " + file);
+                    w.write("#nexus");
+                    taxa.write(w);
+                    splits.write(w, getTaxa());
+                }
             } else if (np.peekMatchIgnoreCase("analysis")) // does analysis
             {
                 String block = np.convertToBlock("analysis", ";", Analysis.NAME);
@@ -2378,7 +2412,6 @@ public class Document extends DocumentData {
                 StringWriter sw = new StringWriter();
                 newDoc.getTaxa().write(sw);
                 newDoc.getDistances().write(sw, newDoc.getTaxa());
-
 
                 Director newDir = Director.newProject(sw.toString(), "test");
                 newDir.getDocument().setTitle("Gaussian random distances " + this.getTitle());
@@ -2479,9 +2512,9 @@ public class Document extends DocumentData {
                 }
             } else if (np.peekMatchIgnoreCase("about;")) {
                 String message = SplitsTreeProperties.getVersion() +
-                        "\n\nVisit http://www.splitstree.org\n\n" +
-                        "Daniel Huson (huson@informatik.uni-tuebingen.de)\nDavid Bryant (david.bryant@otago.ac.nz)\n\n" +
-                        "Additional programming:\nMarkus Franz\nMig\374el Jett\351\nTobias Kl\366pper\nMichael Schr\366der";
+                                 "\n\nVisit http://www.splitstree.org\n\n" +
+                                 "Daniel Huson (huson@informatik.uni-tuebingen.de)\nDavid Bryant (david.bryant@otago.ac.nz)\n\n" +
+                                 "Additional programming:\nMarkus Franz\nMig\374el Jett\351\nTobias Kl\366pper\nMichael Schr\366der";
 
                 np.matchIgnoreCase("about;");
                 System.out.println(message);
@@ -2507,6 +2540,12 @@ public class Document extends DocumentData {
         parse(new NexusStreamParser(new StringReader(str + ";")));
     }
 
+    public static String getUsage() {
+        var outs = new StringOutputStream();
+        showUsage(new PrintStream(outs));
+        return outs.toString();
+    }
+
     /**
      * Show the command line usage
      *
@@ -2530,6 +2569,7 @@ public class Document extends DocumentData {
         ps.println("\t\t - export graphics in specified format (default format is EPS, default size is 600)");
         ps.println("\tUPDATE - rerun computations to bring data up-to-date");
         ps.println("\tBOOTSTRAP RUNS=number-of-runs - perform bootstrapping on character data");
+        ps.println("\tCONFIDENCE_SPLITS LEVEL=confidence-level [FILE=output-file] - computes confidence-network splits");
         ps.println("\tDELETEEXCLUDED; - delete all sites from characters block that are currently excluded");
         ps.println("\tASSUME assumption - set an assumption, which can be anything contained in the ST_ASSUMPTIONS block");
         ps.println("\tSHOW [DATA=list-of-blocks] - show the named data blocks");

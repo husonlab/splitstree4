@@ -84,8 +84,6 @@ public class ConfidenceNetwork {
      * @throws CanceledException
      */
     static public Splits getConfidenceNetwork(SplitMatrix M, double level, Document doc) throws CanceledException {
-
-
         int nsplits = M.getNsplits();   //Number of splits.... |U| in Beran 88
         int nblocks = M.getNblocks();  //the value jn in Beran 88
 
@@ -163,10 +161,7 @@ public class ConfidenceNetwork {
             if (high > 0.0)
                 newSplits.add(sp, (float) median, 0, new Interval(low, high), "");
             doc.notifySetProgress(40 + (60 * i) / nsplits);
-
         }
-
-
         return newSplits;
     }
 

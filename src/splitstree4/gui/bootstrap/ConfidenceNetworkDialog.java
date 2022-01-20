@@ -98,7 +98,6 @@ public class ConfidenceNetworkDialog {
         dialog.setTitle("Confidence Network");
         dialog.setLocation(owner.getLocation().x + 200, owner.getLocation().y + 200);
 
-
         mainPanel = new JPanel();
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         mainPanel.setLayout(new GridBagLayout());
@@ -131,6 +130,10 @@ public class ConfidenceNetworkDialog {
         label.setLabelFor(comboBox);
         comboBox.setToolTipText("The method used to assign weights to splits in the confidence network");
         mainPanel.add(comboBox, c);
+
+        // todo: we currently ignore this, so don't enable it
+        label.setEnabled(false);
+        comboBox.setEnabled(false);
 
         cancelButton = new JButton(actions.getCancelAction());
         c.gridx = 0;

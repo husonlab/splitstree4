@@ -33,6 +33,7 @@ package splitstree4.nexus;
 
 import jloda.swing.util.Alert;
 import jloda.util.Basic;
+import jloda.util.StringUtils;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.core.SplitsException;
 import splitstree4.core.SplitsSet;
@@ -353,7 +354,7 @@ public class Splits extends NexusBlock implements Cloneable {
             BitSet taxa = new BitSet();
             for (int i = 1; i < cycle.length; i++) {
                 if (taxa.get(cycle[i]))
-                    throw new SplitsException("setCycle(): Multiple occurence of taxon " + i);
+                    throw new SplitsException("setCycle(): Multiple occurrences of taxon " + i);
                 taxa.set(cycle[i]);
             }
         }
@@ -686,7 +687,7 @@ public class Splits extends NexusBlock implements Cloneable {
             }
             if (format.getWeights()) {
                 float wgt = getWeight(i);
-                w.write(" " + wgt + " \t");
+                w.write(" " + StringUtils.removeTrailingZerosAfterDot(String.valueOf(wgt)) + " \t");
             }
             if (format.getConfidences()) {
                 float confidence = getConfidence(i);
@@ -697,7 +698,7 @@ public class Splits extends NexusBlock implements Cloneable {
                 if (interval == null)
                     w.write(" ()\t");
                 else
-                    w.write(" " + interval.print() + "\t");
+                    w.write(" " + interval + "\t");
 
             }
             w.write(" " + get(i) + ",\n");

@@ -103,6 +103,10 @@ public class SplitsTree {
         Basic.setDebugMode(options.getOption("-d", "debug", "Debug mode", false));
         final boolean showSplash = !options.getOption("-s", "hideSplash", "Hide startup splash screen", false);
         SplitsTreeProperties.setExpertMode(options.getOption("-X", "expert", "!expert mode", false));
+
+        if (options.isDoHelp()) {
+            options.setAdditionalUsage("\n\n" + Document.getUsage() + ".\n");
+        }
         options.done();
 
         if (silentMode) {

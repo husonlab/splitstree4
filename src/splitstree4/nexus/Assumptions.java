@@ -74,7 +74,6 @@ public class Assumptions extends NexusBlock {
     private String unalignTransform;
     private String unalignTransformParam;
 
-
     private String charTransform;
     private String charTransformParam;
 
@@ -755,22 +754,19 @@ public class Assumptions extends NexusBlock {
                         np.matchIgnoreCase("=none;");
                     } else // hide the listed ones
                     {
-                        List tokens = np.getTokensRespectCase("=", ";");
-
-                        for (Object token : tokens) {
+                        for (String token : np.getTokensRespectCase("=", ";")) {
                             boolean ok = false; // found taxon yet?
-                            String label = (String) token;
 
-                            int i = taxa.getOriginalTaxa().indexOf(label);
+                            int i = taxa.getOriginalTaxa().indexOf(token);
                             if (i != -1) // label found
                                 ok = true;
                             else // label not found, perhaps find its id?
                             {
                                 try {
-                                    i = Integer.parseInt(label);
+                                    i = Integer.parseInt(token);
                                     if (i > 0 && i <= taxa.getOriginalTaxa().getNtax())
                                         ok = true;
-                                } catch (Exception ex) {
+                                } catch (Exception ignored) {
                                 }
                             }
                             if (ok)
@@ -795,13 +791,8 @@ public class Assumptions extends NexusBlock {
                             np.matchIgnoreCase("=none;");
                         } else // hide the listed ones
                         {
-                            List tokens;
-                            tokens = np.getTokensRespectCase("=", ";");
                             // System.err.println("Tokens " + tokens);
-                            for (Object token : tokens) {
-                                String label = (String) token;
-                                exTrees.add(label);
-                            }
+                            exTrees.addAll(np.getTokensRespectCase("=", ";"));
                         }
                     } finally {
                         np.popPunctuationCharacters();
@@ -851,7 +842,6 @@ public class Assumptions extends NexusBlock {
                     updateFirstDirtyBlock(Trees.NAME);
                 } else if (np.peekMatchIgnoreCase("reticulateTransform")) { // what we do to reticulate
                     if (SplitsTreeProperties.ALLOW_RETICULATE) {
-
                         np.matchIgnoreCase("reticulateTransform=");
                         reticulateTransform = np.getWordRespectCase();
                         reticulateTransformParam = np.getTokensStringRespectCase(";");
@@ -923,7 +913,7 @@ public class Assumptions extends NexusBlock {
                     setAutoLayoutNodeLabels(false);
                 } else
                     throw new IOException("line " + np.lineno() + ": unexpected: "
-                            + np.getWordRespectCase());
+                                          + np.getWordRespectCase());
             }
         } catch (IOException ex) {
             np.popPunctuationCharacters(); // restore punctation
@@ -1474,6 +1464,7 @@ public class Assumptions extends NexusBlock {
         ps.println("\t[LAYOUTSTRATEGY={STABILIZE|SNOWBALL|KEEP};]");
         ps.println("\t[[NO] AUTOLAYOUTNODELABELS;]");
         ps.println("\t[[NO] RADIALLYLAYOUTNODELABELS;]");
+        ps.println("\t[BOOTSTRAP RUNS=number-of-runs [LENGTH=replicate-length] [SEED=random-number-seed];]");
         ps.println("\t[UPTODATE;]");
         ps.println("END;");
     }
@@ -1687,6 +1678,7 @@ public class Assumptions extends NexusBlock {
             return filter.equalsIgnoreCase("dimension");
         }
     }
+
 }
 
 //EOF
