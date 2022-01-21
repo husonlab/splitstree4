@@ -1,3 +1,22 @@
+/*
+ * ExportManager.java Copyright (C) 2022 Daniel H. Huson
+ *
+ * (Some files contain contributions from other authors, who are then mentioned separately.)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package splitstree4.externalIO.exports;
 
 import jloda.util.Basic;
@@ -17,41 +36,41 @@ import java.util.*;
  */
 public class ExportManager {
 
-    static String packageName = "splitstree4.externalIO.exports";
+	static String packageName = "splitstree4.externalIO.exports";
 
-    /**
-     * gets the list of exporters
-     *
-     * @return all valid epxorers
-     */
-    public static ArrayList getExporter() throws Exception {
-        ArrayList exporter = new ArrayList();
-        String[] exporters;
+	/**
+	 * gets the list of exporters
+	 *
+	 * @return all valid epxorers
+	 */
+	public static ArrayList getExporter() throws Exception {
+		ArrayList exporter = new ArrayList();
+		String[] exporters;
 
-        try {
-            exporters = ResourceUtils.fetchResources(ExportManager.class, packageName);
-        } catch (IOException ex) {
-            return null;
-        }
+		try {
+			exporters = ResourceUtils.fetchResources(ExportManager.class, packageName);
+		} catch (IOException ex) {
+			return null;
+		}
 
-        for (int i = 0; i != exporters.length; ++i) {
-            if (exporters[i].endsWith(".class")) {
-                exporters[i] = exporters[i].substring(0, exporters[i].length() - 6);
-                Class c = Class.forName(packageName.concat(".").concat(exporters[i]));
-                if (!c.isInterface()
-                        && !Modifier.isAbstract(c.getModifiers())
-                        && Exporter.class.isAssignableFrom(c))
-                    try {
-                        Exporter e = (Exporter) c.getConstructor().newInstance();
-                        exporter.add(e);
-                    } catch (Exception ex) {
-                        Basic.caught(ex);
-                        throw new SplitsException("Export failed: " + ex.getMessage());
-                    }
-            }
-        }
+		for (int i = 0; i != exporters.length; ++i) {
+			if (exporters[i].endsWith(".class")) {
+				exporters[i] = exporters[i].substring(0, exporters[i].length() - 6);
+				Class c = Class.forName(packageName.concat(".").concat(exporters[i]));
+				if (!c.isInterface()
+					&& !Modifier.isAbstract(c.getModifiers())
+					&& Exporter.class.isAssignableFrom(c))
+					try {
+						Exporter e = (Exporter) c.getConstructor().newInstance();
+						exporter.add(e);
+					} catch (Exception ex) {
+						Basic.caught(ex);
+						throw new SplitsException("Export failed: " + ex.getMessage());
+					}
+			}
+		}
 
-        return exporter;
+		return exporter;
 
 //        ArrayList exporter = new ArrayList();
 //        String location = Basic.getPackageLocation(packageName);
@@ -76,56 +95,56 @@ public class ExportManager {
 //            }
 //        }
 //        return exporter;
-    }
+	}
 
 
-    /**
-     * get list of exporter names
-     *
-     * @return list of exporter names
-     * @throws SplitsException
-     */
-    public static ArrayList getExportNames() throws Exception {
-        return getExportNames(null);
-    }
+	/**
+	 * get list of exporter names
+	 *
+	 * @return list of exporter names
+	 * @throws SplitsException
+	 */
+	public static ArrayList getExportNames() throws Exception {
+		return getExportNames(null);
+	}
 
-    /**
-     * get list of exporter names   for named block or all, if block=null
-     *
-     * @param block
-     * @return list of exporter names
-     * @throws SplitsException
-     */
-    public static ArrayList getExportNames(String block) throws Exception {
-        //MZ: 2006-01-28
-        List blocks = new LinkedList();
-        if (block != null)
-            blocks.add(block);
+	/**
+	 * get list of exporter names   for named block or all, if block=null
+	 *
+	 * @param block
+	 * @return list of exporter names
+	 * @throws SplitsException
+	 */
+	public static ArrayList getExportNames(String block) throws Exception {
+		//MZ: 2006-01-28
+		List blocks = new LinkedList();
+		if (block != null)
+			blocks.add(block);
 
-        ArrayList names = new ArrayList();
-        String[] exporters;
-        try {
-            exporters = ResourceUtils.fetchResources(ExportManager.class, packageName);
-        } catch (IOException ex) {
-            Basic.caught(ex);
-            return null;
-        }
+		ArrayList names = new ArrayList();
+		String[] exporters;
+		try {
+			exporters = ResourceUtils.fetchResources(ExportManager.class, packageName);
+		} catch (IOException ex) {
+			Basic.caught(ex);
+			return null;
+		}
 
-        for (int i = 0; i != exporters.length; ++i) {
-            if (exporters[i].endsWith(".class")) {
-                exporters[i] = exporters[i].substring(0, exporters[i].length() - 6);
-                Class c = Class.forName(packageName.concat(".").concat(exporters[i]));
-                if (!c.isInterface()
-                        && !Modifier.isAbstract(c.getModifiers())
-                        && Exporter.class.isAssignableFrom(c)) {
-                    Exporter e = (Exporter) c.getConstructor().newInstance();
-                    if (blocks.size() == 0 || e.isApplicable(null, blocks))
-                        names.add(getExportName(e));
-                }
-            }
-        }
+		for (int i = 0; i != exporters.length; ++i) {
+			if (exporters[i].endsWith(".class")) {
+				exporters[i] = exporters[i].substring(0, exporters[i].length() - 6);
+				Class c = Class.forName(packageName.concat(".").concat(exporters[i]));
+				if (!c.isInterface()
+					&& !Modifier.isAbstract(c.getModifiers())
+					&& Exporter.class.isAssignableFrom(c)) {
+					Exporter e = (Exporter) c.getConstructor().newInstance();
+					if (blocks.size() == 0 || e.isApplicable(null, blocks))
+						names.add(getExportName(e));
+				}
+			}
+		}
 
-        return names;
+		return names;
 
 //        List blocks = new LinkedList();
 //        if (block != null)
@@ -153,49 +172,49 @@ public class ExportManager {
 //            }
 //        }
 //        return names;
-    }
+	}
 
 
-    /**
-     * gets the list of exporters suitable for the given document
-     *
-     * @param doc    the document
-     * @param blocks names of selected blocks
-     * @return
-     * @throws SplitsException
-     */
-    public static String[] getSuitableExporter(Document doc, Collection blocks) throws SplitsException {
-        //MZ: 2006-01-27
-        ArrayList names = new ArrayList();
-        String[] exporters;
-        try {
-            exporters = ResourceUtils.fetchResources(ExportManager.class, packageName);
-        } catch (IOException ex) {
-            return null;
-        }
+	/**
+	 * gets the list of exporters suitable for the given document
+	 *
+	 * @param doc    the document
+	 * @param blocks names of selected blocks
+	 * @return
+	 * @throws SplitsException
+	 */
+	public static String[] getSuitableExporter(Document doc, Collection blocks) throws SplitsException {
+		//MZ: 2006-01-27
+		ArrayList names = new ArrayList();
+		String[] exporters;
+		try {
+			exporters = ResourceUtils.fetchResources(ExportManager.class, packageName);
+		} catch (IOException ex) {
+			return null;
+		}
 
-        for (int i = 0; i != exporters.length; ++i) {
-            if (exporters[i].endsWith(".class")) {
-                exporters[i] = exporters[i].substring(0, exporters[i].length() - 6);
-                try {
-                    Class c = Class.forName(packageName.concat(".").concat(exporters[i]));
-                    if (!c.isInterface()
-                            && !Modifier.isAbstract(c.getModifiers())
-                            && Exporter.class.isAssignableFrom(c)) {
-                        Exporter e = (Exporter) c.getConstructor().newInstance();
-                        if (e.isApplicable(doc, blocks))
-                            names.add(getExportName(e));
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    throw new SplitsException("Export failed: " + ex.getMessage());
-                }
-            }
-        }
+		for (int i = 0; i != exporters.length; ++i) {
+			if (exporters[i].endsWith(".class")) {
+				exporters[i] = exporters[i].substring(0, exporters[i].length() - 6);
+				try {
+					Class c = Class.forName(packageName.concat(".").concat(exporters[i]));
+					if (!c.isInterface()
+						&& !Modifier.isAbstract(c.getModifiers())
+						&& Exporter.class.isAssignableFrom(c)) {
+						Exporter e = (Exporter) c.getConstructor().newInstance();
+						if (e.isApplicable(doc, blocks))
+							names.add(getExportName(e));
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					throw new SplitsException("Export failed: " + ex.getMessage());
+				}
+			}
+		}
 
-        return names.size() != 0 ?
-                (String[]) names.toArray(new String[names.size()]) :
-                new String[]{"No suitable Exporter found"};
+		return names.size() != 0 ?
+				(String[]) names.toArray(new String[names.size()]) :
+				new String[]{"No suitable Exporter found"};
 
 //
 //        String location = Basic.getPackageLocation(packageName);
@@ -230,97 +249,97 @@ public class ExportManager {
 //            }
 //        }
 //        return tmp;
-    }
+	}
 
-    /**
-     * export file using the named exporter
-     *
-     * @param saveFile
-     * @param appendFile
-     * @param exporterName
-     * @param blocks       list of blocks to be exported
-     * @param doc
-     * @return mapping from names assigned in export to original names
-     */
-    public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc) throws Exception {
-        return exportData(saveFile, appendFile, exportAll, exporterName, blocks, doc, null);
-    }
+	/**
+	 * export file using the named exporter
+	 *
+	 * @param saveFile
+	 * @param appendFile
+	 * @param exporterName
+	 * @param blocks       list of blocks to be exported
+	 * @param doc
+	 * @return mapping from names assigned in export to original names
+	 */
+	public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc) throws Exception {
+		return exportData(saveFile, appendFile, exportAll, exporterName, blocks, doc, null);
+	}
 
 
-    /**
-     * export file using the named exporter
-     *
-     * @param saveFile
-     * @param appendFile
-     * @param exporterName
-     * @param blocks         list of blocks to be exported
-     * @param doc
-     * @param additionalInfo Additional information to be passed to exporter
-     * @return mapping from names assigned in export to original names
-     */
-    public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc, ExporterInfo additionalInfo) throws Exception {
-        String className;
-        if (exporterName.contains("."))
-            className = exporterName;
-        else
-            className = packageName + "." + exporterName;
+	/**
+	 * export file using the named exporter
+	 *
+	 * @param saveFile
+	 * @param appendFile
+	 * @param exporterName
+	 * @param blocks         list of blocks to be exported
+	 * @param doc
+	 * @param additionalInfo Additional information to be passed to exporter
+	 * @return mapping from names assigned in export to original names
+	 */
+	public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc, ExporterInfo additionalInfo) throws Exception {
+		String className;
+		if (exporterName.contains("."))
+			className = exporterName;
+		else
+			className = packageName + "." + exporterName;
 
-        Class c = Class.forName(className);
-        if (!c.isInterface()) {
-            Object obj = c.getConstructor().newInstance();
-            if (obj instanceof Exporter) {
-                Exporter exporter = (Exporter) obj;
-                exporter.setOptionExportAll(exportAll);
-                //exporter.setAdditionalInfo(additionalInfo);
-                // try to open a file
-                Writer w = new FileWriter(saveFile, appendFile);
+		Class c = Class.forName(className);
+		if (!c.isInterface()) {
+			Object obj = c.getConstructor().newInstance();
+			if (obj instanceof Exporter) {
+				Exporter exporter = (Exporter) obj;
+				exporter.setOptionExportAll(exportAll);
+				//exporter.setAdditionalInfo(additionalInfo);
+				// try to open a file
+				Writer w = new FileWriter(saveFile, appendFile);
 
-                Map exportNames2originalNames;
-                if (additionalInfo == null)
-                    exportNames2originalNames = exporter.apply(w, doc, blocks);
-                else
-                    exportNames2originalNames = exporter.apply(w, doc, blocks, additionalInfo);
+				Map exportNames2originalNames;
+				if (additionalInfo == null)
+					exportNames2originalNames = exporter.apply(w, doc, blocks);
+				else
+					exportNames2originalNames = exporter.apply(w, doc, blocks, additionalInfo);
 
-                System.err.println("Exported data in format: " + exporterName);
-                w.close();
-                return exportNames2originalNames;
-            }
-        }
-        throw new SplitsException("Unknown or illegal Exporter: " + exporterName);
-    }
+				System.err.println("Exported data in format: " + exporterName);
+				w.close();
+				return exportNames2originalNames;
+			}
+		}
+		throw new SplitsException("Unknown or illegal Exporter: " + exporterName);
+	}
 
-    /**
-     * Takes the name of and exporter and returns an instance of the Exporter object. Returns
-     * null if there are problems/
-     *
-     * @param exporterName String
-     * @return ExporterAdapter object
-     */
-    static public ExporterAdapter getExporterAdapterByName(String exporterName) {
-        String className;
-        if (exporterName.contains("."))
-            className = exporterName;
-        else
-            className = packageName + "." + exporterName;
+	/**
+	 * Takes the name of and exporter and returns an instance of the Exporter object. Returns
+	 * null if there are problems/
+	 *
+	 * @param exporterName String
+	 * @return ExporterAdapter object
+	 */
+	static public ExporterAdapter getExporterAdapterByName(String exporterName) {
+		String className;
+		if (exporterName.contains("."))
+			className = exporterName;
+		else
+			className = packageName + "." + exporterName;
 
-        try {
-            Class c = Class.forName(className);
-            if (!c.isInterface()) {
-                Object obj = c.getConstructor().newInstance();
-                if (obj instanceof ExporterAdapter)
-                    return (ExporterAdapter) obj;
-            }
-        } catch (Exception ex) {
-        }
-        return null;
-    }
+		try {
+			Class c = Class.forName(className);
+			if (!c.isInterface()) {
+				Object obj = c.getConstructor().newInstance();
+				if (obj instanceof ExporterAdapter)
+					return (ExporterAdapter) obj;
+			}
+		} catch (Exception ex) {
+		}
+		return null;
+	}
 
-    /**
-     * gets the name of an exporter
-     *
-     * @return exporter name
-     */
-    static public String getExportName(Object exporter) {
-        return exporter.getClass().getName().replaceAll(".*\\.", "");
-    }
+	/**
+	 * gets the name of an exporter
+	 *
+	 * @return exporter name
+	 */
+	static public String getExportName(Object exporter) {
+		return exporter.getClass().getName().replaceAll(".*\\.", "");
+	}
 }

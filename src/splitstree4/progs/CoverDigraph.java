@@ -1,32 +1,20 @@
-/**
- * CoverDigraph.java
- * Copyright (C) 2015 Daniel H. Huson and David J. Bryant
- * <p/>
+/*
+ * CoverDigraph.java Copyright (C) 2022 Daniel H. Huson
+ *
  * (Some files contain contributions from other authors, who are then mentioned separately.)
- * <p/>
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p/>
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p/>
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p/>
- * Cover digraph construction
- *
- * @version $Id: CoverDigraph.java,v 1.3 2006-05-23 05:57:37 huson Exp $
- * @author daniel Huson
- * 7.03
- * <p>
- * Cover digraph construction
- * @version $Id: CoverDigraph.java,v 1.3 2006-05-23 05:57:37 huson Exp $
- * @author daniel Huson
- * 7.03
  */
 /**
  * Cover digraph construction
