@@ -659,8 +659,8 @@ public class ReticulateEqualAngle implements Reticulate2Network {
             }
         } else if (ordIdrNode == -1) {
             // place rNode between node2Pathp and node2Pathq
-            int startPosition = (ordIdp > ordIdq ? ordIdq : ordIdp);
-            int stopPosition = (ordIdp > ordIdq ? ordIdp : ordIdq);
+            int startPosition = (Math.min(ordIdp, ordIdq));
+            int stopPosition = (Math.max(ordIdp, ordIdq));
             if (verbose)
                 System.out.println("ordIdp: " + ordIdp + "\tordIdq: " + ordIdq + "\tstartPosition: " + startPosition + "\tstopPosition: " + stopPosition);
             for (int i = startPosition; i <= stopPosition; i++) {

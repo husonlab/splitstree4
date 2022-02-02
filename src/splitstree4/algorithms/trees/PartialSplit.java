@@ -461,8 +461,8 @@ public class PartialSplit implements Comparator, Cloneable {
         if (this.hashCode == NOT_SET_YET) {
             int a = A.getBits().hashCode();
             int b = B.getBits().hashCode();
-            int smaller = (a < b) ? a : b;
-            int larger = (a >= b) ? a : b;
+            int smaller = Math.min(a, b);
+            int larger = Math.max(a, b);
             this.hashCode = smaller * 1111 + larger;
         }
         return this.hashCode;

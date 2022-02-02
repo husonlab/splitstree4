@@ -45,11 +45,8 @@ public class QuadraticLinesearch extends LineSearch {
         double larger = Math.max(a, b);
         double smaller = Math.min(a, b);
         if (c <= smaller)
-            return smaller;
-        else if (c <= larger)
-            return c;
-        else
-            return larger;
+			return smaller;
+		else return Math.min(c, larger);
     }
 
     private double dotprod(double[] a, double[] b) {
