@@ -19,7 +19,6 @@
 package splitstree4.gui.undo;
 
 import jloda.swing.graphview.Transform;
-import jloda.util.Basic;
 import splitstree4.gui.main.MainViewer;
 
 /**
@@ -34,11 +33,7 @@ public class TransformCommand extends ICommandAdapter implements ICommand {
     public TransformCommand(MainViewer view, Transform oldTrans, Transform newTrans) {
         this.viewer = view;
         this.oldTrans = oldTrans;
-        try {
-            this.newTrans = (Transform) newTrans.clone();
-        } catch (CloneNotSupportedException ex) {
-            Basic.caught(ex);
-        }
+        this.newTrans = (Transform) newTrans.clone();
     }
 
     public ICommand execute() {

@@ -109,24 +109,24 @@ public class SplitsUtilities {
         for (int t = 1; t <= taxa.getNtax(); t++)
             inverse[splits.getCycle()[t]] = t;
         for (int s = 1; s <= splits.getNsplits(); s++) {
-            TaxaSet split = splits.get(s);
+			TaxaSet side = splits.get(s);
 
-            if (split.get(splits.getCycle()[1]))     // avoid wraparound
-                split = split.getComplement(taxa.getNtax());
+			if (side.get(splits.getCycle()[1]))     // avoid wraparound
+				side = side.getComplement(taxa.getNtax());
 
-            int minA = taxa.getNtax();
-            int maxA = 1;
-            for (int t = 1; t <= taxa.getNtax(); t++) {
-                if (split.get(t)) {
-                    if (inverse[t] < minA)
-                        minA = inverse[t];
-                    if (inverse[t] > maxA)
-                        maxA = inverse[t];
-                }
+			int minA = taxa.getNtax();
+			int maxA = 1;
+			for (int t = 1; t <= taxa.getNtax(); t++) {
+				if (side.get(t)) {
+					if (inverse[t] < minA)
+						minA = inverse[t];
+					if (inverse[t] > maxA)
+						maxA = inverse[t];
+				}
             }
-            if ((maxA - minA + 1) != split.cardinality()) {
-                return false;
-            }
+			if ((maxA - minA + 1) != side.cardinality()) {
+				return false;
+			}
         }
         return true;
     }
