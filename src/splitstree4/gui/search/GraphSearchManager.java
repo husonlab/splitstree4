@@ -41,7 +41,7 @@ import java.util.regex.PatternSyntaxException;
  */
 public class GraphSearchManager implements SearchManager {
 
-    private MainViewer viewer;
+    private final MainViewer viewer;
 
     public GraphSearchManager(MainViewer viewer) {
         this.viewer = viewer;
@@ -81,8 +81,6 @@ public class GraphSearchManager implements SearchManager {
     /**
      * prepareRegexp
      *
-     * @param searchString
-     * @param options
      * @return regular expression string.
      * <p/>
      * We use the regular expression matches for all of our string matching... even when
@@ -153,11 +151,9 @@ public class GraphSearchManager implements SearchManager {
 
         // seachingNodes flag to indicate if we are currently searching through nodes
         // or edges.
-        boolean searchingNodes = true; //Currently searching nodes.
-        if (thisEdge != null)
-            searchingNodes = false;
+		boolean searchingNodes = thisEdge == null; //Currently searching nodes.
 
-        //We use a count to protect against infinite loops when searching with wrapping text.
+		//We use a count to protect against infinite loops when searching with wrapping text.
         boolean found = false;
         int maxcount = viewer.getGraph().getNumberOfEdges() + viewer.getGraph().getNumberOfNodes();
         int count = 0;
@@ -328,8 +324,8 @@ public class GraphSearchManager implements SearchManager {
         }
 
         while (edgeIterator.hasNext()) {
-            Edge thisEdge = (Edge) edgeIterator.next();
-            String label = viewer.getLabel(thisEdge);
+			Edge thisEdge = edgeIterator.next();
+			String label = viewer.getLabel(thisEdge);
             if (matchLabel(regExp, label, options)) {
                 label = label.replaceAll(regExp, replaceText);
                 final ICommand cmd = new ChangeEdgeLabelCommand(viewer, thisEdge, label);
@@ -372,8 +368,8 @@ public class GraphSearchManager implements SearchManager {
         }
 
         while (edgeIterator.hasNext()) {
-            Edge thisEdge = (Edge) edgeIterator.next();
-            String label = viewer.getLabel(thisEdge);
+			Edge thisEdge = edgeIterator.next();
+			String label = viewer.getLabel(thisEdge);
             if (matchLabel(regExp, label, options)) {
                 viewer.setSelected(thisEdge, true);
                 if (bbox == null) {

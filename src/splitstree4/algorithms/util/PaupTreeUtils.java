@@ -38,7 +38,6 @@ import java.util.Arrays;
 public class PaupTreeUtils {
 
     /**
-     * @param q
      * @return Leftmost leaf in subtree below q
      */
     public static PaupNode leftmostLeaf(PaupNode q) {
@@ -51,7 +50,6 @@ public class PaupTreeUtils {
     /**
      * PostOrder traversal (parents after children)
      *
-     * @param q
      * @return Next node in a post order traversal, or null if there are none
      */
     public static PaupNode nextPost(PaupNode q) {
@@ -64,7 +62,6 @@ public class PaupTreeUtils {
     /**
      * Preorder traversal (parents before children)
      *
-     * @param v
      * @return Next node in a pre order traversal, or null if there are none
      */
     public static PaupNode nextPre(PaupNode v) {
@@ -74,8 +71,6 @@ public class PaupTreeUtils {
     /**
      * Preorder traversal of a subtree
      *
-     * @param v
-     * @param root
      * @return Next node in a pre-order traversal of the subtree below (and including) root
      */
     static public PaupNode nextPre(PaupNode v, PaupNode root) {
@@ -95,8 +90,7 @@ public class PaupTreeUtils {
      * These will become invalid if the tree is changed.
      * One day, these will be incorporated into a proper Java type structure.
      *
-     * @param root
-     */
+	 */
     static public void updateFastPrePost(PaupNode root) {
         PaupNode prev = null;
         for (PaupNode v = root.leftmostLeaf(); v != null; v = nextPost(v)) {
@@ -120,11 +114,7 @@ public class PaupTreeUtils {
      * <p/>
      * The order of children follows the order in the phyloTree.
      *
-     * @param phyloT
-     * @param root
-     * @return
-     * @throws PaupTreeException
-     */
+	 */
     static public PaupNode convert(Taxa taxa, PhyloTree phyloT, Node root) throws PaupTreeException {
         PaupNode v;
 
@@ -178,11 +168,8 @@ public class PaupTreeUtils {
      * node pv and the edge connecting the subtree to the rest of the tree. If there are nodes
      * with multiple labels, or internal nodes labelled, a PaupTreeException is thrown.
      *
-     * @param phyloT
      * @param pv     Node in the phylotree
-     * @return
-     * @throws PaupTreeException
-     */
+	 */
     static PaupNode convertRecurse(Taxa taxa, PhyloTree phyloT, Node pv, Edge incomingEdge) throws PaupTreeException {
         PaupNode v = new PaupNode();
 
@@ -216,8 +203,6 @@ public class PaupTreeUtils {
     /**
      * Print out the tree (or subtree) in Newick Syntax
      *
-     * @param taxa
-     * @param p
      * @param printBrLengths Print out the branch lengths
      * @return String of Newick format (without semicolon, and without () if p is a leaf
      */
@@ -243,9 +228,7 @@ public class PaupTreeUtils {
     /**
      * Multiplies every branch length at this node and below by scale.
      *
-     * @param root
-     * @param scale
-     */
+	 */
     static public void scaleBranchLengths(PaupNode root, double scale) {
         for (PaupNode q = root; q != null; q = nextPre(q, root))
             q.length *= scale;
@@ -262,8 +245,6 @@ public class PaupTreeUtils {
     /**
      * Given a tree and the number of taxa, returns a splits block containing the splits of the tree.
      *
-     * @param v
-     * @param ntax
      * @return Splits block
      */
     static public Splits getBinarySplits(PaupNode v, int ntax) {

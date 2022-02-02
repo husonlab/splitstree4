@@ -222,7 +222,6 @@ public class PhylipParsimony implements Characters2Trees {
      * write chosen options in an input file for phylip
      *
      * @param st_options the input-file
-     * @throws Exception
      */
     private void writeOptionFile(File st_options, Document doc) throws Exception {
 
@@ -316,8 +315,6 @@ public class PhylipParsimony implements Characters2Trees {
      * execute the phylip executable using Runtime.exec
      *
      * @param optionfile the input file for phylip
-     * @param phylipBin
-     * @throws Exception
      */
     private void executePhylip(File optionfile, File phylipBin) throws Exception {
         String shell = (os == REDMOND) ? "cmd.exe" : "sh";
@@ -367,7 +364,6 @@ public class PhylipParsimony implements Characters2Trees {
      *
      * @param doc    the document
      * @param infile temporary phylip-infile
-     * @throws Exception
      */
     private Map writeInfile(Document doc, File infile, Taxa taxa, Characters chars) throws Exception {
 
@@ -393,7 +389,6 @@ public class PhylipParsimony implements Characters2Trees {
     /**
      * remove Files
      *
-     * @param files
      * @return false if delete failed.
      */
     private boolean removeFiles(File[] files) {
@@ -419,7 +414,6 @@ public class PhylipParsimony implements Characters2Trees {
     /**
      * path to the "dnapars" executable
      *
-     * @param dnaparsPath
      */
     public void setOptionPhylipPath(String dnaparsPath) {
         ProgramProperties.put(PHYLIP_DNAPARS, dnaparsPath.trim());
@@ -434,24 +428,11 @@ public class PhylipParsimony implements Characters2Trees {
         return ProgramProperties.get(PHYLIP_DNAPARS, "dnapars");
     }
 
-    /**
-     * note: user-tree option somehow generates output files currently 
-     * not readable by the splitstree-parser.
-     */
-
-    /**
-     * path to the optional trees file
-     * @param treesFile
-     */
-//    public void setOptionUserTree(String treesFile) {
+	//    public void setOptionUserTree(String treesFile) {
 //        Properties.put(PHYLIP_TREES_FILE,Basic.trim(treesFile));
 //    }
 
-    /**
-     * path to the optional trees file
-     * @return path to trees file
-     */
-//    public String getOptionUserTree() {
+	//    public String getOptionUserTree() {
 //        return Properties.get(PHYLIP_TREES_FILE,"");
 //    }
 
@@ -579,7 +560,6 @@ public class PhylipParsimony implements Characters2Trees {
     /**
      * path to the weightsFile
      *
-     * @param weightsFile
      */
     public void setOptionWeightsFile(String weightsFile) {
         ProgramProperties.put(PHYLIP_WEIGHTS_FILE, weightsFile.trim());

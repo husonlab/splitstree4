@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * inputs data given in fasta format
- * @version $Id: SingleLineSequences.java,v 1.5 2005-11-12 20:49:13 huson Exp $
- * @author huson
- * Date: Sep 29, 2003
- */
 package splitstree4.externalIO.imports;
 
 import splitstree4.nexus.Characters;
@@ -43,7 +37,7 @@ import java.util.List;
 public class SingleLineSequences extends FileFilter implements Importer {
     String datatype = null;
 
-    public String Description = "Single line sequences (*.txt)";
+    public final String Description = "Single line sequences (*.txt)";
 
     private char gap = '-';
     private char missing = '?';
@@ -52,7 +46,6 @@ public class SingleLineSequences extends FileFilter implements Importer {
     /**
      * does this importer apply to the type of nexus block
      *
-     * @param blockName
      * @return true, if can handle this import
      */
     public boolean isApplicableToBlock(String blockName) {
@@ -62,7 +55,6 @@ public class SingleLineSequences extends FileFilter implements Importer {
     /**
      * can we import this data?
      *
-     * @param input0
      * @return true, if can handle this import
      */
     public boolean isApplicable(Reader input0) throws IOException {
@@ -91,9 +83,7 @@ public class SingleLineSequences extends FileFilter implements Importer {
     /**
      * convert input string into nexus format
      *
-     * @param input0
-     * @return
-     */
+	 */
     public String apply(Reader input0) throws IOException {
         BufferedReader input = new BufferedReader(input0);
         List names = new LinkedList();
@@ -166,8 +156,7 @@ public class SingleLineSequences extends FileFilter implements Importer {
     /**
      * set current gap character
      *
-     * @param gap
-     */
+	 */
     public void setOptionGap(char gap) {
         this.gap = gap;
     }
@@ -184,8 +173,7 @@ public class SingleLineSequences extends FileFilter implements Importer {
     /**
      * sets the missing character
      *
-     * @param missing
-     */
+	 */
     public void setOptionMissing(char missing) {
         this.missing = missing;
     }

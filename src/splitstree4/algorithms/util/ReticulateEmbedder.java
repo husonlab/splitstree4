@@ -44,13 +44,7 @@ public class ReticulateEmbedder {
     /**
      * computes a rectangular phylogram embedding
      *
-     * @param taxa
-     * @param splits
-     * @param graphView
-     * @param outgroupIndex
-     * @param useSplitWeights
-     * @param percentOffset
-     */
+	 */
     public void computeRectangularPhylogram(Taxa taxa, Splits splits, PhyloGraphView graphView,
                                             int outgroupIndex, boolean useSplitWeights, boolean useEdgeWeights,
                                             int percentOffset, boolean reticulateEdgesCubic,
@@ -135,7 +129,7 @@ public class ReticulateEmbedder {
         queue.add(root);
         while (queue.size() > 0) // breath-first assignment
         {
-            Node v = (Node) queue.remove(0); // pop
+			Node v = queue.remove(0); // pop
 
             boolean ok = true;
             if (v.getInDegree() == 1) // is regular in edge
@@ -178,9 +172,8 @@ public class ReticulateEmbedder {
                 double y = 0;
                 int count = 0;
                 for (Edge e : v.inEdges()) {
-                    ;
-                    Node w = e.getSource();
-                    Point2D location = graphView.getLocation(w);
+					Node w = e.getSource();
+					Point2D location = graphView.getLocation(w);
                     if (location == null) {
                         ok = false;
                     } else {
@@ -265,11 +258,7 @@ public class ReticulateEmbedder {
     /**
      * determine which edges need flipping
      *
-     * @param v
-     * @param e
-     * @param graph
-     * @param toFlip
-     */
+	 */
     private void determineEdgesToFlip(Node v, Edge e, PhyloSplitsGraph graph, Set toFlip) {
         for (Edge f = v.getFirstAdjacentEdge(); f != null; f = v.getNextAdjacentEdge(f)) {
             if (f != e) {
@@ -290,9 +279,6 @@ public class ReticulateEmbedder {
     /**
      * recursively computes the edge 2 cluster mapping
      *
-     * @param v
-     * @param graph
-     * @param edge2cluster
      * @return taxa on this node or below
      */
     private TaxaSet computeEdge2ClusterRec(Node v, PhyloSplitsGraph graph, EdgeArray edge2cluster) {
@@ -312,9 +298,6 @@ public class ReticulateEmbedder {
     /**
      * sets the cycle so that the outgroup is at the first position
      *
-     * @param splits
-     * @param outgroupIndex
-     * @param ntax
      * @return cycle with outgroup at first position
      */
     private int[] determineCycle(Splits splits, int outgroupIndex, int ntax) {
@@ -351,9 +334,6 @@ public class ReticulateEmbedder {
     /**
      * computes the height of a cluster for the rectangular view
      *
-     * @param cluster
-     * @param cycleInverse
-     * @param ntax
      * @return height
      */
     private double computeHeight(TaxaSet cluster, int[] cycleInverse, int ntax) {
@@ -373,11 +353,7 @@ public class ReticulateEmbedder {
     /**
      * computes a rectangular phylogram embedding
      *
-     * @param taxa
-     * @param splits
-     * @param graphView
-     * @param outgroupIndex
-     */
+	 */
     public void computeRectangularCladogram(Taxa taxa, Splits splits, PhyloGraphView graphView,
                                             int outgroupIndex, boolean reticulateEdgesCubic,
                                             boolean treeEdgesCubic) {
@@ -443,9 +419,6 @@ public class ReticulateEmbedder {
     /**
      * recursively assign coordinates to rectangular cladogram
      *
-     * @param v
-     * @param graph
-     * @param graphView
      * @return location of v
      */
     private Point2D assignCoordinatesToRectangularCladogramRec(Node v, PhyloSplitsGraph graph, PhyloGraphView graphView) {
@@ -476,14 +449,8 @@ public class ReticulateEmbedder {
     /**
      * computes a equal angle embedding
      *
-     * @param taxa
      * @param splits          (really only need cycle from this)
-     * @param graphView
-     * @param outgroupIndex
-     * @param useSplitWeights
-     * @param percentOffset
-     * @param maxAngle
-     */
+	 */
     public void computeEqualAngle(Taxa taxa, Splits splits, PhyloGraphView graphView,
                                   int outgroupIndex, boolean useSplitWeights,
                                   boolean useEdgeWeights,
@@ -646,10 +613,6 @@ public class ReticulateEmbedder {
     /**
      * computes the angle of a cluster
      *
-     * @param cluster
-     * @param cycleInverse
-     * @param ntax
-     * @param maxAngle
      * @return angle
      */
     private double computeAngle(TaxaSet cluster, int[] cycleInverse, int ntax, int maxAngle) {

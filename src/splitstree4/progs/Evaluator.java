@@ -21,7 +21,10 @@ package splitstree4.progs;
 import jloda.swing.util.CommandLineOptions;
 import jloda.util.parse.NexusStreamParser;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.StringReader;
 
 /**
  * small program to evaluate simulation
@@ -33,8 +36,8 @@ public class Evaluator {
         int length = options.getMandatoryOption("-l", "sequence length", 0);
         options.done();
 
-        BufferedReader r = new BufferedReader(new FileReader(new File(fname)));
-        FileWriter good = new FileWriter("Correct_Topology." + length);
+		BufferedReader r = new BufferedReader(new FileReader(fname));
+		FileWriter good = new FileWriter("Correct_Topology." + length);
         FileWriter bad = new FileWriter("Wrong_Topology." + length);
         int nGood = 0;
         double sumGood = 0;

@@ -49,8 +49,7 @@ public class MenuManager {
     /**
      * add a collection of actions to the list of available actions
      *
-     * @param actions
-     */
+	 */
     public void addAll(Collection<Action> actions) {
         for (Action action : actions) {
             String label = (String) action.getValue(ALT_NAME);
@@ -64,9 +63,7 @@ public class MenuManager {
     /**
      * add an action
      *
-     * @param label
-     * @param action
-     */
+	 */
     public void add(String label, Action action) {
         actions.put(label, action);
     }
@@ -74,8 +71,7 @@ public class MenuManager {
     /**
      * remove the action corresponding to the given label
      *
-     * @param label
-     */
+	 */
     public void remove(String label) {
         actions.keySet().remove(label);
     }
@@ -83,8 +79,7 @@ public class MenuManager {
     /**
      * remove a collection of actions
      *
-     * @param actions
-     */
+	 */
     public void removeAll(Collection<Action> actions) {
         for (Action action : actions) {
             String label = (String) action.getValue(ALT_NAME);
@@ -102,11 +97,7 @@ public class MenuManager {
      * given name and each item is of the form Menu.menuBarLabel or simply menuBarLabel,
      * Used in Dendroscope
      *
-     * @param menuBarLabel
-     * @param descriptions
-     * @param menuBar
-     * @throws Exception
-     */
+	 */
     public void buildMenuBar(String menuBarLabel, Hashtable<String, String> descriptions, JMenuBar menuBar) throws Exception {
         /*
         System.err.println("Known actions:");
@@ -116,21 +107,21 @@ public class MenuManager {
          */
 
         menuBarLabel = MENUBAR_TAG + "." + menuBarLabel;
-        if (!descriptions.keySet().contains(menuBarLabel))
-            throw new Exception("item not found: " + menuBarLabel);
+		if (!descriptions.containsKey(menuBarLabel))
+			throw new Exception("item not found: " + menuBarLabel);
 
-        List<String> menuLabels = getTokens((String) descriptions.get(menuBarLabel));
+		List<String> menuLabels = getTokens(descriptions.get(menuBarLabel));
 
         for (String menuLabel : menuLabels) {
             if (!menuLabel.startsWith("Menu."))
                 menuLabel = "Menu." + menuLabel;
 
-            if (descriptions.keySet().contains(menuLabel)) {
-                JMenu menu = buildMenu(menuLabel, descriptions, false);
-                addSubMenus(0, menu, descriptions);
-                MenuMnemonics.setMnemonics(menu);
-                menuBar.add(menu);
-            }
+			if (descriptions.containsKey(menuLabel)) {
+				JMenu menu = buildMenu(menuLabel, descriptions, false);
+				addSubMenus(0, menu, descriptions);
+				MenuMnemonics.setMnemonics(menu);
+				menuBar.add(menu);
+			}
         }
     }
 
@@ -141,12 +132,8 @@ public class MenuManager {
      * and item is either the menuLabel of an action, | to indicate a separator
      * or @menuLabel to indicate menuLabel name of a submenu
      *
-     * @param menuLabel
-     * @param descriptions
-     * @param addEmptyIcon
      * @return menu
-     * @throws Exception
-     */
+	 */
     private JMenu buildMenu(String menuLabel, Hashtable<String, String> descriptions, boolean addEmptyIcon) throws Exception {
         if (!menuLabel.startsWith("Menu."))
             menuLabel = "Menu." + menuLabel;
@@ -247,11 +234,7 @@ public class MenuManager {
     /**
      * adds submenus to a menu
      *
-     * @param depth
-     * @param menu
-     * @param descriptions
-     * @throws Exception
-     */
+	 */
     private void addSubMenus(int depth, JMenu menu, Hashtable<String, String> descriptions) throws Exception {
         if (depth > 5)
             throw new Exception("Submenus: too deep: " + depth);
@@ -273,8 +256,6 @@ public class MenuManager {
     /**
      * find named menu
      *
-     * @param name
-     * @param menuBar
      * @param mayBeSubmenu also search for sub menu
      * @return menu or null
      */
@@ -290,9 +271,6 @@ public class MenuManager {
     /**
      * searches for menu by name
      *
-     * @param name
-     * @param menu
-     * @param mayBeSubmenu
      * @return menu or null
      */
     public static JMenu findMenu(String name, JMenu menu, boolean mayBeSubmenu) {
@@ -317,10 +295,8 @@ public class MenuManager {
     /**
      * get the list of tokens in a description
      *
-     * @param str
      * @return list of tokens
-     * @throws Exception
-     */
+	 */
     static public List<String> getTokens(String str) throws Exception {
         try {
             int pos = str.indexOf("=");

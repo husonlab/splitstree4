@@ -40,7 +40,7 @@ import java.io.PrintWriter;
  * Implementation of the PHI test for recombination. Adapted from the C code by Trevor Bruen.
  */
 public class PhiTest implements CharactersAnalysisMethod {
-    public static String DESCRIPTION = "Test for phylogenetic heterogeneity, e.g. from recombination. Bruen, Philippe, Bryant (2005)";
+    public static final String DESCRIPTION = "Test for phylogenetic heterogeneity, e.g. from recombination. Bruen, Philippe, Bryant (2005)";
 
 
     final static int WINDOWSIZE = 100;
@@ -64,7 +64,6 @@ public class PhiTest implements CharactersAnalysisMethod {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param doc
      * @param taxa  the taxa
      * @param chars the block
      * @return true, if method applies to given data
@@ -76,7 +75,6 @@ public class PhiTest implements CharactersAnalysisMethod {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param doc
      * @return true, if method applies to given data
      */
     public boolean isApplicable(Document doc) {
@@ -85,10 +83,10 @@ public class PhiTest implements CharactersAnalysisMethod {
 
     /* Node_struct for graph */
 
-    public class node {
-        public int neighbourindex;
-        public node next;
-    }
+	public static class node {
+		public int neighbourindex;
+		public node next;
+	}
 
 
     private int pair_score(int char_a, int char_b) {
@@ -141,9 +139,9 @@ public class PhiTest implements CharactersAnalysisMethod {
 
 
         for (i = 0; i < ntax; i++) {
-            char_a_val = (int) (alignment[char_a][i]);
+			char_a_val = alignment[char_a][i];
             /* Number vertices [0...char_a_states-1] then [char_a_states..total_states] */
-            char_b_val = (int) (alignment[char_b][i]);
+			char_b_val = alignment[char_b][i];
 
             /* Add the edge - if necessary */
 
@@ -241,8 +239,7 @@ public class PhiTest implements CharactersAnalysisMethod {
      * For each site i in the resulting alignment, sitePositions[i] is the corresponding site
      * in the original alignment
      *
-     * @param characters
-     */
+	 */
     private void get_sorted_alignment(Characters characters, boolean removeUninformative) {
 
         this.ntax = characters.getNtax();
@@ -321,28 +318,28 @@ public class PhiTest implements CharactersAnalysisMethod {
                 if (j - i <= optk)
                     phi_sum += inc;
             }
-        }
+		}
 
-        u = v = w = 0.0;
-        for (int i = 0; i < num_inform; i++) {
-            u += fi[i];
-            v += gi[i];
-            int x = fi[i];
-            w += (x * x);
-        }
+		u = v = w = 0.0;
+		for (int i = 0; i < num_inform; i++) {
+			u += fi[i];
+			v += gi[i];
+			int x = fi[i];
+			w += (x * x);
+		}
 
-        double n = (double) num_inform;
-        double k = (double) optk;
+		double n = num_inform;
+		double k = optk;
 
-        double M = n * (n - 1) * (n - 2) * (n - 3);
+		double M = n * (n - 1) * (n - 2) * (n - 3);
 
-        double c1top = 27.0 * k * n - 18 * k * k + 28 * k * k * n - 21 * k * n * n - 9 * k + 5 * n - 9 * k * k * k - 11 * n * n + 6 * n * (n * n + k * k * k) - 4 * k * k * n * n;
+		double c1top = 27.0 * k * n - 18 * k * k + 28 * k * k * n - 21 * k * n * n - 9 * k + 5 * n - 9 * k * k * k - 11 * n * n + 6 * n * (n * n + k * k * k) - 4 * k * k * n * n;
 
-        double c1bot = (k + 1 - 2 * n) * (n - 1) * n * (k + 1 - 2 * n) * k;
-        //double  c1bot = (k+1-2*n)*(n-1)*n;
-        //c1bot = c1bot*c1bot;
-        //c1bot = c1bot*k*(n-2)*(n-3);
-        double c1 = 2.0 * c1top / (3.0 * c1bot);
+		double c1bot = (k + 1 - 2 * n) * (n - 1) * n * (k + 1 - 2 * n) * k;
+		//double  c1bot = (k+1-2*n)*(n-1)*n;
+		//c1bot = c1bot*c1bot;
+		//c1bot = c1bot*k*(n-2)*(n-3);
+		double c1 = 2.0 * c1top / (3.0 * c1bot);
 
         double c2top = 39.0 * k * n - 14 * k * k + 8 * k * k * n - 15 * k * n * n - 21 * k + 19 * n + 3 * k * k * k - 21 * n * n + 6 * n * n * n - 4;
         //double c2bot=(double)(k+1-2*n)*(k+1-2*n)*k*M;
@@ -384,8 +381,7 @@ public class PhiTest implements CharactersAnalysisMethod {
      * Writes the incompatibility matrix in a form suitable for matlab to the given file
      *
      * @param file File for output
-     * @throws IOException
-     */
+	 */
     private void outputIncompatibilityMatrix(File file) throws IOException {
         PrintWriter out = new PrintWriter(new FileWriter(file));
         out.println("Incompatibility matrix");
@@ -498,7 +494,6 @@ public class PhiTest implements CharactersAnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
      * @param taxa  the taxa
      * @param block the block
      */
@@ -509,8 +504,7 @@ public class PhiTest implements CharactersAnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
-     */
+	 */
     public String apply(Document doc) {
 
         double pval = approxPhi(doc.getCharacters());

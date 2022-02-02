@@ -30,19 +30,19 @@ import javax.swing.*;
  * Date: 17.2.04
  */
 public class ConfidenceWindowMenuBar extends JMenuBar {
-    private ConfidenceWindow viewer;
-    private Director dir;
-    private MainViewer mainViewer;
+	private final ConfidenceWindow viewer;
+	private final Director dir;
+	private final MainViewer mainViewer;
 
-    public ConfidenceWindowMenuBar(ConfidenceWindow viewer, Director dir) {
-        super();
+	public ConfidenceWindowMenuBar(ConfidenceWindow viewer, Director dir) {
+		super();
 
-        this.viewer = viewer;
-        this.dir = dir;
-        this.mainViewer = (MainViewer) dir.getViewerByClass(MainViewer.class);
+		this.viewer = viewer;
+		this.dir = dir;
+		this.mainViewer = (MainViewer) dir.getViewerByClass(MainViewer.class);
 
-        addFileMenu();
-        addEditMenu();
+		addFileMenu();
+		addEditMenu();
     }
 
     /**

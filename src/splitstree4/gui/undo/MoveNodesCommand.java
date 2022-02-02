@@ -32,20 +32,20 @@ import java.util.List;
  * Daniel Huson and David Bryant
  */
 public class MoveNodesCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    NodeArray oldLocations;
-    NodeArray newLocations;
-    EdgeArray oldInternalPoints;
-    EdgeArray newInternalPoints;
+	final MainViewer viewer;
+	final NodeArray oldLocations;
+	final NodeArray newLocations;
+	final EdgeArray oldInternalPoints;
+	final EdgeArray newInternalPoints;
 
-    public MoveNodesCommand(MainViewer viewer, NodeArray oldLocations,
-                            NodeArray newLocations, EdgeArray oldInternalPoints, EdgeArray newInternalPoints) {
-        this.viewer = viewer;
-        this.oldLocations = oldLocations;
-        this.newLocations = newLocations;
-        this.oldInternalPoints = oldInternalPoints;
-        this.newInternalPoints = newInternalPoints;
-    }
+	public MoveNodesCommand(MainViewer viewer, NodeArray oldLocations,
+							NodeArray newLocations, EdgeArray oldInternalPoints, EdgeArray newInternalPoints) {
+		this.viewer = viewer;
+		this.oldLocations = oldLocations;
+		this.newLocations = newLocations;
+		this.oldInternalPoints = oldInternalPoints;
+		this.newInternalPoints = newInternalPoints;
+	}
 
     /**
      * Executes this command.

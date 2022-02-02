@@ -27,13 +27,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-/**
- * Created by IntelliJ IDEA.
- * User: bryant
- * Date: Jun 10, 2005
- * Time: 4:50:37 PM
- * To change this template use File | Settings | File Templates.
- */
 /* Controls in the BaseFrequency Panel */
 
 /**
@@ -42,19 +35,19 @@ import java.awt.event.FocusListener;
 public class QMatrixDNAPanel extends JPanel implements ActionListener, FocusListener {
 
 
-    protected JTextField[][] matrixCells;
-    protected static String[] bases = {"A", "C", "G", "T/U"};
-    public static String CHANGEQ = "CHANGEQ";
+	protected final JTextField[][] matrixCells;
+	protected static final String[] bases = {"A", "C", "G", "T/U"};
+	public static final String CHANGEQ = "CHANGEQ";
 
-    GTR distTransform;
+	final GTR distTransform;
 
-    public QMatrixDNAPanel(GTR distTransform) {
-        super();
+	public QMatrixDNAPanel(GTR distTransform) {
+		super();
 
-        this.distTransform = distTransform;
+		this.distTransform = distTransform;
 
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints constraints = new GridBagConstraints();
         this.setBorder(BorderFactory.createTitledBorder("Rate matrix"));
 
         //Set up Q matrix - first initialise the fields

@@ -39,18 +39,18 @@ import java.util.List;
  */
 public class MainViewerToolBar extends JToolBar {
 
-    List actions = new LinkedList();
-    MainViewer viewer;
+	final List actions = new LinkedList();
+	final MainViewer viewer;
 
-    public MainViewerToolBar(MainViewer mainViewer, Director dir) {
-        super();
-        this.viewer = mainViewer;
-        actions.addAll(dir.getActions().getAll());
-        actions.addAll(mainViewer.getActions().getAll());
+	public MainViewerToolBar(MainViewer mainViewer, Director dir) {
+		super();
+		this.viewer = mainViewer;
+		actions.addAll(dir.getActions().getAll());
+		actions.addAll(mainViewer.getActions().getAll());
 
-        this.setRollover(false);
-        this.setBorder(BorderFactory.createEtchedBorder());
-        this.setFloatable(false);
+		this.setRollover(false);
+		this.setBorder(BorderFactory.createEtchedBorder());
+		this.setFloatable(false);
         this.setVisible(ProgramProperties.get(SplitsTreeProperties.SHOWTOOLBAR, false));
 
         configureToolBar();
@@ -61,7 +61,6 @@ public class MainViewerToolBar extends JToolBar {
     /**
      * add a button to the tool bar
      *
-     * @param a
      * @return a button in the tool bar
      */
     public JButton add(Action a) {
@@ -112,7 +111,7 @@ public class MainViewerToolBar extends JToolBar {
                 if (!viewer.getDir().isInUpdate()) // if in update, don't change
                 {
                     String str = (String) ShowToolbar.get(0);
-                    tb.setVisible(Boolean.valueOf(str).booleanValue());
+					tb.setVisible(Boolean.valueOf(str));
                 }
             }
         });

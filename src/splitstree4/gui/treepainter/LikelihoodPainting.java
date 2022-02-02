@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package splitstree4.gui.TreePainter;
+package splitstree4.gui.treepainter;
 
 import splitstree4.core.Document;
 import splitstree4.gui.Director;

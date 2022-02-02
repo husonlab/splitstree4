@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: SplitJacker.java,v 1.2 2008-03-08 07:52:57 huson Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 package splitstree4.algorithms.distances;
 
 import jloda.util.CanceledException;

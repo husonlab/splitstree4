@@ -41,7 +41,6 @@ public class Matlab extends FileFilter implements Importer {
     /**
      * does this importer apply to the type of nexus block
      *
-     * @param blockName
      * @return true, if can handle this import
      */
     public boolean isApplicableToBlock(String blockName) {
@@ -51,7 +50,6 @@ public class Matlab extends FileFilter implements Importer {
     /**
      * can we import this data?
      *
-     * @param input
      * @return true, if can handle this import
      */
     public boolean isApplicable(Reader input) throws Exception {
@@ -67,9 +65,7 @@ public class Matlab extends FileFilter implements Importer {
     /**
      * convert input into nexus format
      *
-     * @param input
-     * @return
-     */
+	 */
     public String apply(Reader input) throws Exception {
         StreamTokenizer st = new StreamTokenizer(input);
         st.resetSyntax();
@@ -122,7 +118,7 @@ public class Matlab extends FileFilter implements Importer {
 
         splitsBuf.append("BEGIN splits;\n DIMENSIONS nsplits = ").append(nsplits).append(";\n FORMAT labels = no weights = yes; \nMATRIX\n");
         for (int j = 1; j <= nsplits; j++) {
-            splitsBuf.append("").append(splitWeights[j]).append("\t");
+			splitsBuf.append(splitWeights[j]).append("\t");
             for (int i = 2; i <= ntax; i++) {
                 if (splitArray[i][j] == 1)
                     splitsBuf.append(" ").append(i);
@@ -153,7 +149,7 @@ public class Matlab extends FileFilter implements Importer {
 
         String splitstreeBlock = "begin st_assumptions;\nuptodate;\nend;\n";
 
-        return (taxaBuf.toString() + distancesBuf.toString() + splitsBuf.toString() + splitstreeBlock);
+		return (taxaBuf.toString() + distancesBuf + splitsBuf + splitstreeBlock);
     }
 
 

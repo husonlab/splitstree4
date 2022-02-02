@@ -36,7 +36,7 @@ import java.util.Map;
  */
 public class Clustal extends ExporterAdapter implements Exporter {
 
-    private String Description = "Exports sequences in Clustal format.";
+    private final String Description = "Exports sequences in Clustal format.";
 
     /**
      * can we import this data?
@@ -53,8 +53,7 @@ public class Clustal extends ExporterAdapter implements Exporter {
     /**
      * convert input into ClustalW format
      *
-     * @return
-     */
+	 */
     public Map apply(Writer w, Document dp, Collection blockNames) throws Exception {
         int maxNameLength = 0;
         Taxa taxa = dp.getTaxa();

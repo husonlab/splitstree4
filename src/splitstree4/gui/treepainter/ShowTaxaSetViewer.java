@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package splitstree4.gui.TreePainter;
+package splitstree4.gui.treepainter;
 
 import jloda.graph.Edge;
 import jloda.graph.Node;
@@ -49,7 +49,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.geom.*;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 
@@ -62,21 +61,21 @@ import java.util.Vector;
  */
 public class ShowTaxaSetViewer implements IDirectableViewer {
 
-    java.util.List allActions = new LinkedList();
-    private boolean uptodate = true;
-    private JFrame frame;
-    private Director dir;
-    private ShowTaxaSetViewer viewer;
+	final java.util.List allActions = new LinkedList();
+	private boolean uptodate = true;
+	private final JFrame frame;
+	private final Director dir;
+	private final ShowTaxaSetViewer viewer;
 
-    private Sets sets = null;
-    private Document doc = null;
-    private PhyloGraphView phyloGraphView = null;
-    private PhyloSplitsGraph phyloGraph;
+	private Sets sets = null;
+	private Document doc = null;
+	private PhyloGraphView phyloGraphView = null;
+	private final PhyloSplitsGraph phyloGraph;
 
-    private JPanel button;
+	private JPanel button;
 
-    private String boundaryMode = "mode1";
-    private String boundaryAppearance = "line";
+	private String boundaryMode = "mode1";
+	private String boundaryAppearance = "line";
     private String arcMode = "sickle";
     private int arcLineWidth = 1;
     private int dashSize = 2;
@@ -128,11 +127,7 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
 
     private void MakeTaxaSetViewerWindow() {
 
-        /**
-         * buttons
-         */
-
-        // 'APPLY': run algorithm with user-options, without closing this window.
+		// 'APPLY': run algorithm with user-options, without closing this window.
         JButton applyButton = new JButton(getApplyAction());
 
         // 'OK': run algorithm with user-options, and close this window.
@@ -155,12 +150,8 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
         button.setBorder(BorderFactory.createEmptyBorder(20, 15, 15, 15));
         button.setSize(300, 60);
 
-        /**
-         * option panels
-         */
 
-
-        String[] boundaryModes = {"mode1", "mode2", "mode3"};
+		String[] boundaryModes = {"mode1", "mode2", "mode3"};
         boundaryModeBox = new JComboBox(boundaryModes);
         boundaryModeBox.setBorder(BorderFactory.createTitledBorder("boundary mode"));
         boundaryModeBox.addActionListener(this.getBoundaryModeAction());
@@ -388,19 +379,19 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     }
 
 
-    private ChangeListener getlineWidthListener = new ChangeListener() {
+	private final ChangeListener getlineWidthListener = new ChangeListener() {
 
-        public void stateChanged(ChangeEvent e) {
-            arcLineWidth = ((SpinnerNumberModel) lineWidthSpinner.getModel()).getNumber().intValue();
-        }
-    };
+		public void stateChanged(ChangeEvent e) {
+			arcLineWidth = ((SpinnerNumberModel) lineWidthSpinner.getModel()).getNumber().intValue();
+		}
+	};
 
-    private ChangeListener getDashSizeListener = new ChangeListener() {
+	private final ChangeListener getDashSizeListener = new ChangeListener() {
 
-        public void stateChanged(ChangeEvent e) {
-            dashSize = ((SpinnerNumberModel) dashSizeSpinner.getModel()).getNumber().intValue();
-        }
-    };
+		public void stateChanged(ChangeEvent e) {
+			dashSize = ((SpinnerNumberModel) dashSizeSpinner.getModel()).getNumber().intValue();
+		}
+	};
 
 
     public boolean isUptoDate() {
@@ -476,7 +467,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * set uptodate state
      *
-     * @param flag
      */
     public void setUptoDate(boolean flag) {
         uptodate = flag;
@@ -494,87 +484,84 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     }
 
     private void drawSetHighlightingWithTaxonomies() {
-        sets = doc.getSets();
-        if (sets.getTaxonomyNames().isEmpty()) return;    // no taxonomy available
+		sets = doc.getSets();
+		if (sets.getTaxonomyNames().isEmpty()) return;    // no taxonomy available
 
-        PhyloTree phyloTree = sets.getTaxonomy((String) sets.getTaxonomyNames().toArray()[0]); // get first taxonomy (what to do with more than one?)
+		PhyloTree phyloTree = sets.getTaxonomy((String) sets.getTaxonomyNames().toArray()[0]); // get first taxonomy (what to do with more than one?)
 
-        for (Iterator allNodes = phyloTree.nodes().iterator(); allNodes.hasNext(); ) {  // for all nodes
+		// get next node
+		/*************** check order of seleceted nodes ******************/
+		for (Node selectedNode : phyloTree.nodes()) {  // for all nodes
 
-            Node selectedNode = (Node) allNodes.next(); // get next node
+			if ((selectedNode.getOutDegree() > 0) && (selectedNode != phyloTree.getRoot())) {  // if node is group node
 
-            if ((selectedNode.getOutDegree() > 0) && (selectedNode != phyloTree.getRoot())) {  // if node is group node
+				Vector nodes;
+				nodes = getDescendantNodes(selectedNode, phyloTree);       // get descendant nodes
+				nodes = sortNodes(nodes);                       // sort descendant nodes counterclockwise
 
-                Vector nodes;
-                nodes = getDescendantNodes(selectedNode, phyloTree);       // get descendant nodes
-                nodes = sortNodes(nodes);                       // sort descendant nodes counterclockwise
+				int groupChildrenDepth = getGroupChildrenDepth(selectedNode, phyloTree);   // get depth of group --> distance of sickle to nodes
 
-                int groupChildrenDepth = getGroupChildrenDepth(selectedNode, phyloTree);   // get depth of group --> distance of sickle to nodes
+				Node[] nodesInGraph = new Node[nodes.size()];                   // get nodes in graph
+				for (int i = 0; i < nodes.size(); i++) {
+					nodesInGraph[i] = phyloGraph.getTaxon2Node((Integer) nodes.get(i));   // get node to taxa-id
+				}
 
-                Node[] nodesInGraph = new Node[nodes.size()];                   // get nodes in graph
-                for (int i = 0; i < nodes.size(); i++) {
-                    nodesInGraph[i] = phyloGraph.getTaxon2Node((Integer) nodes.get(i));   // get node to taxa-id
-                }
+				if (nodesInGraph.length == 1) {
+					drawSetHighlighting(nodesInGraph, phyloTree.getLabel(selectedNode), groupChildrenDepth); //only one taxa, no need to check order
+				} else {
 
-                if (nodesInGraph.length == 1) {
-                    drawSetHighlighting(nodesInGraph, phyloTree.getLabel(selectedNode), groupChildrenDepth); //only one taxa, no need to check order
-                } else {
-
-                    /*************** check order of seleceted nodes ******************/
-
-                    int[] taxaInCyclicOrder = getCycle();
+					int[] taxaInCyclicOrder = getCycle();
 
                     /*for(int i=1;i<taxaInCyclicOrder.length;i++) {
                        System.out.println("taxa in cyclic order: " + taxaInCyclicOrder[i] + ", " + graph.getLabel(graph.getTaxon2Node(taxaInCyclicOrder[i])));
                    } */
 
-                    int start = 0;
-                    int additionalNodes = 0;
-                    for (int i = 0; i < nodesInGraph.length - 1; i++) {
+					int start = 0;
+					int additionalNodes = 0;
+					for (int i = 0; i < nodesInGraph.length - 1; i++) {
 
-                        Node nextNodeInCycle = getNextNodeInCylce(nodesInGraph[i]);   // next node in cycle
-                        Node nextNode = nodesInGraph[i + 1];                            // next selected node
-                        //System.out.println("nextNode: " + graph.getLabel(nextNode) + ", nextNodeInCycle: " + graph.getLabel(nextNodeInCycle));
+						Node nextNodeInCycle = getNextNodeInCylce(nodesInGraph[i]);   // next node in cycle
+						Node nextNode = nodesInGraph[i + 1];                            // next selected node
+						//System.out.println("nextNode: " + graph.getLabel(nextNode) + ", nextNodeInCycle: " + graph.getLabel(nextNodeInCycle));
 
-                        if (nextNodeInCycle != nextNode) {       // if next node in cycle != next selected node
-                            Node[] connectedNodes = new Node[i + 1 - start];
+						if (nextNodeInCycle != nextNode) {       // if next node in cycle != next selected node
+							Node[] connectedNodes = new Node[i + 1 - start];
 
-                            if ((start == 0) && (phyloGraph.getTaxon2Node(taxaInCyclicOrder[1]) == nodesInGraph[nodesInGraph.length - 1])) { // nodes are connected to the end (crossing 0°)
-                                additionalNodes = i + 1;    // save number of connected additional nodes, add them later
-                            } else {
-                                for (int j = 0, k = start; j < i + 1 - start; j++, k++) {
-                                    connectedNodes[j] = nodesInGraph[k];               // add the connected nodes
-                                }
-                                connectedNodes = checkOrder(connectedNodes);         // check order of connected nodes
-                                drawSetHighlighting(connectedNodes, phyloTree.getLabel(selectedNode), groupChildrenDepth);  // draw highlighting of connected nodes
-                            }
-                            start = i + 1;
-                        }
-                        if (i == nodesInGraph.length - 2) {                                // last node in cycle
-                            Vector connectedNodesVector = new Vector();
+							if ((start == 0) && (phyloGraph.getTaxon2Node(taxaInCyclicOrder[1]) == nodesInGraph[nodesInGraph.length - 1])) { // nodes are connected to the end (crossing 0°)
+								additionalNodes = i + 1;    // save number of connected additional nodes, add them later
+							} else {
+								for (int j = 0, k = start; j < i + 1 - start; j++, k++) {
+									connectedNodes[j] = nodesInGraph[k];               // add the connected nodes
+								}
+								connectedNodes = checkOrder(connectedNodes);         // check order of connected nodes
+								drawSetHighlighting(connectedNodes, phyloTree.getLabel(selectedNode), groupChildrenDepth);  // draw highlighting of connected nodes
+							}
+							start = i + 1;
+						}
+						if (i == nodesInGraph.length - 2) {                                // last node in cycle
+							Vector connectedNodesVector = new Vector();
 
-                            for (int j = 0, k = start; j < i + 1 - start + 1; j++, k++) {
-                                connectedNodesVector.add(nodesInGraph[k]);           // add the connected nodes
-                            }
-                            if (additionalNodes != 0) {                                  // if there are additional nodes
-                                connectedNodesVector.addAll(Arrays.asList(nodesInGraph).subList(0, additionalNodes));
-                            }
-                            Node[] connectedNodes = new Node[connectedNodesVector.size()];
-                            connectedNodesVector.copyInto(connectedNodes);
-                            connectedNodes = checkOrder(connectedNodes);             // check order of connected nodes
-                            drawSetHighlighting(connectedNodes, phyloTree.getLabel(selectedNode), groupChildrenDepth);  // draw highlighting of connected nodes
-                        }
-                    } // for all nodes of group
-                }  // no single node
-            }  // if group node
-        } // for all nodes
+							for (int j = 0, k = start; j < i + 1 - start + 1; j++, k++) {
+								connectedNodesVector.add(nodesInGraph[k]);           // add the connected nodes
+							}
+							if (additionalNodes != 0) {                                  // if there are additional nodes
+								connectedNodesVector.addAll(Arrays.asList(nodesInGraph).subList(0, additionalNodes));
+							}
+							Node[] connectedNodes = new Node[connectedNodesVector.size()];
+							connectedNodesVector.copyInto(connectedNodes);
+							connectedNodes = checkOrder(connectedNodes);             // check order of connected nodes
+							drawSetHighlighting(connectedNodes, phyloTree.getLabel(selectedNode), groupChildrenDepth);  // draw highlighting of connected nodes
+						}
+					} // for all nodes of group
+				}  // no single node
+			}  // if group node
+		} // for all nodes
     }
 
 
     /**
      * get all descendant nodes for a given groupNode
      *
-     * @param groupNode
      * @return vector of taxaIds of all descendant nodes
      */
     private Vector getDescendantNodes(Node groupNode, PhyloTree phyloTree) {
@@ -597,7 +584,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * sort the nodes to be in cyclic order
      *
-     * @param nodes
      * @return vector of sorted nodes
      */
     private Vector sortNodes(Vector nodes) {
@@ -612,9 +598,9 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
         int[] taxaInCyclicOrder = getCycle();
 
         for (int aTaxaInCyclicOrder : taxaInCyclicOrder) {
-            if (helpVector.contains((int) (aTaxaInCyclicOrder))) {
-                nodes.add(0, aTaxaInCyclicOrder);    //turn around, to be mathematical positive
-            }
+			if (helpVector.contains(aTaxaInCyclicOrder)) {
+				nodes.add(0, aTaxaInCyclicOrder);    //turn around, to be mathematical positive
+			}
         }
         return nodes;
     }
@@ -622,7 +608,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * computes the depths of groups for a given node in phyloTree
      *
-     * @param selectedNode
      * @return groupChildrenDepth of the selected node
      */
     private int getGroupChildrenDepth(Node selectedNode, PhyloTree taxonomy) {
@@ -644,7 +629,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * computes the depths for a given node in phyloTree
      *
-     * @param selectedNode
      * @return depth of the selected node
      */
     private int getPhyloTreeDepth(Node selectedNode, PhyloTree taxonomy) {
@@ -663,7 +647,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * get all descendant nodes for a given groupNode
      *
-     * @param groupNode
      * @return vector of nodes
      */
     private Vector getDescendantNodesPhyloTree(Node groupNode, PhyloTree taxonomy) {
@@ -730,36 +713,36 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
         Point2D.Double minPoint = new Point2D.Double(startNode.getX(), startNode.getY());
 
         for (Node aNodesInGraph3 : nodesInGraph) {
-            Point2D nodePoint = phyloGraphView.getLocation(aNodesInGraph3);
-            if (nodePoint.getX() > maxPoint.getX()) maxPoint.setLocation(nodePoint.getX(), maxPoint.getY());
-            if (nodePoint.getX() < minPoint.getX()) minPoint.setLocation(nodePoint.getX(), minPoint.getY());
-            if (nodePoint.getY() > maxPoint.getY()) maxPoint.setLocation(maxPoint.getX(), nodePoint.getY());
-            if (nodePoint.getY() < minPoint.getY()) minPoint.setLocation(minPoint.getX(), nodePoint.getY());
-        }
-        averageCenter.setLocation((maxPoint.getX() + minPoint.getX()) / 2, (maxPoint.getY() + minPoint.getY()) / 2); //set average point between maximal x&y values
+			Point2D nodePoint = phyloGraphView.getLocation(aNodesInGraph3);
+			if (nodePoint.getX() > maxPoint.getX()) maxPoint.setLocation(nodePoint.getX(), maxPoint.getY());
+			if (nodePoint.getX() < minPoint.getX()) minPoint.setLocation(nodePoint.getX(), minPoint.getY());
+			if (nodePoint.getY() > maxPoint.getY()) maxPoint.setLocation(maxPoint.getX(), nodePoint.getY());
+			if (nodePoint.getY() < minPoint.getY()) minPoint.setLocation(minPoint.getX(), nodePoint.getY());
+		}
+		averageCenter.setLocation((maxPoint.getX() + minPoint.getX()) / 2, (maxPoint.getY() + minPoint.getY()) / 2); //set average point between maximal x&y values
 
-        Point2D.Double averageCenterAll = new Point2D.Double(); //average point of all taxa
+		Point2D.Double averageCenterAll = new Point2D.Double(); //average point of all taxa
 
-        for (Iterator allNodes = phyloGraph.nodes().iterator(); allNodes.hasNext(); ) {  //for all nodes
-            Node selectedNode = (Node) allNodes.next(); //get next node
-            if (selectedNode.getOutDegree() == 0) {
-                Point2D nodePoint = phyloGraphView.getLocation(selectedNode);
-                if (nodePoint.getX() > maxPoint.getX()) maxPoint.setLocation(nodePoint.getX(), maxPoint.getY());
-                if (nodePoint.getX() < minPoint.getX()) minPoint.setLocation(nodePoint.getX(), minPoint.getY());
-                if (nodePoint.getY() > maxPoint.getY()) maxPoint.setLocation(maxPoint.getX(), nodePoint.getY());
-                if (nodePoint.getY() < minPoint.getY()) minPoint.setLocation(minPoint.getX(), nodePoint.getY());
-            }
-        }
-        averageCenterAll.setLocation((maxPoint.getX() + minPoint.getX()) / 2, (maxPoint.getY() + minPoint.getY()) / 2);
+		//get next node
+		for (Node selectedNode : phyloGraph.nodes()) {  //for all nodes
+			if (selectedNode.getOutDegree() == 0) {
+				Point2D nodePoint = phyloGraphView.getLocation(selectedNode);
+				if (nodePoint.getX() > maxPoint.getX()) maxPoint.setLocation(nodePoint.getX(), maxPoint.getY());
+				if (nodePoint.getX() < minPoint.getX()) minPoint.setLocation(nodePoint.getX(), minPoint.getY());
+				if (nodePoint.getY() > maxPoint.getY()) maxPoint.setLocation(maxPoint.getX(), nodePoint.getY());
+				if (nodePoint.getY() < minPoint.getY()) minPoint.setLocation(minPoint.getX(), nodePoint.getY());
+			}
+		}
+		averageCenterAll.setLocation((maxPoint.getX() + minPoint.getX()) / 2, (maxPoint.getY() + minPoint.getY()) / 2);
 
-        //phyloGraphView.addWorldShape(new WorldShape("Z", averageCenterAll));
-        //phyloGraphView.addWorldShape(new WorldShape("Z", averageCenter));
+		//phyloGraphView.addWorldShape(new WorldShape("Z", averageCenterAll));
+		//phyloGraphView.addWorldShape(new WorldShape("Z", averageCenter));
 
-        double radius;
+		double radius;
 
-        Point2D.Double vecStartEnd = (Point2D.Double) Geometry.diff(endNode, startNode); // vector between start & endNode
-        Point2D.Double middleVec1Point = new Point2D.Double((startNode.getX() + endNode.getX()) / 2, (startNode.getY() + endNode.getY()) / 2); //point between start- & endNode
-        Point2D.Double middleVec1ort = normalizeVec(new Point2D.Double(vecStartEnd.getY(), vecStartEnd.getX() * -1)); //vector orthogonal to vecStartEnd
+		Point2D.Double vecStartEnd = (Point2D.Double) Geometry.diff(endNode, startNode); // vector between start & endNode
+		Point2D.Double middleVec1Point = new Point2D.Double((startNode.getX() + endNode.getX()) / 2, (startNode.getY() + endNode.getY()) / 2); //point between start- & endNode
+		Point2D.Double middleVec1ort = normalizeVec(new Point2D.Double(vecStartEnd.getY(), vecStartEnd.getX() * -1)); //vector orthogonal to vecStartEnd
 
         if (helpExtendAngle == 0)
             middleVec1ort.setLocation(normalizeVec(new Point2D.Double(Geometry.diff(phyloGraphView.getLocation(firstHelpNode), startNode).getX(), Geometry.diff(phyloGraphView.getLocation(firstHelpNode), startNode).getY())));
@@ -1286,34 +1269,33 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
 
         if (cycle == null) {
 
-            int numLabels = Math.max(1, IteratorUtils.count(phyloGraph.nodeLabels()));
+			int numLabels = Math.max(1, IteratorUtils.count(phyloGraph.nodeLabels()));
 
-            Point2D.Double allPoints = new Point2D.Double();
-            int[] labelCycle = new int[numLabels];
-            Vector nodes = new Vector();
+			Point2D.Double allPoints = new Point2D.Double();
+			int[] labelCycle = new int[numLabels];
+			Vector nodes = new Vector();
 
-            for (Iterator allNodes = phyloGraph.nodes().iterator(); allNodes.hasNext(); ) {
-                Node currentNode = (Node) allNodes.next();
-                if (phyloGraph.getLabel(currentNode) != null) {
-                    Point2D currentPoint = phyloGraphView.getLocation(currentNode);
-                    allPoints.setLocation(allPoints.getX() + currentPoint.getX(), allPoints.getY() + currentPoint.getY());
-                    nodes.add(currentNode);
-                }
-            }
+			for (Node currentNode : phyloGraph.nodes()) {
+				if (phyloGraph.getLabel(currentNode) != null) {
+					Point2D currentPoint = phyloGraphView.getLocation(currentNode);
+					allPoints.setLocation(allPoints.getX() + currentPoint.getX(), allPoints.getY() + currentPoint.getY());
+					nodes.add(currentNode);
+				}
+			}
 
-            Point2D.Double schwerpunkt = new Point2D.Double(allPoints.getX() / numLabels, allPoints.getY() / numLabels);
+			Point2D.Double schwerpunkt = new Point2D.Double(allPoints.getX() / numLabels, allPoints.getY() / numLabels);
 
-            for (int i = 0; i < labelCycle.length; i++) {
-                labelCycle[i] = (Integer) phyloGraph.getTaxa((Node) nodes.get(0)).iterator().next();
-                Node currentNodeI = (Node) nodes.get(0);
-                Point2D currentPointI = phyloGraphView.getLocation(currentNodeI);
-                for (int j = 1; j < nodes.size(); j++) {
-                    Node currentNodeJ = (Node) nodes.get(j);
-                    Point2D currentPointJ = phyloGraphView.getLocation(currentNodeJ);
+			for (int i = 0; i < labelCycle.length; i++) {
+				labelCycle[i] = phyloGraph.getTaxa((Node) nodes.get(0)).iterator().next();
+				Node currentNodeI = (Node) nodes.get(0);
+				Point2D currentPointI = phyloGraphView.getLocation(currentNodeI);
+				for (int j = 1; j < nodes.size(); j++) {
+					Node currentNodeJ = (Node) nodes.get(j);
+					Point2D currentPointJ = phyloGraphView.getLocation(currentNodeJ);
                     if (this.getAngle(schwerpunkt, new Point2D.Double(currentPointJ.getX(), currentPointJ.getY())) >
                             (this.getAngle(schwerpunkt, new Point2D.Double(currentPointI.getX(), currentPointI.getY())))) {
-                        labelCycle[i] = (Integer) phyloGraph.getTaxa((Node) nodes.get(j)).iterator().next();
-                        currentNodeI = currentNodeJ;
+						labelCycle[i] = phyloGraph.getTaxa((Node) nodes.get(j)).iterator().next();
+						currentNodeI = currentNodeJ;
                         currentPointI = currentPointJ;
                     }
                 }
@@ -1328,7 +1310,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * determine the correct start- and endNode and switch the positions (only necessary if extendAngle >180°)
      *
-     * @param nodesInGraph
      * @return array of nodes in correct order
      */
     private Node[] checkOrder(Node[] nodesInGraph) {
@@ -1378,8 +1359,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * calculates intersection of two lines, in case of no or infinite intersection return null
      *
-     * @param line1
-     * @param line2
      * @return intersection
      */
     private Point2D.Double lineIntersection(Line2D.Double line1, Line2D.Double line2) {
@@ -1420,7 +1399,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * calculates the angle of the vector oppositeNode-node (-->  = 0°)
      *
-     * @param node
      * @return the angle
      */
     private double getAngleOfNode(Node node) {
@@ -1446,8 +1424,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * calculates the angle of vector point2-point1 (-->  = 0°)
      *
-     * @param point1
-     * @param point2
      * @return the angle of the vector point2-point1
      */
     private double getAngle(Point2D.Double point1, Point2D.Double point2) {
@@ -1542,7 +1518,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * gets the next node in cyclic order
      *
-     * @param node
      * @return the next node
      */
     private Node getNextNodeInCylce(Node node) {
@@ -1567,7 +1542,6 @@ public class ShowTaxaSetViewer implements IDirectableViewer {
     /**
      * gets the previous node in cyclic order
      *
-     * @param node
      * @return the previous node
      */
     private Node getPreviousNodeInCylce(Node node) {

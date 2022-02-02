@@ -75,16 +75,10 @@ public class MinSpanningNetworkForDistances implements Distances2Network {
         SortedMap<Double, List<Pair<Integer, Integer>>> value2pairs = new TreeMap<>();
         for (int s = 1; s <= taxa.getNtax(); s++) {
             for (int t = s + 1; t <= taxa.getNtax(); t++) {
-                Double value = distances.get(s, t);
-                List<Pair<Integer, Integer>> pairs = value2pairs.get(value);
-                if (pairs == null) {
-                    {
-                        pairs = new LinkedList<>();
-                        value2pairs.put(value, pairs);
-                    }
-                }
-                pairs.add(new Pair<>(s, t));
-            }
+				Double value = distances.get(s, t);
+				List<Pair<Integer, Integer>> pairs = value2pairs.computeIfAbsent(value, k -> new LinkedList<>());
+				pairs.add(new Pair<>(s, t));
+			}
         }
 
         double maxValue = Double.MAX_VALUE;

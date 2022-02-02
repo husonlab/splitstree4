@@ -207,9 +207,9 @@ public class ProteinMLdist extends SequenceBasedDistance implements Characters2D
 
     public Distances computeDist(Characters characters) {
         try {
-            return computeDist(null, characters);
-        } catch (CanceledException | SplitsException e) {
-        }
+			return computeDist(null, characters);
+		} catch (CanceledException | SplitsException ignored) {
+		}
         return null;
     }
 

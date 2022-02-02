@@ -42,7 +42,7 @@ public class PhylipDistances extends ExporterAdapter implements Exporter {
     public PhylipDistances() {
     }
 
-    private String Description = "Exports distances in Phylip format";
+    private final String Description = "Exports distances in Phylip format";
 
     /**
      * can we import this data?
@@ -59,8 +59,7 @@ public class PhylipDistances extends ExporterAdapter implements Exporter {
     /**
      * convert input into phylip format
      *
-     * @return
-     */
+	 */
     public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
         Taxa taxa = doc.getTaxa();
         Distances distances = doc.getDistances();
@@ -110,7 +109,6 @@ public class PhylipDistances extends ExporterAdapter implements Exporter {
     /**
      * gets the phylip label used for the named taxon
      *
-     * @param t
      * @return phylip label
      */
     public String taxonId2phylipLabel(int t) {
@@ -121,11 +119,10 @@ public class PhylipDistances extends ExporterAdapter implements Exporter {
     /**
      * gets the taxon that corresponds to the given phylip name
      *
-     * @param label
      * @return original label
      */
     public String phylipLabel2taxonId(String label) {
-        return (String) phylip2taxon.get(label);
+		return phylip2taxon.get(label);
 
     }
 

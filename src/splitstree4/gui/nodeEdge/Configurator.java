@@ -46,26 +46,25 @@ import java.util.Objects;
 
 public class Configurator implements IDirectableViewer {
 
-    private boolean uptodate = false;
-    private Director dir;
-    private MainViewer viewer;
-    private ConfiguratorActions actions;
-    private ConfiguratorMenuBar menuBar;
-    private JFrame frame;
-    static Cursor waitCursor = new Cursor(Cursor.WAIT_CURSOR);
-    private JTabbedPane tabbedPane;
+	private boolean uptodate = false;
+	private final Director dir;
+	private final MainViewer viewer;
+	private final ConfiguratorActions actions;
+	private final ConfiguratorMenuBar menuBar;
+	private final JFrame frame;
+	static Cursor waitCursor = new Cursor(Cursor.WAIT_CURSOR);
+	private JTabbedPane tabbedPane;
 
 
-    private JComboBox nodeSize, nodeFont, nodeFontSize, nodeShape, edgeWidth, edgeFont, edgeFontSize, nodeLabels;
-    private JCheckBox nodeBold, nodeItalic, edgeBold, edgeItalic, edgeWeights, edgeIDs, edgeConfidence, edgeInterval;
-    private JColorChooser nodeColor, edgeColor;
+	private JComboBox nodeSize, nodeFont, nodeFontSize, nodeShape, edgeWidth, edgeFont, edgeFontSize, nodeLabels;
+	private JCheckBox nodeBold, nodeItalic, edgeBold, edgeItalic, edgeWeights, edgeIDs, edgeConfidence, edgeInterval;
+	private JColorChooser nodeColor, edgeColor;
 
 
-    /**
+	/**
      * sets up the window
      *
-     * @param dir
-     */
+	 */
     public Configurator(final Director dir, MainViewer viewer0) {
         this.viewer = viewer0;
         this.dir = dir;
@@ -244,10 +243,7 @@ public class Configurator implements IDirectableViewer {
                     nodeFont.setSelectedIndex(-1);
                 else
                     nodeFont.setSelectedItem(fName);
-                if (nShape == -1)
-                    nodeShape.setSelectedIndex(-1);
-                else
-                    nodeShape.setSelectedIndex(nShape);
+				nodeShape.setSelectedIndex(nShape);
             } else {
                 nodeSize.setSelectedIndex(-1);
                 nodeFontSize.setSelectedIndex(-1);
@@ -362,8 +358,7 @@ public class Configurator implements IDirectableViewer {
     /**
      * set uptodate state
      *
-     * @param flag
-     */
+	 */
     public void setUptoDate(boolean flag) {
         uptodate = flag;
     }

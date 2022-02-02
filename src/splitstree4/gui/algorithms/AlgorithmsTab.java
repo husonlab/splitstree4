@@ -47,24 +47,24 @@ import java.util.StringTokenizer;
  * Date: 05-Dec-2003
  */
 public class AlgorithmsTab extends JPanel {
-    static String OPT_SETTER = "OSET";
-    static String OPT_GETTER = "OGET";
-    static String OPT_SELECTION = "OSEL";
-    static String OPT_COMBOBOX = "OCBOX";
-    static String TEXT_FIELD = "TFIELD";
-    static String CHECK_BOX = "CBOX";
-    static String TABLE = "TABLE";
-    static String FILE_CHOOSER = "CHOOSE";
+	static final String OPT_SETTER = "OSET";
+	static final String OPT_GETTER = "OGET";
+	static final String OPT_SELECTION = "OSEL";
+	static final String OPT_COMBOBOX = "OCBOX";
+	static final String TEXT_FIELD = "TFIELD";
+	static final String CHECK_BOX = "CBOX";
+	static final String TABLE = "TABLE";
+	static final String FILE_CHOOSER = "CHOOSE";
 
-    JLabel cBoxLabel = new JLabel();
-    JComboBox cBox;
-    JButton applyButton;
-    JLabel dataSummaryLabel = new JLabel();
-    final JTextArea descriptionLabel = new JTextArea();
-    final JPanel optionsBox = new JPanel();
+	final JLabel cBoxLabel = new JLabel();
+	JComboBox cBox;
+	JButton applyButton;
+	final JLabel dataSummaryLabel = new JLabel();
+	final JTextArea descriptionLabel = new JTextArea();
+	final JPanel optionsBox = new JPanel();
 
-    JPanel optionsPanel;
-    JCheckBox hideDialog;
+	JPanel optionsPanel;
+	JCheckBox hideDialog;
     GridBagLayout gridBagLayout = new GridBagLayout();
 
     /**
@@ -181,8 +181,7 @@ public class AlgorithmsTab extends JPanel {
     /**
      * get the hide dialog check box
      *
-     * @return
-     */
+	 */
     public JCheckBox getHideDialog() {
         return hideDialog;
     }
@@ -209,21 +208,20 @@ public class AlgorithmsTab extends JPanel {
     /**
      * creates the options panel for the given transform
      *
-     * @param transform
      * @return options panel
      */
     public static JPanel createOptionsPanel(Document doc, Transformation transform, java.util.List actions) {
 
-        try // if this transform can supply its own panel, well use it!
-        {
-            if (transform.getClass().getMethod("getGUIPanel", Document.class) != null) {
-                Method method = transform.getClass().getMethod("getGUIPanel", Document.class);
-                return (JPanel) method.invoke(transform, doc);
-            }
-        } catch (java.lang.NoSuchMethodException ex) {
-        } catch (Exception ex) {
-            Basic.caught(ex);
-        }
+		try // if this transform can supply its own panel, well use it!
+		{
+			if (transform.getClass().getMethod("getGUIPanel", Document.class) != null) {
+				Method method = transform.getClass().getMethod("getGUIPanel", Document.class);
+				return (JPanel) method.invoke(transform, doc);
+			}
+		} catch (java.lang.NoSuchMethodException ignored) {
+		} catch (Exception ex) {
+			Basic.caught(ex);
+		}
 
         JPanel panel = new JPanel();
 
@@ -277,7 +275,7 @@ public class AlgorithmsTab extends JPanel {
                     // System.err.println("has selection: " + optName);
 
                     if (selectionMethod == null) {
-                        final JComponent input = new JTextField(defaultVal.toString(), 20);
+						final JTextField input = new JTextField(defaultVal.toString(), 20);
 
                         AbstractAction action = new AbstractAction() {
                             public void actionPerformed(ActionEvent event) {
@@ -299,8 +297,8 @@ public class AlgorithmsTab extends JPanel {
                         action.putValue(OPT_GETTER, Configurator.getGetterMethod(transform, optName));
                         action.putValue(TEXT_FIELD, input);
 
-                        ((JTextField) input).addActionListener(action);
-                        input.setMinimumSize(new Dimension(200, 25));
+						input.addActionListener(action);
+						input.setMinimumSize(new Dimension(200, 25));
                         input.setToolTipText("String");
 
                         panel.add(input, constraints);
@@ -337,7 +335,7 @@ public class AlgorithmsTab extends JPanel {
                     }
                     break;
                 case "char": {
-                    final JComponent input = new JTextField(defaultVal.toString(), 20);
+					final JTextField input = new JTextField(defaultVal.toString(), 20);
 
                     AbstractAction action = new AbstractAction() {
                         public void actionPerformed(ActionEvent event) {
@@ -348,8 +346,8 @@ public class AlgorithmsTab extends JPanel {
                             try {
                                 String str = ((JTextField) getValue(TEXT_FIELD)).getText();
                                 Object[] params = new Object[1];
-                                params[0] = (char) (str.length() == 0 ? ' ' : str.charAt(0));
-                                method.invoke(transform, params);
+								params[0] = str.length() == 0 ? ' ' : str.charAt(0);
+								method.invoke(transform, params);
                             } catch (Exception ex) {
                                 System.err.println("Method invoke failed 3: " + ex);
                             }
@@ -360,8 +358,8 @@ public class AlgorithmsTab extends JPanel {
                     action.putValue(OPT_GETTER, Configurator.getGetterMethod(transform, optName));
                     action.putValue(TEXT_FIELD, input);
 
-                    ((JTextField) input).addActionListener(action);
-                    input.setToolTipText("Character");
+					input.addActionListener(action);
+					input.setToolTipText("Character");
                     input.setMinimumSize(new Dimension(200, 25));
                     panel.add(input, constraints);
                     actions.add(action);
@@ -369,7 +367,7 @@ public class AlgorithmsTab extends JPanel {
                     break;
                 }
                 case "boolean": {
-                    JComponent input = new JCheckBox();
+					JCheckBox input = new JCheckBox();
 
                     AbstractAction action = new AbstractAction() {
                         public void actionPerformed(ActionEvent event) {
@@ -378,28 +376,28 @@ public class AlgorithmsTab extends JPanel {
                             Method method = (Method) getValue(OPT_SETTER);
                             try {
                                 Object[] params = new Object[1];
-                                params[0] = (boolean) (((JCheckBox) getValue(CHECK_BOX)).isSelected());
-                                method.invoke(transform, params);
-                            } catch (Exception ex) {
-                                System.err.println("Method invoke failed 4: " + ex);
-                            }
-                        }
-                    };
-                    action.putValue(DirectorActions.TRANSFORM, transform);
-                    action.putValue(OPT_SETTER, Configurator.getSetterMethod(transform, optName));
-                    action.putValue(OPT_GETTER, Configurator.getGetterMethod(transform, optName));
-                    action.putValue(CHECK_BOX, input);
+								params[0] = ((JCheckBox) getValue(CHECK_BOX)).isSelected();
+								method.invoke(transform, params);
+							} catch (Exception ex) {
+								System.err.println("Method invoke failed 4: " + ex);
+							}
+						}
+					};
+					action.putValue(DirectorActions.TRANSFORM, transform);
+					action.putValue(OPT_SETTER, Configurator.getSetterMethod(transform, optName));
+					action.putValue(OPT_GETTER, Configurator.getGetterMethod(transform, optName));
+					action.putValue(CHECK_BOX, input);
 
-                    ((JCheckBox) input).addActionListener(action);
-                    ((JCheckBox) input).setSelected(((Boolean) defaultVal).booleanValue());
-                    input.setMinimumSize(new Dimension(200, 25));
-                    panel.add(input, constraints);
-                    actions.add(action);
+					input.addActionListener(action);
+					input.setSelected((Boolean) defaultVal);
+					input.setMinimumSize(new Dimension(200, 25));
+					panel.add(input, constraints);
+					actions.add(action);
 
-                    break;
-                }
+					break;
+				}
                 case "int": {
-                    JComponent input = new JTextField(defaultVal.toString(), 8);
+					JTextField input = new JTextField(defaultVal.toString(), 8);
 
                     AbstractAction action = new AbstractAction() {
                         public void actionPerformed(ActionEvent event) {
@@ -421,8 +419,8 @@ public class AlgorithmsTab extends JPanel {
                     action.putValue(OPT_GETTER, Configurator.getGetterMethod(transform, optName));
                     action.putValue(TEXT_FIELD, input);
 
-                    ((JTextField) input).addActionListener(action);
-                    input.setMinimumSize(new Dimension(200, 25));
+					input.addActionListener(action);
+					input.setMinimumSize(new Dimension(200, 25));
                     input.setToolTipText("Integer");
                     panel.add(input, constraints);
                     actions.add(action);
@@ -430,7 +428,7 @@ public class AlgorithmsTab extends JPanel {
                     break;
                 }
                 case "double": {
-                    JComponent input = new JTextField(defaultVal.toString(), 12);
+					JTextField input = new JTextField(defaultVal.toString(), 12);
 
                     AbstractAction action = new AbstractAction() {
                         public void actionPerformed(ActionEvent event) {
@@ -458,8 +456,8 @@ public class AlgorithmsTab extends JPanel {
                     action.putValue(OPT_GETTER, Configurator.getGetterMethod(transform, optName));
                     action.putValue(TEXT_FIELD, input);
 
-                    ((JTextField) input).addActionListener(action);
-                    input.setMinimumSize(new Dimension(200, 25));
+					input.addActionListener(action);
+					input.setMinimumSize(new Dimension(200, 25));
                     input.setToolTipText("Double");
                     panel.add(input, constraints);
                     actions.add(action);
@@ -605,8 +603,7 @@ public class AlgorithmsTab extends JPanel {
      * syncronizes the transform to the GUI
      *
      * @param doc  the document
-     * @param list
-     */
+	 */
     public static void syncronizeTransform2Tab(Document doc, List list) {
         if (list != null) {
             for (Object aList : list) {
@@ -670,23 +667,23 @@ public class AlgorithmsTab extends JPanel {
     }
 
 
-    /**
-     * @author miguel
-     * <p/>
-     * An inner class to render a combobox that contains objects.
-     * (One that may contain Separators as well)
-     */
-    class ComboBoxRenderer extends JLabel implements ListCellRenderer {
-        final String SEPARATOR = "SEPARATOR";
-        JSeparator separator;
+	/**
+	 * @author miguel
+	 * <p/>
+	 * An inner class to render a combobox that contains objects.
+	 * (One that may contain Separators as well)
+	 */
+	static class ComboBoxRenderer extends JLabel implements ListCellRenderer {
+		final String SEPARATOR = "SEPARATOR";
+		final JSeparator separator;
 
-        public ComboBoxRenderer() {
-            setOpaque(true);
-            setBorder(new EmptyBorder(1, 1, 1, 1));
-            separator = new JSeparator(JSeparator.HORIZONTAL);
-        }
+		public ComboBoxRenderer() {
+			setOpaque(true);
+			setBorder(new EmptyBorder(1, 1, 1, 1));
+			separator = new JSeparator(JSeparator.HORIZONTAL);
+		}
 
-        public Component getListCellRendererComponent(JList list, // uses this object's colors to set up foreground and background colors and set up the font.
+		public Component getListCellRendererComponent(JList list, // uses this object's colors to set up foreground and background colors and set up the font.
                                                       Object value, // the object to render.
                                                       int index, // the index of the object to render.
                                                       boolean isSelected, // determine which colors to use.
@@ -717,22 +714,22 @@ public class AlgorithmsTab extends JPanel {
         }
     }
 
-    /**
-     * @author miguel
-     * <p/>
-     * An inner class to listen to actions performed in a ComboBox with Separators
-     */
-    class BlockComboListener implements ActionListener {
-        final String SEPARATOR = "SEPARATOR";
-        JComboBox combo;
-        Object currentItem;
-        int currentIndex;
+	/**
+	 * @author miguel
+	 * <p/>
+	 * An inner class to listen to actions performed in a ComboBox with Separators
+	 */
+	static class BlockComboListener implements ActionListener {
+		final String SEPARATOR = "SEPARATOR";
+		final JComboBox combo;
+		Object currentItem;
+		int currentIndex;
 
-        BlockComboListener(JComboBox combo) {
-            this.combo = combo;
-            combo.setSelectedIndex(-1); //No selected item
-            currentItem = combo.getSelectedItem();
-            currentIndex = combo.getSelectedIndex();
+		BlockComboListener(JComboBox combo) {
+			this.combo = combo;
+			combo.setSelectedIndex(-1); //No selected item
+			currentItem = combo.getSelectedItem();
+			currentIndex = combo.getSelectedIndex();
         }
 
         public void actionPerformed(ActionEvent e) {

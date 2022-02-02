@@ -41,21 +41,21 @@ package splitstree4.core;
  */
 
 public class Quartet {
-    private int a1, a2, b1, b2;
-    private int sortedA1;
-    private int sortedA2;
-    private int sortedB1;
-    private int sortedB2;
-    private double weight = 1;
-    private String label;
-    private int hashCode;
-    private Object content;
+	private int a1, a2, b1, b2;
+	private final int sortedA1;
+	private final int sortedA2;
+	private final int sortedB1;
+	private final int sortedB2;
+	private double weight = 1;
+	private String label;
+	private final int hashCode;
+	private Object content;
 
-    /**
-     * Constructs a quartet a1 a2 vs b1 b2
-     * whose taxa are immutable.
-     * weight and label are mutable.
-     *
+	/**
+	 * Constructs a quartet a1 a2 vs b1 b2
+	 * whose taxa are immutable.
+	 * weight and label are mutable.
+	 *
      * @param a1  first left taxon
      * @param a2  second left taxon
      * @param b1  first right taxon
@@ -150,9 +150,7 @@ public class Quartet {
     /**
      * two quartets are equal if they display the same edge
      *
-     * @param obj
-     * @return
-     */
+	 */
     public boolean equals(Object obj) {
         if (!this.getClass().isAssignableFrom(obj.getClass()))
             return false;
@@ -181,8 +179,7 @@ public class Quartet {
     /**
      * Sets the weight
      *
-     * @param wgt
-     */
+	 */
     public void setWeight(double wgt) {
         this.weight = wgt;
     }
@@ -210,10 +207,7 @@ public class Quartet {
      * 2) on different sides of this quartet's edge
      * ?
      *
-     * @param x
-     * @param y
-     * @return
-     */
+	 */
     public boolean isXYonDifferentSides(int x, int y) {
         return (
                 (getA1() == x || getA2() == x) &&
@@ -231,10 +225,7 @@ public class Quartet {
      * 2) on the same side of this quartet's edge
      * ?
      *
-     * @param x
-     * @param y
-     * @return
-     */
+	 */
     public boolean isXYonSameSides(int x, int y) {
         return (
                 (getA1() == x && getA2() == y) ||

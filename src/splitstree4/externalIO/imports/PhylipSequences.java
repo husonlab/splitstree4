@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * imports sequences in phylip format
- * @version $Id: PhylipSequences.java,v 1.19 2008-03-14 14:05:22 bryant Exp $
- * @author huson
- * Date: Oct 5, 2003
- */
 package splitstree4.externalIO.imports;
 
 import splitstree4.nexus.Characters;
@@ -93,7 +87,6 @@ public abstract class PhylipSequences extends FileFilter implements Importer {
     /**
      * does this importer apply to the type of nexus block
      *
-     * @param blockName
      * @return true, if can handle this import
      */
     public boolean isApplicableToBlock(String blockName) {
@@ -127,7 +120,6 @@ public abstract class PhylipSequences extends FileFilter implements Importer {
     /**
      * can we import this data?
      *
-     * @param input
      * @return true, if can handle this import
      */
     public boolean isApplicable(Reader input) throws Exception {
@@ -144,7 +136,6 @@ public abstract class PhylipSequences extends FileFilter implements Importer {
     /**
      * convert input into nexus format
      *
-     * @param input
      * @return nexus string
      */
     public String apply(Reader input) throws Exception {

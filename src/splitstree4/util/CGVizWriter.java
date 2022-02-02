@@ -34,61 +34,56 @@ public class CGVizWriter {
     /**
      * Constructor
      *
-     * @param fileName
-     */
+	 */
     public CGVizWriter(String fileName) {
-        try {
-            w = new FileWriter(fileName);
-        } catch (IOException e) {
-        }
+		try {
+			w = new FileWriter(fileName);
+		} catch (IOException ignored) {
+		}
     }
 
     /**
      * start a block
      *
-     * @param type
-     * @param name
-     * @param dimension
-     */
+	 */
     public void begin(String type, String name, int dimension) {
-        try {
-            w.write("{" + type + " " + name + "\n");
-            w.write("[__GLOBAL__] dimension=" + dimension + ":\n");
-        } catch (IOException e) {
-        }
+		try {
+			w.write("{" + type + " " + name + "\n");
+			w.write("[__GLOBAL__] dimension=" + dimension + ":\n");
+		} catch (IOException ignored) {
+		}
     }
 
     /**
      * add a line to a block
      *
-     * @param line
-     */
+	 */
     public void add(String line) {
-        try {
-            w.write(line + "\n");
-        } catch (IOException e) {
-        }
+		try {
+			w.write(line + "\n");
+		} catch (IOException ignored) {
+		}
     }
 
     /**
      * end a block
      */
     public void end() {
-        try {
-            w.write("}\n");
-        } catch (IOException e) {
-        }
+		try {
+			w.write("}\n");
+		} catch (IOException ignored) {
+		}
     }
 
     /**
      * close the writer
      */
     public void close() {
-        try {
-            w.flush();
-            w.close();
-        } catch (IOException e) {
-        }
+		try {
+			w.flush();
+			w.close();
+		} catch (IOException ignored) {
+		}
         w = null;
     }
 }

@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: Stats.java,v 1.10 2010-05-31 04:27:41 huson Exp $
- */
 package splitstree4.analysis.characters;
 
 
@@ -29,7 +27,7 @@ import splitstree4.util.CharactersUtilities;
  * Basic statistics for characters
  */
 public class NucleotideDiversity implements CharactersAnalysisMethod {
-    public static String DESCRIPTION = "Computes genetic diversity statistics for the characters";
+    public static final String DESCRIPTION = "Computes genetic diversity statistics for the characters";
 
     /**
      * gets a description of the method
@@ -43,7 +41,6 @@ public class NucleotideDiversity implements CharactersAnalysisMethod {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param doc
      * @return true, if method applies to given data
      */
     public boolean isApplicable(Document doc) {
@@ -55,8 +52,7 @@ public class NucleotideDiversity implements CharactersAnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
-     */
+	 */
     public String apply(Document doc) {
 
         //TODO: There could be issues identifying the haplotypes when the Hamming distance
@@ -126,9 +122,9 @@ public class NucleotideDiversity implements CharactersAnalysisMethod {
         pi2 = 2.0 * pi2;
 
         //Implementation of *total variance* formula , eqn (10.9) in (Nei 1987)
-        double mT = CharactersUtilities.meanNotMissing(chars);
-        double n = (double) ntax;
-        double c1 = (n + 1.0) / (3.0 * (n - 1.0)) / mT;
+		double mT = CharactersUtilities.meanNotMissing(chars);
+		double n = ntax;
+		double c1 = (n + 1.0) / (3.0 * (n - 1.0)) / mT;
         double c2 = 2.0 * (n * n + n + 3) / (9.0 * n * (n - 1.0));
 
         String result = "Nucleotide diversity. Eqns (10.5) and (10.9) in (Nei 1987).\n";

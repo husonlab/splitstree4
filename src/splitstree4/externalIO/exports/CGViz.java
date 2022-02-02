@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class CGViz extends ExporterAdapter implements Exporter {
 
-    private String Description = "Exports to CGViz records.";
+    private final String Description = "Exports to CGViz records.";
 
 
     public boolean isApplicable(Document doc, Collection blocks) {
@@ -47,12 +47,7 @@ public class CGViz extends ExporterAdapter implements Exporter {
     /**
      * apply the exporter
      *
-     * @param w
-     * @param doc
-     * @param blockNames
-     * @return
-     * @throws Exception
-     */
+	 */
     public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
 
         for (Object block1 : blockNames) {

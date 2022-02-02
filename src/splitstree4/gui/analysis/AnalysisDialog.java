@@ -48,30 +48,30 @@ public class AnalysisDialog extends JDialog {
 
         methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.bootstrap", BootstrapAnalysisMethod.class));
         methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.characters", CharactersAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.distances", DistancesAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.network", NetworkAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.quartets", QuartetsAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.splits", SplitsAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.trees", TreesAnalysisMethod.class));
-        methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.unaligned", UnalignedAnalysisMethod.class));
-        jList.setModel(new MyListModel(methods));
+		methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.distances", DistancesAnalysisMethod.class));
+		methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.network", NetworkAnalysisMethod.class));
+		methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.quartets", QuartetsAnalysisMethod.class));
+		methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.splits", SplitsAnalysisMethod.class));
+		methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.trees", TreesAnalysisMethod.class));
+		methods.addAll(PluginClassLoader.getInstancesSorted("splitstree4.analysis.unaligned", UnalignedAnalysisMethod.class));
+		jList.setModel(new MyListModel(methods));
 
-    }
+	}
 
-    class MyListElement {
-        AnalysisMethod method;
-        String name;
-        String description;
+	static class MyListElement {
+		final AnalysisMethod method;
+		final String name;
+		final String description;
 
-        public MyListElement(AnalysisMethod method) {
-            this.method = method;
-            this.name = Basic.getShortName(method.getClass());
-            this.description = method.getDescription();
-        }
+		public MyListElement(AnalysisMethod method) {
+			this.method = method;
+			this.name = Basic.getShortName(method.getClass());
+			this.description = method.getDescription();
+		}
 
-        public String toString() {
-            return name;
-        }
+		public String toString() {
+			return name;
+		}
     }
 
     class MyListModel extends DefaultListModel {
@@ -80,8 +80,7 @@ public class AnalysisDialog extends JDialog {
         /**
          * constructor
          *
-         * @param methods
-         */
+		 */
         public MyListModel(Collection<AnalysisMethod> methods) {
             listElements = new MyListElement[methods.size()];
             int count = 0;

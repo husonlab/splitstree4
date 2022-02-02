@@ -37,7 +37,6 @@ public class BlockChooser {
      * statement in the assumptions blocks, presents choice of data block to user
      * and then deletes all other input blocks
      *
-     * @param doc
      * @return false, if user canceled
      */
     public static boolean show(Component parent, Document doc) {

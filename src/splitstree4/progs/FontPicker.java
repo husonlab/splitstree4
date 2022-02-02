@@ -35,7 +35,7 @@ public class FontPicker extends JFrame {
         final JButton go = new JButton("Show FontChooser");
         go.addActionListener(new ActionListener() {
             final FontChooser chooser = new FontChooser(FontPicker.this, true);
-            boolean first = true;
+			final boolean first = true;
 
             public void actionPerformed(ActionEvent e) {
                 chooser.setVisible(true);
@@ -50,8 +50,8 @@ public class FontPicker extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public static void main(String args[]) {
-        FontPicker fp = new FontPicker();
-        fp.setVisible(true);
-    }
+	public static void main(String[] args) {
+		FontPicker fp = new FontPicker();
+		fp.setVisible(true);
+	}
 }

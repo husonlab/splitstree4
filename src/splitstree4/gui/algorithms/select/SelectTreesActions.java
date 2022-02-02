@@ -46,18 +46,18 @@ import java.util.*;
  * Date: 19-Dec-2003
  */
 public class SelectTreesActions implements UpdateableActions {
-    private Director dir;
-    private List all = new LinkedList();
-    public static final String JLIST = "JLIST";
+	private final Director dir;
+	private final List all = new LinkedList();
+	public static final String JLIST = "JLIST";
 
-    public SelectTreesActions(Director dir) {
-        this.dir = dir;
-    }
+	public SelectTreesActions(Director dir) {
+		this.dir = dir;
+	}
 
-    /**
-     * enable or disable critical actions
-     *
-     * @param flag show or hide?
+	/**
+	 * enable or disable critical actions
+	 *
+	 * @param flag show or hide?
      */
     public void setEnableCritical(boolean flag) {
         DirectorActions.setEnableCritical(all, flag);
@@ -231,12 +231,7 @@ public class SelectTreesActions implements UpdateableActions {
     /**
      * maps a given split of tmpTaxa to a split aSet,aComp of taxa
      *
-     * @param split
-     * @param tmpTaxa
-     * @param taxa
-     * @param aSet
-     * @param aComp
-     */
+	 */
     private void mapTaxa(TaxaSet split, Taxa tmpTaxa, Taxa taxa, TaxaSet aSet, TaxaSet aComp) {
         for (int t = 1; t <= tmpTaxa.getNtax(); t++) {
             String label = tmpTaxa.getLabel(t);

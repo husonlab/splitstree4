@@ -30,13 +30,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-/**
- * Created by IntelliJ IDEA.
- * User: bryant
- * Date: Jun 10, 2005
- * Time: 4:50:37 PM
- * To change this template use File | Settings | File Templates.
- */
 /* Controls in the BaseFrequency Panel */
 
 /**
@@ -44,27 +37,27 @@ import java.awt.event.FocusListener;
  */
 public class BaseFrequencyPanel extends JPanel implements ActionListener, FocusListener {
 
-    static String[] buttonNames = {"Equal frequencies", "Empirical frequencies", "User defined"};
-    static String[] buttonCommands = {"equal", "empirical", "user", "norm", "update", "freqs"};
-    static String[] freqLabels = {"A", "C", "G", "T/U"};
+	static final String[] buttonNames = {"Equal frequencies", "Empirical frequencies", "User defined"};
+	static final String[] buttonCommands = {"equal", "empirical", "user", "norm", "update", "freqs"};
+	static final String[] freqLabels = {"A", "C", "G", "T/U"};
 
-    double[] charBaseFreqs;
+	double[] charBaseFreqs;
 
 
-    private JTextField[] freqFields;
-    private JRadioButton[] baseButtons;
-    Characters characters;
-    DNAdistance distTransform;
+	private final JTextField[] freqFields;
+	private final JRadioButton[] baseButtons;
+	final Characters characters;
+	final DNAdistance distTransform;
 
-    public BaseFrequencyPanel(Characters characters, DNAdistance distTransform) {
-        super();
+	public BaseFrequencyPanel(Characters characters, DNAdistance distTransform) {
+		super();
 
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-        this.setBorder(BorderFactory.createTitledBorder("Base Frequencies"));
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints constraints = new GridBagConstraints();
+		this.setBorder(BorderFactory.createTitledBorder("Base Frequencies"));
 
-        this.characters = characters;
-        this.distTransform = distTransform;
+		this.characters = characters;
+		this.distTransform = distTransform;
         /* We keep our own copy of the character base frequencies until the appropriate
         changes are made in the Characters block*/
         charBaseFreqs = CharactersUtilities.computeFreqs(characters, false);
@@ -105,14 +98,11 @@ public class BaseFrequencyPanel extends JPanel implements ActionListener, FocusL
 
         double[] baseFreq = distTransform.getOptionBaseFreq();
         for (int i = 0; i < 4; i++) {
-            freqFields[i] = new JTextField((new Float(baseFreq[i]).toString()));
-            freqFields[i].setColumns(5);
-            freqFields[i].setMinimumSize(freqFields[i].getPreferredSize());
-            if (distTransform.getWhichBaseFreq() == DNAdistance.FROMUSER)
-                freqFields[i].setEditable(true);
-            else
-                freqFields[i].setEditable(false);
-            freqFields[i].setActionCommand(buttonCommands[5]);
+			freqFields[i] = new JTextField((Float.toString((float) baseFreq[i])));
+			freqFields[i].setColumns(5);
+			freqFields[i].setMinimumSize(freqFields[i].getPreferredSize());
+			freqFields[i].setEditable(distTransform.getWhichBaseFreq() == DNAdistance.FROMUSER);
+			freqFields[i].setActionCommand(buttonCommands[5]);
             freqFields[i].addActionListener(this);
             freqFields[i].addFocusListener(this);
             freqGrid.add(freqFields[i]);

@@ -30,7 +30,6 @@ public class Hadamard {
     /**
      * Computes y=Hx
      *
-     * @param x
      * @return Hx
      */
     static public float[] compute(float[] x) {
@@ -79,7 +78,6 @@ public class Hadamard {
     /**
      * Computes the inverse hadamard: y=H_inv x using the formula y= 1/#rows H x
      *
-     * @param x
      * @return 1/#rows H x
      */
     static public float[] computeInverse(float[] x) {

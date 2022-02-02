@@ -33,7 +33,7 @@ import splitstree4.nexus.Taxa;
  * computes the parsimony splits networks (Bandelt and Dress 1992)
  */
 public class ParsimonySplits implements Characters2Splits {
-    public static String DESCRIPTION = "Computes the Parsimony Splits network (Bandelt and Dress 1992)";
+    public static final String DESCRIPTION = "Computes the Parsimony Splits network (Bandelt and Dress 1992)";
 
     /**
      * Determine whether given method can be applied to given data.
@@ -129,12 +129,7 @@ public class ParsimonySplits implements Characters2Splits {
     /**
      * Computes the p-index of a split:
      *
-     * @param gapmissingmode
-     * @param t
-     * @param A
-     * @param characters
-     * @return
-     */
+	 */
     private int pIndex(boolean gapmissingmode, int t, TaxaSet A, Characters characters) {
         int value = Integer.MAX_VALUE;
         int a1, a2, b1, b2;
@@ -165,14 +160,7 @@ public class ParsimonySplits implements Characters2Splits {
     /**
      * Computes the parsimony-score for the four given taxa:
      *
-     * @param gapmissingmode
-     * @param a1
-     * @param a2
-     * @param b1
-     * @param b2
-     * @param characters
-     * @return
-     */
+	 */
     private int pScore(boolean gapmissingmode, int a1, int a2, int b1, int b2, Characters characters) {
         int a1a2_b1b2 = 0, a1b1_a2b2 = 0, a1b2_a2b1 = 0, c;
         char missingchar = characters.getFormat().getMissing();

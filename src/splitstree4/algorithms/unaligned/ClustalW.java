@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * runs clustalw externally
- * @version $Id: ClustalW.java,v 1.19 2007-09-11 12:31:03 kloepper Exp $
- * @author Daniel Huson and David Bryant
- * 7.03
- */
 package splitstree4.algorithms.unaligned;
 
 import jloda.util.ProgramProperties;
@@ -54,7 +48,7 @@ public class ClustalW implements Unaligned2Characters {
 
     private String optionOptionalParameter = "";
 
-    private String optionPathToCommand = "clustalWPath";
+    private final String optionPathToCommand = "clustalWPath";
 
     public final static String DESCRIPTION = "Externally runs ClustalW";
 
@@ -116,12 +110,12 @@ public class ClustalW implements Unaligned2Characters {
             Process p = Runtime.getRuntime().exec(shellCmd);
             //BufferedReader err = new BufferedReader(new InputStreamReader(p.getErrorStream()));
             BufferedReader out = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            try {
-                String tmp;
-                while ((tmp = out.readLine()) != null) System.err.println("out: " + tmp);
-                p.waitFor();
-            } catch (InterruptedException e) {
-            }
+			try {
+				String tmp;
+				while ((tmp = out.readLine()) != null) System.err.println("out: " + tmp);
+				p.waitFor();
+			} catch (InterruptedException ignored) {
+			}
 
 
         } catch (Exception e) {
@@ -188,7 +182,6 @@ public class ClustalW implements Unaligned2Characters {
     /**
      * sets the gap opening penalty
      *
-     * @param optionGapOpen
      */
     public void setOptionGapOpen(int optionGapOpen) {
         this.optionGapOpen = optionGapOpen;
@@ -206,7 +199,6 @@ public class ClustalW implements Unaligned2Characters {
     /**
      * sets the gap extension penalty
      *
-     * @param optionGapExtension
      */
     public void setOptionGapExtension(double optionGapExtension) {
         this.optionGapExtension = optionGapExtension;
@@ -224,7 +216,6 @@ public class ClustalW implements Unaligned2Characters {
     /**
      * sets the protein weight matrix to use
      *
-     * @param optionWeightMatrix
      */
     public void setOptionWeightMatrix(String optionWeightMatrix) {
         this.optionWeightMatrix = optionWeightMatrix;

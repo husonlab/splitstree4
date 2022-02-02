@@ -67,7 +67,7 @@ public class Assumptions extends NexusBlock {
 
     public final static String USE_ALL = "all"; // use all taxa or characters
 
-    private SplitsPostProcess splitsPostProcess;
+    private final SplitsPostProcess splitsPostProcess;
     private boolean uptodate;
 
     private String unalignTransform;
@@ -177,7 +177,6 @@ public class Assumptions extends NexusBlock {
     /**
      * data is update-to-date and next call to update will be ignored
      *
-     * @param uptodate
      */
     public void setUptodate(boolean uptodate) {
         this.uptodate = uptodate;
@@ -349,7 +348,6 @@ public class Assumptions extends NexusBlock {
     /**
      * sets the trees transform paramters
      *
-     * @param param
      */
     public void setTreesTransformParam(String param) {
         this.treesTransformParam = param;
@@ -367,7 +365,6 @@ public class Assumptions extends NexusBlock {
     /**
      * Sets the trees transform name
      *
-     * @param name
      */
     public void setTreesTransformName(String name) {
         this.treesTransform = name;
@@ -632,7 +629,6 @@ public class Assumptions extends NexusBlock {
      * sets the list of trees to be excluded.
      * List must contain names of trees
      *
-     * @param extrees
      */
     public void setExTrees(List<String> extrees) {
         this.exTrees = extrees;
@@ -651,7 +647,6 @@ public class Assumptions extends NexusBlock {
      * sets the list of splits to be excluded.
      * List must contain names of splits
      *
-     * @param exSplits
      */
     public void setExSplits(List<Integer> exSplits) {
         this.exSplits = exSplits;
@@ -680,7 +675,6 @@ public class Assumptions extends NexusBlock {
      * are we using a heuristic to stabilize the layout of trees?
      * * Pairwise stabilize=1, snowball stabilize=2
      *
-     * @param layoutStrategy
      */
     public void setLayoutStrategy(int layoutStrategy) {
         this.layoutStrategy = layoutStrategy;
@@ -698,7 +692,6 @@ public class Assumptions extends NexusBlock {
     /**
      * set auto layout of node labels
      *
-     * @param autoLayoutNodeLabels
      */
     public void setAutoLayoutNodeLabels(boolean autoLayoutNodeLabels) {
         this.autoLayoutNodeLabels = autoLayoutNodeLabels;
@@ -863,7 +856,7 @@ public class Assumptions extends NexusBlock {
 
                     if (!np.findIgnoreCase(tokens, "no missing", false, true))
                         excludeMissing = 1.0; //Exclude no sites
-                    excludeMissing = (double) np.findIgnoreCase(tokens, "missing=", (float) excludeMissing);
+                    excludeMissing = np.findIgnoreCase(tokens, "missing=", (float) excludeMissing);
                     if (np.findIgnoreCase(tokens, "missing", true, false))
                         excludeMissing = 0.0; //Exclude all characters with missing data
 
@@ -934,9 +927,6 @@ public class Assumptions extends NexusBlock {
     /**
      * writeInfoFile the assumptions block in full.  Show all assumptions, whether blocks are defined or not
      *
-     * @param w
-     * @param taxa
-     * @throws IOException
      */
     public void write(Writer w, Taxa taxa) throws IOException {
         write(w, null, taxa);
@@ -1100,7 +1090,7 @@ public class Assumptions extends NexusBlock {
             if (excludeCodon3)
                 sw.write(" codon3");
             if (sw.toString().length() > 0)
-                w.write(" exclude " + sw.toString() + ";\n");
+                w.write(" exclude " + sw + ";\n");
         }
         if (reticulateTransform != null && (doc == null || doc.getReticulate() != null)) {
             if (SplitsTreeProperties.ALLOW_RETICULATE) {
@@ -1524,7 +1514,6 @@ public class Assumptions extends NexusBlock {
     /**
      * clone the assumptions block
      *
-     * @param taxa
      * @return a clone
      */
     public Assumptions clone(Taxa taxa) {
@@ -1543,26 +1532,22 @@ public class Assumptions extends NexusBlock {
     /**
      * determines whether this is a currently set transform
      *
-     * @param trans
      * @return true if currently set
      */
     public boolean isSetTransform(Transformation trans) {
         // TODO: check that transform is also of the correct type
         String tName = Basic.getShortName(trans.getClass());
-        if (unalignTransform != null && unalignTransform.equals(tName)
-                || charTransform != null && charTransform.equals(tName)
-                || distTransform != null && distTransform.equals(tName)
-                || quartetsTransform != null && quartetsTransform.equals(tName)
-                || splitsTransform != null && splitsTransform.equals(tName)
-                || treesTransform != null && treesTransform.equals(tName)
-                || splitsTransform != null && splitsTransform.equals(tName)
-                || reticulateTransform != null && reticulateTransform.equals(tName))
-            return true;
-        else
-            return false;
+        return unalignTransform != null && unalignTransform.equals(tName)
+               || charTransform != null && charTransform.equals(tName)
+               || distTransform != null && distTransform.equals(tName)
+               || quartetsTransform != null && quartetsTransform.equals(tName)
+               || splitsTransform != null && splitsTransform.equals(tName)
+               || treesTransform != null && treesTransform.equals(tName)
+               || splitsTransform != null && splitsTransform.equals(tName)
+               || reticulateTransform != null && reticulateTransform.equals(tName);
     }
 
-    public class SplitsPostProcess {
+    public static class SplitsPostProcess {
         boolean leastSquares;
         String filter;
         int dimensionValue;

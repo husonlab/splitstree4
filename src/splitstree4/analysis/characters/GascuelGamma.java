@@ -49,7 +49,7 @@ import java.util.Map;
  */
 public class GascuelGamma implements CharactersAnalysisMethod {
 
-    public static String DESCRIPTION = "Estimates alpha parameter for gamma distribution (Guindon & Gascual 2002)";
+    public static final String DESCRIPTION = "Estimates alpha parameter for gamma distribution (Guindon & Gascual 2002)";
 
     /**
      * gets a description of the method
@@ -65,10 +65,7 @@ public class GascuelGamma implements CharactersAnalysisMethod {
      * those taxa on the same side of the edge as the target vertex. This is stored
      * in edgeSplits.
      *
-     * @param T
-     * @param taxa
-     * @param edgeSplits
-     */
+	 */
     static private void getEdgeSplits(PhyloTree T, Taxa taxa, Map edgeSplits) {
         Trees trees = new Trees("", T, taxa);
         if (T.getNumberOfEdges() > 0) {
@@ -85,14 +82,9 @@ public class GascuelGamma implements CharactersAnalysisMethod {
     /**
      * Recursive procedure used in getEdgeSplits
      *
-     * @param T
-     * @param edgeSplits
-     * @param trees
-     * @param taxa
      * @param r          root of the subtree
      * @param e          edge connecting subtree to rest of tree.
-     * @return
-     */
+	 */
     static private TaxaSet getEdgeSplitsRec(PhyloTree T, Map edgeSplits, Trees trees, Taxa taxa, Node r, Edge e) {
 
         final TaxaSet set;
@@ -140,12 +132,7 @@ public class GascuelGamma implements CharactersAnalysisMethod {
      * then the Q-score is | d(A,C) + d(B,C) - d(A,D) - d(B,C) |
      * where d(X,Y) is the average distance from taxa in X to taxa in Y
      *
-     * @param T
-     * @param edgeSplits
-     * @param dist
-     * @param e
-     * @return
-     */
+	 */
 
     static private double edgeQ(PhyloTree T, Map edgeSplits, Distances dist, Edge e) {
         Node v = e.getSource();
@@ -288,8 +275,7 @@ public class GascuelGamma implements CharactersAnalysisMethod {
      *
      * @param doc NEXUS document
      * @return true if distances were calculated from sequences
-     * @throws Exception
-     */
+	 */
     public boolean isApplicable(Document doc) {
         return SequenceBasedDistance.class.isInstance(doc.getAssumptions().getCharactersTransform()) && doc.getCharacters() != null;
 
@@ -300,8 +286,7 @@ public class GascuelGamma implements CharactersAnalysisMethod {
      *
      * @param doc NEXUS document
      * @return Estimated shape parameter
-     * @throws Exception
-     */
+	 */
     public String apply(Document doc) {
         double alpha = estimateGamma(doc.getTaxa(), doc.getCharacters(), (SequenceBasedDistance) doc.getAssumptions().getCharactersTransform());
         String result = "Estimated gamma distribution parameter= ";

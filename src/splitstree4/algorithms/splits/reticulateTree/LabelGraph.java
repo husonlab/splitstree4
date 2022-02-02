@@ -39,22 +39,17 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class LabelGraph {
-    private static boolean verbose = false;
+    private static final boolean verbose = false;
 
 
     /**
      * label nodes with sequence information
      *
-     * @param graph
-     * @param taxa
-     * @param chars
-     * @param split2Chars
-     * @throws Exception
      */
     static public void setSequences2NodeInfo(PhyloSplitsGraph graph, Taxa taxa, Characters chars, Map split2Chars) {
         if (chars != null) {
             Node startNode = graph.getTaxon2Node(1);
-            StringBuilder startNodeInfo = new StringBuilder("");
+            StringBuilder startNodeInfo = new StringBuilder();
             for (int i = 1; i <= chars.getNchar(); i++) {
                 if (chars.get(1, i) == '1')
                     startNodeInfo.append('1');
@@ -71,18 +66,13 @@ public class LabelGraph {
     /**
      * recursively do the work
      *
-     * @param graph
-     * @param startNode
-     * @param seenNodes
-     * @param split2Chars
-     * @throws Exception
      */
     private static void recSetSequences2NodeInfo(PhyloSplitsGraph graph, Node startNode, NodeSet seenNodes, Map split2Chars) {
         String startNodeInfo = (String) startNode.getInfo();
         for (Node nextNode : startNode.adjacentNodes()) {
             if (!seenNodes.contains(nextNode)) {
                 seenNodes.add(nextNode);
-                StringBuilder nextNodeInfo = new StringBuilder("");
+                StringBuilder nextNodeInfo = new StringBuilder();
                 BitSet splitsOnEdge = (BitSet) graph.getCommonEdge(startNode, nextNode).getInfo();
                 BitSet toChange = new BitSet();
                 for (int i = splitsOnEdge.nextSetBit(1); i != -1; i = splitsOnEdge.nextSetBit(i + 1))
@@ -108,7 +98,7 @@ public class LabelGraph {
     static public void setSequence2NewNodeInfo(PhyloSplitsGraph graph, Node newNode, String startNodeInfo, String stopNodeInfo, LinkedList cTaxaInfos) {
         if (verbose) System.out.println("startInfo: " + startNodeInfo + "\tstopInfo: " + stopNodeInfo);
         if (startNodeInfo != null && stopNodeInfo != null) {
-            StringBuilder newNodeInfo = new StringBuilder("");
+            StringBuilder newNodeInfo = new StringBuilder();
             for (int i = 0; i < startNodeInfo.length(); i++) {
                 if (startNodeInfo.charAt(i) == stopNodeInfo.charAt(i)) newNodeInfo.append(startNodeInfo.charAt(i));
                 else {
@@ -141,24 +131,17 @@ public class LabelGraph {
     }
 
     public static void cleanNodes(PhyloGraphView graphView, PhyloSplitsGraph graph) {
-        Iterator it = graph.nodes().iterator();
-        while (it.hasNext()) {
-            Node n = (Node) it.next();
+        for (Node n : graph.nodes()) {
             //n.setInfo(null);
             if (n.getDegree() != 1) graphView.setLabel(n, "");
         }
     }
 
     /**
-     * @param graph
-     * @param graphView
-     * @throws Exception
      */
 
     static public void writeLabels2Nodes(PhyloGraphView graphView, PhyloSplitsGraph graph) {
-        Iterator it = graph.nodes().iterator();
-        while (it.hasNext()) {
-            Node n = (Node) it.next();
+        for (Node n : graph.nodes()) {
             String label = (String) n.getInfo();
             if (label != null) {
                 label = label.replaceAll("2", "[01]");
@@ -175,16 +158,12 @@ public class LabelGraph {
 
 
     /**
-     * @param graph
-     * @param splits2Chars
-     * @throws Exception
      */
     static public void writeSplits2Edges(PhyloSplitsGraph graph, Map splits2Chars) {
         for (var e : graph.edges()) {
-            ;
             BitSet edgeSplits = (BitSet) e.getInfo();
             BitSet charPositions = new BitSet();
-            StringBuilder label = new StringBuilder("");
+            StringBuilder label = new StringBuilder();
             if (e.getInfo() != null) {
                 for (int id = edgeSplits.nextSetBit(1); id != -1; id = edgeSplits.nextSetBit(id + 1)) {
                     if (verbose)
@@ -202,7 +181,7 @@ public class LabelGraph {
                 else label.append(start).append("-").append(stop);
                 if (charPositions.nextSetBit(i + 1) != -1) label.append(", ");
             }
-            if (verbose) System.out.println("Label: " + label.toString());
+            if (verbose) System.out.println("Label: " + label);
             graph.setLabel(e, label.toString());
         }
     }

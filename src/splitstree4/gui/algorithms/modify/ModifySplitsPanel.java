@@ -37,26 +37,25 @@ import java.awt.*;
  * 17.2.2004
  */
 public class ModifySplitsPanel extends JPanel implements IUpdateableView {
-    private Director dir;
-    private ModifySplitsActions actions;
-    private JCheckBox leastSquaresCB;
-    private JRadioButton greedyCompatibleRB;
-    private JRadioButton closestTreeRB;
-    private JRadioButton greedyWeaklyCompatibleRB;
-    private JRadioButton applyWeightThresholdRB;
-    private JRadioButton applyConfidenceThresholdRB;
-    private JRadioButton applyDimensionFilterRB;
-    private JTextField weightThresholdInput;
-    private JTextField confidenceThresholdInput;
-    private JTextField dimensionFilterInput;
+	private final Director dir;
+	private final ModifySplitsActions actions;
+	private JCheckBox leastSquaresCB;
+	private JRadioButton greedyCompatibleRB;
+	private JRadioButton closestTreeRB;
+	private JRadioButton greedyWeaklyCompatibleRB;
+	private JRadioButton applyWeightThresholdRB;
+	private JRadioButton applyConfidenceThresholdRB;
+	private JRadioButton applyDimensionFilterRB;
+	private JTextField weightThresholdInput;
+	private JTextField confidenceThresholdInput;
+	private JTextField dimensionFilterInput;
     private JRadioButton noneRB;
     private JLabel descriptionLabel;
 
     /**
      * sets up the algorithms window
      *
-     * @param dir
-     */
+	 */
     public ModifySplitsPanel(Director dir) {
         this.dir = dir;
         JFrame parent;

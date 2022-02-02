@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: BunemanTree.java,v 1.18 2007-09-11 12:31:07 kloepper Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 package splitstree4.algorithms.distances;
 
 import jloda.util.CanceledException;

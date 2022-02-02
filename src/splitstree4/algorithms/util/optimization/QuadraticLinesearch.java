@@ -23,18 +23,19 @@ package splitstree4.algorithms.util.optimization;
  */
 public class QuadraticLinesearch extends LineSearch {
 
-    private double ls_param1, ls_param2;
-    private double mu;
+	private final double ls_param1;
+	private final double ls_param2;
+	private final double mu;
 
-    public QuadraticLinesearch(double ls_param1, double ls_param2, double mu) {
-        this.ls_param1 = ls_param1;
-        this.ls_param2 = ls_param2;
-        this.mu = mu;
-    }
+	public QuadraticLinesearch(double ls_param1, double ls_param2, double mu) {
+		this.ls_param1 = ls_param1;
+		this.ls_param2 = ls_param2;
+		this.mu = mu;
+	}
 
-    /**
-     * Find the median of three numbers a,b,c.
-     *
+	/**
+	 * Find the median of three numbers a,b,c.
+	 *
      * @param a double
      * @param b double
      * @param c double
@@ -85,22 +86,21 @@ public class QuadraticLinesearch extends LineSearch {
 
         double phi_alpha = f.get_val_and_grad(xnew, phi_p_alpha);     //[phi_alpha,cost_params,phi_p_alpha] = feval(q_fn,x_new,cost_params);
 
-        boolean ls_flag = false;
         int ls_iter = 0;
         int max_iter = 40;
 
         //Line search iteration
-        while (!ls_flag) {
-            ls_iter++;
+		while (true) {
+			ls_iter++;
 
-            //Check sufficient decrease condition
-            double val = f0;
-            if (mu != 0.0) {
-                double normDiffsquared = 0.0;
-                for (int i = 1; i <= n; i++) {
-                    double diff_i = xnew[i] - x[i];
-                    normDiffsquared += diff_i * diff_i;
-                }
+			//Check sufficient decrease condition
+			double val = f0;
+			if (mu != 0.0) {
+				double normDiffsquared = 0.0;
+				for (int i = 1; i <= n; i++) {
+					double diff_i = xnew[i] - x[i];
+					normDiffsquared += diff_i * diff_i;
+				}
                 val -= (mu / alpha) * normDiffsquared;
             }
             if (phi_alpha <= val)
@@ -128,8 +128,6 @@ public class QuadraticLinesearch extends LineSearch {
             if (ls_iter > max_iter) {
                 throw new NumericalException("Linesearch error: max lin search iterations exceeded");
             }
-
         }
-        return phi_alpha;
     }
 }

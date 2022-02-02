@@ -54,8 +54,7 @@ public class Reticulation implements Comparator {
     /**
      * set the backbone
      *
-     * @param backbone
-     */
+	 */
     public void setBackbone(int[] backbone) {
         setBackbone(backbone, backbone.length);
     }
@@ -63,9 +62,7 @@ public class Reticulation implements Comparator {
     /**
      * set the back bone from the prefix of another backbone
      *
-     * @param backbone
-     * @param length
-     */
+	 */
     public void setBackbone(int[] backbone, int length) {
         this.backbone = new int[length];
         System.arraycopy(backbone, 0, this.backbone, 0, length);
@@ -83,8 +80,7 @@ public class Reticulation implements Comparator {
     /**
      * sets the hybrid taxa
      *
-     * @param reticulates
-     */
+	 */
     public void setReticulates(int[] reticulates) {
         this.reticulates = reticulates;
     }
@@ -92,8 +88,7 @@ public class Reticulation implements Comparator {
     /**
      * determins the reticulates as the complement of the backbone
      *
-     * @param ntax
-     */
+	 */
     public void determineReticulates(int ntax) {
         TaxaSet hyb = new TaxaSet();
         for (int ib = 0; ib < backbone.length; ib++)
@@ -110,8 +105,7 @@ public class Reticulation implements Comparator {
      * get first position (NOT taxon id, but rank 0..backbone.length-1) of backbone taxon
      * covered by hybrid
      *
-     * @return
-     */
+	 */
     public int[] getFirstPositionCovered() {
         return firstPositionCovered;
     }
@@ -120,8 +114,7 @@ public class Reticulation implements Comparator {
      * set first position (NOT taxon id, but rank 0..backbone.length-1) of backbone taxon
      * covered by hybrid
      *
-     * @param firstPositionCovered
-     */
+	 */
     public void setFirstPositionCovered(int[] firstPositionCovered) {
         this.firstPositionCovered = firstPositionCovered;
     }
@@ -130,8 +123,7 @@ public class Reticulation implements Comparator {
      * get last position (NOT taxon id, but rank 0..backbone.length-1) of backbone taxon
      * covered by hybrid
      *
-     * @return
-     */
+	 */
     public int[] getLastPositionCovered() {
         return lastPositionCovered;
     }
@@ -140,8 +132,7 @@ public class Reticulation implements Comparator {
      * set last position (NOT taxon id, but rank 0..backbone.length-1) of backbone taxon
      * covered by hybrid
      *
-     * @param lastPositionCovered
-     */
+	 */
     public void setLastPositionCovered(int[] lastPositionCovered) {
         this.lastPositionCovered = lastPositionCovered;
     }
@@ -149,8 +140,7 @@ public class Reticulation implements Comparator {
     /**
      * get list of ids of splits in backbone path
      *
-     * @return
-     */
+	 */
     public int[] getSplitsPath() {
         return splitsPath;
     }
@@ -158,8 +148,7 @@ public class Reticulation implements Comparator {
     /**
      * get  ids of splits in backbone path
      *
-     * @param splitsPath
-     */
+	 */
     public void setSplitsPath(int[] splitsPath) {
         setSplitsPath(splitsPath, splitsPath.length);
     }
@@ -167,9 +156,7 @@ public class Reticulation implements Comparator {
     /**
      * sets the ids of splits in path as prefix of given array
      *
-     * @param pathSplits
-     * @param length
-     */
+	 */
     public void setSplitsPath(int[] pathSplits, int length) {
         this.splitsPath = new int[length];
         System.arraycopy(pathSplits, 0, this.splitsPath, 0, length);
@@ -178,10 +165,7 @@ public class Reticulation implements Comparator {
     /**
      * compares two objects by decreasing length of backbone
      *
-     * @param o1
-     * @param o2
-     * @return
-     */
+	 */
     public int compare(Object o1, Object o2) {
         int[] backbone1 = ((Reticulation) o1).getBackbone();
         int[] backbone2 = ((Reticulation) o2).getBackbone();
@@ -202,8 +186,7 @@ public class Reticulation implements Comparator {
     /**
      * copy the whole case
      *
-     * @param ret
-     */
+	 */
     public void copy(Reticulation ret) {
         backbone = copy(ret.backbone);
         reticulates = copy(ret.reticulates);
@@ -221,8 +204,7 @@ public class Reticulation implements Comparator {
     /**
      * returns the reticate taxa with the leftmost and rightmost covered backbone positions
      *
-     * @return
-     */
+	 */
     public int[] getReticulates3() {
         int[] result = new int[3 * getReticulates().length];
         for (int i = 0, j = 0; i < getReticulates().length; i++, j += 3) {
@@ -236,8 +218,7 @@ public class Reticulation implements Comparator {
     /**
      * returns string representation of this reticulation
      *
-     * @return
-     */
+	 */
     public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append("[Backbone: ");

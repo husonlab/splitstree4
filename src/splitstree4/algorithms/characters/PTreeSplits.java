@@ -30,7 +30,7 @@ import splitstree4.nexus.Taxa;
 
 
 public class PTreeSplits implements Characters2Splits {
-    public static String DESCRIPTION = "Computes the Parsimony Splits tree (Bandelt and Dress 1992)";
+    public static final String DESCRIPTION = "Computes the Parsimony Splits tree (Bandelt and Dress 1992)";
 
     /**
      * gets a short description of the algorithm

@@ -51,8 +51,8 @@ public class SpectralSplits implements Characters2Splits {
     double optionWeight_ACvsGT = 1;
 
     final static int STANDARD_FUNCTION = 0;
-    boolean verbose = false;
-    boolean log_neg_arg_warned = false;
+	final boolean verbose = false;
+	boolean log_neg_arg_warned = false;
 
     public final static String DESCRIPTION = "Computes splits using spectral analysis (Hendy and Penny 1993)";
 
@@ -118,9 +118,6 @@ public class SpectralSplits implements Characters2Splits {
     /**
      * this does the work
      *
-     * @param doc
-     * @param taxa
-     * @param chars
      * @return three spectra
      */
     float[][] computeKimuraSpectra(Document doc, Taxa taxa, Characters chars) throws CanceledException {
@@ -169,10 +166,6 @@ public class SpectralSplits implements Characters2Splits {
     /**
      * Given a spectrum, applies the named function to all the entries.
      *
-     * @param src
-     * @param tar
-     * @param para
-     * @param whichFunction
      */
     void applyFunction(float[] src, float[] tar, double para, int whichFunction) {
         for (int i = 0; i < src.length; i++) {
@@ -188,9 +181,6 @@ public class SpectralSplits implements Characters2Splits {
     /**
      * Standard invertible conversion from the r vector to the rho vector
      *
-     * @param i
-     * @param para
-     * @param src
      * @return rho
      */
     float standardFunction(int i, double para, float[] src) {
@@ -211,9 +201,6 @@ public class SpectralSplits implements Characters2Splits {
      * Assumes that the three given s_vector pointers are zero and allocates space
      * appropriately:
      *
-     * @param taxa
-     * @param chars
-     * @param s_vec
      * @return sum
      */
     double computeSVectors(Taxa taxa, Characters chars, float[][] s_vec) {
@@ -222,18 +209,18 @@ public class SpectralSplits implements Characters2Splits {
         BitSet accept = new BitSet();
         String acgtuACGTU = "acgtuACGTU";
         for (int i = 0; i < acgtuACGTU.length(); i++)
-            accept.set((int) acgtuACGTU.charAt(i));
+			accept.set(acgtuACGTU.charAt(i));
 
         // Set characters for Kimura alpha and beta comparision:
         BitSet A1 = new BitSet();
         String gGcC = "gGcC";
         for (int i = 0; i < gGcC.length(); i++)
-            A1.set((int) gGcC.charAt(i));
+			A1.set(gGcC.charAt(i));
 
         BitSet A2 = new BitSet();
         String aAgG = "aAgG";
         for (int i = 0; i < aAgG.length(); i++)
-            A2.set((int) aAgG.charAt(i));
+			A2.set(aAgG.charAt(i));
 
         // Set up taxon indexing of sets in spectrum:
         int[] tax2pos = new int[ntax + 1];
@@ -253,7 +240,7 @@ public class SpectralSplits implements Characters2Splits {
 
                 int pos1 = 0, pos2 = 0, pos3 = 0;
 
-                int ch = (int) chars.get(ntax, c);
+				int ch = chars.get(ntax, c);
                 if (accept.get(ch)) {
                     boolean refer1 = A1.get(ch);
                     boolean refer2 = A2.get(ch);
@@ -261,7 +248,7 @@ public class SpectralSplits implements Characters2Splits {
                     boolean first, second;
                     boolean ok = true;
                     for (t = 1; t < ntax; t++) {
-                        ch = (int) chars.get(t, c);
+						ch = chars.get(t, c);
                         if (!accept.get(ch)) {
                             ok = false;
                             break;
@@ -290,11 +277,7 @@ public class SpectralSplits implements Characters2Splits {
     /**
      * makes the splits using the given weights and threshold
      *
-     * @param doc
-     * @param ntax
-     * @param spectra
      * @return splits
-     * @throws Exception
      */
 
     Splits makeSplits(Document doc, int ntax, float[][] spectra) throws Exception {
@@ -320,8 +303,6 @@ public class SpectralSplits implements Characters2Splits {
     /**
      * converts a number into a split
      *
-     * @param p
-     * @return
      */
     TaxaSet binary2split(int ntax, int p) {
         TaxaSet set = new TaxaSet();

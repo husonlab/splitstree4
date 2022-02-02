@@ -30,19 +30,18 @@ import java.util.Iterator;
  * Daniel Huson and David Bryant
  */
 public class NodeFontCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    NodeArray fonts;
+	final MainViewer viewer;
+	final NodeArray fonts;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param family  null indicates keep own family
-     * @param bold    0 off, 1 on, -1 keep
-     * @param italics 0 off, 1 on, -1 keep
-     * @param size    -1 indicates keep own size
-     */
-    public NodeFontCommand(MainViewer viewer, String family, int bold, int italics, int size) {
+	/**
+	 * constructor
+	 *
+	 * @param family  null indicates keep own family
+	 * @param bold    0 off, 1 on, -1 keep
+	 * @param italics 0 off, 1 on, -1 keep
+	 * @param size    -1 indicates keep own size
+	 */
+	public NodeFontCommand(MainViewer viewer, String family, int bold, int italics, int size) {
         this.viewer = viewer;
 
         // need to store new  fonts now!
@@ -53,17 +52,17 @@ public class NodeFontCommand extends ICommandAdapter implements ICommand {
         if (!iter.hasNext() && viewer.getNumberSelectedEdges() == 0)
             iter = viewer.getGraph().nodes().iterator();
 
-        for (; iter.hasNext(); ) {
-            Node v = (Node) iter.next();
-            if (viewer.getLabel(v) != null && viewer.getLabel(v).length() > 0 && viewer.getFont(v) != null) {
-                String familyE = viewer.getFont(v).getFamily();
-                int styleE = viewer.getFont(v).getStyle();
-                int sizeE = viewer.getFont(v).getSize();
-                int style = 0;
-                if (bold == 1 || (bold == -1 && (styleE == Font.BOLD || styleE == Font.BOLD + Font.ITALIC)))
-                    style += Font.BOLD;
-                if (italics == 1 || (italics == -1 && (styleE == Font.ITALIC || styleE == Font.BOLD + Font.ITALIC)))
-                    style += Font.ITALIC;
+		while (iter.hasNext()) {
+			Node v = (Node) iter.next();
+			if (viewer.getLabel(v) != null && viewer.getLabel(v).length() > 0 && viewer.getFont(v) != null) {
+				String familyE = viewer.getFont(v).getFamily();
+				int styleE = viewer.getFont(v).getStyle();
+				int sizeE = viewer.getFont(v).getSize();
+				int style = 0;
+				if (bold == 1 || (bold == -1 && (styleE == Font.BOLD || styleE == Font.BOLD + Font.ITALIC)))
+					style += Font.BOLD;
+				if (italics == 1 || (italics == -1 && (styleE == Font.ITALIC || styleE == Font.BOLD + Font.ITALIC)))
+					style += Font.ITALIC;
 
                 Font font = new Font((family != null ? family : familyE), style,
                         (size == -1 ? sizeE : size));

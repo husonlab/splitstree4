@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: QuartetsAnalysisMethod.java,v 1.1 2005-11-08 11:13:41 huson Exp $
- */
 package splitstree4.analysis.quartets;
 
 import splitstree4.analysis.AnalysisMethod;
@@ -32,7 +30,6 @@ public interface QuartetsAnalysisMethod extends AnalysisMethod {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param doc
      * @param taxa   the taxa
      * @param quarts the block
      * @return true, if method applies to given data
@@ -45,7 +42,6 @@ public interface QuartetsAnalysisMethod extends AnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
      * @param taxa   the taxa
      * @param quarts the block
      */

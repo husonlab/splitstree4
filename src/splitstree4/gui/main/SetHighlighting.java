@@ -38,22 +38,22 @@ import java.util.LinkedList;
  */
 public class SetHighlighting implements IDirectableViewer {
 
-    java.util.List allActions = new LinkedList();
-    private boolean uptodate = true;
-    private JFrame frame;
-    private Director dir;
-    private Document doc;
-    private SetHighlighting setHighlighting;
+	final java.util.List allActions = new LinkedList();
+	private boolean uptodate = true;
+	private final JFrame frame;
+	private final Director dir;
+	private final Document doc;
+	private final SetHighlighting setHighlighting;
 
-    //constructor
+	//constructor
 
-    public SetHighlighting(Director dir) {
+	public SetHighlighting(Director dir) {
 
-        setHighlighting = this;
-        this.dir = dir;
-        doc = dir.getDocument();
+		setHighlighting = this;
+		this.dir = dir;
+		doc = dir.getDocument();
 
-        frame = new JFrame();
+		frame = new JFrame();
         setTitle(dir);
         frame.setJMenuBar(setupMenuBar());
         frame.setSize(380, 400);
@@ -193,8 +193,7 @@ public class SetHighlighting implements IDirectableViewer {
     /**
      * set uptodate state
      *
-     * @param flag
-     */
+	 */
     public void setUptoDate(boolean flag) {
         uptodate = flag;
     }

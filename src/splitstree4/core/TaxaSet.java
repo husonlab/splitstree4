@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: TaxaSet.java,v 1.23 2006-05-23 05:57:34 huson Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.core;
 
@@ -184,7 +178,6 @@ public class TaxaSet implements Cloneable, Comparable {
     /**
      * does this set contain the given set ts?
      *
-     * @param ts
      * @return true, if this set contains set ts
      */
     public boolean contains(TaxaSet ts) {
@@ -231,7 +224,6 @@ public class TaxaSet implements Cloneable, Comparable {
     /**
      * equal?
      *
-     * @param taxa
      * @return true, if taxa equals this set
      */
     public boolean equals(Object taxa) {
@@ -266,7 +258,6 @@ public class TaxaSet implements Cloneable, Comparable {
     /**
      * returns the smaller of totalSize-cardinality and cardinality
      *
-     * @param totalSize
      * @return split size
      */
     public int getSplitSize(int totalSize) {
@@ -277,7 +268,6 @@ public class TaxaSet implements Cloneable, Comparable {
     /**
      * does this set intersect the given one?
      *
-     * @param a2
      * @return true if sets intersect
      */
     public boolean intersects(TaxaSet a2) {
@@ -287,8 +277,6 @@ public class TaxaSet implements Cloneable, Comparable {
     /**
      * compares two taxa sets
      *
-     * @param o1
-     * @param o2
      * @return returns -1, 1 or 0
      */
     public static int compare(Object o1, Object o2) {
@@ -316,8 +304,6 @@ public class TaxaSet implements Cloneable, Comparable {
     /**
      * returns the union of two sets
      *
-     * @param b1
-     * @param b2
      * @return union
      */
     public static TaxaSet union(TaxaSet b1, TaxaSet b2) {
@@ -330,8 +316,6 @@ public class TaxaSet implements Cloneable, Comparable {
     /**
      * returns the intersection of two sets
      *
-     * @param b1
-     * @param b2
      * @return intersection
      */
     public static TaxaSet intersection(TaxaSet b1, TaxaSet b2) {

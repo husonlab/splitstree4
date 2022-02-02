@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: TaxaUtilities.java,v 1.4 2006-05-23 05:57:37 huson Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.util;
 
@@ -34,7 +28,6 @@ public class TaxaUtilities {
     /**
      * Get the max length of all the labels.
      *
-     * @param taxa
      * @return longer the max length.
      */
     public static int getMaxLabelLength(Taxa taxa) {

@@ -61,13 +61,9 @@ public class MinSpanningNetwork extends QuasiMedianBase implements Characters2Ne
     /**
      * computes the minimum spanning network upto a tolerance of epsilon
      *
-     * @param sequences
-     * @param weights
-     * @param epsilon
-     * @param graph
-     */
+	 */
     private void computeMinimumSpanningNetwork(Set sequences, double[] weights, int epsilon, PhyloSplitsGraph graph) {
-        String[] array = (String[]) sequences.toArray(new String[sequences.size()]);
+		String[] array = (String[]) sequences.toArray(new String[0]);
         // compute a distance matrix between all sequences:
         double[][] matrix = new double[array.length][array.length];
 
@@ -154,8 +150,6 @@ public class MinSpanningNetwork extends QuasiMedianBase implements Characters2Ne
     /**
      * compute weighted distance between two sequences
      *
-     * @param seqA
-     * @param seqB
      * @return distance
      */
     private double computeDistance(String seqA, String seqB, double[] weights) {

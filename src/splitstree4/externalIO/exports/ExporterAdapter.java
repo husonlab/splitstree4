@@ -39,11 +39,7 @@ public class ExporterAdapter implements Exporter {
      * present and applicable, and there are no blocks in selected that are
      * not in goodBlocks
      *
-     * @param doc
-     * @param selected
-     * @param goodBlocks
-     * @return
-     */
+	 */
     public boolean blocksOK(Document doc, Collection selected, Collection goodBlocks) {
         boolean containsValid = false;
 
@@ -88,7 +84,6 @@ public class ExporterAdapter implements Exporter {
     /**
      * can we import this data?
      *
-     * @param dp
      * @param selected set of selected blocks
      * @return true, if can handle this import
      */
@@ -104,8 +99,7 @@ public class ExporterAdapter implements Exporter {
      * @param dp         The Document
      * @param blockNames list of blocks to exported
      * @return mapping from export names to original names
-     * @throws java.lang.Exception
-     */
+	 */
     public Map<String, String> apply(Writer w, Document dp, Collection<String> blockNames) throws Exception {
         return null;
     }
@@ -121,8 +115,7 @@ public class ExporterAdapter implements Exporter {
      * @param blockNames     list of blocks to exported
      * @param additionalInfo Additional info required by exporter  (ignored by default)
      * @return mapping from export names to original names
-     * @throws java.lang.Exception
-     */
+	 */
     public Map<String, String> apply(Writer w, Document dp, Collection<String> blockNames, ExporterInfo additionalInfo) throws Exception {
         return apply(w, dp, blockNames);
     }
@@ -135,8 +128,7 @@ public class ExporterAdapter implements Exporter {
     /**
      * save all sites in sequences, not just active ones
      *
-     * @param exportAll
-     */
+	 */
     public void setOptionExportAll(boolean exportAll) {
         this.optionExportAll = exportAll;
     }

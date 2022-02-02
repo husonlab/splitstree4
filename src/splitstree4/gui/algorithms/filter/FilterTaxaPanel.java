@@ -16,10 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** The taxa window
- *
- * @author Markus Franz
- */
 package splitstree4.gui.algorithms.filter;
 
 import jloda.graph.Node;
@@ -39,8 +35,6 @@ import splitstree4.nexus.Taxa;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -48,8 +42,8 @@ import java.util.LinkedList;
  * The select taxa panel
  */
 public class FilterTaxaPanel extends JPanel implements IUpdateableView, UpdateableActions {
-    java.util.List<Action> all = new LinkedList<>();
-    private DefaultListModel<String> listl = null;
+    final java.util.List<Action> all = new LinkedList<>();
+	private DefaultListModel<String> listl = null;
     private DefaultListModel<String> listr = null;
     //private JList jlistl = null;
     //private JList jlistr = null;
@@ -57,7 +51,7 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
     private ActionJList jlistr = null;
     JLabel descriptionLabel = null;
 
-    private Director dir;
+	private final Director dir;
 
     //constructor
     public FilterTaxaPanel(Director dir, PhyloGraphView phyloView) {
@@ -90,32 +84,30 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
         gbc.weightx = 2;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridy = 1;
+		gbc.gridy = 1;
 
-        //this.jlistl = new JList(listl);
-        this.jlistl = new ActionJList<>(listl); //Using the new kind of JList I created
-        JComponent input = new JScrollPane(jlistl);
-        input.setToolTipText("Taxa included in computations");
-        gridBag.setConstraints(input, gbc);
-        add(input);
+		//this.jlistl = new JList(listl);
+		this.jlistl = new ActionJList<>(listl); //Using the new kind of JList I created
+		JComponent input = new JScrollPane(jlistl);
+		input.setToolTipText("Taxa included in computations");
+		gridBag.setConstraints(input, gbc);
+		add(input);
 
-        //Using custom actionListener for JList (listens for double-click and return key)
-        jlistl.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                int[] indices = jlistl.getSelectedIndices();
-                for (int i = indices.length - 1; i >= 0; i--) {
-                    listr.addElement(listl.remove(indices[i]));
-                }
-            }
-        });
+		//Using custom actionListener for JList (listens for double-click and return key)
+		jlistl.addActionListener(ae -> {
+			int[] indices = jlistl.getSelectedIndices();
+			for (int i = indices.length - 1; i >= 0; i--) {
+				listr.addElement(listl.remove(indices[i]));
+			}
+		});
 
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-        gbc.weighty = 0.1;
-        gbc.weightx = 0.1;
-        gbc.gridx = 1;
-        gbc.gridy = 1;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.weighty = 0.1;
+		gbc.weightx = 0.1;
+		gbc.gridx = 1;
+		gbc.gridy = 1;
 
         input = new JButton(getShowAction());
         gridBag.setConstraints(input, gbc);
@@ -159,32 +151,30 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
         gbc.gridx = 2;
         gbc.gridy = 0;
 
-        gbc.gridy = 1;
+		gbc.gridy = 1;
 
-        //jlistr = new JList(listr);
-        jlistr = new ActionJList<>(listr); //Using the new kind of JList I created
-        input = new JScrollPane(jlistr);
-        input.setToolTipText("Taxa excluded from computations");
-        gridBag.setConstraints(input, gbc);
-        add(input);
+		//jlistr = new JList(listr);
+		jlistr = new ActionJList<>(listr); //Using the new kind of JList I created
+		input = new JScrollPane(jlistr);
+		input.setToolTipText("Taxa excluded from computations");
+		gridBag.setConstraints(input, gbc);
+		add(input);
 
-        //Using custom actionListener for JList (listens for double-click and return key)
-        jlistr.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                int[] indices = jlistr.getSelectedIndices();
-                for (int i = indices.length - 1; i >= 0; i--) {
-                    listl.addElement(listr.remove(indices[i]));
-                }
-            }
-        });
+		//Using custom actionListener for JList (listens for double-click and return key)
+		jlistr.addActionListener(ae -> {
+			int[] indices = jlistr.getSelectedIndices();
+			for (int i = indices.length - 1; i >= 0; i--) {
+				listl.addElement(listr.remove(indices[i]));
+			}
+		});
 
 
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weighty = 0.1;
-        gbc.weightx = 0.1;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-        gbc.gridx = 3;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weighty = 0.1;
+		gbc.weightx = 0.1;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.gridx = 3;
         gbc.gridy = 0;
         input = new JButton(getApplyAction());
         gridBag.setConstraints(input, gbc);
@@ -265,10 +255,7 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
     public void updateEnableState() {
         DirectorActions.updateEnableState(dir, all);
         // because we don't want to duplicate that code
-        if (dir.getDocument().isValidByName(Taxa.NAME))
-            getApplyAction().setEnabled(true);
-        else
-            getApplyAction().setEnabled(false);
+		getApplyAction().setEnabled(dir.getDocument().isValidByName(Taxa.NAME));
         /*
         for (Iterator it = all.iterator(); it.hasNext();) {
             AbstractAction action = (AbstractAction) it.next();
@@ -331,7 +318,7 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
                             String name = dir.getDocument().getTaxa().getLabel(t);
                             int index;
                             for (index = 0; index < listl.size(); index++) {
-                                String lname = (String) listl.getElementAt(index);
+								String lname = listl.getElementAt(index);
                                 if (lname.endsWith(name + "'"))
                                     break;
                             }
@@ -391,18 +378,16 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
 
                     listl.clear();
                     listr.clear();
-                    Iterator it = graph.nodes().iterator();
-                    while (it.hasNext()) {
-                        Node v = (Node) it.next();
-                        for (Integer t : graph.getTaxa(v)) {
-                            String name = "'" + dir.getDocument().getTaxa().getLabel(t) + "'";
-                            if (phyloView.getSelected(v)) {
-                                listl.addElement(name);
-                            } else {
-                                listr.addElement(name);
-                            }
-                        }
-                    }
+					for (Node v : graph.nodes()) {
+						for (Integer t : graph.getTaxa(v)) {
+							String name = "'" + dir.getDocument().getTaxa().getLabel(t) + "'";
+							if (phyloView.getSelected(v)) {
+								listl.addElement(name);
+							} else {
+								listr.addElement(name);
+							}
+						}
+					}
                     // add all the invisible ones:
                     if (dir.getDocument().getTaxa().getOriginalTaxa() != null) {
                         Taxa origTaxa = dir.getDocument().getTaxa().getOriginalTaxa();
@@ -476,11 +461,11 @@ public class FilterTaxaPanel extends JPanel implements IUpdateableView, Updateab
                 String extaxa = "";
 
                 for (int i = 0; i < listr.getSize(); i++) {
-                    if (((String) listr.getElementAt(i)).indexOf(':') != -1)
-                        extaxa += (" " + ((String) listr.getElementAt(i)).substring(((String) listr.getElementAt(i)).indexOf(':') + 2));
-                    else
-                        extaxa += (" " + listr.getElementAt(i));
-                }
+					if (listr.getElementAt(i).indexOf(':') != -1)
+						extaxa += (" " + listr.getElementAt(i).substring(listr.getElementAt(i).indexOf(':') + 2));
+					else
+						extaxa += (" " + listr.getElementAt(i));
+				}
 
                 try {
                     dir.execute("assume extaxa=" + extaxa);

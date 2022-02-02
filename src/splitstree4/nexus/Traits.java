@@ -37,17 +37,17 @@ public class Traits extends NexusBlock {
 
     public static final String MISSING_TRAIT = "?";
 
-    public class Format {
+    public static class Format {
 
-        public final String COMMA = "COMMA";
-        public final String SPACES = "SPACES";
-        public final String TAB = "TAB";
+		public final String COMMA = "COMMA";
+		public final String SPACES = "SPACES";
+		public final String TAB = "TAB";
 
-        private boolean taxonLabels; //flag indicating whether first column contains taxon labels
-        private char missingTrait;
-        private String separator;
+		private boolean taxonLabels; //flag indicating whether first column contains taxon labels
+		private char missingTrait;
+		private String separator;
 
-        /**
+		/**
          * Constructor
          */
         public Format() {
@@ -244,8 +244,7 @@ public class Traits extends NexusBlock {
     /**
      * Get a vector of trait names, stored in positions 1...nTraits in the vector. The 0 entry is null.
      *
-     * @return
-     */
+	 */
     public String[] getTraitNames() {
         String[] names = new String[nTraits + 1];
         for (int i = 1; i <= nTraits; i++)
@@ -415,8 +414,7 @@ public class Traits extends NexusBlock {
      *
      * @param w    Writer
      * @param taxa Taxa block for this document
-     * @throws java.io.IOException
-     */
+	 */
     public void write(Writer w, Taxa taxa) throws IOException {
         w.write("\nBEGIN " + Traits.NAME + ";\n");
         w.write("\tDIMENSIONS nTRAITS=" + nTraits + ";\n");

@@ -30,19 +30,18 @@ import java.util.Iterator;
  * Daniel Huson and David Bryant
  */
 public class EdgeFontCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    EdgeArray<Font> fonts;
+	final MainViewer viewer;
+	final EdgeArray<Font> fonts;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param family  null indicates keep own family
-     * @param bold    0 off, 1 on, -1 keep
-     * @param italics 0 off, 1 on, -1 keep
-     * @param size    -1 indicates keep own size
-     */
-    public EdgeFontCommand(MainViewer viewer, String family, int bold, int italics, int size) {
+	/**
+	 * constructor
+	 *
+	 * @param family  null indicates keep own family
+	 * @param bold    0 off, 1 on, -1 keep
+	 * @param italics 0 off, 1 on, -1 keep
+	 * @param size    -1 indicates keep own size
+	 */
+	public EdgeFontCommand(MainViewer viewer, String family, int bold, int italics, int size) {
         this.viewer = viewer;
 
         // need to store current fonts now!
@@ -80,7 +79,7 @@ public class EdgeFontCommand extends ICommandAdapter implements ICommand {
 
         for (Edge e = viewer.getGraph().getFirstEdge(); e != null; e = e.getNext())
             if (fonts.get(e) != null)
-                viewer.setFont(e, (Font) fonts.get(e));
+				viewer.setFont(e, fonts.get(e));
         viewer.repaint();
         return getReverseCommand();
     }

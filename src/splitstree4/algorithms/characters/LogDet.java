@@ -91,8 +91,8 @@ public class LogDet implements Characters2Distances {
 
     public final static String DESCRIPTION = "Calculates the logdet- distance";
     private boolean fudgeFactor = false;
-    private boolean fillZeros = false;
-    private double pInvar;
+	private final boolean fillZeros = false;
+	private double pInvar;
     LogDetPanel guiPanel;
 
     /**
@@ -118,8 +118,7 @@ public class LogDet implements Characters2Distances {
      * @param taxa       the taxa
      * @param characters the input characters
      * @return the computed distances Object
-     * @throws SplitsException
-     */
+	 */
     public Distances apply(Document doc, Taxa taxa, Characters characters) throws CanceledException, SplitsException {
 
 
@@ -295,8 +294,7 @@ public class LogDet implements Characters2Distances {
     /**
      * Sets flag of whether missing entries in the F matrix are imputed, using the method that LDDist uses.
      *
-     * @param val
-     */
+	 */
     public void setOptionImpute_Gaps(boolean val) {
         fudgeFactor = val;
     }
@@ -313,8 +311,7 @@ public class LogDet implements Characters2Distances {
     /**
      * Set proportion of invariable sites to use for log det.
      *
-     * @param pInvar
-     */
+	 */
     public void setOptionPInvar(double pInvar) {
         this.pInvar = pInvar;
     }
@@ -323,27 +320,27 @@ public class LogDet implements Characters2Distances {
 }
 
 class LogDetPanel extends JPanel implements ActionListener, FocusListener {
-    static String pinvFieldCommand = "Pinv";
-    static String estimateCommand = "Estimate...";
-    static String imputeCommand = "Impute";
+	static final String pinvFieldCommand = "Pinv";
+	static final String estimateCommand = "Estimate...";
+	static final String imputeCommand = "Impute";
 
-    Characters characters;
-    Document doc;
-    JRadioButton[] rateButtons;
-    JTextField alphaField;
-    JTextField pinvField;
-    JButton estimateButton;
-    JCheckBox imputeButton;
-    JCheckBox invarCheckBox;
+	final Characters characters;
+	final Document doc;
+	JRadioButton[] rateButtons;
+	JTextField alphaField;
+	final JTextField pinvField;
+	final JButton estimateButton;
+	final JCheckBox imputeButton;
+	JCheckBox invarCheckBox;
 
-    final LogDet logDet;
+	final LogDet logDet;
 
 
-    public LogDetPanel(Characters characters, Document doc, LogDet logDet) {
+	public LogDetPanel(Characters characters, Document doc, LogDet logDet) {
 
-        super();
+		super();
 
-        this.setLayout(new GridBagLayout());
+		this.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -387,11 +384,11 @@ class LogDetPanel extends JPanel implements ActionListener, FocusListener {
         estimateButton.setEnabled(false);
         estimateButton.setToolTipText("Estimate proportion of invariable sites using the Capture-Recapture heuristic");
         CaptureRecapture captureRecapture = new CaptureRecapture();
-        try {
-            if (captureRecapture.isApplicable(doc))
-                estimateButton.setEnabled(true);
-        } catch (Exception e) {
-        }
+		try {
+			if (captureRecapture.isApplicable(doc))
+				estimateButton.setEnabled(true);
+		} catch (Exception ignored) {
+		}
         this.add(estimateButton, constraints);
 
         constraints.gridx = 0;

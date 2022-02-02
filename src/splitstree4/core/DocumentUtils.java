@@ -42,9 +42,7 @@ public class DocumentUtils {
     /**
      * load trees from multiple files
      *
-     * @param files
-     * @param doc
-     */
+	 */
     static public void loadMultipleTreeFiles(List<String> files, Document doc) {
         if (files == null || files.size() == 0)
             return;
@@ -69,8 +67,8 @@ public class DocumentUtils {
                 list.add(Trees.NAME);
                 StringWriter sw = new StringWriter();
                 if (exporter.isApplicable(doci, list)) {
-                    exporter.apply(sw, doci, list);
-                    buf.append(sw.toString());
+					exporter.apply(sw, doci, list);
+					buf.append(sw);
                 } else
                     throw new Exception("No trees");
             } catch (Exception ex) {
@@ -94,9 +92,7 @@ public class DocumentUtils {
      * concatenates the sequences found in the different files. Each file must contain precisely the
      * same set of taxa
      *
-     * @param files
-     * @param doc
-     */
+	 */
     static public void concatenateSequences(List files, Document doc) {
         if (files == null || files.size() == 0)
             return;

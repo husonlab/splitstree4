@@ -39,10 +39,10 @@ import splitstree4.util.SplitsUtilities;
  */
 public class TestTreeness implements BootstrapAnalysisMethod {
     /**
-     * implementations of analysis-algorithms should overwrite this
-     * String with a short description of what they do.
-     */
-    public static String DESCRIPTION = "No description given for this analysis.";
+	 * implementations of analysis-algorithms should overwrite this
+	 * String with a short description of what they do.
+	 */
+	public static final String DESCRIPTION = "No description given for this analysis.";
 
     /**
      * gets a description of the method
@@ -58,16 +58,16 @@ public class TestTreeness implements BootstrapAnalysisMethod {
         return (doc.getSplits() != null && boots != null && boots.getSplitMatrix() != null);
     }
 
-    static private double getStdError(double x[], double mean[], double vars[]) {
-        int n = x.length;
-        double sum = 0.0;
-        for (int i = 0; i < n; i++) {
-            double xi = x[i] - mean[i];
-            sum += xi * xi / vars[i];
-        }
+	static private double getStdError(double[] x, double[] mean, double[] vars) {
+		int n = x.length;
+		double sum = 0.0;
+		for (int i = 0; i < n; i++) {
+			double xi = x[i] - mean[i];
+			sum += xi * xi / vars[i];
+		}
 
-        return Math.sqrt(sum);
-    }
+		return Math.sqrt(sum);
+	}
 
 
     static public double dist(double[] u, double[] v) {
@@ -117,8 +117,6 @@ public class TestTreeness implements BootstrapAnalysisMethod {
      * generated from a tree using the current network method
      * and distance transform.
      *
-     * @param splits
-     * @param boots
      * @return double
      */
     static public double testTreenessDist(Splits splits, Bootstrap boots) {
@@ -190,8 +188,6 @@ public class TestTreeness implements BootstrapAnalysisMethod {
      * generated from a tree using the current network method
      * and distance transform.
      *
-     * @param splits
-     * @param boots
      * @return true if rejection at p=0.05
      */
     static public boolean testTreenessBox(Splits splits, Bootstrap boots) {

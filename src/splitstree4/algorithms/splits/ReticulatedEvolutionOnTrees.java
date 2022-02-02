@@ -234,7 +234,6 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
      * build the incompatibility graph.
      * Each node is labeled by a Pair consisting of the ID of the split and its weight
      *
-     * @param splits
      * @return incompatibility graph
      */
     private Graph buildIncompatibilityGraph(Splits splits) {
@@ -268,9 +267,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
     /**
      * computes the components of the incompatibility graph:
      *
-     * @param incompGraph
-     * @return
-     */
+	 */
     private NodeSet[] computeNonTrivialConnectedComponents(Graph incompGraph, int[] split2incomp) throws NotOwnerException {
         List<NodeSet> components = new LinkedList<>();
         // take care of index starting at 1 (!!!)
@@ -297,18 +294,13 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
         System.out.println("components: ");
         for (Object component : components) System.out.println(component);
 
-        return components.toArray(new NodeSet[components.size()]);
+		return components.toArray(new NodeSet[0]);
     }
 
     /**
      * visit a connected component
      *
-     * @param v
-     * @param unvisited
-     * @param graph
-     * @param comp
-     * @throws NotOwnerException
-     */
+	 */
     private void visitComponentRec(Node v, NodeSet unvisited, Graph graph, NodeSet comp) throws NotOwnerException {
         if (unvisited.contains(v)) {
             unvisited.remove(v);
@@ -322,12 +314,6 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
     /**
      * computes the taxa and splits induced by the given component of the incompatibility graph
      *
-     * @param taxa
-     * @param splits
-     * @param component
-     * @param incompGraph
-     * @param inducedTaxa
-     * @param inducedSplits
      * @return map from induced taxa to original taxa
      */
     private TaxaSet[] computeInducedProblem(Taxa taxa, Splits splits, NodeSet component, Graph incompGraph, Taxa inducedTaxa, Splits inducedSplits) throws NotOwnerException, SplitsException {
@@ -411,8 +397,6 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
      * determines all netted components in the graph. They are numbered 1, 2...
      *
      * @param split2incomp map splits to non-trivial components of incompat graph
-     * @param graph
-     * @param gateNodes
      * @return the components
      */
     private NodeSet[] computeNettedComps(int[] split2incomp, PhyloSplitsGraph graph, NodeSet gateNodes, int nComps)
@@ -456,13 +440,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
     /**
      * recursively determine all netted compnents
      *
-     * @param v
-     * @param seen
-     * @param split2incomp
-     * @param graph
-     * @param components
-     * @throws NotOwnerException
-     */
+	 */
     private void computeNettedCompsRec(Node v, int ncomp, EdgeSet seen, int[] split2incomp,
                                        PhyloSplitsGraph graph, NodeSet[] components)
             throws NotOwnerException {
@@ -500,8 +478,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
     /**
      * sets the method to use
      *
-     * @param optionMethod
-     */
+	 */
     public void setOptionMethod
     (String
              optionMethod) {
@@ -524,8 +501,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
     /**
      * preserve edges in components?
      *
-     * @return
-     */
+	 */
     public boolean getOptionShowSplits
     () {
         return optionShowSplits;
@@ -534,8 +510,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
     /**
      * preserve edges in components?
      *
-     * @param optionShowSplits
-     */
+	 */
     public void setOptionShowSplits
     (boolean optionShowSplits) {
         this.optionShowSplits = optionShowSplits;
@@ -566,8 +541,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
     /**
      * set the maximal angle between 0 and 90 degrees
      *
-     * @param optionMaxAngle
-     */
+	 */
     public void setOptionMaxAngle
     (int optionMaxAngle) {
         this.optionMaxAngle = optionMaxAngle;

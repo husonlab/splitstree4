@@ -35,18 +35,18 @@ import java.util.List;
  * Date: 19-Dec-2003
  */
 public class FilterCharactersActions implements UpdateableActions {
-    private Director dir;
-    private List<Action> all = new LinkedList<>();
-    public static final String JCHECKBOX = "JCHECKBOX";
-    public static final String JTEXTAREA = "JTEXTAREA";
-    public static final String JSLIDER = "JSLIDER";
-    public static final String JLABEL = "JLABEL";
+	private final Director dir;
+	private final List<Action> all = new LinkedList<>();
+	public static final String JCHECKBOX = "JCHECKBOX";
+	public static final String JTEXTAREA = "JTEXTAREA";
+	public static final String JSLIDER = "JSLIDER";
+	public static final String JLABEL = "JLABEL";
 
-    public FilterCharactersActions(Director dir) {
-        this.dir = dir;
-    }
+	public FilterCharactersActions(Director dir) {
+		this.dir = dir;
+	}
 
-    /**
+	/**
      * enable or disable critical actions
      *
      * @param flag show or hide?

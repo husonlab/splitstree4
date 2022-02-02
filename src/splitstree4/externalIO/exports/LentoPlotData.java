@@ -67,7 +67,6 @@ public class LentoPlotData extends ExporterAdapter {
      * @param dp         The Document
      * @param blockNames list of blocks to exported
      * @return mapping from export names to original names
-     * @throws Exception
      */
     public Map apply(Writer w, Document dp, Collection blockNames) throws Exception {
         LentoSplit[] lentoSplits = computeLentoPlot(dp.getTaxa(), dp.getSplits());
@@ -97,29 +96,29 @@ public class LentoPlotData extends ExporterAdapter {
         //Now compute conflict
         for (int i = 1; i <= nSplits; i++) {
             TaxaSet split_i = splits.get(i);
-            for (int j = i + 1; j <= nSplits; j++) {
-                TaxaSet split_j = splits.get(j);
-                if (!SplitsUtilities.areCompatible(ntax, split_i, split_j)) {
-                    lentoSplits[i].conflict += splits.getWeight(j);
-                    lentoSplits[j].conflict += splits.getWeight(i);
-                }
-            }
-        }
+			for (int j = i + 1; j <= nSplits; j++) {
+				TaxaSet split_j = splits.get(j);
+				if (!SplitsUtilities.areCompatible(ntax, split_i, split_j)) {
+					lentoSplits[i].conflict += splits.getWeight(j);
+					lentoSplits[j].conflict += splits.getWeight(i);
+				}
+			}
+		}
 
-        //Sort entries
-        Object o = lentoSplits[1];
-        LentoSplit s = (LentoSplit) o;
+		//Sort entries
+		LentoSplit o = lentoSplits[1];
+		LentoSplit s = o;
 
-        Arrays.sort(lentoSplits, 1, nSplits + 1);
-        return lentoSplits;
-    }
+		Arrays.sort(lentoSplits, 1, nSplits + 1);
+		return lentoSplits;
+	}
 
 
     static class LentoSplit implements Comparable {
-        public int id;
-        public double conflict;
-        public double weight;
-        public TaxaSet split;
+		public final int id;
+		public double conflict;
+		public final double weight;
+		public TaxaSet split;
 
         LentoSplit(int id, TaxaSet split, double weight) {
             this.id = id;
@@ -140,11 +139,7 @@ public class LentoPlotData extends ExporterAdapter {
             else if (s1.conflict > s2.conflict)
                 return 1;
             else {
-                if (s1.weight > s2.weight)
-                    return -1;
-                else if (s1.weight < s2.weight)
-                    return 1;
-                else return 0;
+				return Double.compare(s2.weight, s1.weight);
             }
         }
     }

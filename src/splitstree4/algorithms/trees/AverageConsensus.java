@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * implements consensus networks
- * @version $Id: AverageConsensus.java,v 1.1 2008-07-01 19:15:39 bryant Exp $
- * @author Tobias Kloepper and Daniel Huson and David Bryant
- * 7.03
- */
 package splitstree4.algorithms.trees;
 
 import jloda.util.CanceledException;
@@ -74,21 +68,21 @@ public class AverageConsensus implements Trees2Splits {
 
         if (analyseDistances) {
             try {
-                StringWriter sw = new StringWriter();
-                doc.getTaxa().write(sw);
-                dist.write(sw, doc.getTaxa());
-                Director newDir = Director.newProject(sw.toString(), doc.getFile().getAbsolutePath());
-                newDir.getDocument().setTitle("Average path-length distance for " + doc.getTitle());
-                newDir.showMainViewer();
+				StringWriter sw = new StringWriter();
+				doc.getTaxa().write(sw);
+				dist.write(sw, doc.getTaxa());
+				Director newDir = Director.newProject(sw.toString(), doc.getFile().getAbsolutePath());
+				newDir.getDocument().setTitle("Average path-length distance for " + doc.getTitle());
+				newDir.showMainViewer();
 
-            } catch (IOException ex) {
-            }
+			} catch (IOException ignored) {
+			}
         }
 
         StringWriter sw = new StringWriter();
         dist.write(sw, taxa);
 
-        System.out.println(sw.toString());
+		System.out.println(sw);
 
         NeighborNet nnet = new NeighborNet();
         return nnet.apply(doc, taxa, dist);

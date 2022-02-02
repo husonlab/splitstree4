@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: NexusBlock.java,v 1.9 2007-09-11 12:30:59 kloepper Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.nexus;
 
@@ -38,7 +32,6 @@ abstract public class NexusBlock {
     /**
      * set valid state
      *
-     * @param valid
      */
     public void setValid(boolean valid) {
         this.valid = valid;
@@ -56,9 +49,6 @@ abstract public class NexusBlock {
     /**
      * write a block, blocks should override this
      *
-     * @param w
-     * @param taxa
-     * @throws IOException
      */
     public abstract void write(Writer w, Taxa taxa) throws IOException;
 }

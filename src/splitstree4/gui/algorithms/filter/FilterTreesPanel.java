@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** The tree selection window
- *
- * @author Daniel Huson and David Bryant
- * 26.6.04
- */
 package splitstree4.gui.algorithms.filter;
 
 import jloda.swing.director.IUpdateableView;
@@ -41,14 +36,14 @@ import java.util.LinkedList;
  * The select trees panel
  */
 public class FilterTreesPanel extends JPanel implements IUpdateableView, UpdateableActions {
-    java.util.List all = new LinkedList();
-    private DefaultListModel listl = null;
+    final java.util.List all = new LinkedList();
+	private DefaultListModel listl = null;
     private DefaultListModel listr = null;
     private JList jlistl = null;
     private JList jlistr = null;
     JLabel descriptionLabel = null;
 
-    private Director dir;
+	private final Director dir;
 
     //constructor
     public FilterTreesPanel(Director dir) {
@@ -223,10 +218,7 @@ public class FilterTreesPanel extends JPanel implements IUpdateableView, Updatea
     public void updateEnableState() {
         DirectorActions.updateEnableState(dir, all);
         // because we don't want to duplicate that code
-        if (dir.getDocument().isValidByName(Taxa.NAME))
-            getApplyAction().setEnabled(true);
-        else
-            getApplyAction().setEnabled(false);
+		getApplyAction().setEnabled(dir.getDocument().isValidByName(Taxa.NAME));
 
     }
 

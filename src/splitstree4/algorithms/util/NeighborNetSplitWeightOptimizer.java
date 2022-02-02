@@ -178,16 +178,7 @@ public class NeighborNetSplitWeightOptimizer {
         return splits;
     }
 
-    /**
-     * Compute optimal weight squares under least squares for Splits compatible with a circular ordering.
-     * @param ordering   Circular ordering
-     * @param dist  Input distance
-     * @param var   string determining variance model
-     * @param constrained     True if enforcing a non-negativity constraint (usually the case)
-     * @param cutoff    Threshold  - will only include splits with estimated weights greater than this value.
-     * @return
-     */
-//    static public Splits computeWeightedSplits(int[] ordering,
+	//    static public Splits computeWeightedSplits(int[] ordering,
 //            Distances dist, String var, Options options)
 //            { return computeWeightedSplits(ordering,dist,var,options);}
 
@@ -364,9 +355,11 @@ public class NeighborNetSplitWeightOptimizer {
         /* First evaluate the unconstrained optima. If this is feasible then we don't have to do anything more! */
         NeighborNetSplitWeightOptimizer.runUnconstrainedLS(ntax, d, x);
         boolean all_positive = true;
-        for (int k = 0; k < npairs && all_positive; k++)
-            if (x[k] < 0.0)
-                all_positive = false;
+		for (int k = 0; k < npairs && all_positive; k++)
+			if (x[k] < 0.0) {
+				all_positive = false;
+				break;
+			}
 
         if (all_positive) /* If the unconstrained optimum is feasible then it is also the constrained optimum */
             return;

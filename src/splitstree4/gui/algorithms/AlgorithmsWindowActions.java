@@ -52,22 +52,22 @@ import java.util.List;
  */
 public class
 AlgorithmsWindowActions implements UpdateableActions {
-    private static String OPTIONS_PANEL = "OPTIONS_PANEL";
-    private static String OPTION_ACTIONS = "OPTION_ACTIONS";
+	private static final String OPTIONS_PANEL = "OPTIONS_PANEL";
+	private static final String OPTION_ACTIONS = "OPTION_ACTIONS";
 
-    private AlgorithmsWindow viewer;
-    private Director dir;
-    private List all = new LinkedList();
+	private final AlgorithmsWindow viewer;
+	private final Director dir;
+	private final List all = new LinkedList();
 
-    public AlgorithmsWindowActions(AlgorithmsWindow viewer, Director dir) {
-        this.viewer = viewer;
-        this.dir = dir;
-    }
+	public AlgorithmsWindowActions(AlgorithmsWindow viewer, Director dir) {
+		this.viewer = viewer;
+		this.dir = dir;
+	}
 
-    /**
-     * enable or disable critical actions
-     *
-     * @param flag show or hide?
+	/**
+	 * enable or disable critical actions
+	 *
+	 * @param flag show or hide?
      */
     public void setEnableCritical(boolean flag) {
         DirectorActions.setEnableCritical(all, flag);
@@ -305,7 +305,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the apply unaligned action
      *
-     * @param cbox
      * @return apply action
      */
     public AbstractAction getApplyUnalignedTransform(final JComboBox cbox) {
@@ -367,7 +366,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the apply distances action
      *
-     * @param cbox
      * @return apply action
      */
     public AbstractAction getApplyDistancesTransform(final JComboBox cbox) {
@@ -398,7 +396,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the apply quartet action
      *
-     * @param cbox
      * @return apply action
      */
     public AbstractAction getApplyQuartetsTransform(final JComboBox cbox) {
@@ -429,7 +426,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the apply trees action
      *
-     * @param cbox
      * @return apply action
      */
     public AbstractAction getApplyTreesTransform(final JComboBox cbox) {
@@ -461,7 +457,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the apply splits action
      *
-     * @param cbox
      * @return apply action
      */
     public AbstractAction getApplySplitsTransform(final JComboBox cbox) {
@@ -492,7 +487,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the apply reticulate action
      *
-     * @param cbox
      * @return apply action
      */
     public AbstractAction getApplyReticulateTransform(final JComboBox cbox) {
@@ -522,9 +516,7 @@ AlgorithmsWindowActions implements UpdateableActions {
      * fires all actions in the given list. Used to capture all option settings when
      * apply is pressed
      *
-     * @param event
-     * @param list
-     */
+	 */
     private void performActions(ActionEvent event, List list) {
         if (list != null) {
             for (Object aList : list) {
@@ -569,10 +561,7 @@ AlgorithmsWindowActions implements UpdateableActions {
                         getValue(AbstractAction.SHORT_DESCRIPTION);
                 if (tab.getCBox() != null)
                     tab.getCBox().setToolTipText(description);
-                if (dir.getDocument().isApplicable(transform))
-                    applyAction.setEnabled(true);
-                else
-                    applyAction.setEnabled(false);
+				applyAction.setEnabled(dir.getDocument().isApplicable(transform));
 
                 tab.setDescriptionLabel(transform.getDescription());
 
@@ -598,7 +587,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the action associated with a specific unaligneds transformation
      *
-     * @param clazz
      * @return actions
      */
 
@@ -649,7 +637,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the action associated with a specific characters transformation
      *
-     * @param clazz
      * @return actions
      */
 
@@ -702,7 +689,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the action associated with a specific distances transformation
      *
-     * @param clazz
      * @return actions
      */
 
@@ -755,7 +741,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the action associated with a specific quartets transformation
      *
-     * @param clazz
      * @return action
      */
 
@@ -807,7 +792,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the action associated with a specific trees transformation
      *
-     * @param clazz
      * @return action
      */
 
@@ -858,7 +842,6 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the action associated with a specific splits transformation
      *
-     * @param clazz
      * @return action
      */
     public AbstractAction getSplitsTransformAction(Class clazz) {
@@ -908,9 +891,7 @@ AlgorithmsWindowActions implements UpdateableActions {
     /**
      * gets the action associated with a specific splits transformation
      *
-     * @param clazz
-     * @return
-     */
+	 */
     public AbstractAction getReticulateTransformAction(Class clazz) {
         return getTransformAction(clazz, getReticulateTransformActions());
     }

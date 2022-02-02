@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: NetworkUtilities.java,v 1.8 2010-02-01 16:16:39 huson Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.util;
 
@@ -48,8 +42,6 @@ public class NetworkUtilities {
      * computes an embedding for a network. Does so by first choosing a spanning tree,
      * then computing a tree embedding and then finally, doing some spring embedding
      *
-     * @param taxa
-     * @param network
      */
     public static void computeEmbedding(Taxa taxa, Network network, int iterations) {
         System.err.println("Embedding graph");
@@ -92,12 +84,6 @@ public class NetworkUtilities {
     /**
      * renumber component
      *
-     * @param graph
-     * @param view
-     * @param v
-     * @param e
-     * @param number
-     * @param components
      */
     private static void renumberComponent(PhyloSplitsGraph graph, PhyloGraphView view, Node v,
                                           Edge e, int number, NodeIntArray components) {

@@ -26,18 +26,18 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant
  */
 public class ChangeNodeLabelCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    Node v;
-    String label;
+	final MainViewer viewer;
+	final Node v;
+	String label;
 
-    public ChangeNodeLabelCommand(MainViewer viewer, Node v, String label) {
-        this.viewer = viewer;
-        this.v = v;
-        this.label = label;
-    }
+	public ChangeNodeLabelCommand(MainViewer viewer, Node v, String label) {
+		this.viewer = viewer;
+		this.v = v;
+		this.label = label;
+	}
 
-    /**
-     * Executes this command.
+	/**
+	 * Executes this command.
      *
      * @return a new command which will undo the effect of this execution.
      */

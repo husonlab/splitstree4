@@ -16,14 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Implements neighbor net
- * @version $Id:
- *
- * @author David Bryant
- * Adapted to Java by Daniel Huson and David Bryant 1.03
- *
- */
 package splitstree4.algorithms.distances;
 
 import Jama.Matrix;
@@ -554,19 +546,19 @@ public class LARSnetwork /*implements Distances2Splits*/ {
     }
 
     /**
-     * Agglomerates the nodes
-     */
-    static private int agglomNodes(Document doc, Stack amalgs, double D[][], NetNode netNodes, int num_nodes) throws CanceledException {
-        //System.err.println("agglomNodes");
+	 * Agglomerates the nodes
+	 */
+	static private int agglomNodes(Document doc, Stack amalgs, double[][] D, NetNode netNodes, int num_nodes) throws CanceledException {
+		//System.err.println("agglomNodes");
 
-        NetNode p, q, Cx, Cy, x, y;
-        double Qpq, best;
-        int num_active = num_nodes;
-        int num_clusters = num_nodes;
-        int m;
-        double Dpq;
+		NetNode p, q, Cx, Cy, x, y;
+		double Qpq, best;
+		int num_active = num_nodes;
+		int num_clusters = num_nodes;
+		int m;
+		double Dpq;
 
-        while (num_active > 3) {
+		while (num_active > 3) {
 
             /* Special case
             If we let this one go then we get a divide by zero when computing Qpq */

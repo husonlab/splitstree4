@@ -48,11 +48,7 @@ public class GreedyWC implements Splits2Splits {
     /**
      * applies the splits to splits transformation
      *
-     * @param doc
-     * @param taxa
-     * @param splits
-     * @throws jloda.util.CanceledException
-     */
+	 */
     public void apply(Document doc, Taxa taxa,
                       Splits splits) throws CanceledException {
         Splits origSplits = splits.clone(taxa);

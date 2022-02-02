@@ -38,8 +38,7 @@ public class ICommandAdapter implements ICommand {
      * sets the reverse command for this command and makes this command the reverse of
      * the reverse command
      *
-     * @param reverseCommand
-     */
+	 */
     public void setReverseCommand(ICommand reverseCommand) {
         this.reverseCommand = reverseCommand;
         if (reverseCommand.getReverseCommand() == null)
@@ -49,8 +48,7 @@ public class ICommandAdapter implements ICommand {
     /**
      * gets the reverse command
      *
-     * @return
-     */
+	 */
     public ICommand getReverseCommand() {
         return reverseCommand;
     }

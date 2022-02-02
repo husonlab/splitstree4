@@ -45,8 +45,6 @@ public class TreesUtilities {
     /**
      * determines whether every pair of taxa occur together in some tree
      *
-     * @param taxa
-     * @param trees
      * @return returns true, if every pair of taxa occur together in some  tree
      */
     static public boolean hasAllPairs(Taxa taxa, Trees trees) {
@@ -71,8 +69,6 @@ public class TreesUtilities {
      * given a list of trees that has the "All Pairs" properties, returns the average
      * distance between any two taxa
      *
-     * @param taxa
-     * @param trees
      * @return distance between any two taxa
      */
     public static Distances getAveragePairwiseDistances(Taxa taxa, Trees trees) {
@@ -122,12 +118,7 @@ public class TreesUtilities {
     /**
      * produces a tree from a set of compatible splits
      *
-     * @param taxa
-     * @param splits
-     * @param node2taxon
-     * @return
-     * @throws SplitsException
-     */
+	 */
     public static PhyloTree treeFromSplits(Taxa taxa, Splits splits, Map<String, String> node2taxon) throws SplitsException {
         if (node2taxon == null)
             node2taxon = new HashMap<>();
@@ -152,29 +143,27 @@ public class TreesUtilities {
 
         // label the nodes:
         try {
-            Iterator it = tree.nodes().iterator();
-            while (it.hasNext()) {
-                Node v = (Node) it.next();
-                BitSet bs = ((TaxaSet) tree.getInfo(v)).getBits();
-                int taxonId = 0;
-                if (bs.cardinality() == taxa.getNtax()) // is leaf for taxon 1
-                    taxonId = 1;
-                else if (bs.cardinality() == 1) // other leaf
-                    taxonId = bs.nextSetBit(1);
-                if (taxonId != 0) {
-                    String taxonLabel = taxa.getLabel(taxonId);
-                    String nodeLabel = null;
-                    for (Object o : node2taxon.keySet()) {
-                        nodeLabel = (String) o;
-                        if (node2taxon.get(nodeLabel).equals(taxonLabel))
-                            break;
-                    }
-                    if (nodeLabel != null && !nodeLabel.equals(""))
-                        tree.setLabel(v, nodeLabel);
-                }
+			for (Node v : tree.nodes()) {
+				BitSet bs = ((TaxaSet) tree.getInfo(v)).getBits();
+				int taxonId = 0;
+				if (bs.cardinality() == taxa.getNtax()) // is leaf for taxon 1
+					taxonId = 1;
+				else if (bs.cardinality() == 1) // other leaf
+					taxonId = bs.nextSetBit(1);
+				if (taxonId != 0) {
+					String taxonLabel = taxa.getLabel(taxonId);
+					String nodeLabel = null;
+					for (String o : node2taxon.keySet()) {
+						nodeLabel = o;
+						if (node2taxon.get(nodeLabel).equals(taxonLabel))
+							break;
+					}
+					if (nodeLabel != null && !nodeLabel.equals(""))
+						tree.setLabel(v, nodeLabel);
+				}
 
-            }
-        } catch (Exception ex) {
+			}
+		} catch (Exception ex) {
             Basic.caught(ex);
         }
         return tree;
@@ -225,12 +214,8 @@ public class TreesUtilities {
     /**
      * verify that tree, translation and taxa fit together
      *
-     * @param tree
-     * @param translate
-     * @param taxa
      * @param allowAddTaxa if taxa-block is missing taxa in tree, do we allow them to be added to taxa block?
-     * @throws SplitsException
-     */
+	 */
     public static void verifyTree(PhyloTree tree, Map translate, Taxa taxa, boolean allowAddTaxa) throws SplitsException {
         TaxaSet seen = new TaxaSet();
         Iterator it = tree.nodes().iterator();
@@ -264,9 +249,7 @@ public class TreesUtilities {
     /**
      * sets the node2taxa and taxon2node maps for a tree
      *
-     * @param tree
-     * @param taxa
-     */
+	 */
     public static void setNode2taxa(PhyloTree tree, Taxa taxa) {
         tree.clearTaxa();
         for (Node v = tree.getFirstNode(); v != null; v = v.getNext()) {
@@ -284,8 +267,6 @@ public class TreesUtilities {
     /**
      * determines whether a given set of trees is partial
      *
-     * @param taxa
-     * @param trees
      * @return true if partial, false if taxa set is identical for all trees
      */
     public static boolean computeArePartialTrees(Taxa taxa, Trees trees) {
@@ -336,9 +317,6 @@ public class TreesUtilities {
      * <p/>
      * This code was extracted from TreeSelector.java
      *
-     * @param trees
-     * @param which
-     * @param taxa
      * @return splits
      */
     public static Splits convertTreeToSplits(Trees trees, int which, Taxa taxa) {
@@ -350,9 +328,6 @@ public class TreesUtilities {
      * <p/>
      * This code was extracted from TreeSelector.java
      *
-     * @param trees
-     * @param which
-     * @param taxa
      * @param skipNegativeSplitIds don't convert edges with negative split ids
      * @return splits
      */
@@ -387,15 +362,7 @@ public class TreesUtilities {
     /**
      * recursively extract split froms tree
      *
-     * @param v
-     * @param e
-     * @param trees
-     * @param which
-     * @param taxa
-     * @param splits
-     * @return
-     * @throws NotOwnerException
-     */
+	 */
     private static TaxaSet tree2splitsRec(Node v, Edge e, Trees trees, int which,
                                           Taxa taxa, Splits splits, boolean skipNegativeSplitIds) throws NotOwnerException {
         PhyloTree tree = trees.getTree(which);
@@ -464,7 +431,6 @@ public class TreesUtilities {
     /**
      * are there any labeled internal nodes and are all such labels numbers?
      *
-     * @param tree
      * @return true, if some internal nodes labeled by numbers
      */
     public static boolean hasNumbersOnInternalNodes(PhyloTree tree) {
@@ -486,8 +452,7 @@ public class TreesUtilities {
     /**
      * reinterpret an numerical label of an internal node as the confidence associated with the incoming edge
      *
-     * @param tree
-     */
+	 */
     public static void changeNumbersOnInternalNodesToEdgeConfidencies(PhyloTree tree) {
         for (Node v = tree.getFirstNode(); v != null; v = v.getNext()) {
             if (v.getOutDegree() != 0 && v.getInDegree() == 1) {

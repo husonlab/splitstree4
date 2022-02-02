@@ -36,13 +36,13 @@ import java.util.*;
  * Nexus Block representing a reticulate network
  */
 public class Reticulate extends NexusBlock implements Cloneable {
-    private boolean verbose = false;
+    private final boolean verbose = false;
     /**
      * Every value has to start at 1 and goes to =n
      */
 
     // is the nexus block valid
-    private boolean valid = true;
+    private final boolean valid = true;
     // is the nexus block up to date
     private boolean uptoDate = false;
     /**
@@ -68,22 +68,22 @@ public class Reticulate extends NexusBlock implements Cloneable {
     private int NRootComponents;
 
     // the labels of the tree components
-    private Vector treeComponentsLabels;
+    private final Vector treeComponentsLabels;
     // the tree components in extended Newick format
-    private Vector treeComponentsStrings;
+    private final Vector treeComponentsStrings;
 
     // the labels of the netted components
-    private Vector nettedComponentsLabels;
+    private final Vector nettedComponentsLabels;
 
     // the labels of the backbones of a netted Component
-    private Vector nettedComponentsBackbonesLabels;
+    private final Vector nettedComponentsBackbonesLabels;
     // the Vectors of each netted component  which contains a list of possible networks in extended newick format
-    private Vector nettedComponentsBackbonesStrings;
+    private final Vector nettedComponentsBackbonesStrings;
 
     // the labels of the components containing the root
-    private Vector rootComponentsLabels;
+    private final Vector rootComponentsLabels;
     // the components of the reticulation networks  containing the root in eNewick
-    private Vector rootComponentsStrings;
+    private final Vector rootComponentsStrings;
 
 
     // the roots of  the reticulation networks
@@ -92,7 +92,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
     private PhyloSplitsGraph reticulationNetwork;
 
     // The ids of the active backbone of each netted Component
-    private Vector activeNettedComponentsBackbones;
+    private final Vector activeNettedComponentsBackbones;
 
     // the id of the active root Backbone
     private int activeRootComponent = -1;
@@ -127,7 +127,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * Constructor
      *
-     * @param taxa
      */
     public Reticulate(Taxa taxa) {
         Ntax = taxa.getNtax();
@@ -202,7 +201,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * return the reticulate object with full taxa set
      *
-     * @return
      */
     public Reticulate getOriginal() {
         return originalReticulate;
@@ -211,15 +209,12 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * set the original reticulate object
      *
-     * @param originalReticulate
      */
     public void setOriginal(Reticulate originalReticulate) {
         this.originalReticulate = originalReticulate;
     }
 
     /**
-     * @param name
-     * @return
      */
     public boolean getFormatSwitchValue(String name) {
         return true;
@@ -228,7 +223,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * get the number of taxa
      *
-     * @return
      */
     public int getNtax() {
         return Ntax;
@@ -237,7 +231,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * get the number of root components
      *
-     * @return
      */
     public int getNRootComponents() {
         return this.NRootComponents;
@@ -246,7 +239,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * get the number of TreeComponents
      *
-     * @return
      */
     public int getNTreeComponents() {
         return NTreeComponents;
@@ -255,7 +247,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * get the number of netted components
      *
-     * @return
      */
     public int getNNettedComponents() {
         return NNettedComponents;
@@ -268,7 +259,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * get the label of the TreeComponent
      *
      * @param which which TreeComponent
-     * @return
      */
     public String getTreeComponentLabel(int which) {
         return (String) treeComponentsLabels.get(which);
@@ -279,7 +269,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param which which TreeComponent
      * @param label the label
-     * @return
      */
     public boolean setTreeComponentLabel(int which, String label) {
         if (treeComponentsLabels.get(which) != null) {
@@ -292,8 +281,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * return the index of the TreeComponent label
      *
-     * @param label
-     * @return
      */
     public int indexOfTreeComponentLabel(String label) {
         return treeComponentsLabels.indexOf(label.trim());
@@ -303,7 +290,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * return a eNewick representation of the TreeComponent
      *
      * @param which which TreeComponent
-     * @return
      */
     public String getTreeComponent(int which) {
         return (String) treeComponentsStrings.get(which);
@@ -314,7 +300,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param which   which TreeComponent
      * @param eNewick the eNewick string
-     * @return
      */
     public boolean setTreeComponent(int which, String eNewick) {
         if (treeComponentsLabels.get(which) != null) {
@@ -330,7 +315,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param label   the label of the TreeComponent (must be unique)
      * @param eNewick the eNewick string of the TreeComponent
-     * @return
      */
 
     public boolean addTreeComponent(String label, String eNewick) {
@@ -356,7 +340,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * remove a TreeComponent from the list
      *
      * @param which which TreeComponent
-     * @return
      */
     public boolean deleteTreeComponent(int which) {
         if (treeComponentsLabels.remove(which) != null && treeComponentsStrings.remove(which) != null) {
@@ -371,7 +354,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * remove a TreeComponent from the list
      *
      * @param label which TreeComponent
-     * @return
      */
     public boolean deleteTreeComponent(String label) {
         int which = treeComponentsLabels.indexOf(label.trim());
@@ -385,7 +367,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * get the label of the netted component
      *
      * @param which which netted component
-     * @return
      */
     public String getNettedComponentLabel(int which) {
         return (String) nettedComponentsLabels.get(which);
@@ -396,7 +377,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param which which netted component
      * @param label the label
-     * @return
      */
     public boolean setNettedComponentLabel(int which, String label) {
         if (nettedComponentsLabels.get(which) != null) {
@@ -410,7 +390,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * get the index of the netted component given the label
      *
      * @param label which netted component
-     * @return
      */
     public int indexOfNettedComponentLabel(String label) {
         return nettedComponentsLabels.indexOf(label.trim());
@@ -420,7 +399,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * add a netted component
      *
      * @param componentLabel the label of the netted component
-     * @return
      */
     public boolean addNettedComponent(String componentLabel) {
         if (!nettedComponentsLabels.contains(componentLabel.trim())) {
@@ -443,7 +421,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * delete a netted component from the list
      *
      * @param which which netted component
-     * @return
      */
     public boolean deleteNettedComponent(int which) {
         if (nettedComponentsLabels.remove(which) != null && nettedComponentsBackbonesStrings.remove(which) != null && nettedComponentsBackbonesLabels.remove(which) != null
@@ -459,7 +436,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * deleta a netted component from the list
      *
      * @param label which netted component
-     * @return
      */
     public boolean deleteNettedComponent(String label) {
         int which = nettedComponentsLabels.indexOf(label);
@@ -473,7 +449,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * get the number of backbones within the netted component
      *
      * @param nettedComponent which netted component
-     * @return
      */
     public int getNumberOfNettedComponentBackbones(int nettedComponent) {
         return ((Vector) nettedComponentsBackbonesLabels.get(nettedComponent)).size() - 1;
@@ -484,7 +459,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param nettedComponent which netted component
      * @param which           which backbone
-     * @return
      */
     public String getNettedComponentBackboneLabel(int nettedComponent, int which) {
         if (nettedComponentsBackbonesLabels.get(nettedComponent) != null) {
@@ -499,7 +473,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * @param nettedComponent which netted component
      * @param which           which backbone
      * @param label           the label for the backbone
-     * @return
      */
     public boolean setNettedComponentBackboneLabel(int nettedComponent, int which, String label) {
         if (nettedComponentsBackbonesLabels.get(nettedComponent) != null && ((Vector) nettedComponentsBackbonesLabels.get(nettedComponent)).get(which) != null) {
@@ -517,7 +490,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param nettedComponent which netted component
      * @param label           the label for the backbone
-     * @return
      */
     public int indexOfNettedComponentBackboneLabel(int nettedComponent, String label) {
         if (nettedComponentsLabels.get(nettedComponent) != null) {
@@ -531,7 +503,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param nettedComponent which netted component
      * @param which           which backbone
-     * @return
      */
     public String getNettedComponentBackbone(int nettedComponent, int which) {
         if (nettedComponentsBackbonesLabels.get(nettedComponent) != null) {
@@ -546,7 +517,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * @param nettedComponent which netted component
      * @param which           which backbone
      * @param eNewick         the eNewick string
-     * @return
      */
     public boolean setNettedComponentBackbone(int nettedComponent, int which, String eNewick) {
         if (nettedComponentsBackbonesLabels.get(nettedComponent) != null && ((Vector) nettedComponentsBackbonesLabels.get(nettedComponent)).get(which) != null) {
@@ -566,7 +536,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * @param backboneLabel   the label of the backbone
      * @param eNewick         the eNewick representation
      * @param active          is is the active backbone of the netted component
-     * @return
      */
     public boolean addNettedComponentBackbone(int nettedComponent, String backboneLabel, String eNewick, boolean active) {
         //if(verbose)  System.out.println("adding: "+backboneLabel+"\t"+eNewick);
@@ -600,14 +569,13 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param nettedComponent which netted component
      * @param which           which backbone
-     * @return
      */
     public boolean deleteNettedComponentBackbone(int nettedComponent, int which) {
         if (nettedComponentsLabels.get(nettedComponent) != null) {
             Vector bls = (Vector) nettedComponentsBackbonesLabels.get(nettedComponent);
             Vector beNs = (Vector) nettedComponentsBackbonesStrings.get(nettedComponent);
             if ((Integer) activeNettedComponentsBackbones.get(nettedComponent) != which)
-                if (bls.remove(which) != null && beNs.remove(which) != null) return true;
+                return bls.remove(which) != null && beNs.remove(which) != null;
         }
         return false;
     }
@@ -617,7 +585,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param nettedComponent which netted component
      * @param label           which backbone
-     * @return
      */
     public boolean deleteNettedComponentBackbone(int nettedComponent, String label) {
         if (nettedComponentsLabels.get(nettedComponent) != null) {
@@ -634,7 +601,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * returns the label of a root component
      *
      * @param which which root component
-     * @return
      */
     public String getRootComponentLabel(int which) {
         return (String) rootComponentsLabels.get(which);
@@ -645,7 +611,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param which which root component
      * @param label the label
-     * @return
      */
     public boolean setRootComponentLabel(int which, String label) {
         if (!rootComponentsLabels.contains(label.trim())) {
@@ -659,7 +624,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * return the index of the root component
      *
      * @param label which root component
-     * @return
      */
     public int indexOfRootComponentLabel(String label) {
         return rootComponentsLabels.indexOf(label.trim());
@@ -669,7 +633,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * return the eNewick representation of the root component
      *
      * @param which which root component
-     * @return
      */
     public String getRootComponent(int which) {
         return (String) rootComponentsStrings.get(which);
@@ -680,7 +643,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param which   which root component
      * @param eNewick the eNewick string
-     * @return
      */
     public boolean setRootComponent(int which, String eNewick) {
         if (rootComponentsLabels.get(which) != null) {
@@ -698,7 +660,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * @param label   the label of the new root component
      * @param eNewick the eNewick representation of the root component
      * @param active  is this the active root component
-     * @return
      */
     public boolean addRootComponent(String label, String eNewick, boolean active) {
         int lId = rootComponentsLabels.indexOf(label.trim());
@@ -723,7 +684,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * deletes a root component from the list
      *
      * @param which which root component
-     * @return
      */
     public boolean deleteRootComponent(int which) {
         if (activeRootComponent != which)// do not delete activeRootComponent
@@ -738,7 +698,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * deletes a root component from the list
      *
      * @param label which root component
-     * @return
      */
     public boolean deleteRootComponent(String label) {
         int which = rootComponentsLabels.indexOf(label.trim());
@@ -748,7 +707,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * return the active root component
      *
-     * @return
      */
     public int getActiveRootComponent() {
         return activeRootComponent;
@@ -758,7 +716,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * set the active root component
      *
      * @param active which root component
-     * @return
      */
     public boolean setActiveRootComponent(int active) {
         if (active > 0 && active <= getNRootComponents() && rootComponentsLabels.get(active) != null) {
@@ -773,7 +730,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * get the active backbone of the netted component
      *
      * @param nettedComponent which netted component
-     * @return
      */
     public int getActiveNettedComponentBackbone(int nettedComponent) {
         if (nettedComponentsLabels.get(nettedComponent) != null) {
@@ -787,7 +743,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param nettedComponent which netted component
      * @param active          which backbone
-     * @return
      */
     public boolean setActiveNettedComponentBackbone(int nettedComponent, int active) {
         if (nettedComponentsLabels.get(nettedComponent) != null) {
@@ -801,8 +756,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * get the root node of the reticulate network
      *
-     * @return
-     * @throws Exception
      */
     public Node getRoot() throws Exception {
         if (!uptoDate) getReticulateNetwork();
@@ -813,8 +766,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * return a array of integers containing the netted components contained in the selected root component (array values start at 1!)
      *
      * @param which which root component
-     * @return
-     * @throws java.io.IOException
      */
 
     public int[] getContainedNettedComponentsOfRootComponent(int which) throws IOException {
@@ -829,7 +780,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * return a array of integers containing the netted components contained in the active root component  array values start at 1!)
      *
-     * @return
      */
     public int[] getContainedNettedComponentsOfActiveRootComponent() {
         return containedNettedComponents;
@@ -838,8 +788,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * return the phlyograph that represents the reticulate network given its configuration
      *
-     * @return
-     * @throws java.io.IOException
      */
     public PhyloSplitsGraph getReticulateNetwork() throws IOException {
         if (!uptoDate || reticulationNetwork == null) {
@@ -861,7 +809,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * clone the object
      *
-     * @return
      */
     public Object clone() {
         try {
@@ -882,7 +829,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * return the format subclass of this nexus class
      *
-     * @return
      */
     public Format getFormat() {
         return format;
@@ -891,7 +837,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
     /**
      * The format subclass
      */
-    public class Format implements Cloneable {
+    public static class Format {
         private boolean nettedComponents = false;
         private boolean interleaved = false;
         private boolean internalLabels = false;
@@ -907,14 +853,12 @@ public class Reticulate extends NexusBlock implements Cloneable {
         /**
          * use the interleaved format
          *
-         * @return
          */
         public boolean useInterleaved() {
             return interleaved;
         }
 
         /**
-         * @param interleaved
          */
         public void setUseInterleaved(boolean interleaved) {
             this.interleaved = interleaved;
@@ -923,14 +867,12 @@ public class Reticulate extends NexusBlock implements Cloneable {
         /**
          * are netted components used
          *
-         * @return
          */
         public boolean useNettedComponents() {
             return nettedComponents;
         }
 
         /**
-         * @param nettedComponents
          */
         public void setUseNettedComponents(boolean nettedComponents) {
             this.nettedComponents = nettedComponents;
@@ -939,7 +881,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
         /**
          * show internal labels of the graph
          *
-         * @return
          */
         public boolean labelInternalLabels() {
             return internalLabels;
@@ -948,7 +889,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
         /**
          * if true all internal nodes are labeled
          *
-         * @param show
          */
         public void setLabelInternalLabels(boolean show) {
             this.internalLabels = show;
@@ -957,14 +897,12 @@ public class Reticulate extends NexusBlock implements Cloneable {
         /**
          * if true the roots of the TreeComponents are labeled
          *
-         * @param show
          */
         public void setLabelTreeComponentRoots(boolean show) {
             TreeComponentLabels = show;
         }
 
         /**
-         * @return
          */
         public boolean labelTreeComponentRoots() {
             return TreeComponentLabels;
@@ -973,23 +911,17 @@ public class Reticulate extends NexusBlock implements Cloneable {
         /**
          * if true the roots of the netted components are labeled
          *
-         * @param show
          */
         public void setLabelNettedComponentsLabels(boolean show) {
             nettedCompLabels = show;
         }
 
         /**
-         * @return
          */
         public boolean labelNettedComponentsLabels() {
             return nettedCompLabels;
         }
     }
-
-    /**
-     * IO
-     */
 
 
     /**
@@ -997,7 +929,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param w    the writer to which the reticulate block should be written
      * @param taxa the nexus taxa object associated with this reticulate object
-     * @throws java.io.IOException
      */
     public void write(Writer w, Taxa taxa) throws IOException {
         write(w, taxa.getNtax());
@@ -1008,7 +939,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param w    the writer to which the reticulate block should be written
      * @param nTax the number taxa object associated with this reticulate object
-     * @throws IOException
      */
     public void write(Writer w, int nTax) throws IOException {
         w.write("\nBEGIN " + Reticulate.NAME + ";\n");
@@ -1057,8 +987,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param np   the nexus stream parser from which the block should be read
      * @param taxa the nexus taxa object associated with this reticulate object
-     * @throws SplitsException
-     * @throws IOException
      */
     public void read(NexusStreamParser np, Taxa taxa) throws SplitsException, IOException {
         read(np, taxa.getNtax());
@@ -1069,8 +997,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      *
      * @param np   the nexus stream parser from which the block should be read
      * @param nTax the number taxa object associated with this reticulate object
-     * @throws SplitsException
-     * @throws IOException
      */
     public void read(NexusStreamParser np, int nTax) throws SplitsException, IOException {
         if (verbose) System.out.println("nTax: " + nTax + "\tthis.NTax: " + this.Ntax);
@@ -1253,14 +1179,8 @@ public class Reticulate extends NexusBlock implements Cloneable {
     }
 
     /**
-     *  Stuff for the read
-     */
-
-    /**
      * parse a tree in newick format
      *
-     * @param str
-     * @throws IOException
      */
     private Node parseBracketNotation(String str, HashMap label2Node, HashSet workedLabels, PhyloSplitsGraph reticulationNetwork, Vector activeNettedComponentsBackbones, TreeSet activeNettedComponents) throws IOException {
         // we have to read the first node special, its the root and phylograph has no root!!!
@@ -1302,7 +1222,7 @@ public class Reticulate extends NexusBlock implements Cloneable {
                 int which = nettedComponentsLabels.indexOf(str);
                 activeNettedComponents.add(which);
 
-                return parseBracketNotation((String) nettedComponentsBackbonesStrings.get(((Integer) activeNettedComponentsBackbones.get(which)).intValue()), label2Node, workedLabels, reticulationNetwork, activeNettedComponentsBackbones, activeNettedComponents);
+                return parseBracketNotation((String) nettedComponentsBackbonesStrings.get((Integer) activeNettedComponentsBackbones.get(which)), label2Node, workedLabels, reticulationNetwork, activeNettedComponentsBackbones, activeNettedComponents);
             } else
                 throw new IOException("String does not start with: '(' and is not a netted component: " + str);
         }
@@ -1321,7 +1241,6 @@ public class Reticulate extends NexusBlock implements Cloneable {
      * @param i     current position in string
      * @param str   string
      * @return new current position
-     * @throws IOException
      */
     private int parseBracketNotationRecursively(int depth, Node v, int i, String str, HashMap label2Node, HashSet workedLabels, PhyloSplitsGraph reticulationNetwork, Vector activeNettedComponentsBackbones, TreeSet activeNettedComponents, HashMap node2internalLabel) throws IOException {
         try {
@@ -1526,8 +1445,8 @@ public class Reticulate extends NexusBlock implements Cloneable {
             }
         }
         if (start.getInDegree() < 2) {
-            if (verbose) System.out.println("returning subtree: " + "(" + subtree.toString() + ")");
-            return "(" + subtree.toString() + ")";
+            if (verbose) System.out.println("returning subtree: " + "(" + subtree + ")");
+            return "(" + subtree + ")";
         } else if (start.getInDegree() == 2) {
             String rLabel = (String) labels.get(rNodes.indexOf(start));
             if (verbose) System.out.println("new reticulation node with label: " + rLabel + " and subtree: " + subtree);

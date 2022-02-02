@@ -28,19 +28,18 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant
  */
 public class NodeSizeCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    NodeIntArray widths;
-    NodeIntArray heights;
+	final MainViewer viewer;
+	final NodeIntArray widths;
+	final NodeIntArray heights;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param width  with, or -1, if everyone keeps their original width
-     * @param height or -1
-     */
-    public NodeSizeCommand(MainViewer viewer, int width, int height) {
-        this.viewer = viewer;
+	/**
+	 * constructor
+	 *
+	 * @param width  with, or -1, if everyone keeps their original width
+	 * @param height or -1
+	 */
+	public NodeSizeCommand(MainViewer viewer, int width, int height) {
+		this.viewer = viewer;
 
         PhyloSplitsGraph graph = viewer.getPhyloGraph();
         widths = graph.newNodeIntArray();

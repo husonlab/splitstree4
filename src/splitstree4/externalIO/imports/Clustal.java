@@ -36,14 +36,13 @@ import java.util.StringTokenizer;
  */
 public class Clustal extends FileFilter implements Importer {
 
-    public String Description = "Clustal Alignment Files (*.aln)";
+    public final String Description = "Clustal Alignment Files (*.aln)";
 
     String datatype = Characters.Datatypes.UNKNOWN;
 
     /**
      * does this importer apply to the type of nexus block
      *
-     * @param blockName
      * @return true, if can handle this import
      */
     public boolean isApplicableToBlock(String blockName) {
@@ -54,7 +53,6 @@ public class Clustal extends FileFilter implements Importer {
     /**
      * can we import this data?
      *
-     * @param input0
      * @return true, if can handle this import
      */
     public boolean isApplicable(Reader input0) throws IOException {
@@ -68,31 +66,30 @@ public class Clustal extends FileFilter implements Importer {
     /**
      * convert input into nexus format
      *
-     * @param input
      * @return nexus
      */
     public String apply(Reader input) throws Exception {
 
-        BufferedReader in = new BufferedReader(input);
-        StringBuilder names = new StringBuilder("");
-        StringBuilder sequences = new StringBuilder("");
-        // get rid of the first line
-        String aLine = in.readLine();
-        if (aLine.toLowerCase().contains("clustal")) in.readLine();
-        int nchar = 0, ntax = 0;
+		BufferedReader in = new BufferedReader(input);
+		StringBuilder names = new StringBuilder();
+		StringBuilder sequences = new StringBuilder();
+		// get rid of the first line
+		String aLine = in.readLine();
+		if (aLine.toLowerCase().contains("clustal")) in.readLine();
+		int nchar = 0, ntax = 0;
 
-        // read first block
-        while ((aLine = in.readLine()).length() == 0 || aLine.charAt(0) == ' ')
-            ;
+		// read first block
+		while ((aLine = in.readLine()).length() == 0 || aLine.charAt(0) == ' ')
+			;
 
-        do {
+		do {
             StringTokenizer st = new StringTokenizer(aLine);
             String label = st.nextToken();
             String seq = st.nextToken();
             names.append(label).append("\n");
             int pos = aLine.lastIndexOf(" ");
             if (pos != -1 && pos < aLine.length() - 1 && Character.isDigit(aLine.charAt(pos + 1)))
-                sequences.append(aLine.substring(0, pos)).append("\n");
+				sequences.append(aLine, 0, pos).append("\n");
             else
                 sequences.append(aLine).append("\n");
             ntax++;
@@ -115,7 +112,7 @@ public class Clustal extends FileFilter implements Importer {
                             nchar += seq.length();
                         int pos = aLine.lastIndexOf(" ");
                         if (pos != -1 && pos < aLine.length() - 1 && Character.isDigit(aLine.charAt(pos + 1)))
-                            sequences.append(aLine.substring(0, pos)).append("\n");
+							sequences.append(aLine, 0, pos).append("\n");
                         else
                             sequences.append(aLine).append("\n");
                         aLine = in.readLine();

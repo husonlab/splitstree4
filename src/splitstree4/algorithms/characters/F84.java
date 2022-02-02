@@ -57,9 +57,7 @@ public class F84 extends DNAdistance {
     /**
      * return the option panel for the method
      *
-     * @param doc
-     * @return
-     */
+	 */
     public JPanel getGUIPanel(Document doc) {
         if (guiPanel != null)
             return guiPanel;
@@ -77,8 +75,7 @@ public class F84 extends DNAdistance {
     /**
      * set Kappa option (transition/transversion ratio)
      *
-     * @param value
-     */
+	 */
     public void setOptionTRatio(double value) {
         this.tratio = value;
     }
@@ -97,10 +94,7 @@ public class F84 extends DNAdistance {
     /**
      * return the exact distance
      *
-     * @param F
-     * @return
-     * @throws SaturatedDistancesException
-     */
+	 */
     protected double exactDist(double[][] F) throws SaturatedDistancesException {
 
         double P = F[0][2] + F[1][3] + F[2][0] + F[3][1];

@@ -18,11 +18,6 @@
  */
 // NOTE: apply uses the upper and lower triangle of the dist matix
 
-/**
- * @version $Id: BioNJ.java,v 1.18 2008-02-26 21:20:23 huson Exp $
- *
- * @author David Bryant *
- */
 package splitstree4.algorithms.distances;
 
 import jloda.graph.Edge;
@@ -58,11 +53,6 @@ public class BioNJ implements Distances2Trees {
     /**
      * Comutes the NJ tree given the taxa and distances
      *
-     * @param doc
-     * @param taxa
-     * @param dist
-     * @return
-     * @throws CanceledException
      */
     public Trees apply(Document doc, Taxa taxa, Distances dist) throws CanceledException {
         return computeTrees(doc, taxa, dist);
@@ -79,9 +69,9 @@ public class BioNJ implements Distances2Trees {
 
     public Trees computeTrees(Taxa taxa, Distances dist) {
         try {
-            return computeTrees(null, taxa, dist);
-        } catch (CanceledException e) {
-        }
+			return computeTrees(null, taxa, dist);
+		} catch (CanceledException ignored) {
+		}
         return null;
     }
 
@@ -114,29 +104,29 @@ public class BioNJ implements Distances2Trees {
                 Node v = tree.newNode(); // create newNode for each Taxon
                 tree.setLabel(v, tax[i].toString());
                 TaxaHashMap.put(tax[i].toString(), v);
-            }
+			}
 
-            double[][] h = new double[nbNtax + 1][nbNtax + 1];// distance matix
+			double[][] h = new double[nbNtax + 1][nbNtax + 1];// distance matix
 
-            boolean[] active = new boolean[nbNtax + 1];
+			boolean[] active = new boolean[nbNtax + 1];
 
-            double[][] var = new double[nbNtax + 1][nbNtax + 1]; // variances matrix. This really should be upper diag of h.
-            double[] b = new double[nbNtax + 1];// the b variable in Neighbor Joining
-            int i_min = 0, j_min = 0; // needed for manipulation of h and b
-            double temp, dist_e, dist_f;//new edge weights
-            StringBuffer tax_old_i; //labels of taxa that are being merged
-            StringBuffer tax_old_j;
-            StringBuffer tax_old_k;
-            Node v;
-            Edge e, f; //from tax_old to new=merged edge
-            double lambda; //lambda value in BioNJ
+			double[][] var = new double[nbNtax + 1][nbNtax + 1]; // variances matrix. This really should be upper diag of h.
+			double[] b = new double[nbNtax + 1];// the b variable in Neighbor Joining
+			int i_min = 0, j_min = 0; // needed for manipulation of h and b
+			double temp, dist_e, dist_f;//new edge weights
+			StringBuilder tax_old_i; //labels of taxa that are being merged
+			StringBuilder tax_old_j;
+			StringBuilder tax_old_k;
+			Node v;
+			Edge e, f; //from tax_old to new=merged edge
+			double lambda; //lambda value in BioNJ
 
-            for (int i = 1; i <= nbNtax; i++) {
-                active[i] = true;
-            }
-            for (int i = 1; i <= nbNtax; i++) {
-                h[i][i] = 0.0;
-                for (int j = 1; j <= nbNtax; j++) { //fill up the distance matix h
+			for (int i = 1; i <= nbNtax; i++) {
+				active[i] = true;
+			}
+			for (int i = 1; i <= nbNtax; i++) {
+				h[i][i] = 0.0;
+				for (int j = 1; j <= nbNtax; j++) { //fill up the distance matix h
                     if (i < j)
                         h[i][j] = dist.get(i, j);//
                     else
@@ -169,28 +159,28 @@ public class BioNJ implements Distances2Trees {
                             j_min = j;
                         }
                     }
-                }
-                dist_e = 0.5 * (h[i_min][j_min] + b[i_min] / ((double) actual - 2.0)
-                        - b[j_min] / ((double) actual - 2.0));
-                dist_f = h[i_min][j_min] - dist_e;
-                //dist_f=0.5*(h[i_min][j_min] + b[j_min]/((double)actual-2.0)
-                //	- b[i_min]/((double)actual-2.0) );
+				}
+				dist_e = 0.5 * (h[i_min][j_min] + b[i_min] / ((double) actual - 2.0)
+								- b[j_min] / ((double) actual - 2.0));
+				dist_f = h[i_min][j_min] - dist_e;
+				//dist_f=0.5*(h[i_min][j_min] + b[j_min]/((double)actual-2.0)
+				//	- b[i_min]/((double)actual-2.0) );
 
-                active[j_min] = false;
+				active[j_min] = false;
 
-                // tax taxa update:
-                tax_old_i = new StringBuffer(tax[i_min].toString());
-                tax_old_j = new StringBuffer(tax[j_min].toString());
-                tax[i_min].insert(0, "(");
-                tax[i_min].append(",");
-                tax[i_min].append(tax[j_min]);
-                tax[i_min].append(")");
-                tax[j_min].delete(0, tax[j_min].length());
+				// tax taxa update:
+				tax_old_i = new StringBuilder(tax[i_min].toString());
+				tax_old_j = new StringBuilder(tax[j_min].toString());
+				tax[i_min].insert(0, "(");
+				tax[i_min].append(",");
+				tax[i_min].append(tax[j_min]);
+				tax[i_min].append(")");
+				tax[j_min].delete(0, tax[j_min].length());
 
-                // b update:
+				// b update:
 
-                b[i_min] = 0.0;
-                b[j_min] = 0.0;
+				b[i_min] = 0.0;
+				b[j_min] = 0.0;
 
                 // fusion of h
                 // double h_min = h[i_min][j_min];
@@ -259,28 +249,28 @@ public class BioNJ implements Distances2Trees {
             i = 1;
             while (!active[i])
                 i++;
-            i_min = i;
-            i++;
-            while (!active[i])
-                i++;
-            j_min = i;
-            i++;
-            while (!active[i])
-                i++;
-            k_min = i;
+			i_min = i;
+			i++;
+			while (!active[i])
+				i++;
+			j_min = i;
+			i++;
+			while (!active[i])
+				i++;
+			k_min = i;
 
-            tax_old_i = new StringBuffer(tax[i_min].toString());
-            tax_old_j = new StringBuffer(tax[j_min].toString());
-            tax_old_k = new StringBuffer(tax[k_min].toString());
+			tax_old_i = new StringBuilder(tax[i_min].toString());
+			tax_old_j = new StringBuilder(tax[j_min].toString());
+			tax_old_k = new StringBuilder(tax[k_min].toString());
 
-            tax[i_min].insert(0, "(");
-            tax[i_min].append(",");
-            tax[i_min].append(tax[j_min]);
-            tax[i_min].append(",");
-            tax[i_min].append(tax[k_min]);
-            tax[i_min].append(")");
-            tax[j_min].delete(0, tax[j_min].length()); //not neces. but sets content to NULL
-            tax[k_min].delete(0, tax[k_min].length()); //not neces. but sets content to NULL
+			tax[i_min].insert(0, "(");
+			tax[i_min].append(",");
+			tax[i_min].append(tax[j_min]);
+			tax[i_min].append(",");
+			tax[i_min].append(tax[k_min]);
+			tax[i_min].append(")");
+			tax[j_min].delete(0, tax[j_min].length()); //not neces. but sets content to NULL
+			tax[k_min].delete(0, tax[k_min].length()); //not neces. but sets content to NULL
 
             // System.err.println(tax[i_min].toString());
 

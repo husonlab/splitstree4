@@ -45,17 +45,17 @@ import java.util.*;
  *
  * @author bryant, taxonomy added by Daniel Huson and David Bryant, 12.05#
  */
-public class Sets extends NexusBlock implements Cloneable {
-    /**
-     * Identification string
-     */
-    final public static String NAME = "Sets";
-    final private Map<String, Set<String>> taxSets; // Assigns taxa sets to names of taxa sets
-    final private Map<String, PhyloTree> taxonomys;
-    final private Map<String, Set<Integer>> charSets; //Assign char set names to char sets.
-    final private Map<String, Partition> charParts;
+public class Sets extends NexusBlock {
+	/**
+	 * Identification string
+	 */
+	final public static String NAME = "Sets";
+	final private Map<String, Set<String>> taxSets; // Assigns taxa sets to names of taxa sets
+	final private Map<String, PhyloTree> taxonomys;
+	final private Map<String, Set<Integer>> charSets; //Assign char set names to char sets.
+	final private Map<String, Partition> charParts;
 
-    /**
+	/**
      * Construct a new Sets object
      */
     public Sets() {
@@ -104,7 +104,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * Returns the taxonomy associated with the given name
      *
-     * @param name
      * @return taxa set. Will return null if name does not appear
      * or if name is present, but there is no set for that name.
      */
@@ -115,7 +114,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * Returns the taxa set associated with the given name
      *
-     * @param name
      * @return set of names of taxa. Will return null if name does not appear
      * or if name is present, but there is no set for that name.
      */
@@ -126,8 +124,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * Returns the taxa set associated with the given name
      *
-     * @param name
-     * @param taxa
      * @return taxa set. Will return null if name does not appear
      * or if name is present, but there is no set for that name.
      */
@@ -185,7 +181,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * gets the named char set
      *
-     * @param charSetName
      * @return Set
      */
     public Set<Integer> getCharSet(String charSetName) {
@@ -195,7 +190,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * gets the named char partition
      *
-     * @param charPartitionName
      * @return Partition
      */
     public Partition getCharPartition(String charPartitionName) {
@@ -268,8 +262,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * add a character
      *
-     * @param name
-     * @param set
      * @return true, if name already used
      */
     public boolean addCharSet(String name, Set<Integer> set) {
@@ -281,9 +273,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * add a character
      *
-     * @param name
-     * @param first
-     * @param last
      * @return true, if name already used
      */
     public boolean addCharSet(String name, int first, int last) {
@@ -299,8 +288,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * add character partition
      *
-     * @param name
-     * @param partition
      * @return true, if name already used
      */
     public boolean addCharPartition(String name, Partition partition) {
@@ -312,7 +299,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * removes taxa set
      *
-     * @param name
      * @return true iff set with that name was present
      */
     public boolean removeTaxSet(String name) {
@@ -324,7 +310,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * removes taxonomy
      *
-     * @param name
      * @return true iff set with that name was present
      */
     public boolean removeTaxonomy(String name) {
@@ -336,7 +321,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * removes char set
      *
-     * @param charSetName
      * @return true iff set with that name was present
      */
     public boolean removeCharSet(String charSetName) {
@@ -348,7 +332,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * removes char partition
      *
-     * @param charPartName
      * @return true iff set with that name was present
      */
     public boolean removeCharPart(String charPartName) {
@@ -361,8 +344,7 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * usage
      *
-     * @param ps
-     */
+	 */
     public static void showUsage(PrintStream ps) {
         ps.println("BEGIN " + NAME + ";");
         ps.println("\t[TAXSET taxset-name    = taxon-list;]");
@@ -376,7 +358,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * print an int set to a string
      *
-     * @param intSet
      * @return a string
      */
     private String toString(Set<Integer> intSet) {
@@ -426,7 +407,6 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * return a int partition as a string
      *
-     * @param partition
      * @return string
      */
     private String toString(Partition partition) {
@@ -444,10 +424,7 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * write a sets block
      *
-     * @param w
-     * @param taxa
-     * @throws java.io.IOException
-     */
+	 */
     public void write(Writer w, Taxa taxa) throws java.io.IOException {
         w.write("\nBEGIN " + Sets.NAME + ";\n");
         for (String name : taxSets.keySet()) {
@@ -482,11 +459,8 @@ public class Sets extends NexusBlock implements Cloneable {
      * The set is specified using taxon ids or taxon names. Ranges can be specified using a hyphen,
      * and a range ending with '.' is shorthand for a range ending with the last taxon.
      *
-     * @param np
-     * @param taxa
      * @return Set of sets read in.
-     * @throws IOException
-     */
+	 */
     private Set<String> readTaxSet(NexusStreamParser np, Taxa taxa) throws IOException {
         Set<String> result = new HashSet<>();
 
@@ -536,11 +510,8 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * reads a characters set
      *
-     * @param np
-     * @param chars
      * @return Set of sets read in.
-     * @throws IOException
-     */
+	 */
 
     private Set<Integer> readCharSet(NexusStreamParser np, Characters chars) throws IOException {
         Set<Integer> set = new TreeSet<>();
@@ -586,11 +557,8 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * read a character parititon
      *
-     * @param np
-     * @param chars
      * @return Set of set read in.
-     * @throws IOException
-     */
+	 */
 
     private Partition readCharPartition(NexusStreamParser np, Characters chars) throws IOException {
         Partition result = new Partition();
@@ -686,11 +654,7 @@ public class Sets extends NexusBlock implements Cloneable {
     /**
      * reads a sets block
      *
-     * @param np
-     * @param taxa
-     * @param chars
-     * @throws IOException
-     */
+	 */
     public void read(NexusStreamParser np, Taxa taxa, Characters chars) throws IOException {
         if (taxa.getMustDetectLabels())
             throw new IOException("line " + np.lineno() + ": Can't read SETS block because no taxlabels given in TAXA block");

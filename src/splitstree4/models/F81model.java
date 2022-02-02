@@ -36,8 +36,7 @@ public class F81model extends NucleotideModel {
      * Constructor taking the base frequencies and building the
      * Q matrix of Felsenstein's F81 model (1981).
      *
-     * @param basefreqs
-     */
+	 */
     public F81model(double[] basefreqs) {
         super();
 

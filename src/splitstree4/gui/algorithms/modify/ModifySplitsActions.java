@@ -47,8 +47,7 @@ public class ModifySplitsActions implements UpdateableActions {
     /**
      * constructor
      *
-     * @param dir
-     */
+	 */
     public ModifySplitsActions(Director dir, JFrame parent) {
         this.dir = dir;
         this.parent = parent;
@@ -315,11 +314,11 @@ public class ModifySplitsActions implements UpdateableActions {
 
                 JTextField weightInput = (JTextField) getValue(DirectorActions.TEXTAREA);
                 float value = 0;
-                try {
-                    value = (Float.parseFloat(weightInput.getText()));
+				try {
+					value = (Float.parseFloat(weightInput.getText()));
 
-                } catch (Exception ex) {
-                }
+				} catch (Exception ignored) {
+				}
                 Float result = hp.showThresholdDialog(parent, "Weight threshold",
                         value);
                 if (result != null) {
@@ -356,11 +355,11 @@ public class ModifySplitsActions implements UpdateableActions {
 
                 JTextField confidenceInput = (JTextField) getValue(DirectorActions.TEXTAREA);
                 float value = 0;
-                try {
-                    value = (Float.parseFloat(confidenceInput.getText()));
+				try {
+					value = (Float.parseFloat(confidenceInput.getText()));
 
-                } catch (Exception ex) {
-                }
+				} catch (Exception ignored) {
+				}
                 Float result = hp.showThresholdDialog(parent, "Confidence Threshold",
                         value);
                 if (result != null) {

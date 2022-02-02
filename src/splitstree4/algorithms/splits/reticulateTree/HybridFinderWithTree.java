@@ -46,7 +46,7 @@ public class HybridFinderWithTree {
     // genreal Objects
     private Document doc = null;
     private int maxReticulations = 1;
-    private boolean verbose = false;
+	private final boolean verbose = false;
     // public stuff
 
 
@@ -58,7 +58,6 @@ public class HybridFinderWithTree {
      * @param maxRet        the maximal number of reticulation nodes in a reticulation network
      * @param maxRetToFind  the maximal number of reticulations to search for
      * @return a list of possible solutions
-     * @throws Exception
      */
 
     public LinkedList apply(Taxa inducedTaxa, Splits inducedSplits, int outgroupId, boolean checkRoot, int maxRet, int maxRetToFind) throws Exception {
@@ -149,12 +148,6 @@ public class HybridFinderWithTree {
      * sets the getInducedSplit2orderedReticulations() Map of the reticulation tree to a map in wich for each tree-split that has has a set of reticulation
      * one TaxaSet is set (==> so the ModifyGraph class will connect all reticulation nodes of the edge to one point
      *
-     * @param inducedSplits
-     * @param inducedTaxa2treeTaxa
-     * @param treeSplits2inducedSplits
-     * @param rTaxa
-     * @param ret
-     * @throws Exception
      */
 
     private void setReticulations(Splits inducedSplits, Taxa treeTaxa, int[] inducedTaxa2treeTaxa, HashMap treeSplits2inducedSplits, TaxaSet rTaxa, ReticulationTree ret) {
@@ -205,8 +198,6 @@ public class HybridFinderWithTree {
      * @param rTaxa                the set of reticulation Taxa
      * @param reticulation         the acutal reticulation Taxa we are looking at
      * @param ret                  the reticulation Object
-     * @return
-     * @throws Exception
      */
     private boolean isSimpleGall(PhyloSplitsGraph treeGraph, Taxa treeTaxa, Splits treeSplits, Splits inducedSplits, int[] inducedTaxa2treeTaxa, TaxaSet rTaxa, int reticulation, ReticulationTree ret) throws Exception {
 
@@ -254,7 +245,7 @@ public class HybridFinderWithTree {
             treeSplit.unset(0);
             if (!treeSplit.get(1)) treeSplit = treeSplit.getComplement(treeTaxa.getNtax());
             // add treeSplit to map if not contained
-            if (treeSplits2rSplits.get(treeSplit) == null) treeSplits2rSplits.put(treeSplit, new HashSet());
+			treeSplits2rSplits.computeIfAbsent(treeSplit, k -> new HashSet());
             //System.out.println("added: " + gallSplit);
             ((HashSet) treeSplits2rSplits.get(treeSplit)).add(gallSplit);
 
@@ -283,7 +274,6 @@ public class HybridFinderWithTree {
      * @param gallTaxa           the gall Taxa
      * @param treeSplits2rSplits the map I
      * @return true if we the map I gives a path in the tree
-     * @throws Exception
      */
     private boolean isPath(PhyloSplitsGraph treeGraph, Splits treeSplits, Taxa treeTaxa, TaxaSet rTaxa, int gallTaxa, int reticulation, HashMap treeSplits2rSplits, ReticulationTree ret) throws Exception {
         // find a start Point for the search
@@ -421,11 +411,6 @@ public class HybridFinderWithTree {
     /**
      * the method checks if the map I ( treeSplits2rSplits) ´induces a the path in the treeGraph
      *
-     * @param startNode
-     * @param seen
-     * @param treeGraph
-     * @param treeSplits
-     * @param treeSplits2rSplits
      * @return edge
      */
     private Edge RecCheckPath(Node startNode, HashSet seen, PhyloSplitsGraph treeGraph, Splits treeSplits, HashMap treeSplits2rSplits) {
@@ -466,7 +451,6 @@ public class HybridFinderWithTree {
      * @param treeTaxa      the taxa of the underlying tree
      * @param treeSplits    the splits of the underlying tree
      * @return a map of the treeTaxa to their inducedTaxa or null iff the map I is not correct
-     * @throws Exception
      */
     private int[] GenerateTreeTaxaAndSplits(Taxa inducedTaxa, Splits inducedSplits, TaxaSet rTaxa, Taxa treeTaxa, Splits treeSplits, HashMap treeSplit2inducedSplit) throws Exception {
         int[] re = new int[inducedTaxa.getNtax() - rTaxa.cardinality() + 1];

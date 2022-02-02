@@ -68,8 +68,7 @@ public class GeneContentDistance implements Characters2Distances {
     /**
      * returns true if the maximum likelihood distances is used
      *
-     * @return
-     */
+	 */
     public boolean getOptionUseMLDistance() {
         return useMLDistance;
     }
@@ -77,8 +76,7 @@ public class GeneContentDistance implements Characters2Distances {
     /**
      * use the maximum likelihood distance in the computation
      *
-     * @param useMLDistance
-     */
+	 */
     public void setOptionUseMLDistance(boolean useMLDistance) {
         this.useMLDistance = useMLDistance;
     }
@@ -96,8 +94,6 @@ public class GeneContentDistance implements Characters2Distances {
     /**
      * comnputes the SnelBork et al distance
      *
-     * @param ntax
-     * @param genes
      * @return the distance Object
      */
     private static Distances computeSnelBorkDistance(int ntax, BitSet[] genes) {
@@ -117,8 +113,6 @@ public class GeneContentDistance implements Characters2Distances {
     /**
      * comnputes the maximum likelihood estimator distance Huson and Steel 2003
      *
-     * @param ntax
-     * @param genes
      * @return the distance Object
      */
     private static Distances computeMLDistance(int ntax, BitSet[] genes) {

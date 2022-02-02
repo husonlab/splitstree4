@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: TreeSelector.java,v 1.22 2008-07-01 15:01:56 bryant Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 package splitstree4.algorithms.trees;
 
 import jloda.graph.Edge;
@@ -53,7 +47,7 @@ public class TreeSelector implements Trees2Splits {
     private JLabel guiMessage; // message in the gui panel
     private JTextField guiWhich;  // contains "which" in the gui panel
 
-    public static String DESCRIPTION = "Converts trees to splits";
+    public static final String DESCRIPTION = "Converts trees to splits";
 
     /**
      * gets a short description of the algorithm

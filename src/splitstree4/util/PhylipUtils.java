@@ -146,7 +146,6 @@ public class PhylipUtils {
     /**
      * print a sequences in phylip format
      *
-     * @param data
      * @param os   stream
      */
     public static void print(String[][] data, PrintStream os) {

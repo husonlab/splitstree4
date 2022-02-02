@@ -56,8 +56,7 @@ public class LeastSquaresWeights implements Splits2Splits {
      * @param doc    the document
      * @param taxa   the taxa
      * @param splits the splits
-     * @throws jloda.util.CanceledException
-     */
+	 */
     public void apply(Document doc, Taxa taxa, Splits splits) throws CanceledException {
         System.err.println("Computing least squares...");
         doc.notifySetMaximumProgress(100);

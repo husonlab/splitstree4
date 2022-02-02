@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * import a tree in Newick format
- * @version $Id: NewickTree.java,v 1.31 2010-02-24 16:55:07 huson Exp $
- * @author huson
- * Date: Oct 5, 2003
- */
 package splitstree4.externalIO.imports;
 
 import jloda.graph.*;
@@ -50,15 +44,14 @@ import java.util.*;
 
 public class NewickTree extends FileFilter implements Importer, FilenameFilter {
     String datatype = null;
-    /* Implement first the Importer Interface
-     */
-    public static String Description = "Newick Tree Files (*.new,*.tre, *.tree)";
-    private boolean optionConvertMultiLabeledTree = false;
+	/* Implement first the Importer Interface
+	 */
+	public static final String Description = "Newick Tree Files (*.new,*.tre, *.tree)";
+	private boolean optionConvertMultiLabeledTree = false;
 
     /**
      * does this importer apply to the type of nexus block
      *
-     * @param blockName
      * @return true, if can handle this import
      */
     public boolean isApplicableToBlock(String blockName) {
@@ -68,26 +61,24 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
     /**
      * can we import this data?
      *
-     * @param input
      * @return true, if can handle this import
      */
     public boolean isApplicable(Reader input) throws IOException {
-        try {
-            String str;
-            BufferedReader br = new BufferedReader(input);
+		try {
+			String str;
+			BufferedReader br = new BufferedReader(input);
 			str = br.readLine().trim();
 			str = StringUtils.removeComments(str, '[', ']');
-            if (str.length() > 0 && str.charAt(0) == '(')
-                return true;
-        } catch (Exception ex) {
-        }
+			if (str.length() > 0 && str.charAt(0) == '(')
+				return true;
+		} catch (Exception ignored) {
+		}
         return false;
     }
 
     /**
      * convert input into nexus format
      *
-     * @param input
      * @return the input in nexus format
      */
     public String apply(Reader input) throws Exception {
@@ -174,7 +165,7 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
         translate.append(";\n");
         taxa.append(";\nend;\n");
         //System.err.println("buffer:\n" + taxa.toString() + "\n" + translate + "\n" + treesString);
-        return (taxa.toString() + "\n" + translate + "\n" + treesString);
+		return (taxa + "\n" + translate + "\n" + treesString);
     }
 
     /**
@@ -253,10 +244,7 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
     /**
      * return a document containing the taxa and splits in the case of a multi-labeled tree
      *
-     * @param tree
      * @return document containing taxa and splits of a multi-labeled tree
-     * @throws NotMultiLabeledException
-     * @throws SplitsException
      */
     Document convertMultiTree2Splits(PhyloTree tree) throws NotMultiLabeledException, SplitsException {
         if (tree.getNumberOfNodes() < 2)
@@ -356,9 +344,8 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
             for (Node reachableLabeledNode : reachableLabeledNodes) {
                 Pair pair = (Pair) node2nameNumber.get(reachableLabeledNode);
                 String name = (String) pair.getFirst();
-                if (names2count.get(name) == null)
-                    names2count.put(name, 0);
-                names2count.put(name, names2count.get(name) + 1);
+				names2count.putIfAbsent(name, 0);
+				names2count.put(name, names2count.get(name) + 1);
             }
 
             // determine the set of taxa that are on one side or both sides of the split
@@ -465,10 +452,6 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
     /**
      * for an edge e=(v,w), compute all nodes that can be reached from w=e.opposite(v) without using e
      *
-     * @param v
-     * @param e
-     * @param tree
-     * @param edge2labels
      */
     private void determineSeparatedNodesRec(Node v, Edge e, PhyloTree tree, EdgeArray edge2labels) {
         NodeSet set = new NodeSet(tree);

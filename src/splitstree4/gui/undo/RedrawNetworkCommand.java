@@ -34,8 +34,7 @@ public class RedrawNetworkCommand extends ICommandAdapter implements ICommand {
     /**
      * redraw
      *
-     * @param viewer
-     */
+	 */
     public RedrawNetworkCommand(MainViewer viewer) {
         this.viewer = viewer;
     }

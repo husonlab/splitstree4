@@ -184,8 +184,7 @@ public class Binary2Splits implements Characters2Splits {
     /**
      * sets the minimum split weight to be respected by the algorithm
      *
-     * @param optionMinSplitWeight
-     */
+	 */
     public void setOptionMinSplitWeight(int optionMinSplitWeight) {
         this.optionMinSplitWeight = optionMinSplitWeight;
     }

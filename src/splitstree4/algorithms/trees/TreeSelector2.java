@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: TreeSelector2.java,v 1.3 2007-09-11 12:31:08 kloepper Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 package splitstree4.algorithms.trees;
 
 import jloda.util.Basic;
@@ -48,7 +42,7 @@ public class TreeSelector2 /* implements Trees2Network */ {
     private JLabel guiMessage; // message in the gui panel
     private JTextField guiWhich;  // contains "which" in the gui panel
 
-    public static String DESCRIPTION = "Selects and draws a single tree";
+    public static final String DESCRIPTION = "Selects and draws a single tree";
 
     /**
      * gets a short description of the algorithm

@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Implements neighbor net reboot
- * @version $Id:
- *
- * @author David Bryant
- *
- */
 package splitstree4.algorithms.distances;
 
 import Jama.Matrix;
@@ -41,18 +34,18 @@ import java.util.Stack;
  * Implements Neighbor Net method of Bryant and Moulton (2004).
  */
 public class NeighborNetReboot implements Distances2Splits {
-    private double optionThreshold = 0.000001; // min weight of split that we consider
-    private boolean makeSplits = true;
-    //private boolean optionConstrain = true;
-    private int[] cycle = null; // the computed cycle
-    public final static String DESCRIPTION = "Computes the Neighbor-Net network (Bryant and Moulton 2004) using the revised algorithm of (Bryant, Huber and Moulton, 2019)";
+	private final double optionThreshold = 0.000001; // min weight of split that we consider
+	private final boolean makeSplits = true;
+	//private boolean optionConstrain = true;
+	private final int[] cycle = null; // the computed cycle
+	public final static String DESCRIPTION = "Computes the Neighbor-Net network (Bryant and Moulton 2004) using the revised algorithm of (Bryant, Huber and Moulton, 2019)";
 
 
-    /**
-     * Determine whether given method can be applied to given data.
-     *
-     * @param taxa the taxa
-     * @param dist the input distance object
+	/**
+	 * Determine whether given method can be applied to given data.
+	 *
+	 * @param taxa the taxa
+	 * @param dist the input distance object
      * @return true, if method applies to given data
      */
     public boolean isApplicable(Document doc, Taxa taxa, Distances dist) {
@@ -193,20 +186,20 @@ public class NeighborNetReboot implements Distances2Splits {
         return splits;
     }
 
-    /**
-     * Agglomerates the nodes
-     */
-    static private int agglomNodes(Document doc, Stack amalgs, double D[][], NetNode netNodes, int num_nodes) throws CanceledException {
-        //System.err.println("agglomNodes");
+	/**
+	 * Agglomerates the nodes
+	 */
+	static private int agglomNodes(Document doc, Stack amalgs, double[][] D, NetNode netNodes, int num_nodes) throws CanceledException {
+		//System.err.println("agglomNodes");
 
-        NetNode p, q, Cx, Cy, x, y;
-        double Qpq = 0.0, best;
-        int num_active = num_nodes;
-        int num_clusters = num_nodes;
-        int m;
-        double Dpq;
+		NetNode p, q, Cx, Cy, x, y;
+		double Qpq = 0.0, best;
+		int num_active = num_nodes;
+		int num_clusters = num_nodes;
+		int m;
+		double Dpq;
 
-        while (num_active > 3) {
+		while (num_active > 3) {
 
             /* Special case If we let this one go then we get a divide by zero when computing Qpq */
             if (num_active == 4 && num_clusters == 2) {
@@ -868,9 +861,7 @@ public class NeighborNetReboot implements Distances2Splits {
     /**
      * Create the set of all circular splits for a given ordering
      *
-     * @param ntax     Number of taxa
      * @param ordering circular ordering
-     * @param weight   weight to give each split
      * @return set of ntax*(ntax-1)/2 circular splits
      */
     static public Splits getSplits(int[] ordering, double[][] W, double threshold) {

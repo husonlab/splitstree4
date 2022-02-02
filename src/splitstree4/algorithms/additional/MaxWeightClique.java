@@ -36,32 +36,30 @@ import java.util.Arrays;
  */
 public class MaxWeightClique {
 
-    private int n;
-    private int[] sortedToUnsorted;
-    private int[] unsortedToSorted;
-    private boolean[][] AdjMatrix;
-    private double[] vertexWeights;
+	private final int n;
+	private final int[] sortedToUnsorted;
+	private final int[] unsortedToSorted;
+	private final boolean[][] AdjMatrix;
+	private final double[] vertexWeights;
 
-    /* These are used by Bron and Kerbosch's algorithm */
+	/* These are used by Bron and Kerbosch's algorithm */
 
-    private int c;
-    private int[] all;
-    private int[] compsub;
-    private int[] maxClique;
-    private int maxCliqueSize;
-    private double maxCliqueWeight;
+	private int c;
+	private final int[] all;
+	private final int[] compsub;
+	private final int[] maxClique;
+	private int maxCliqueSize;
+	private double maxCliqueWeight;
 
-    private double currWeight;
+	private double currWeight;
 
-    /**
-     * Takes an adjaceny matrix (1..n by 1..n) and a vector of vertex weights
-     * (1..n).
-     * Computes a maximum weight clique using an exhaustive algorithm - potentially
-     * very slow!!!
+	/**
+	 * Takes an adjaceny matrix (1..n by 1..n) and a vector of vertex weights
+	 * (1..n).
+	 * Computes a maximum weight clique using an exhaustive algorithm - potentially
+	 * very slow!!!
      *
-     * @param Adj
-     * @param weights
-     */
+	 */
     public MaxWeightClique(boolean[][] Adj, double[] weights) {
 
         /* First we need to sort the vertices by decreasing weight */
@@ -106,8 +104,7 @@ public class MaxWeightClique {
     /**
      * return the maximum clique weight found by the method
      *
-     * @return
-     */
+	 */
     public double getMaxCliqueWeight() {
         return maxCliqueWeight;
     }
@@ -115,8 +112,7 @@ public class MaxWeightClique {
     /**
      * return the maximum clique found by the algorithm
      *
-     * @return
-     */
+	 */
     public boolean[] getMaxClique() {
         boolean[] clique = new boolean[n + 1];
         for (int i = 1; i <= n; i++)
@@ -226,29 +222,29 @@ public class MaxWeightClique {
 
             //Add to not
             ne = ne + 1;
-            if (nod > 1) {
-                for (s = ne + 1; AdjMatrix[fixp][old[s]]; s++) {
-                }
-            }
+			if (nod > 1) {
+				for (s = ne + 1; AdjMatrix[fixp][old[s]]; s++) {
+				}
+			}
 
 
-        }
-    }
+		}
+	}
 
 
-    class Pair implements Comparable {
-        public int id;
-        public double x;
+	static class Pair implements Comparable {
+		public final int id;
+		public final double x;
 
-        public Pair(int id, double x) {
-            this.id = id;
-            this.x = x;
-        }
+		public Pair(int id, double x) {
+			this.id = id;
+			this.x = x;
+		}
 
-        public int compareTo(Object o) {
-            Pair p = (Pair) o;
+		public int compareTo(Object o) {
+			Pair p = (Pair) o;
 
-            //Note - we want to sort in decreasing size!!
+			//Note - we want to sort in decreasing size!!
             if (this.x < p.x)
                 return 1;
             else

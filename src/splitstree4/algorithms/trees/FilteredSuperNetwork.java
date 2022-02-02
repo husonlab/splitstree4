@@ -34,7 +34,6 @@ import splitstree4.util.TreesUtilities;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -203,8 +202,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
     /**
      * sets the mininum number of trees for which a split but have a good enough score
      *
-     * @param optionMinNumberTrees
-     */
+	 */
     public void setOptionMinNumberTrees(int optionMinNumberTrees) {
         this.optionMinNumberTrees = Math.max(1, optionMinNumberTrees);
         sync2gui();
@@ -218,8 +216,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
     /**
      * set the max homoplasy score that we will allows per tree
      *
-     * @param optionMaxDistortionScore
-     */
+	 */
     public void setOptionMaxDistortionScore(int optionMaxDistortionScore) {
         this.optionMaxDistortionScore = Math.max(0, optionMaxDistortionScore);
         sync2gui();
@@ -259,7 +256,6 @@ public class FilteredSuperNetwork implements Trees2Splits {
     /**
      * return the possible chocies for optionEdgeWeights
      *
-     * @param doc
      * @return list of choices
      */
     public List selectionOptionEdgeWeights(Document doc) {
@@ -336,10 +332,10 @@ public class FilteredSuperNetwork implements Trees2Splits {
         guiMinNumberTreesField.addActionListener(action);
         guiMinNumberTreesField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
-                try {
-                    optionMinNumberTrees = Integer.parseInt(guiMinNumberTreesField.getText());
-                } catch (Exception ex) {
-                }
+				try {
+					optionMinNumberTrees = Integer.parseInt(guiMinNumberTreesField.getText());
+				} catch (Exception ignored) {
+				}
             }
         });
         guiActions.add(action);
@@ -357,7 +353,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
                     hp.setValues(values);
                     Float result = hp.showThresholdDialog(null, "Minimum number of trees", optionMinNumberTrees);
                     if (result != null)
-                        setOptionMinNumberTrees(Math.round(result.floatValue()));
+						setOptionMinNumberTrees(Math.round(result));
                 } catch (Exception ex) {
                     Basic.caught(ex);
                 }
@@ -386,10 +382,10 @@ public class FilteredSuperNetwork implements Trees2Splits {
         guiMaxDistortionScoreField.addActionListener(action);
         guiMaxDistortionScoreField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
-                try {
-                    optionMaxDistortionScore = Integer.parseInt(guiMaxDistortionScoreField.getText());
-                } catch (Exception ex) {
-                }
+				try {
+					optionMaxDistortionScore = Integer.parseInt(guiMaxDistortionScoreField.getText());
+				} catch (Exception ignored) {
+				}
             }
         });
 
@@ -415,7 +411,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
                     hp.setIncludeZero(true);
                     Float result = hp.showThresholdDialog(null, "Maximum distortion score", optionMaxDistortionScore);
                     if (result != null)
-                        setOptionMaxDistortionScore(Math.round(result.floatValue()));
+						setOptionMaxDistortionScore(Math.round(result));
                 } catch (Exception ex) {
                     Basic.caught(ex);
                 }
@@ -444,31 +440,29 @@ public class FilteredSuperNetwork implements Trees2Splits {
 
         gbc.gridy++;
         gbc.gridx = 0;
-        guiPanel.add(new JLabel("EdgeWeights"), gbc);
+		guiPanel.add(new JLabel("EdgeWeights"), gbc);
 
-        gbc.gridx++;
-        gbc.gridwidth = 2;
-        guiEdgeWeightsComboBox = new JComboBox();
-        guiEdgeWeightsComboBox.setEditable(false);
-        for (Object o : selectionOptionEdgeWeights(null)) {
-            String label = (String) o;
-            guiEdgeWeightsComboBox.addItem(label);
-        }
-        guiEdgeWeightsComboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JComboBox cbox = (JComboBox) e.getSource();
-                setOptionEdgeWeights((String) cbox.getSelectedItem());
-            }
-        });
-        guiPanel.add(guiEdgeWeightsComboBox, gbc);
+		gbc.gridx++;
+		gbc.gridwidth = 2;
+		guiEdgeWeightsComboBox = new JComboBox();
+		guiEdgeWeightsComboBox.setEditable(false);
+		for (Object o : selectionOptionEdgeWeights(null)) {
+			String label = (String) o;
+			guiEdgeWeightsComboBox.addItem(label);
+		}
+		guiEdgeWeightsComboBox.addActionListener(e -> {
+			JComboBox cbox = (JComboBox) e.getSource();
+			setOptionEdgeWeights((String) cbox.getSelectedItem());
+		});
+		guiPanel.add(guiEdgeWeightsComboBox, gbc);
 
-        sync2gui();
-        guiPanel.revalidate();
-        //guiPanel.setPreferredSize(new Dimension(300,300));
-        //guiPanel.setSize(guiPanel.getPreferredSize());
-        guiPanel.setMinimumSize(guiPanel.getPreferredSize());
-        return guiPanel;
-    }
+		sync2gui();
+		guiPanel.revalidate();
+		//guiPanel.setPreferredSize(new Dimension(300,300));
+		//guiPanel.setSize(guiPanel.getPreferredSize());
+		guiPanel.setMinimumSize(guiPanel.getPreferredSize());
+		return guiPanel;
+	}
 
     /**
      * sync the the model to the GUI
@@ -503,10 +497,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
     /**
      * generate values for histrogram for distortion score, for a given min number of trees
      *
-     * @param doc
-     * @return
-     * @throws Exception
-     */
+	 */
     private List computeDistortionHistrogramForGivenMinTreeNumbers(final Document doc) throws Exception {
         doc.setProgressListener(new ProgressCmdLine());
         final List values = new LinkedList();
@@ -578,10 +569,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
     /**
      * generate values for histrogram for distortion score
      *
-     * @param doc
-     * @return
-     * @throws Exception
-     */
+	 */
     private List computeDistortionHistrogram(final Document doc) throws Exception {
         doc.setProgressListener(new ProgressCmdLine());
         final List values = new LinkedList();
@@ -644,10 +632,7 @@ public class FilteredSuperNetwork implements Trees2Splits {
     /**
      * generate values for histrogram
      *
-     * @param doc
-     * @return
-     * @throws Exception
-     */
+	 */
     private List computeMinTreeNumbersHistogramForGivenMaxDistortionScore(final Document doc) throws Exception {
         doc.setProgressListener(new ProgressCmdLine());
         final List values = new LinkedList();

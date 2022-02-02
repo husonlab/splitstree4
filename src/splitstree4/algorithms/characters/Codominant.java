@@ -41,18 +41,18 @@ import splitstree4.nexus.Taxa;
 public class Codominant implements Characters2Distances {
 
 
-    protected String TASK = "Codominant Genetic Distance";
-    protected String DESCRIPTION = "Codominant Genetic Distance for diploid characters (Smouse & Peakall 1999)";
+	protected final String TASK = "Codominant Genetic Distance";
+	protected final String DESCRIPTION = "Codominant Genetic Distance for diploid characters (Smouse & Peakall 1999)";
 
-    /**
-     * In Smouse and Peakall, the final distance is the square root of the contribution of the
-     * individual loci. This flag sets whether to use this square root, or just the averages
-     * over the loci.
-     */
-    protected boolean useSquareRoot;
+	/**
+	 * In Smouse and Peakall, the final distance is the square root of the contribution of the
+	 * individual loci. This flag sets whether to use this square root, or just the averages
+	 * over the loci.
+	 */
+	protected boolean useSquareRoot;
 
-    /**
-     * Determine whether  distances can be computed with given data.
+	/**
+	 * Determine whether  distances can be computed with given data.
      *
      * @param taxa the taxa
      * @param c    the characters matrix
@@ -189,7 +189,7 @@ public class Codominant implements Characters2Distances {
                         }
                     }
 
-                    distSquared += (double) diff;
+					distSquared += diff;
                 }
 
                 double dij = nchar / 2.0 * distSquared / (double) nValidLoci;

@@ -34,19 +34,18 @@ import java.util.Map;
  */
 public class TabbedText extends ExporterAdapter implements Exporter {
 
-    private String Description = "Exports data to tab delimited text files";
-    private String Name = "Tabbed Text";
+	private final String Description = "Exports data to tab delimited text files";
+	private final String Name = "Tabbed Text";
 
 
-    private static final boolean sortTaxa = false;  //Sort taxa according to the cycle.
+	private static final boolean sortTaxa = false;  //Sort taxa according to the cycle.
 
 
-    /**
-     * can we export this data?
-     *
-     * @param dp
-     * @return true, if can handle this export
-     */
+	/**
+	 * can we export this data?
+	 *
+	 * @return true, if can handle this export
+	 */
     public boolean isApplicable(Document dp, Collection selected) {
 
         LinkedList goodBlocks = new LinkedList();
@@ -71,12 +70,7 @@ public class TabbedText extends ExporterAdapter implements Exporter {
     /**
      * Writes selected blocks to a tab-delimited text file.
      *
-     * @param w
-     * @param dp
-     * @param blockNames
-     * @return
-     * @throws Exception
-     */
+	 */
     public Map apply(Writer w, Document dp, Collection blockNames) throws Exception {
 
 

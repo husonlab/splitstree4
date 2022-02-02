@@ -51,20 +51,20 @@ import java.util.StringTokenizer;
 
 public class PreferencesWindow implements IDirectableViewer {
 
-    private PreferencesActions actions;
-    private boolean uptodate = false;
-    private Director dir;
-    private MainViewer mainViewer;
-    private JFrame frame;
-    private JCheckBox graphEditable, maintainEdgeLengths, showScaleBar,
-            useSplitSelectionMode;
-    StatusBar statusBar;
-    private JCheckBox fitCB, lsFitCB, taxaCB, charsCB, treesCB, splitsCB, assumptionsCB,
-            verticesCB, edgesCB, nodeBold, nodeItalic, edgeBold, edgeItalic, edgeWeights, edgeIDs, edgeConfidence, showToolbar;
-    private JRadioButton recomputeButton, stabilizeButton, snowballButton, keepButton;
-    private JTextArea cycleText = null;
-    private JComboBox nodeSize, nodeFont, nodeFontSize, nodeShape, edgeWidth, edgeFont, edgeFontSize, nodeLabels;
-    private JColorChooser nodeColor, edgeColor;
+	private final PreferencesActions actions;
+	private boolean uptodate = false;
+	private final Director dir;
+	private final MainViewer mainViewer;
+	private final JFrame frame;
+	private JCheckBox graphEditable, maintainEdgeLengths, showScaleBar,
+			useSplitSelectionMode;
+	final StatusBar statusBar;
+	private JCheckBox fitCB, lsFitCB, taxaCB, charsCB, treesCB, splitsCB, assumptionsCB,
+			verticesCB, edgesCB, nodeBold, nodeItalic, edgeBold, edgeItalic, edgeWeights, edgeIDs, edgeConfidence, showToolbar;
+	private JRadioButton recomputeButton, stabilizeButton, snowballButton, keepButton;
+	private JTextArea cycleText = null;
+	private JComboBox nodeSize, nodeFont, nodeFontSize, nodeShape, edgeWidth, edgeFont, edgeFontSize, nodeLabels;
+	private JColorChooser nodeColor, edgeColor;
 
     java.util.List all = new LinkedList();
     private DefaultListModel listl = null;
@@ -194,11 +194,8 @@ public class PreferencesWindow implements IDirectableViewer {
         c.weighty = 1;
         c.gridwidth = GridBagConstraints.RELATIVE;
         c.gridheight = 1;
-        pan.add(nodeBold, c);
-        if (nFont.getStyle() == Font.BOLD || nFont.getStyle() == Font.BOLD + Font.ITALIC)
-            nodeBold.setSelected(true);
-        else
-            nodeBold.setSelected(false);
+		pan.add(nodeBold, c);
+		nodeBold.setSelected(nFont.getStyle() == Font.BOLD || nFont.getStyle() == Font.BOLD + Font.ITALIC);
 
         nodeItalic = nodeItalic();
         c.gridx = 5;
@@ -207,11 +204,8 @@ public class PreferencesWindow implements IDirectableViewer {
         c.weighty = 1;
         c.gridheight = 1;
         c.gridwidth = GridBagConstraints.REMAINDER;
-        pan.add(nodeItalic, c);
-        if (nFont.getStyle() == Font.ITALIC || nFont.getStyle() == Font.BOLD + Font.ITALIC)
-            nodeItalic.setSelected(true);
-        else
-            nodeItalic.setSelected(false);
+		pan.add(nodeItalic, c);
+		nodeItalic.setSelected(nFont.getStyle() == Font.ITALIC || nFont.getStyle() == Font.BOLD + Font.ITALIC);
 
         nodeColor = nodeColor();
         c.anchor = GridBagConstraints.CENTER;
@@ -360,11 +354,8 @@ public class PreferencesWindow implements IDirectableViewer {
         c.weighty = 1;
         c.gridwidth = GridBagConstraints.RELATIVE;
         c.gridheight = 1;
-        pan.add(edgeBold, c);
-        if (eFont.getStyle() == Font.BOLD || eFont.getStyle() == Font.BOLD + Font.ITALIC)
-            edgeBold.setSelected(true);
-        else
-            edgeBold.setSelected(false);
+		pan.add(edgeBold, c);
+		edgeBold.setSelected(eFont.getStyle() == Font.BOLD || eFont.getStyle() == Font.BOLD + Font.ITALIC);
 
         edgeItalic = edgeItalic();
         c.anchor = GridBagConstraints.CENTER;
@@ -374,11 +365,8 @@ public class PreferencesWindow implements IDirectableViewer {
         c.weighty = 1;
         c.gridheight = 1;
         c.gridwidth = GridBagConstraints.REMAINDER;
-        pan.add(edgeItalic, c);
-        if (eFont.getStyle() == Font.ITALIC || eFont.getStyle() == Font.BOLD + Font.ITALIC)
-            edgeItalic.setSelected(true);
-        else
-            edgeItalic.setSelected(false);
+		pan.add(edgeItalic, c);
+		edgeItalic.setSelected(eFont.getStyle() == Font.ITALIC || eFont.getStyle() == Font.BOLD + Font.ITALIC);
 
         edgeColor = edgeColor();
         c.anchor = GridBagConstraints.CENTER;
@@ -824,11 +812,7 @@ public class PreferencesWindow implements IDirectableViewer {
         return panel;
     }
 
-    /**
-     * Adapted from the following class:
-     *
-     */
-    /**
+	/**
      * Status Line Panel:
      * -------------------------
      * The next class is built in order to give more choices to the user
@@ -1223,9 +1207,8 @@ public class PreferencesWindow implements IDirectableViewer {
      * init the two lists in the tool bar tab
      */
     void initToolbarTab() {
-        java.util.List elements = new LinkedList();
 
-        elements.addAll(this.getMainViewer().getMenuBar().getActions());
+		java.util.List elements = new LinkedList(this.getMainViewer().getMenuBar().getActions());
 
         Map showActions = new HashMap();
 
@@ -1275,7 +1258,6 @@ public class PreferencesWindow implements IDirectableViewer {
     /**
      * set uptodate state
      *
-     * @param flag
      */
     public void setUptoDate(boolean flag) {
         uptodate = flag;
@@ -1337,17 +1319,17 @@ public class PreferencesWindow implements IDirectableViewer {
 //Display an icon and a string for each object in the list.
 
 
-    class MyCellRenderer extends JLabel implements ListCellRenderer {
+	static class MyCellRenderer extends JLabel implements ListCellRenderer {
 
-        // This is the only method defined by ListCellRenderer.
-        // We just reconfigure the JLabel each time we're called.
+		// This is the only method defined by ListCellRenderer.
+		// We just reconfigure the JLabel each time we're called.
 
-        public Component getListCellRendererComponent(JList list,
-                                                      Object value, // value to display
-                                                      int index, // cell index
-                                                      boolean isSelected, // is the cell selected
-                                                      boolean cellHasFocus)    // the list and the cell have the focus
-        {
+		public Component getListCellRendererComponent(JList list,
+													  Object value, // value to display
+													  int index, // cell index
+													  boolean isSelected, // is the cell selected
+													  boolean cellHasFocus)    // the list and the cell have the focus
+		{
             AbstractAction a = (AbstractAction) value;
 
             String s;

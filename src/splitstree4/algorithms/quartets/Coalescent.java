@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: Coalescent.java,v 1.11 2007-09-11 12:31:09 kloepper Exp $
- *
- * @author tobias dezulian
- *
- */
 package splitstree4.algorithms.quartets;
 
 
@@ -95,14 +89,11 @@ public class Coalescent implements Quartets2Splits {
             Splits splits = new Splits(taxa.getNtax());
             int originalNumberOfTaxa = taxa.getNtax();
 
-            /**
-             * start with all trivial splits
-             */
-            for (int i = 1; i <= taxa.getNtax(); i++) {
-                TaxaSet ts = new TaxaSet();
-                ts.set(i);
-                splits.add(ts);
-            }
+			for (int i = 1; i <= taxa.getNtax(); i++) {
+				TaxaSet ts = new TaxaSet();
+				ts.set(i);
+				splits.add(ts);
+			}
 
             //at the beginning all taxa are valid
             validTaxa = new TaxaSet();
@@ -113,20 +104,8 @@ public class Coalescent implements Quartets2Splits {
 
             boolean foundCherry = findACherry(taxa, quartets);
             while (foundCherry) {
-                /**
-                 * now we know that there is no quartet which puts
-                 * x and y on different sides.
-                 * let's now
-                 *  + create a new taxon which results from the coalescence of
-                 *    the two taxons of the cherry
-                 *  + insert a split: xy|allTheRest
-                 *  + remove every quartet which has got x and y on the same side
-                 *    [since that is superfluous information]
-                 *  + change y to x in every remaining quartet
-                 * thus coalescing the cherry into a new taxon.
-                 */
 
-                //create new valid taxon z for this cherry
+				//create new valid taxon z for this cherry
                 int z = taxa.getNtax() + 1;
                 taxa.setNtax(z);
                 taxa.setLabel(taxa.getNtax()
@@ -136,20 +115,20 @@ public class Coalescent implements Quartets2Splits {
                 //update coalescenceMap
                 TaxaSet coalescedTaxa = new TaxaSet();
                 if (cherryPartX > originalNumberOfTaxa)
-                    coalescedTaxa.or((TaxaSet) coalescenceMap.get((int) (cherryPartX)));
+					coalescedTaxa.or((TaxaSet) coalescenceMap.get(cherryPartX));
                 else
                     coalescedTaxa.set(cherryPartX);
                 if (cherryPartY > originalNumberOfTaxa)
-                    coalescedTaxa.or((TaxaSet) coalescenceMap.get((int) (cherryPartY)));
+					coalescedTaxa.or((TaxaSet) coalescenceMap.get(cherryPartY));
                 else
                     coalescedTaxa.set(cherryPartY);
                 coalescenceMap.put(z, coalescedTaxa);
                 if (logging)
-                    System.out.println("creating new taxon: " + z + " containing: " + coalescedTaxa.toString());
+					System.out.println("creating new taxon: " + z + " containing: " + coalescedTaxa);
 
                 //insert the new split
                 splits.add(coalescedTaxa);
-                if (logging) System.out.println("+ adding split: " + coalescedTaxa.toString());
+				if (logging) System.out.println("+ adding split: " + coalescedTaxa);
 
                 //delete these taxa from the valid ones since they have been
                 //replaced by the new taxon
@@ -163,7 +142,7 @@ public class Coalescent implements Quartets2Splits {
                     Quartet q = quartets.get(i);
                     if (q.isXYonSameSides(cherryPartX, cherryPartY)) {
                         //do not add to new quartets since superfluous
-                        if (logging) System.out.println("dropping: " + q.toString());
+						if (logging) System.out.println("dropping: " + q);
                     } else {
                         //update references to cherryPartX or cherryPartY
                         //to the new taxon z and then insert the quartet into
@@ -186,12 +165,12 @@ public class Coalescent implements Quartets2Splits {
                         } else
                             b2 = q.getB2();
                         Quartet qNew = new Quartet(a1, a2, b1, b2, q.getWeight(), q.getLabel());
-                        if (logging) System.out.println("adding: " + qNew.toString());
+						if (logging) System.out.println("adding: " + qNew);
                         newQuartets.add(qNew);
                     }
                 }
                 quartets = newQuartets;
-                if (logging) System.out.println("");
+				if (logging) System.out.println();
                 foundCherry = findACherry(taxa, quartets);
 
             }
@@ -218,8 +197,6 @@ public class Coalescent implements Quartets2Splits {
      * If a cherry exists it is found and is returned in the global
      * cherryPartX and cherryPartY fields.
      *
-     * @param taxa
-     * @param quartets
      * @return returns wheather a cherry was found
      */
     private boolean findACherry(Taxa taxa, Quartets quartets) {
@@ -233,14 +210,10 @@ public class Coalescent implements Quartets2Splits {
                     boolean cherryFound = true;
                     for (int q = 1; q <= quartets.size(); q++) {
                         Quartet quart = quartets.get(q);
-                        /**
-                         * is this quartet compatible with the two taxa being
-                         * a cherry ?
-                         */
-                        if (quart.isXYonDifferentSides(i, j)) {
-                            cherryFound = false;
-                            break;
-                        }
+						if (quart.isXYonDifferentSides(i, j)) {
+							cherryFound = false;
+							break;
+						}
                     }
                     if (cherryFound) {
                         cherryPartX = i;

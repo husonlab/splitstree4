@@ -115,9 +115,7 @@ public class RandomTrees {
      * The log of the rate at the end of the branch is assumed to be normally distributed with mean
      * equal to the log of the current rate and variance equal to sigma^2 t.
      *
-     * @param T
-     * @param sigma
-     */
+	 */
     public static void relaxClockLogNormal(PaupNode T, double sigma) {
         GenerateRandom random = new GenerateRandom();
         recurseRelaxLogNormal(T, 1.0, sigma, random);
@@ -146,8 +144,6 @@ public class RandomTrees {
      * Multiplies each branch length in T by a random number e^x where x is chosen
      * uniformly in [-epsilon,epsilon]
      *
-     * @param T
-     * @param epsilon
      * @param random  Random number generator
      */
     public static void relaxExponential(PaupNode T, double epsilon, GenerateRandom random) {
@@ -163,10 +159,7 @@ public class RandomTrees {
     /**
      * Chooses node (excluding root) uniformly according to the length of the branch.
      *
-     * @param T
-     * @param random
-     * @return
-     */
+	 */
     public static PaupNode randomNode(PaupNode T, GenerateRandom random) {
         double total = 0.0;
         for (PaupNode v = T; v != null; v = PaupTreeUtils.nextPre(v)) {
@@ -209,13 +202,17 @@ public class RandomTrees {
 
             ancestral = false;
             for (PaupNode x = v; !ancestral && x != null; x = x.getPar()) {
-                if (x == w)
-                    ancestral = true;
-            }
+				if (x == w) {
+					ancestral = true;
+					break;
+				}
+			}
             for (PaupNode x = w; !ancestral && x != null; x = x.getPar()) {
-                if (x == v)
-                    ancestral = true;
-            }
+				if (x == v) {
+					ancestral = true;
+					break;
+				}
+			}
         } while (ancestral || w.getPar() == v.getPar());
 
         PaupNode wPar = w.getPar();
@@ -241,13 +238,17 @@ public class RandomTrees {
 
             ancestral = false;
             for (PaupNode x = v; !ancestral && x != null; x = x.getPar()) {
-                if (x == w)
-                    ancestral = true;
-            }
+				if (x == w) {
+					ancestral = true;
+					break;
+				}
+			}
             for (PaupNode x = w; !ancestral && x != null; x = x.getPar()) {
-                if (x == v)
-                    ancestral = true;
-            }
+				if (x == v) {
+					ancestral = true;
+					break;
+				}
+			}
         } while (ancestral || w.getPar() == v.getPar());
 
         PaupNode newPar = new PaupNode();

@@ -18,13 +18,6 @@
  */
 package splitstree4.gui.nodeEdge;
 
-/**
- * @author Markus
- * <p>
- * To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
- */
-
 import splitstree4.gui.Director;
 import splitstree4.gui.main.MainViewer;
 
@@ -34,18 +27,18 @@ import javax.swing.*;
 public class ConfiguratorMenuBar extends JMenuBar {
 
 
-    private Configurator conf;
-    private Director dir;
+	private final Configurator conf;
+	private final Director dir;
 
-    public ConfiguratorMenuBar(Configurator conf, Director dir) {
-        super();
+	public ConfiguratorMenuBar(Configurator conf, Director dir) {
+		super();
 
-        this.conf = conf;
-        this.dir = dir;
+		this.conf = conf;
+		this.dir = dir;
 
-        addFileMenu();
-        addEditMenu();
-    }
+		addFileMenu();
+		addEditMenu();
+	}
 
     /**
      * returns the tool bar for this simple viewer

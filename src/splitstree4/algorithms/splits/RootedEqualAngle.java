@@ -46,8 +46,8 @@ public class RootedEqualAngle implements Splits2Network {
     public final static String DESCRIPTION = "Rooted equal angle algorithm (Gambette and Huson, submitted 2005)";
     private boolean optionOptimizeDaylight = false;
     private int optionDaylightIterations = 1;
-    private boolean optionOptimizeBoxes = false;
-    private boolean optionUseWeights = true;
+	private final boolean optionOptimizeBoxes = false;
+	private boolean optionUseWeights = true;
     private boolean optionRunConvexHull = true;
     private int optionMaxAngle = 120;
     private boolean optionSpecialSwitch = false;
@@ -302,9 +302,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * computes the average distance of the out group to all other taxa
      *
-     * @param taxa
-     * @param splits
-     * @param outGroupTaxon
      * @return average distances
      */
     private double computeAverageDistance(Taxa taxa, Splits splits, int outGroupTaxon) {
@@ -327,8 +324,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * removes temporary root taxon from graph
      *
-     * @param rootTaxonId
-     * @param graphView
      * @return the root node
      */
     private Node removeRootTaxon(int rootTaxonId, int numOrigSplits, PhyloGraphView graphView) {
@@ -348,10 +343,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * initializes the graph
      *
-     * @param taxa
-     * @param splits
-     * @param cycle
-     * @param graph
      */
     private void initGraph(Taxa taxa, Splits splits, int[] cycle, PhyloSplitsGraph graph) throws
             NotOwnerException, SplitsException {
@@ -405,8 +396,6 @@ public class RootedEqualAngle implements Splits2Network {
      * returns the list of all non-trivial splits, ordered by by increasing size
      * of the split part containing taxon 1
      *
-     * @param taxa
-     * @param splits
      * @return non-trivial splits
      */
     private List<Integer> getInteriorSplitsOrdered(Taxa taxa, Splits splits) {
@@ -442,11 +431,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * adds an interior split using the wrapping algorithm
      *
-     * @param taxa
-     * @param cycle
-     * @param splits
-     * @param s
-     * @param graph
      */
     private void wrapSplit(Taxa taxa, Splits splits, int s, int[] cycle, PhyloSplitsGraph graph) throws Exception {
         TaxaSet part = (TaxaSet) (splits.get(s).clone());
@@ -533,8 +517,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * does this edge lead to a leaf?
      *
-     * @param f
-     * @param graph
      * @return is leaf edge
      */
     private boolean isLeafEdge(Edge f, PhyloSplitsGraph graph) throws NotOwnerException {
@@ -545,8 +527,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * this removes all temporary trivial edges added to the graph
      *
-     * @param graph
-     * @throws NotOwnerException
      */
     private void removeTemporaryTrivialEdges(PhyloSplitsGraph graph) throws NotOwnerException {
         for (Edge e : graph.edges()) {
@@ -572,9 +552,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * assigns angles to all edges in the graph
      *
-     * @param splits
-     * @param cycle
-     * @param graph
      */
     private void assignAnglesToEdges(Splits splits, int[] cycle, PhyloSplitsGraph graph)
             throws NotOwnerException, CanceledException {
@@ -619,15 +596,12 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * runs the optimize daylight algorithm
      *
-     * @param taxa
-     * @param graphView
-     * @throws NotOwnerException
      */
     private void runOptimizeDayLight(Taxa taxa, PhyloGraphView graphView) throws CanceledException, NotOwnerException {
         Node rootNode = graphView.getPhyloGraph().getTaxon2Node(taxa.getNtax());// root is last node
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
         for (int i = 1; i <= getBrokenOptionDaylightIterations(); i++) {
-			var it = IteratorUtils.randomize(graph.nodes().iterator(), 77 * i);
+			var it = IteratorUtils.randomize(graph.nodes().iterator(), 77L * i);
             while (it.hasNext()) {
                 final Node v = it.next();
                 if (graph.getDegree(v) > 1) {
@@ -644,7 +618,6 @@ public class RootedEqualAngle implements Splits2Network {
      *
      * @param v         the node to be optimized
      * @param rootNode  the root of the rooted graph
-     * @param graphView
      */
     private void optimizeDaylightNode(Taxa taxa, Node v, Node rootNode,
                                       PhyloGraphView graphView) throws NotOwnerException {
@@ -715,14 +688,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * recursively visit the whole subgraph, obtaining the min and max observed angle
      *
-     * @param root
-     * @param v
-     * @param e
-     * @param edge2comp
-     * @param numComp
-     * @param graph
-     * @param visited
-     * @param minMaxAngle
      */
     private void visitComponentRec(Node root, Node v, Edge e, EdgeIntArray edge2comp,
                                    int numComp, PhyloSplitsGraph graph, PhyloGraphView graphView,
@@ -751,9 +716,7 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * assigns coordinates to nodes
      *
-     * @param useWeights
      * @param rootTaxonId id of the root taxon
-     * @param graphView
      */
     private void assignCoordinatesToNodes(boolean useWeights, int rootTaxonId, PhyloGraphView graphView) throws NotOwnerException {
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
@@ -771,11 +734,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * recursively assigns coordinates to all nodes
      *
-     * @param v
-     * @param splitsInPath
-     * @param nodesVisited
-     * @param useWeights
-     * @param graphView
      */
     private void assignCoordinatesToNodesRec(Node v, BitSet splitsInPath,
                                              NodeSet nodesVisited, boolean useWeights, PhyloGraphView graphView)
@@ -802,7 +760,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * normalizes cycle so that cycle[1]=1
      *
-     * @param cycle
      * @return normalized cycle
      */
     private int[] normalizeCycle(int[] cycle) {
@@ -858,31 +815,12 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * set optimize daylight option
      *
-     * @param optimizeDaylight
      */
     public void setBrokenOptionOptimizeDaylight(boolean optimizeDaylight) {
         this.optionOptimizeDaylight = optimizeDaylight;
     }
 
-    /**
-     * should  interior angle optimization be applied?
-     * @return apply option?
-
-    public boolean getOptionOptimizeInterior() {
-    return optimizeInterior;
-    }
-     */
-
-    /**
-     * set optimize interior angle option
-     * @param optimizeInterior
-
-    public void setOptionOptimizeInterior(boolean optimizeInterior) {
-    this.optimizeInterior = optimizeInterior;
-    }
-     */
-
-    /**
+	/**
      * scale edge lengths by weights?
      *
      * @return use weights?
@@ -894,7 +832,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * scale edge lengths by weights?
      *
-     * @param useWeights
      */
     public void setOptionUseWeights(boolean useWeights) {
         this.optionUseWeights = useWeights;
@@ -903,7 +840,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * run convex hull algorithm on non circular splits?
      *
-     * @param runConvexHull
      */
     public void setOptionRunConvexHull(boolean runConvexHull) {
         this.optionRunConvexHull = runConvexHull;
@@ -930,7 +866,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * set the number of times to run daylight optimization
      *
-     * @param optionDaylightIterations
      */
     public void setBrokenOptionDaylightIterations(int optionDaylightIterations) {
         this.optionDaylightIterations = optionDaylightIterations;
@@ -948,7 +883,6 @@ public class RootedEqualAngle implements Splits2Network {
     /**
      * set the maximal angle between 0 and 90 degrees
      *
-     * @param optionMaxAngle
      */
     public void setOptionMaxAngle(int optionMaxAngle) {
         this.optionMaxAngle = optionMaxAngle;
@@ -970,8 +904,6 @@ public class RootedEqualAngle implements Splits2Network {
      * for now, calling this method will set the outgroup to the named taxon
      * todo: fix this in all classes that compute a rooted network
      *
-     * @param taxonName
-     * @param doc
      */
     public void setOutGroup(String taxonName, Document doc) {
         Taxa taxa = doc.getTaxa();

@@ -38,21 +38,21 @@ import java.text.ParseException;
 public class BootstrapDialog extends JDialog implements ActionListener {
 
 
-    private JFormattedTextField numReplicates;
-    private JPanel mainPanel;
-    private JPanel outerPanel;
-    private JButton cancelButton;
-    private JButton runButton;
-    private JCheckBox saveTreesButton;
+	private JFormattedTextField numReplicates;
+	private JPanel mainPanel;
+	private final JPanel outerPanel;
+	private final JButton cancelButton;
+	private final JButton runButton;
+	private final JCheckBox saveTreesButton;
 
-    private Bootstrap bootstrap;
-    private boolean execute; //True when the user presses run
-    private Frame owner;
+	private final Bootstrap bootstrap;
+	private boolean execute; //True when the user presses run
+	private final Frame owner;
 
-    int numR;
-    boolean fixNet;
-    boolean saveW;
-    String outfile;
+	int numR;
+	boolean fixNet;
+	boolean saveW;
+	String outfile;
 
 
     public boolean executeBootstrap() {

@@ -184,8 +184,6 @@ public class AlgorithmRECOMB2005 {
      * computes all possible end pairs a,c. A candidate end pair consists of two taxa with the property
      * that every split separates them
      *
-     * @param taxa
-     * @param splits
      * @return all possible end pairs
      */
     private List computeAllEndPairs(Taxa taxa, Splits splits) {
@@ -209,9 +207,6 @@ public class AlgorithmRECOMB2005 {
      * gor a pair of end points, computes all possible backbones. Each backbone is a list
      * of taxa ids, starting with the first member of the pair and ending with the last
      *
-     * @param taxa
-     * @param graphView
-     * @param pair
      * @return list of backbones
      */
     private List computeArrangements(Taxa taxa, Splits splits, PhyloGraphView graphView, Pair pair)
@@ -238,15 +233,7 @@ public class AlgorithmRECOMB2005 {
     /**
      * recursively computes all backbones between startNode and endNode
      *
-     * @param taxa
-     * @param v
-     * @param endNode
-     * @param usedSplits
-     * @param backbone
-     * @param lenBackbone
-     * @param graph
-     * @param reticulations
-     */
+	 */
     private void computeBackbonesRec(Taxa taxa, Node v, Node endNode, BitSet usedSplits, int[] path, int lenPath, int[] backbone,
                                      int lenBackbone, PhyloSplitsGraph graph, List reticulations) throws NotOwnerException, SplitsException {
 
@@ -280,9 +267,6 @@ public class AlgorithmRECOMB2005 {
      * confirm that split set is compatible with a reticulation scenario and set
      * the first/last positions for each reticulation node
      *
-     * @param taxa
-     * @param splits
-     * @param ret
      * @return Return 0 if invalid, 1 if contained, 2 if complete
      */
     private int confirmArrangement(Taxa taxa, Splits splits, Reticulation ret) {

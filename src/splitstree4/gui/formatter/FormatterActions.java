@@ -61,9 +61,7 @@ public class FormatterActions {
     /**
      * constructor
      *
-     * @param formatter
-     * @param dir
-     */
+	 */
     FormatterActions(Formatter formatter, IDirector dir) {
         this.formatter = formatter;
         this.dir = dir;
@@ -83,9 +81,9 @@ public class FormatterActions {
     public void setEnableCritical(boolean on) {
         for (Object anAll : all) {
             AbstractAction action = (AbstractAction) anAll;
-            if (action.getValue(CRITICAL) != null
-                    && (((Boolean) action.getValue(CRITICAL))).equals(Boolean.TRUE))
-                action.setEnabled(on);
+			if (action.getValue(CRITICAL) != null
+				&& action.getValue(CRITICAL).equals(Boolean.TRUE))
+				action.setEnabled(on);
         }
         if (on)
             updateEnableState();
@@ -616,8 +614,7 @@ public class FormatterActions {
     /**
      * set ignore firing of events
      *
-     * @param ignore
-     */
+	 */
     public void setIgnore(boolean ignore) {
         this.ignore = ignore;
     }

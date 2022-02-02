@@ -23,8 +23,6 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -49,27 +47,27 @@ import java.util.EventObject;
 
 public class SpreadSheet extends JTable {
 
-    /**
-     * Set this field to true and recompile
-     * to get debug traces
-     */
-    public static final boolean DEBUG = true;
+	/**
+	 * Set this field to true and recompile
+	 * to get debug traces
+	 */
+	public static final boolean DEBUG = true;
 
-    private JScrollPane _scp;
-    private SpreadSheetModel _model;
-    private int _numRow;
-    private int _numCol;
+	private final JScrollPane _scp;
+	private SpreadSheetModel _model;
+	private final int _numRow;
+	private final int _numCol;
 
-    private int _editedModelRow;
-    private int _editedModelCol;
+	private int _editedModelRow;
+	private int _editedModelCol;
 
-    private boolean _hasRowHeaders;
-    private boolean _hasColHeaders;
-    /*
-     * GUI components used to tailor
-     * the SpreadSheet.
-     */
-    private CellRenderer _renderer;
+	private boolean _hasRowHeaders;
+	private boolean _hasColHeaders;
+	/*
+	 * GUI components used to tailor
+	 * the SpreadSheet.
+	 */
+	private final CellRenderer _renderer;
     //private FontMetrics  _metrics;
 
     // Cells selected.
@@ -140,25 +138,23 @@ public class SpreadSheet extends JTable {
 
         setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent ev) {
+		getSelectionModel().addListSelectionListener(ev -> {
 
-                int[] selRow = getSelectedRows();
-                int[] selCol = getSelectedColumns();
+			int[] selRow = getSelectedRows();
+			int[] selCol = getSelectedColumns();
 
-                _selection = new Object[selRow.length * selCol.length];
+			_selection = new Object[selRow.length * selCol.length];
 
-                int indice = 0;
-                for (int aSelRow : selRow) {
-                    for (int c = 0; c < selCol.length; c++) {
-                        _selection[indice] =
-                                _model.cells[aSelRow][convertColumnIndexToModel(selCol[c])];
-                        indice++;
-                    }
-                }
+			int indice = 0;
+			for (int aSelRow : selRow) {
+				for (int i : selCol) {
+					_selection[indice] =
+							_model.cells[aSelRow][convertColumnIndexToModel(i)];
+					indice++;
+				}
+			}
 
-            }
-        });
+		});
 
         // Create a row-header to display row numbers.
         // This row-header is made of labels whose Borders,
@@ -314,25 +310,23 @@ public class SpreadSheet extends JTable {
 
         setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent ev) {
+		getSelectionModel().addListSelectionListener(ev -> {
 
-                int[] selRow = getSelectedRows();
-                int[] selCol = getSelectedColumns();
+			int[] selRow = getSelectedRows();
+			int[] selCol = getSelectedColumns();
 
-                _selection = new Object[selRow.length * selCol.length];
+			_selection = new Object[selRow.length * selCol.length];
 
-                int indice = 0;
-                for (int aSelRow : selRow) {
-                    for (int c = 0; c < selCol.length; c++) {
-                        _selection[indice] =
-                                _model.cells[aSelRow][convertColumnIndexToModel(selCol[c])];
-                        indice++;
-                    }
-                }
+			int indice = 0;
+			for (int aSelRow : selRow) {
+				for (int i : selCol) {
+					_selection[indice] =
+							_model.cells[aSelRow][convertColumnIndexToModel(i)];
+					indice++;
+				}
+			}
 
-            }
-        });
+		});
 
         // Create a row-header to display row numbers.
         // This row-header is made of labels whose Borders,
@@ -421,17 +415,17 @@ public class SpreadSheet extends JTable {
         this(null, numRow, numColumn);
     }
 
-    /**
-     * Build a SpreadSheet included in a JScrollPane
-     * from the cells given as argument.
-     *
-     * @param cells A two dimensional rectangular
-     *              array ('[numRow][numColumn]') of cells to be used when
-     *              creating the spreadsheet.
-     */
-    public SpreadSheet(SheetCell cells[][]) {
-        this(cells, cells.length, cells[0].length);
-    }
+	/**
+	 * Build a SpreadSheet included in a JScrollPane
+	 * from the cells given as argument.
+	 *
+	 * @param cells A two dimensional rectangular
+	 *              array ('[numRow][numColumn]') of cells to be used when
+	 *              creating the spreadsheet.
+	 */
+	public SpreadSheet(SheetCell[][] cells) {
+		this(cells, cells.length, cells[0].length);
+	}
 
     /**
      * Invoked when a cell undo starts.
@@ -516,24 +510,24 @@ public class SpreadSheet extends JTable {
         _scp.setVisible(flag);
     }
 
-    /*
-     * This class is used to customize the cells rendering.
-     */
-    public class CellRenderer extends JLabel implements TableCellRenderer {
+	/*
+	 * This class is used to customize the cells rendering.
+	 */
+	public static class CellRenderer extends JLabel implements TableCellRenderer {
 
-        private LineBorder _selectBorder;
-        private EmptyBorder _emptyBorder;
-        private Dimension _dim;
+		private final LineBorder _selectBorder;
+		private final EmptyBorder _emptyBorder;
+		private final Dimension _dim;
 
-        public CellRenderer() {
-            super();
-            _emptyBorder = new EmptyBorder(1, 2, 1, 2);
-            _selectBorder = new LineBorder(Color.red);
-            setOpaque(true);
-            setHorizontalAlignment(SwingConstants.CENTER);
-            _dim = new Dimension();
-            _dim.height = 22;
-            _dim.width = 100;
+		public CellRenderer() {
+			super();
+			_emptyBorder = new EmptyBorder(1, 2, 1, 2);
+			_selectBorder = new LineBorder(Color.red);
+			setOpaque(true);
+			setHorizontalAlignment(SwingConstants.CENTER);
+			_dim = new Dimension();
+			_dim.height = 22;
+			_dim.width = 100;
             setSize(_dim);
         }
 

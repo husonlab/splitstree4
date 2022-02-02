@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Construction of a Network from Splits representing a tree
- * @author Markus Franz
- *
- *
- */
 
 package splitstree4.algorithms.splits;
 
@@ -44,7 +38,6 @@ import splitstree4.util.SplitsUtilities;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Computes a graph from splits representing a tree..
@@ -113,32 +106,31 @@ public class Phylogram implements Splits2Network {
             Node r = graph.newNode();
             Edge e1 = graph.newEdge(v, r);
             Edge e2 = graph.newEdge(w, r);
-            graph.setWeight(e1, graph.getWeight(e) * 0.5);
-            graph.setWeight(e2, graph.getWeight(e) * 0.5);
-            graph.setSplit(e1, graph.getSplit(e));
-            graph.setSplit(e2, graph.getSplit(e));
-            graph.deleteEdge(e);
-            root = r;
-            shiftCycle(outgroupIndex);
-        }
+			graph.setWeight(e1, graph.getWeight(e) * 0.5);
+			graph.setWeight(e2, graph.getWeight(e) * 0.5);
+			graph.setSplit(e1, graph.getSplit(e));
+			graph.setSplit(e2, graph.getSplit(e));
+			graph.deleteEdge(e);
+			root = r;
+			shiftCycle(outgroupIndex);
+		}
 
-        /*if there is a node of degree 2 present, it is used as root*/
-        for (Iterator iter = graph.nodes().iterator(); iter.hasNext(); ) {
-            Node element = (Node) iter.next();
-            if (graph.getDegree(element) == 2) {
-                root = element;
-            }
-        }
+		/*if there is a node of degree 2 present, it is used as root*/
+		for (Node element : graph.nodes()) {
+			if (graph.getDegree(element) == 2) {
+				root = element;
+			}
+		}
 
-        doc.notifySetProgress(18);
+		doc.notifySetProgress(18);
 
-        /*mark nodes with intervals of cycle*/
-        NodeArray<int[]> reach = graph.newNodeArray();
-        markNodes(reach, root, null, graph);
+		/*mark nodes with intervals of cycle*/
+		NodeArray<int[]> reach = graph.newNodeArray();
+		markNodes(reach, root, null, graph);
 
-        doc.notifySetProgress(25);
+		doc.notifySetProgress(25);
 
-        graphView.setAllowInternalEdgePoints(true);
+		graphView.setAllowInternalEdgePoints(true);
 
         if (!getOptionCladogram()) {
             mean = SplitsUtilities.getMean(splits);
@@ -207,23 +199,22 @@ public class Phylogram implements Splits2Network {
         } else {
             if (e != null) {
 
-                Node lastNode = gv.getGraph().getOpposite(actual, e);
-                double lastIndexLeft = reach.get(lastNode)[0];
-                double lastIndexRight = reach.get(lastNode)[1];
+				Node lastNode = gv.getGraph().getOpposite(actual, e);
+				double lastIndexLeft = reach.get(lastNode)[0];
+				double lastIndexRight = reach.get(lastNode)[1];
 
-                boolean m = false;
-                if ((indexRight - indexLeft) > ((lastIndexRight - lastIndexLeft) / 2.0)) m = true;
-                m = (m == mt);
-                if ((indexRight - indexLeft) == ((lastIndexRight - lastIndexLeft) / 2.0)) {
-                    System.err.println("EQUAL");
-                    mt = (!mt);
-                }
+				boolean m = (indexRight - indexLeft) > ((lastIndexRight - lastIndexLeft) / 2.0);
+				m = (m == mt);
+				if ((indexRight - indexLeft) == ((lastIndexRight - lastIndexLeft) / 2.0)) {
+					System.err.println("EQUAL");
+					mt = (!mt);
+				}
 
-                Point2D.Double actualCoords = new Point2D.Double();
-                double ang = Math.toRadians((120.0 / (nTax * 2)) * ((1 + lastIndexRight - lastIndexLeft)));
-                AffineTransform trans;
-                if (!m)
-                    trans = AffineTransform.getTranslateInstance(graph.getWeight(e) * Math.cos(ang), -graph.getWeight(e) * Math.sin(ang));
+				Point2D.Double actualCoords = new Point2D.Double();
+				double ang = Math.toRadians((120.0 / (nTax * 2)) * ((1 + lastIndexRight - lastIndexLeft)));
+				AffineTransform trans;
+				if (!m)
+					trans = AffineTransform.getTranslateInstance(graph.getWeight(e) * Math.cos(ang), -graph.getWeight(e) * Math.sin(ang));
                 else
                     trans = AffineTransform.getTranslateInstance(graph.getWeight(e) * Math.cos(ang), graph.getWeight(e) * Math.sin(ang));
                 trans.transform(last, actualCoords);
@@ -284,7 +275,6 @@ public class Phylogram implements Splits2Network {
     /**
      * shift the cycle so that first is moved to the first position
      *
-     * @param first
      */
     private void shiftCycle(int first) {
         int[] newCycle = getCyclicOrdering().clone();
@@ -342,7 +332,6 @@ public class Phylogram implements Splits2Network {
     /**
      * set use weights in embedding?
      *
-     * @param cladogram
      */
     public void setOptionCladogram(boolean cladogram) {
         this.cladogram = cladogram;
@@ -360,7 +349,6 @@ public class Phylogram implements Splits2Network {
     /**
      * set use cladogram representation?
      *
-     * @param cladogram
      */
     public void setOptionSlanted(boolean cladogram) {
         this.optionSlanted = cladogram;

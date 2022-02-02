@@ -48,19 +48,16 @@ public class NewickTree extends ExporterAdapter implements Exporter {
 
         if (blocks.contains(Splits.NAME) && !blocks.contains(Trees.NAME)
                 && !blocks.contains(Network.NAME)) {
-            if (doc.isValidByName(Splits.NAME) &&
-                    doc.getSplits().getProperties().getCompatibility() ==
-                            Splits.Properties.COMPATIBLE)
-                return true;
-        } else if (!blocks.contains(Splits.NAME) && blocks.contains(Trees.NAME)
+			return doc.isValidByName(Splits.NAME) &&
+				   doc.getSplits().getProperties().getCompatibility() ==
+				   Splits.Properties.COMPATIBLE;
+		} else if (!blocks.contains(Splits.NAME) && blocks.contains(Trees.NAME)
                 && !blocks.contains(Network.NAME)) {
-            if (doc.isValidByName(Trees.NAME))
-                return true;
+			return doc.isValidByName(Trees.NAME);
         } else if (!blocks.contains(Splits.NAME) && !blocks.contains(Trees.NAME)
                 && blocks.contains(Network.NAME)) {
             System.err.println("tree " + doc.getNetwork().getNewick());
-            if (doc.isValidByName(Network.NAME) && doc.getNetwork().getNewick() != null)
-                return true;
+			return doc.isValidByName(Network.NAME) && doc.getNetwork().getNewick() != null;
         }
         return false;
     }
@@ -78,7 +75,7 @@ public class NewickTree extends ExporterAdapter implements Exporter {
             }
         } else if (blockNames.contains(Splits.NAME) && doc.getSplits().getProperties().getCompatibility() == Splits.Properties.COMPATIBLE) {
             PhyloTree tree = TreesUtilities.treeFromSplits(doc.getTaxa(), doc.getSplits(), null);
-            w.write(tree.toString() + "\n");
+			w.write(tree + "\n");
         } else if (blockNames.contains(Network.NAME)) {
             w.write(doc.getNetwork().getNewick() + "\n");
         }

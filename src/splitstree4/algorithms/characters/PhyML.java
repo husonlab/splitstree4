@@ -49,32 +49,29 @@ public class PhyML implements Characters2Trees {
     static final String PHYML_BINARY = "PHYML_BINARY";
     static final String PHYML_USRTREE = "PHYML_USRTREE";
     public final static String DESCRIPTION = "Calculates maximum likelihood trees from DNA sequences using PHYML";
-    private JPanel GUIPanel;
+	private JPanel GUIPanel;
 
-    /* OPTIONS */
+	/* OPTIONS */
 
-    // private String searchMode = SEARCH_MODE_M_THOROUGH;
+	// private String searchMode = SEARCH_MODE_M_THOROUGH;
 
-    // private static final String SEARCH_MODE_M_THOROUGH 	= "MoreThoroughSearch";
-    //  private static final String SEARCH_MODE_L_THOROUGH 	= "LessThoroughSearch";
-    //  private static final String SEARCH_MODE_REARRANGE 	= "RearrangeOnOneBestTree";
+	// private static final String SEARCH_MODE_M_THOROUGH 	= "MoreThoroughSearch";
+	//  private static final String SEARCH_MODE_L_THOROUGH 	= "LessThoroughSearch";
+	//  private static final String SEARCH_MODE_REARRANGE 	= "RearrangeOnOneBestTree";
 
-    /** Data type is DNA (false if amino acid) */
-    //private boolean dataTypeDNA = true;
-    /** Data type is in interleaved format (false if in sequential format) */
-    //private boolean dataInterleaved = true;
-    /** Number of data sets */
-    //private int numberOfDataSets = 1; 
-    /**
-     * Use non-parametric bootstrap analysis?
-     */
-    private boolean bootstrap = false;
-    /**
-     * Number of bootstrap replicates
-     */
-    private int numberOfReplicates = 10;
-    /**
-     * Print bootstrap trees and statistics)
+	//private boolean dataTypeDNA = true;
+	//private boolean dataInterleaved = true;
+	//private int numberOfDataSets = 1;
+	/**
+	 * Use non-parametric bootstrap analysis?
+	 */
+	private boolean bootstrap = false;
+	/**
+	 * Number of bootstrap replicates
+	 */
+	private int numberOfReplicates = 10;
+	/**
+	 * Print bootstrap trees and statistics)
      */
     private boolean optionPrintBootstrap = false;
     /**
@@ -148,9 +145,8 @@ public class PhyML implements Characters2Trees {
      * Use BIONJ starting (input) tree
      */
     private boolean useBioNJstart = true;
-    /** Path to user tree */
 
-    /**
+	/**
      * Optimise starting tree?
      */
     private boolean optimiseStart = true;
@@ -308,7 +304,6 @@ public class PhyML implements Characters2Trees {
      * write chosen options in an input file for PHYML
      *
      * @param st_options the input-file
-     * @throws Exception
      */
     private void writeOptionFile(File infile, File st_options, Document doc) throws Exception {
 
@@ -455,8 +450,6 @@ public class PhyML implements Characters2Trees {
      * execute the phyml executable using Runtime.exec
      *
      * @param optionfile the input file for phylip
-     * @param phylMLBin
-     * @throws Exception
      */
     private void executePhyML(File optionfile, File phylMLBin) throws Exception {
         String shell = (os == REDMOND) ? "cmd.exe" : "sh";
@@ -507,7 +500,6 @@ public class PhyML implements Characters2Trees {
      *
      * @param doc    the document
      * @param infile temporary phyml-infile
-     * @throws Exception
      */
     private Map writeInfile(Document doc, File infile, Taxa taxa, Characters chars) throws Exception {
 
@@ -533,7 +525,6 @@ public class PhyML implements Characters2Trees {
     /**
      * remove Files
      *
-     * @param files
      * @return false if delete failed.
      */
     private boolean removeFiles(File[] files) {
@@ -559,7 +550,6 @@ public class PhyML implements Characters2Trees {
     /**
      * path to the "PHYML" executable
      *
-     * @param phymlPath
      */
     public void setOptionPHYMLPath(String phymlPath) {
         ProgramProperties.put(PHYML_BINARY, phymlPath.trim());
@@ -577,7 +567,6 @@ public class PhyML implements Characters2Trees {
     /**
      * path to the user starting tree
      *
-     * @param treePath
      */
     public void setOptionTreePath(String treePath) {
         ProgramProperties.put(PHYML_USRTREE, treePath.trim());
@@ -595,7 +584,6 @@ public class PhyML implements Characters2Trees {
     /**
      * Use bootstrap?
      *
-     * @param bootstrap
      */
     public void setOptionBootstrap(boolean bootstrap) {
         this.bootstrap = bootstrap;
@@ -613,7 +601,6 @@ public class PhyML implements Characters2Trees {
     /**
      * Set number of bootstrapped data sets
      *
-     * @param n
      */
 
     public void setOptionNumberOfBootstrapReplicates(int n) {
@@ -632,7 +619,6 @@ public class PhyML implements Characters2Trees {
     /**
      * Print bootstrap?
      *
-     * @param printBootstrap
      */
     public void setOptionPrintBootstrap(boolean printBootstrap) {
         this.optionPrintBootstrap = printBootstrap;
@@ -695,7 +681,6 @@ public class PhyML implements Characters2Trees {
     /**
      * Optimise equilibrium frequencies?
      *
-     * @param opt
      */
     public void setOptionOptimiseEquilibriumFrequencies(boolean opt) {
         this.optimiseEquilibriumFrequencies = opt;
@@ -711,7 +696,6 @@ public class PhyML implements Characters2Trees {
     /**
      * Equilibrium frequencies empirical?
      *
-     * @param opt
      */
     public void setOptionEquilibriumFrequenciesEmpirical(boolean opt) {
         this.equilibriumFrequenciesEmpirical = opt;
@@ -917,31 +901,22 @@ public class PhyML implements Characters2Trees {
     /**
      * Use empirical base frequency estimates (false if ML estimates are used)?
      *
-     * @param emp
-     */
-    public void setOptionEmpiricalBaseFrequencyEstimates(boolean emp) {
-        this.empiricalBaseFrequencyEstimates = emp;
-    }
+	 */
+	public void setOptionEmpiricalBaseFrequencyEstimates(boolean emp) {
+		this.empiricalBaseFrequencyEstimates = emp;
+	}
 
-    /**
-     * @return Returns the label of the taxa to use as outgroup root.
-     *//*
+    /*
     public String getOptionOutgroupRoot() {
         return outgroupRoot;
     }
 
-    *//**
-     * @param outgroupRoot the label of the taxa to use as outgroup root.
-     *//*
+    *//*
     public void setOptionOutgroupRoot(String outgroupRoot) {
         this.outgroupRoot = outgroupRoot;
     }
     
-    *//**
-     *
-     * @param doc the document.
-     * @return Returns the List of current taxa.
-     *//*
+    *//*
     public List selectionOptionOutgroupRoot(Document doc) {
         List l = new LinkedList();
         l.add(CHOOSE_ROOT);
@@ -950,28 +925,22 @@ public class PhyML implements Characters2Trees {
     }
 
     
-    *//**
-     * path to the weightsFile
-     * @param weightsFile
-     *//*
+    *//*
     public void setOptionWeightsFile(String weightsFile) {
         Properties.put(PHYLIP_WEIGHTS_FILE,Basic.trim(weightsFile));
     }
 
-    *//**
-     * path to the weightsFile
-     * @return Returns the weightsFile.
-     *//*
+    *//*
     public String getOptionWeightsFile() {
         return Properties.get(PHYLIP_WEIGHTS_FILE,"");
     }
 */
 
-    /**
-     * @return Returns the gammaDistributionParameter.
-     */
-    public double getOptionGammaDistributionParameter() {
-        return gammaDistributionParameter;
+	/**
+	 * @return Returns the gammaDistributionParameter.
+	 */
+	public double getOptionGammaDistributionParameter() {
+		return gammaDistributionParameter;
     }
 
     /**

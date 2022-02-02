@@ -82,11 +82,7 @@ public class MrBayes implements Characters2Trees {
         doc.notifyTasks("Run MrBayes", getOptionMrBayesPath());
         doc.notifySetProgress(-1);
 
-        /**
-         * MrBayes has the annoying constraint that the data files need to be in the same
-         * folder as the executable. Hence we create temporary files in this directory.
-         */
-        final File mrBayesBin = new File(getOptionMrBayesPath());
+		final File mrBayesBin = new File(getOptionMrBayesPath());
         // Check to see if this file exists/
         if (!mrBayesBin.isFile()) {
             throw new SplitsException(getClass().getName() + ": File not found: " + getOptionMrBayesPath());
@@ -156,7 +152,6 @@ public class MrBayes implements Characters2Trees {
      *
      * @param mrBayesBin the executable MrBayes
      * @param inputFile  (the input file)
-     * @throws Exception
      */
     private void executeMrBayes(File mrBayesBin, File inputFile, Document doc) throws Exception {
 
@@ -260,7 +255,6 @@ public class MrBayes implements Characters2Trees {
     /**
      * path to the "PHYML" executable
      *
-     * @param phymlPath
      */
     public void setOptionMrBayesPath(String phymlPath) {
         ProgramProperties.put(MrBayes.MRBAYES_BINARY, phymlPath.trim());
@@ -287,7 +281,6 @@ public class MrBayes implements Characters2Trees {
     /**
      * Set length of MCMC chain
      *
-     * @param chainLength
      */
     public void setOptionNumGenerations(int chainLength) {
         this.chainLength = chainLength;
@@ -346,20 +339,20 @@ public class MrBayes implements Characters2Trees {
 }
 
 class MrBayesOutputGobbler extends Thread {
-    boolean stopped = false;
-    Process process;
-    InputStream inputStream;
-    int numGens;
-    final Document doc;
+	boolean stopped = false;
+	final Process process;
+	final InputStream inputStream;
+	final int numGens;
+	final Document doc;
 
 
-    /**
-     * construct a gobbler
-     *
-     * @param process the process that MrBayes is running in.
-     * @param numGens number of generations in the chain
-     */
-    public MrBayesOutputGobbler(Process process, int numGens, final Document doc) {
+	/**
+	 * construct a gobbler
+	 *
+	 * @param process the process that MrBayes is running in.
+	 * @param numGens number of generations in the chain
+	 */
+	public MrBayesOutputGobbler(Process process, int numGens, final Document doc) {
         this.process = process;
         this.inputStream = process.getInputStream();
         this.numGens = numGens;

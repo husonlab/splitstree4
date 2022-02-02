@@ -62,19 +62,17 @@ import java.util.List;
  * 11.03
  */
 public class MainViewerMenuBar extends JMenuBar {
-    private Director dir;
-    private MainViewer mainViewer;
-    int currentTab;
+	private final Director dir;
+	private final MainViewer mainViewer;
+	int currentTab;
 
-    /**
-     * setup the viewer s menu bar
-     *
-     * @param viewer
-     */
-    public MainViewerMenuBar(MainViewer viewer, Director dir) {
-        super();
+	/**
+	 * setup the viewer s menu bar
+	 */
+	public MainViewerMenuBar(MainViewer viewer, Director dir) {
+		super();
 
-        this.mainViewer = viewer;
+		this.mainViewer = viewer;
         this.dir = dir;
 
         add(getFileMenu());
@@ -918,9 +916,8 @@ public class MainViewerMenuBar extends JMenuBar {
             /**
              * Invoked when an action occurs.
              *
-             * @param ae
-             */
-            @Override
+			 */
+			@Override
             public void actionPerformed(ActionEvent ae) {
                 ApplicationDisplayMode applicationDisplayMode = ProgramProperties.isUseGUI() ? ApplicationDisplayMode.GUI : ApplicationDisplayMode.CONSOLE;
                 UpdateDescriptor updateDescriptor;

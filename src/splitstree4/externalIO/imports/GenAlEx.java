@@ -188,9 +188,7 @@ public class GenAlEx extends FileFilter implements Importer {
     /**
      * convert input into nexus format
      *
-     * @param input
-     * @return
-     */
+	 */
     public String apply(Reader input) throws Exception {
         BufferedReader br = new BufferedReader(input);
         if (!readFirstLine(br))
@@ -262,8 +260,8 @@ public class GenAlEx extends FileFilter implements Importer {
             }
             out.append("\n");
         }
-        out.append(";\nEND;\n\n");
-        System.out.println(out.toString());
+		out.append(";\nEND;\n\n");
+		System.out.println(out);
         return out.toString();
     }
 

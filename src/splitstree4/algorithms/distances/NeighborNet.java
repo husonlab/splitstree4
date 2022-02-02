@@ -16,14 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Implements neighbor net
- * @version $Id:
- *
- * @author David Bryant
- * Adapted to Java by Daniel Huson and David Bryant 1.03
- *
- */
 package splitstree4.algorithms.distances;
 
 import jloda.util.CanceledException;
@@ -43,9 +35,9 @@ import java.util.Stack;
  * Implements Neighbor Net method of Bryant and Moulton (2004).
  */
 public class NeighborNet implements Distances2Splits {
-    private double optionThreshold = 0.000001; // min weight of split that we consider
+    private final double optionThreshold = 0.000001; // min weight of split that we consider
     private double optionLambdaFrac = 1.0;
-    private boolean makeSplits = true;
+    private final boolean makeSplits = true;
     private String optionVarianceName = "Ordinary_Least_Squares";
     //private boolean optionConstrain = true;
     private int[] cycle = null; // the computed cycle
@@ -179,12 +171,7 @@ public class NeighborNet implements Distances2Splits {
             return "ols"; //In case of uncertainty, do OLS
     }
 
-    /**
-     * Sets the constrained option for least squares
-     *
-     * @param flag set the constrained option?
-     */
-//    public void setConstrain(boolean flag) {
+    //    public void setConstrain(boolean flag) {
 //        this.optionConstrain = flag;
 //    }
 
@@ -296,7 +283,7 @@ public class NeighborNet implements Distances2Splits {
     /**
      * Agglomerates the nodes
      */
-    static private int agglomNodes(Document doc, Stack amalgs, double D[][], NetNode netNodes, int num_nodes) throws CanceledException {
+    static private int agglomNodes(Document doc, Stack amalgs, double[][] D, NetNode netNodes, int num_nodes) throws CanceledException {
         //System.err.println("agglomNodes");
 
         NetNode p, q, Cx, Cy, x, y;

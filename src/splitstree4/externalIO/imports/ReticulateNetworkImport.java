@@ -46,13 +46,12 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
     static final boolean EXPERT = true;
 
     String datatype = null;
-    public String Description = "Reticulate Network (*.rnet)";
+	public final String Description = "Reticulate Network (*.rnet)";
 
 
     /**
      * does this importer apply to the type of nexus block
      *
-     * @param blockName
      * @return true, if can handle this import
      */
     public boolean isApplicableToBlock(String blockName) {
@@ -63,7 +62,6 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
     /**
      * can we import this data?
      *
-     * @param input0
      * @return true, if can handle this import
      */
     public boolean isApplicable(Reader input0) throws IOException {
@@ -77,9 +75,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
     /**
      * convert input into nexus format
      *
-     * @param input
-     * @return
-     */
+	 */
     public String apply(Reader input) throws Exception {
         // importing first tree and generating taxa object
         String str;
@@ -147,8 +143,8 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
         ret.addRootComponent("bone1", rootComponent, true);
         StringWriter sw = new StringWriter();
         taxa.write(sw);
-        ret.write(sw, taxa);
-        System.out.println("Imported:\n#NEXUS\n" + sw.toString());
+		ret.write(sw, taxa);
+		System.out.println("Imported:\n#NEXUS\n" + sw);
         return sw.toString();
     }
 
@@ -168,8 +164,8 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
                         subString.append(makeNewickRec(start.getOpposite(f), f, backbone, knownLabel2Node, subnetworks, taxons));
                     }
                 }
-                subnetworks.put(label, subString.toString());
-                System.out.println("adding subnetwork: " + label + "\t'" + subString.toString() + "'");
+				subnetworks.put(label, subString.toString());
+				System.out.println("adding subnetwork: " + label + "\t'" + subString + "'");
             } else {
                 subnetworks.put(label, "");
                 taxons.add(label); // this is a leaf
@@ -219,7 +215,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
             if (inEdge != null) {
                 subString.append(":").append((float) (backbone.getWeight(inEdge)));
             }
-            System.out.println("returning Tree: " + subString.toString());
+			System.out.println("returning Tree: " + subString);
             return subString.toString();
         }
     }
@@ -244,9 +240,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
     /**
      * parse a tree in newick format
      *
-     * @param str
-     * @throws IOException
-     */
+	 */
     public Node parseBracketNotation(String str, PhyloSplitsGraph graph, HashMap knownSubtrees) throws IOException {
         Map seen = new HashMap();
         // we have to tread the first node special, its the root and phylograph has no root!!!
@@ -287,8 +281,7 @@ public class ReticulateNetworkImport extends FileFilter implements Importer {
      * @param i     current position in string
      * @param str   string
      * @return new current position
-     * @throws IOException
-     */
+	 */
     public int parseBracketNotationRecursively(Map seen, int depth, Node v, int i, String str, PhyloSplitsGraph graph, HashMap knownSubtrees) throws IOException {
         try {
 			for (i = StringUtils.skipSpaces(str, i); i < str.length(); i = StringUtils.skipSpaces(str, i + 1)) {

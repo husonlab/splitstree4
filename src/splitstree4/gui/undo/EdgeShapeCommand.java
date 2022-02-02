@@ -28,19 +28,18 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant
  */
 public class EdgeShapeCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    EdgeIntArray shapes;
+	final MainViewer viewer;
+	final EdgeIntArray shapes;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param shape  0, 1 or 2 , -1 for keep old
-     */
-    public EdgeShapeCommand(MainViewer viewer, int shape) {
-        this.viewer = viewer;
+	/**
+	 * constructor
+	 *
+	 * @param shape 0, 1 or 2 , -1 for keep old
+	 */
+	public EdgeShapeCommand(MainViewer viewer, int shape) {
+		this.viewer = viewer;
 
-        PhyloSplitsGraph graph = viewer.getPhyloGraph();
+		PhyloSplitsGraph graph = viewer.getPhyloGraph();
         shapes = new EdgeIntArray(graph);
 
         //Todo: checkSelectALL

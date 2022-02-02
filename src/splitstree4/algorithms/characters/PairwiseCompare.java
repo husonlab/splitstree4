@@ -70,7 +70,6 @@ public class PairwiseCompare {
     /**
      * Constructor - analyses sequences, counts differences
      *
-     * @param characters
      * @param i           ID of sequence being compared
      * @param j           ID of sequence being compared
      * @param handleAmbig handle ambiguous codes. if false, these are treated as missing.
@@ -366,9 +365,6 @@ public class PairwiseCompare {
     /**
      * Returns negative log likelihood of a given F matrix and t value
      *
-     * @param model
-     * @param F
-     * @param t
      * @return negative log likelihood [double]
      */
     private double evalL(SubstitutionModel model, double[][] F, double t) {
@@ -445,10 +441,6 @@ public class PairwiseCompare {
      * reference: Brent R. P. 1973, Algorithms for Minimization
      * without derivatives (Englewood Cliffs, NJ: Prentice-Hall) Chapter 5.
      *
-     * @param model
-     * @param F
-     * @param tmin
-     * @param tmax
      * @return Minimum of a one dimensional function f(x)
      */
     private double brentAlgo(SubstitutionModel model,

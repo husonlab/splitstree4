@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: DistancesTransform.java,v 1.14 2008-03-10 21:02:17 huson Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.algorithms.distances;
 

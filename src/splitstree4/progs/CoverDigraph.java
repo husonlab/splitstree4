@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Cover digraph construction
- * @version $Id: CoverDigraph.java,v 1.3 2006-05-23 05:57:37 huson Exp $
- * @author daniel Huson
- * 7.03
- */
 package splitstree4.progs;
 
 import java.util.BitSet;

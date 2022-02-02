@@ -231,10 +231,6 @@ public class AssembleTrees2Network implements Trees2Network {
     /**
      * extract a set of trees and then computes a cycle for them
      *
-     * @param graph
-     * @param reticulateNodes
-     * @param maxReticulateDegree
-     * @param taxa
      * @return splits
      */
     private Splits computeSplits(PhyloTree graph, NodeSet reticulateNodes, int maxReticulateDegree, Taxa taxa) {
@@ -272,7 +268,7 @@ public class AssembleTrees2Network implements Trees2Network {
         } catch (SplitsException ex) {
             Basic.caught(ex);
         }
-        System.err.println("#NEXUS\n" + taxa.toString() + "\n" + splits.toString(taxa));
+        System.err.println("#NEXUS\n" + taxa + "\n" + splits.toString(taxa));
 
         return splits;
     }
@@ -280,10 +276,6 @@ public class AssembleTrees2Network implements Trees2Network {
     /**
      * extracts trees from the graph, such that each reticulate edge occurs at least once
      *
-     * @param graph
-     * @param reticulateNodes
-     * @param maxReticulateDegree
-     * @param taxa
      * @return extracted trees block
      */
     private Trees extractTrees(PhyloTree graph, NodeSet reticulateNodes, int maxReticulateDegree, Taxa taxa) {
@@ -332,11 +324,7 @@ public class AssembleTrees2Network implements Trees2Network {
     /**
      * determine attachment sites for current tree name
      *
-     * @param treeName
-     * @param graph
-     * @param firstNode
-     * @param attachNodes
-     */
+	 */
     private void determineAttachmentSites(String treeName, PhyloTree graph, Node firstNode, NodeSet attachNodes) {
         for (Node v = firstNode; v != null; v = v.getNext()) {
             String label = graph.getLabel(v);
@@ -349,8 +337,6 @@ public class AssembleTrees2Network implements Trees2Network {
     /**
      * does the label equal treeName.NUMBER
      *
-     * @param treeName
-     * @param label
      * @return true, if label is a version of the treeName
      */
     private boolean isTreeNameVersion(String treeName, String label) {

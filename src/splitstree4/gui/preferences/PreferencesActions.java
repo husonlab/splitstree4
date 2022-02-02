@@ -45,19 +45,19 @@ import java.util.List;
  */
 public class PreferencesActions {
 
-    private PreferencesWindow viewer;
-    private Director dir;
-    private List<Action> all = new LinkedList<>();
-    public final String JCHECKBOX = "JCHECKBOX";
-    public final String JTEXTAREA = "JTEXTAREA";
+	private final PreferencesWindow viewer;
+	private final Director dir;
+	private final List<Action> all = new LinkedList<>();
+	public final String JCHECKBOX = "JCHECKBOX";
+	public final String JTEXTAREA = "JTEXTAREA";
 
-    public PreferencesActions(PreferencesWindow pref, Director dir) {
-        this.viewer = pref;
-        this.dir = dir;
-    }
+	public PreferencesActions(PreferencesWindow pref, Director dir) {
+		this.viewer = pref;
+		this.dir = dir;
+	}
 
-    /**
-     * enable or disable critical actions
+	/**
+	 * enable or disable critical actions
      *
      * @param flag show or hide?
      */
@@ -1102,7 +1102,7 @@ public class PreferencesActions {
                 {
                     int[] indices = new int[nextSelected.size()];
                     for (int i = 0; i < indices.length; i++)
-                        indices[i] = (Integer) nextSelected.get(i);
+						indices[i] = nextSelected.get(i);
                     viewer.getJlistr().clearSelection();
                     viewer.getJlistr().setSelectedIndices(indices);
                 }

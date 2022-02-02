@@ -26,19 +26,18 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant
  */
 public class EdgeWidthCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    EdgeIntArray widths;
+	final MainViewer viewer;
+	final EdgeIntArray widths;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param width  width, or -1, if everyone keeps their original width
-     */
-    public EdgeWidthCommand(MainViewer viewer, int width) {
-        this.viewer = viewer;
+	/**
+	 * constructor
+	 *
+	 * @param width width, or -1, if everyone keeps their original width
+	 */
+	public EdgeWidthCommand(MainViewer viewer, int width) {
+		this.viewer = viewer;
 
-        var graph = viewer.getPhyloGraph();
+		var graph = viewer.getPhyloGraph();
         widths = graph.newEdgeIntArray();
 
         boolean noneSelected = viewer.getSelectedEdges().isEmpty(); //No nodes currently selected... apply to all.

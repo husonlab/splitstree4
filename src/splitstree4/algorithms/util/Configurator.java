@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Configures transformation algorithms
- *
- *@version $Id: Configurator.java,v 1.32 2010-02-23 15:52:01 huson Exp $
- *
- *@author Markus Franz and Daniel Huson and David Bryant
- */
 package splitstree4.algorithms.util;
 
 import jloda.util.Basic;
@@ -159,13 +152,13 @@ public class Configurator {
 
                 Object option = getOption(ct, optionName);
                 if (isArray(option))
-                    result += buf.toString() + toStringArray(option);
+                    result += buf + toStringArray(option);
                 else if (isArrayArray(option))
-                    result += buf.toString() + toStringArrayArray(option);
+					result += buf + toStringArrayArray(option);
                 else if (isMixedString(option))
                     result += buf.toString() + LEFTDEL + option.toString().trim() + RIGHTDEL;
                 else if (option != null && option.toString().trim().length() > 0)
-                    result += buf.toString() + option.toString().trim();
+					result += buf + option.toString().trim();
             }
         }
         return result;
@@ -174,7 +167,6 @@ public class Configurator {
     /**
      * returns true, if object is array
      *
-     * @param object
      * @return true, if array
      */
     public static boolean isArray(Object object) {
@@ -185,7 +177,6 @@ public class Configurator {
     /**
      * returns true, if array array
      *
-     * @param object
      * @return boolean. True if this is a 2d array.
      */
     public static boolean isArrayArray(Object object) {
@@ -196,22 +187,21 @@ public class Configurator {
     /**
      * returns true, if object is a string containing spaces or special characters
      *
-     * @param object
      * @return true,  if object is a string containing spaces or special characters
      */
     public static boolean isMixedString(Object object) {
         if (object == null)
             return false;
-        try {
-            Integer.parseInt(object.toString());
-            return false; // is an integer
-        } catch (Exception ex) {
-        }
-        try {
-            Double.parseDouble(object.toString());
-            return false; // is a double
-        } catch (Exception ex) {
-        }
+		try {
+			Integer.parseInt(object.toString());
+			return false; // is an integer
+		} catch (Exception ignored) {
+		}
+		try {
+			Double.parseDouble(object.toString());
+			return false; // is a double
+		} catch (Exception ignored) {
+		}
         String str = object.toString().trim();
         if (str.length() <= 1)
             return false;
@@ -225,7 +215,6 @@ public class Configurator {
     /**
      * converts array to string
      *
-     * @param arrayObject
      * @return string
      */
     public static String toStringArray(Object arrayObject) {
@@ -257,7 +246,6 @@ public class Configurator {
     /**
      * converts array array to string
      *
-     * @param arrayObject
      * @return string
      */
     public static String toStringArrayArray(Object arrayObject) {
@@ -378,29 +366,29 @@ public class Configurator {
         if (optionValue.length() > 1 && optionValue.charAt(0) == LEFTDEL)
             optionValue = optionValue.substring(1, optionValue.length() - 1); // chop first and last '"'
         // attempt to set the value:
-        try {
-            boolean value = Boolean.valueOf(optionValue);
-            setOption(ct, optionName, value);
-            return;
-        } catch (Exception ex) {
-        }
-        try {
-            int value = Integer.parseInt(optionValue);
-            setOption(ct, optionName, value);
-            return;
-        } catch (Exception ex) {
-        }
-        try {
-            double value = Double.parseDouble(optionValue);
-            setOption(ct, optionName, value);
-            return;
-        } catch (Exception ex) {
-        }
-        try {
-            setOption(ct, optionName, optionValue);
-            return;
-        } catch (Exception ex) {
-        }
+		try {
+			boolean value = Boolean.parseBoolean(optionValue);
+			setOption(ct, optionName, value);
+			return;
+		} catch (Exception ignored) {
+		}
+		try {
+			int value = Integer.parseInt(optionValue);
+			setOption(ct, optionName, value);
+			return;
+		} catch (Exception ignored) {
+		}
+		try {
+			double value = Double.parseDouble(optionValue);
+			setOption(ct, optionName, value);
+			return;
+		} catch (Exception ignored) {
+		}
+		try {
+			setOption(ct, optionName, optionValue);
+			return;
+		} catch (Exception ignored) {
+		}
         throw new ConfiguratorParseException("Illegal option or value: " + optionName + "="
                 + optionValue);
     }
@@ -425,7 +413,7 @@ public class Configurator {
                 {
                     argument = new Object[]{new double[cols]};
                     for (int i = 0; i < list.size(); i++)
-                        ((double[]) (argument[0]))[i] = Double.valueOf((String) list.get(i));
+						((double[]) (argument[0]))[i] = Double.parseDouble((String) list.get(i));
                     paramType[0] = Class.forName("[D");
                     break;
                 }
@@ -433,7 +421,7 @@ public class Configurator {
                 {
                     argument = new Object[]{new int[cols]};
                     for (int i = 0; i < list.size(); i++)
-                        ((int[]) (argument[0]))[i] = Integer.valueOf((String) list.get(i));
+						((int[]) (argument[0]))[i] = Integer.parseInt((String) list.get(i));
                     break;
                 }
                 case 'L': // string:
@@ -477,7 +465,7 @@ public class Configurator {
                     int count = 0;
                     for (int i = 0; i < rows; i++)
                         for (int j = 0; j < cols; j++)
-                            ((double[][]) (argument[0]))[i][j] = Double.valueOf((String) list.get(count++));
+							((double[][]) (argument[0]))[i][j] = Double.parseDouble((String) list.get(count++));
                     paramType[0] = Class.forName("[D");
                     break;
                 }
@@ -487,7 +475,7 @@ public class Configurator {
                     int count = 0;
                     for (int i = 0; i < rows; i++)
                         for (int j = 0; j < cols; j++)
-                            ((int[][]) (argument[0]))[i][j] = Integer.valueOf((String) list.get(count++));
+							((int[][]) (argument[0]))[i][j] = Integer.parseInt((String) list.get(count++));
                     break;
                 }
                 case 'L': // hope its a string
@@ -631,7 +619,6 @@ public class Configurator {
      * returns the setter method for the named option
      *
      * @param ct      the tranformation
-     * @param optName
      */
     public static Method getSetterMethod(Object ct, String optName) {
         Method[] methods = ct.getClass().getMethods();
@@ -645,8 +632,6 @@ public class Configurator {
     /**
      * determines whether option is a array, and if so, returns the element type
      *
-     * @param ct
-     * @param optName
      * @return D, S, I, F or 0
      */
     public static char isArrayOption(Object ct, String optName) {
@@ -666,8 +651,6 @@ public class Configurator {
     /**
      * determines whether option is an array or arrays, and if so, returns the element type
      *
-     * @param ct
-     * @param optName
      * @return D, S, I, F or 0
      */
     public static char isArrayArrayOption(Object ct, String optName) {
@@ -688,7 +671,6 @@ public class Configurator {
      * returns the getter method for the named option
      *
      * @param ct      the tranformation
-     * @param optName
      */
     public static Method getGetterMethod(Object ct, String optName) {
         Method[] methods = ct.getClass().getMethods();
@@ -702,7 +684,6 @@ public class Configurator {
      * returns the selection method for the named option
      *
      * @param ct      the tranformation
-     * @param optName
      */
     public static Method getSelectionMethod(Object ct, String optName) {
         Method[] methods = ct.getClass().getMethods();
@@ -715,8 +696,6 @@ public class Configurator {
     /**
      * returns true, if given class has a field with the given name
      *
-     * @param clazz
-     * @param name
      * @return true, if object has a field with the given name
      */
     public static boolean hasField(Class clazz, String name) {

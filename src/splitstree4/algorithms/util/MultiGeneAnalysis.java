@@ -40,8 +40,6 @@ public class MultiGeneAnalysis {
      * Conducts separate analysis on different blocks in the given character site position. The splits
      * from these analysis are stored in a SplitMatrix object, which is returned.
      *
-     * @param doc
-     * @param partition
      * @return SplitMatrix splits returned by the different analyses.
      * @throws jloda.util.CanceledException     The user pressed cancel in the progress bar.
      * @throws splitstree4.core.SplitsException A problem with the analysis, or the partition was not valid.

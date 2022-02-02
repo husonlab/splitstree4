@@ -26,21 +26,18 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant   , 5.05
  */
 public class RotateCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    Transform trans;
-    double angle;
+	final MainViewer viewer;
+	final Transform trans;
+	final double angle;
 
-    /**
-     * constructor
-     *
-     * @param trans
-     * @param angle
-     */
-    public RotateCommand(MainViewer view, Transform trans, double angle) {
-        this.viewer = view;
-        this.trans = trans;
-        this.angle = angle;
-    }
+	/**
+	 * constructor
+	 */
+	public RotateCommand(MainViewer view, Transform trans, double angle) {
+		this.viewer = view;
+		this.trans = trans;
+		this.angle = angle;
+	}
 
     /**
      * Executes this command.

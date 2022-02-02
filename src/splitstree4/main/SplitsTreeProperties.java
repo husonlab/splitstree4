@@ -39,7 +39,7 @@ import java.util.StringTokenizer;
  * Date: 11-Nov-2004
  */
 public class SplitsTreeProperties {
-    static public boolean ALLOW_CLUSTER_NETWORK = true;
+    static public final boolean ALLOW_CLUSTER_NETWORK = true;
 
     static boolean expertMode = false;
     // activate the reticulate extension
@@ -68,8 +68,7 @@ public class SplitsTreeProperties {
     /**
      * sets the program properties
      *
-     * @param propertiesFile
-     */
+	 */
     public static void initializeProperties(String propertiesFile) {
         ProgramProperties.setProgramVersion(getVersion());
         ProgramProperties.setProgramIcons(ResourceManager.getIcons("SplitsTree16.png", "SplitsTree32.png", "SplitsTree48.png", "SplitsTree64.png"));
@@ -152,8 +151,7 @@ public class SplitsTreeProperties {
     /**
      * apply the properties to a viewer
      *
-     * @param viewer
-     */
+	 */
     public static void applyProperties(MainViewer viewer) {
 
         Font nFont = ProgramProperties.get("nFont", Font.decode("Dialog-PLAIN-10"));
@@ -218,8 +216,7 @@ public class SplitsTreeProperties {
     /**
      * add a file to the recent files list
      *
-     * @param file
-     */
+	 */
     public static void addRecentFile(File file) {
         int maxRecentFiles = ProgramProperties.get(SplitsTreeProperties.MAXRECENTFILES, 20);
         StringTokenizer st = new StringTokenizer(ProgramProperties.get(SplitsTreeProperties.RECENTFILES, ""), ";");
@@ -295,8 +292,7 @@ public class SplitsTreeProperties {
     /**
      * add an action to the toolbar list
      *
-     * @param actions
-     */
+	 */
     public static void setToolBar(java.util.List actions, boolean show) {
 
         StringBuilder buf = new StringBuilder();
@@ -313,7 +309,7 @@ public class SplitsTreeProperties {
 
     }
 
-    static java.util.List<PropertiesListListener> propertieslistListeners = new LinkedList<>();
+	static final java.util.List<PropertiesListListener> propertieslistListeners = new LinkedList<>();
 
     /**
      * notify listeners that list of values for the given name has changed
@@ -335,8 +331,7 @@ public class SplitsTreeProperties {
     /**
      * add recent file listener
      *
-     * @param listener
-     */
+	 */
     public static void addPropertiesListListener(PropertiesListListener listener) {
         if (!propertieslistListeners.contains(listener))
             propertieslistListeners.add(listener);
@@ -345,8 +340,7 @@ public class SplitsTreeProperties {
     /**
      * remove recent file listener
      *
-     * @param listener
-     */
+	 */
     public static void removePropertiesListListener(PropertiesListListener listener) {
         propertieslistListeners.remove(listener);
     }
@@ -397,8 +391,7 @@ public class SplitsTreeProperties {
      * any plugin that declares a variable EXPERT is ignored unless plugin manager is
      * running in expert mode
      *
-     * @param exportMode
-     */
+	 */
     public static void setExpertMode(boolean exportMode) {
         SplitsTreeProperties.expertMode = exportMode;
     }

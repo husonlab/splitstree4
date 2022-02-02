@@ -28,20 +28,20 @@ import java.awt.*;
  * Daniel Huson and David Bryant
  */
 public class MoveEdgeLabelCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    Edge e;
-    Point oldLocation;
-    Point newLocation;
+	final MainViewer viewer;
+	final Edge e;
+	final Point oldLocation;
+	final Point newLocation;
 
-    public MoveEdgeLabelCommand(MainViewer viewer, Edge e, Point oldLocation, Point newLocation) {
-        this.viewer = viewer;
-        this.e = e;
-        this.oldLocation = oldLocation;
-        this.newLocation = newLocation;
-    }
+	public MoveEdgeLabelCommand(MainViewer viewer, Edge e, Point oldLocation, Point newLocation) {
+		this.viewer = viewer;
+		this.e = e;
+		this.oldLocation = oldLocation;
+		this.newLocation = newLocation;
+	}
 
-    /**
-     * Executes this command.
+	/**
+	 * Executes this command.
      *
      * @return a new command which will undo the effect of this execution.
      */

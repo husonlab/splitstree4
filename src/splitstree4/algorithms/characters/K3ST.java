@@ -46,8 +46,8 @@ import java.awt.event.ActionEvent;
 public class K3ST extends DNAdistance {
 
     private double[][] QMatrix; //Q Matrix provided by user for ML estimation.
-    private double tratio = 2.0;
-    private double ACvsAT = 2.0;
+	private final double tratio = 2.0;
+	private double ACvsAT = 2.0;
     public final static String DESCRIPTION = "Calculates distances using the Kimura3ST model";
 
     public String getDescription() {
@@ -58,8 +58,7 @@ public class K3ST extends DNAdistance {
     /**
      * set ACvsAT (ACGT transversions vs ATGC transversions)
      *
-     * @param value
-     */
+	 */
     public void setOptionAC_vs_ATRatio(double value) {
         this.ACvsAT = value;
     }
@@ -150,9 +149,7 @@ public class K3ST extends DNAdistance {
     /**
      * return the option panel for the method
      *
-     * @param doc
-     * @return
-     */
+	 */
     public JPanel getGUIPanel(Document doc) {
         if (guiPanel != null)
             return guiPanel;

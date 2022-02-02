@@ -96,8 +96,7 @@ public class LogHamming /*implements Characters2Distances */ {
     /**
      * ignore gaps?
      *
-     * @return
-     */
+	 */
     public boolean getOptionignoregaps() {
         return ignoreGaps;
     }
@@ -105,8 +104,7 @@ public class LogHamming /*implements Characters2Distances */ {
     /**
      * set option for ignoring gaps
      *
-     * @param ignore
-     */
+	 */
     public void setOptionignoregaps(boolean ignore) {
         ignoreGaps = ignore;
     }

@@ -40,7 +40,6 @@ public class CircularDFilter {
     /**
      * destroy all d-dimensional boxes in splits graph
      *
-     * @param splits
      * @param maxCrossing if a cycle crosses the split more than this many times it is removed.
      * @return number of splits removed
      */
@@ -79,7 +78,6 @@ public class CircularDFilter {
      * destroy all d-dimensional boxes in splits graph
      *
      * @param maxCrossing maximal dimension d
-     * @param splits
      * @return number of splits deleted
      */
     public int apply(int maxCrossing, Splits splits) {

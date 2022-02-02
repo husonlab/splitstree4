@@ -26,18 +26,16 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant   , 1.06
  */
 public class FlipHCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    Transform trans;
+	final MainViewer viewer;
+	final Transform trans;
 
-    /**
-     * constructor
-     *
-     * @param trans
-     */
-    public FlipHCommand(MainViewer view, Transform trans) {
-        this.viewer = view;
-        this.trans = trans;
-    }
+	/**
+	 * constructor
+	 */
+	public FlipHCommand(MainViewer view, Transform trans) {
+		this.viewer = view;
+		this.trans = trans;
+	}
 
     /**
      * Executes this command.

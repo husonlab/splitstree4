@@ -161,28 +161,28 @@ public class DeltaScore implements DistancesAnalysisMethod {
 
                     }
                 }
-            }
-        }
-        int n = selectedTaxa.length;
-        int ntriples = (n - 1) * (n - 2) * (n - 3) / 6;     //Number of triples containing a given taxon
-        int nquads = ntriples * n / 4;     //Number of 4-sets
+			}
+		}
+		int n = selectedTaxa.length;
+		int ntriples = (n - 1) * (n - 2) * (n - 3) / 6;     //Number of triples containing a given taxon
+		int nquads = ntriples * n / 4;     //Number of 4-sets
 
-        for (int i = 0; i < n; i++) {
-            taxonAverages[0][i] /= (double) ntriples;
-            taxonAverages[1][i] /= (double) ntriples;
-        }
-        totalAverage[0] /= (double) nquads;
-        totalAverage[1] /= (double) nquads;
-
-
-        double avDistance = computeAverageDistance(dist, selectedTaxa);
-        double scale = avDistance * avDistance;
-        totalAverage[1] /= scale;
+		for (int i = 0; i < n; i++) {
+			taxonAverages[0][i] /= ntriples;
+			taxonAverages[1][i] /= ntriples;
+		}
+		totalAverage[0] /= nquads;
+		totalAverage[1] /= nquads;
 
 
-        //Print out the individual taxon scores
-        if (numericalProblems) {
-            System.out.println("WARNING: Some quartets were close to 'star-like' so set to zero for delta score calculation\n");
+		double avDistance = computeAverageDistance(dist, selectedTaxa);
+		double scale = avDistance * avDistance;
+		totalAverage[1] /= scale;
+
+
+		//Print out the individual taxon scores
+		if (numericalProblems) {
+			System.out.println("WARNING: Some quartets were close to 'star-like' so set to zero for delta score calculation\n");
         }
 
         System.out.println("Delta scores for individual taxa\nId\tTaxon\tDelta Score \tQ-residual");

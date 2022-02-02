@@ -125,7 +125,6 @@ public class PaupNode {
      * Detaches the node from its tree, and moves it so that it is the first child of newParent.
      * Will do nothing if this=newParent (maybe an error should be generated?)
      *
-     * @param newParent
      */
 
     public void attachAsFirstChildOf(PaupNode newParent) {
@@ -142,7 +141,6 @@ public class PaupNode {
      * Detaches the node from its tree, and moves it so that it is the first child of newParent.
      * Will do nothing if this=newParent (maybe an error should be generated?)
      *
-     * @param newParent
      */
 
     public void attachAsFirstChildOf(PaupNode newParent, double length) {
@@ -159,7 +157,6 @@ public class PaupNode {
     /**
      * Detaches the node from its tree, and moves it so that it is the next sibling of newSibling
      *
-     * @param newSibling
      */
     public final void attachAsNextSibOf(PaupNode newSibling) {
         if (par != null)
@@ -304,7 +301,6 @@ public class PaupNode {
     /**
      * Preorder traversal of a subtree
      *
-     * @param root
      * @return Next node in a pre-order traversal of the subtree below (and including) root, or null
      * if there are none
      */
@@ -366,7 +362,6 @@ public class PaupNode {
     /**
      * Print out the tree (or subtree) in Newick Syntax
      *
-     * @param taxa
      * @param printBrLengths Print out the branch lengths
      * @return String of Newick format (without semicolon, and without () if p is a leaf
      */
@@ -416,7 +411,7 @@ public class PaupNode {
     }
 
     static class StringIterator {
-        String s;
+        final String s;
         private int index;
 
         public StringIterator(String s) {
@@ -469,7 +464,7 @@ public class PaupNode {
         if (s.peek() == '(') {
             s.getNext();
             PaupNode leftSib = null;
-            for (; ; ) {
+            for (var i = 0; i < 1000000; i++) {
                 PaupNode child = readTreeDescriptionRecurse(s);
                 if (leftSib == null)
                     child.attachAsFirstChildOf(p);
@@ -507,7 +502,7 @@ public class PaupNode {
                 A,
                 B,
                 next;
-        StringBuffer sb;
+        StringBuilder sb;
         Stack st;
 
         nh_string = PaupTreeUtils.removeWhiteSpace(nh_string);
@@ -567,7 +562,7 @@ public class PaupNode {
                 if (nh_string.charAt(i) != ','
                         && nh_string.charAt(i) != '('
                         && nh_string.charAt(i) != ')') {
-                    sb = new StringBuffer("");
+                    sb = new StringBuilder();
                     while (i <= nh_string.length() - 1
                             && nh_string.charAt(i) != ')'
                             && nh_string.charAt(i) != ',') {
@@ -585,7 +580,7 @@ public class PaupNode {
                             && nh_string.charAt(i + 1) != ')'
                             && nh_string.charAt(i + 1) != ',') {
                         i++;
-                        sb = new StringBuffer("");
+                        sb = new StringBuilder();
                         while (i <= nh_string.length() - 1
                                 && nh_string.charAt(i) != ')'
                                 && nh_string.charAt(i) != ',') {

@@ -434,8 +434,6 @@ public class CharactersUtilities {
     /**
      * guess the data type
      *
-     * @param excluded
-     * @param seq
      * @return the data type
      */
     static public String guessType(String excluded, String seq) {
@@ -445,7 +443,6 @@ public class CharactersUtilities {
     /**
      * guess the data type
      *
-     * @param seq
      * @return the data type
      */
     static public String guessType(String seq) {
@@ -456,7 +453,6 @@ public class CharactersUtilities {
     /**
      * guess the data type
      *
-     * @param seq
      * @param excluded characters to be disregarded
      * @return the data type
      */
@@ -495,10 +491,7 @@ public class CharactersUtilities {
     /**
      * compute intersection
      *
-     * @param a
-     * @param b
-     * @return
-     */
+	 */
     private static BitSet intersection(BitSet a, BitSet b) {
         BitSet result = new BitSet();
         result.or(a);
@@ -559,7 +552,6 @@ public class CharactersUtilities {
     /**
      * returns r or y for a nucleotide
      *
-     * @param ch
      * @return 'r', 'y' or 0
      */
     static public char getRYlowerCase(char ch) {
@@ -587,8 +579,6 @@ public class CharactersUtilities {
      * If there are allocation problems, or if the characters have different numbers of taxa, then
      * null is returned.
      *
-     * @param char1
-     * @param char2
      * @return A Characters block, or null if there are problems
      */
     static public Characters concatenate(Characters char1, Characters char2) {
@@ -611,9 +601,6 @@ public class CharactersUtilities {
     /**
      * Check to see if two sequences are identical on all the unmasked sites.
      *
-     * @param characters
-     * @param i
-     * @param j
      * @return true is sequences are identical. False otherwise.
      */
     static public boolean taxaIdentical(Characters characters, int i, int j) {
@@ -684,8 +671,7 @@ public class CharactersUtilities {
      * Returns average number of non-missing sites for a sequence in the Characters block
      *
      * @param chars Characters block
-     * @return
-     */
+	 */
     static public double meanNotMissing(Characters chars) {
 
         char missingchar = chars.getFormat().getMissing();
@@ -706,9 +692,6 @@ public class CharactersUtilities {
     /**
      * Check to see if two sequences are identical using the distance data
      *
-     * @param distances
-     * @param i
-     * @param j
      * @return true if two rows in the distance matrix are identical and the taxa have distance 0
      */
     static private boolean taxaIdentical(Distances distances, int i, int j) {
@@ -730,7 +713,6 @@ public class CharactersUtilities {
     /**
      * Returns the number of characters that are not masked.
      *
-     * @param characters
      * @return int. Number of characters not masked.
      */
     static public int getNumberUnmasked(Characters characters) {

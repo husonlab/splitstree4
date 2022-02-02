@@ -30,18 +30,18 @@ import javax.swing.*;
  * Date: 04-Dec-2003
  */
 public class AlgorithmsWindowMenuBar extends JMenuBar {
-    private AlgorithmsWindow viewer;
-    private Director dir;
+	private final AlgorithmsWindow viewer;
+	private final Director dir;
 
-    public AlgorithmsWindowMenuBar(AlgorithmsWindow viewer, Director dir) {
-        super();
+	public AlgorithmsWindowMenuBar(AlgorithmsWindow viewer, Director dir) {
+		super();
 
-        this.viewer = viewer;
-        this.dir = dir;
+		this.viewer = viewer;
+		this.dir = dir;
 
-        addFileMenu();
-        addEditMenu();
-    }
+		addFileMenu();
+		addEditMenu();
+	}
 
     /**
      * returns the tool bar for this simple viewer

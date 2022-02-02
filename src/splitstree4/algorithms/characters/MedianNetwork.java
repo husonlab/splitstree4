@@ -262,9 +262,6 @@ public class MedianNetwork implements Characters2Splits {
     /**
      * gets the color of a character, using RY alphabet, if desired
      *
-     * @param chars
-     * @param ch
-     * @param useRY
      * @return color or -1
      */
     int getColor(Characters chars, char ch, boolean useRY) {
@@ -294,8 +291,7 @@ public class MedianNetwork implements Characters2Splits {
     /**
      * threshold for minimum split weight
      *
-     * @return
-     */
+	 */
     public int getOptionMinimumSupport() {
         return optionMinimumSupport;
     }
@@ -303,8 +299,7 @@ public class MedianNetwork implements Characters2Splits {
     /**
      * set the minimum integer value for the support of an edge
      *
-     * @param optionMinimumSupport
-     */
+	 */
     public void setOptionMinimumSupport(int optionMinimumSupport) {
         this.optionMinimumSupport = optionMinimumSupport;
     }
@@ -312,8 +307,7 @@ public class MedianNetwork implements Characters2Splits {
     /**
      * is relaxed support used?
      *
-     * @return
-     */
+	 */
     public boolean getOptionUseRelaxedSupport() {
         return optionUseRelaxedSupport;
     }
@@ -321,8 +315,7 @@ public class MedianNetwork implements Characters2Splits {
     /**
      * set if relaxed support should be used
      *
-     * @param optionUseRelaxedSupport
-     */
+	 */
     public void setOptionUseRelaxedSupport(boolean optionUseRelaxedSupport) {
         this.optionUseRelaxedSupport = optionUseRelaxedSupport;
     }
@@ -330,8 +323,7 @@ public class MedianNetwork implements Characters2Splits {
     /**
      * is RY alphabet used?
      *
-     * @return
-     */
+	 */
     public boolean getOptionUseRYAlphabet() {
         return optionUseRYAlphabet;
     }
@@ -339,8 +331,7 @@ public class MedianNetwork implements Characters2Splits {
     /**
      * set if RY alphabet  should be used
      *
-     * @param optionUseRYAlphabet
-     */
+	 */
     public void setOptionUseRYAlphabet(boolean optionUseRYAlphabet) {
         this.optionUseRYAlphabet = optionUseRYAlphabet;
     }
@@ -348,8 +339,7 @@ public class MedianNetwork implements Characters2Splits {
     /**
      * are edges beeing labeled?
      *
-     * @return
-     */
+	 */
     public boolean getOptionLabelEdges() {
         return optionLabelEdges;
     }
@@ -357,8 +347,7 @@ public class MedianNetwork implements Characters2Splits {
     /**
      * set if edes should be labeled
      *
-     * @param optionLabelEdges
-     */
+	 */
     public void setOptionLabelEdges(boolean optionLabelEdges) {
         this.optionLabelEdges = optionLabelEdges;
     }

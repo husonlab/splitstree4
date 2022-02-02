@@ -54,27 +54,25 @@ import java.util.Map;
  * Date: 04-Dec-2003
  */
 public class AlgorithmsWindow implements IDirectableViewer {
-    private boolean uptoDate;
-    private Director dir;
-    private AlgorithmsWindowActions actions;
-    private AlgorithmsWindowMenuBar menuBar;
-    private JFrame frame;
-    private JTabbedPane tabbedPane;
-    private String[] tabid2data = new String[10];
-    private Map<String, Component> name2tabid = new HashMap<>();
-    private java.util.List updateableActions = new LinkedList();
-    private java.util.List updateableViews = new LinkedList();
-    public static final String METHOD = "Method";
-    public static final String FILTER = "Filter";
-    public static final String SELECT = "Select";
-    public static final String TRAITS = "Traits"; //OK - a violation of the scheme, but easier for the user
+	private boolean uptoDate;
+	private final Director dir;
+	private final AlgorithmsWindowActions actions;
+	private final AlgorithmsWindowMenuBar menuBar;
+	private final JFrame frame;
+	private final JTabbedPane tabbedPane;
+	private final String[] tabid2data = new String[10];
+	private final Map<String, Component> name2tabid = new HashMap<>();
+	private final java.util.List updateableActions = new LinkedList();
+	private final java.util.List updateableViews = new LinkedList();
+	public static final String METHOD = "Method";
+	public static final String FILTER = "Filter";
+	public static final String SELECT = "Select";
+	public static final String TRAITS = "Traits"; //OK - a violation of the scheme, but easier for the user
 
-    /**
-     * sets up the algorithms window
-     *
-     * @param dir
-     */
-    public AlgorithmsWindow(Director dir) {
+	/**
+	 * sets up the algorithms window
+	 */
+	public AlgorithmsWindow(Director dir) {
         this.dir = dir;
         actions = new AlgorithmsWindowActions(this, dir);
         addUpdateableActionsListener(actions);
@@ -269,9 +267,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * set uptodate state
      *
-     * @param flag
-     */
-    public void setUptoDate(boolean flag) {
+	 */
+	public void setUptoDate(boolean flag) {
         uptoDate = flag;
     }
 
@@ -299,9 +296,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * the unaligned tab
      *
-     * @return
-     */
-    private Component getUnalignedAlgorithmTab() {
+	 */
+	private Component getUnalignedAlgorithmTab() {
         final AlgorithmsTab tab = new AlgorithmsTab();
         tab.setName(Unaligned.NAME);
 
@@ -314,30 +310,28 @@ public class AlgorithmsWindow implements IDirectableViewer {
         comboBox.setAction(getActions().getComboBoxAction(dir, tab, getActions().getApplyUnalignedTransform(comboBox)));
         comboBox.addActionListener(new BlockComboListener(comboBox));
 
-        loadComboBox(comboBox, getActions().getUnalignedTransformActions());
+		loadComboBox(comboBox, getActions().getUnalignedTransformActions());
 
-        tab.setCBoxLabel("Choose unaligned transformation:");
-        tab.setCBox(comboBox);
-        tab.setApplyButton(new JButton(getActions().getApplyUnalignedTransform(comboBox)));
-        tab.setDescriptionLabel("Description");
-        tab.setDataSummaryLabel("Data:");
-        tab.setOptionsPanel(new JPanel());
-        tab.setup();
+		tab.setCBoxLabel("Choose unaligned transformation:");
+		tab.setCBox(comboBox);
+		tab.setApplyButton(new JButton(getActions().getApplyUnalignedTransform(comboBox)));
+		tab.setDescriptionLabel("Description");
+		tab.setDataSummaryLabel("Data:");
+		tab.setOptionsPanel(new JPanel());
+		tab.setup();
 
-        comboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
-                    tab.hideDialog.setSelected(hide);
-                } catch (Exception ex) {
-                }
-            }
-        });
-        return tab;
-    }
+		comboBox.addActionListener(e -> {
+			try {
+				String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
+				boolean hide = ProgramProperties.get("HideDialog." + name, false);
+				tab.hideDialog.setSelected(hide);
+			} catch (Exception ignored) {
+			}
+		});
+		return tab;
+	}
 
-    /**
+	/**
      * sets up the characters tab
      *
      * @return the characters tab
@@ -361,35 +355,32 @@ public class AlgorithmsWindow implements IDirectableViewer {
 
         comboBox.setAction(getActions().getComboBoxAction(dir, tab, getActions().getApplyCharactersTransform(comboBox)));
 
-        loadComboBox(comboBox, getActions().getCharactersTransformActions());
+		loadComboBox(comboBox, getActions().getCharactersTransformActions());
 
-        tab.setCBoxLabel("Choose characters transformation:");
-        tab.setCBox(comboBox);
-        tab.setApplyButton(new JButton(getActions().getApplyCharactersTransform(comboBox)));
-        tab.setDescriptionLabel("Description");
-        tab.setDataSummaryLabel("Data:");
-        tab.setOptionsPanel(new JPanel());
-        tab.setup();
-        comboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
-                    tab.hideDialog.setSelected(hide);
-                } catch (Exception ex) {
-                }
-            }
-        });
-        return tab;
-    }
+		tab.setCBoxLabel("Choose characters transformation:");
+		tab.setCBox(comboBox);
+		tab.setApplyButton(new JButton(getActions().getApplyCharactersTransform(comboBox)));
+		tab.setDescriptionLabel("Description");
+		tab.setDataSummaryLabel("Data:");
+		tab.setOptionsPanel(new JPanel());
+		tab.setup();
+		comboBox.addActionListener(e -> {
+			try {
+				String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
+				boolean hide = ProgramProperties.get("HideDialog." + name, false);
+				tab.hideDialog.setSelected(hide);
+			} catch (Exception ignored) {
+			}
+		});
+		return tab;
+	}
 
 
-    /**
+	/**
      * sets up the distances tab
      *
-     * @return
-     */
-    private Component getDistancesAlgorithmTab() {
+	 */
+	private Component getDistancesAlgorithmTab() {
         final AlgorithmsTab tab = new AlgorithmsTab();
         tab.setName(Distances.NAME);
 
@@ -409,35 +400,32 @@ public class AlgorithmsWindow implements IDirectableViewer {
         comboBox.setAction(getActions().getComboBoxAction(dir, tab,
                 getActions().getApplyDistancesTransform(comboBox)));
 
-        loadComboBox(comboBox, getActions().getDistancesTransformActions());
+		loadComboBox(comboBox, getActions().getDistancesTransformActions());
 
-        tab.setCBoxLabel("Choose distances transformation:");
-        tab.setCBox(comboBox);
-        tab.setApplyButton(new JButton(getActions().getApplyDistancesTransform(comboBox)));
-        tab.setDescriptionLabel("Description");
-        tab.setDataSummaryLabel("Data:");
-        tab.setOptionsPanel(new JPanel());
-        tab.setup();
-        comboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
-                    tab.hideDialog.setSelected(hide);
-                } catch (Exception ex) {
-                }
-            }
-        });
+		tab.setCBoxLabel("Choose distances transformation:");
+		tab.setCBox(comboBox);
+		tab.setApplyButton(new JButton(getActions().getApplyDistancesTransform(comboBox)));
+		tab.setDescriptionLabel("Description");
+		tab.setDataSummaryLabel("Data:");
+		tab.setOptionsPanel(new JPanel());
+		tab.setup();
+		comboBox.addActionListener(e -> {
+			try {
+				String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
+				boolean hide = ProgramProperties.get("HideDialog." + name, false);
+				tab.hideDialog.setSelected(hide);
+			} catch (Exception ignored) {
+			}
+		});
 
-        return tab;
-    }
+		return tab;
+	}
 
-    /**
+	/**
      * setup the quartets tab
      *
-     * @return
-     */
-    private Component getQuartetsAlgorithmTab() {
+	 */
+	private Component getQuartetsAlgorithmTab() {
         final AlgorithmsTab tab = new AlgorithmsTab();
         tab.setName(Quartets.NAME);
 
@@ -451,35 +439,32 @@ public class AlgorithmsWindow implements IDirectableViewer {
         comboBox.setAction(getActions().getComboBoxAction(dir, tab,
                 getActions().getApplyQuartetsTransform(comboBox)));
 
-        loadComboBox(comboBox, getActions().getQuartetsTransformActions());
+		loadComboBox(comboBox, getActions().getQuartetsTransformActions());
 
-        tab.setCBoxLabel("Choose quartets transformation:");
-        tab.setCBox(comboBox);
-        tab.setApplyButton(new JButton(getActions().getApplyQuartetsTransform(comboBox)));
-        tab.setDescriptionLabel("Description");
-        tab.setDataSummaryLabel("Data:");
-        tab.setOptionsPanel(new JPanel());
-        tab.setup();
+		tab.setCBoxLabel("Choose quartets transformation:");
+		tab.setCBox(comboBox);
+		tab.setApplyButton(new JButton(getActions().getApplyQuartetsTransform(comboBox)));
+		tab.setDescriptionLabel("Description");
+		tab.setDataSummaryLabel("Data:");
+		tab.setOptionsPanel(new JPanel());
+		tab.setup();
 
-        comboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
-                    tab.hideDialog.setSelected(hide);
-                } catch (Exception ex) {
-                }
-            }
-        });
-        return tab;
-    }
+		comboBox.addActionListener(e -> {
+			try {
+				String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
+				boolean hide = ProgramProperties.get("HideDialog." + name, false);
+				tab.hideDialog.setSelected(hide);
+			} catch (Exception ignored) {
+			}
+		});
+		return tab;
+	}
 
-    /**
+	/**
      * setup the trees tab
      *
-     * @return
-     */
-    private Component getTreesAlgorithmTab() {
+	 */
+	private Component getTreesAlgorithmTab() {
         final AlgorithmsTab tab = new AlgorithmsTab();
         tab.setName(Trees.NAME);
 
@@ -493,36 +478,33 @@ public class AlgorithmsWindow implements IDirectableViewer {
         comboBox.setAction(getActions().getComboBoxAction(dir, tab,
                 getActions().getApplyTreesTransform(comboBox)));
 
-        loadComboBox(comboBox, getActions().getTreesTransformActions());
+		loadComboBox(comboBox, getActions().getTreesTransformActions());
 
-        tab.setCBoxLabel("Choose trees transformation:");
-        tab.setCBox(comboBox);
-        tab.setApplyButton(new JButton(getActions().getApplyTreesTransform(comboBox)));
-        tab.setDescriptionLabel("Description");
-        tab.setDataSummaryLabel("Data:");
-        tab.setOptionsPanel(new JPanel());
-        tab.setup();
+		tab.setCBoxLabel("Choose trees transformation:");
+		tab.setCBox(comboBox);
+		tab.setApplyButton(new JButton(getActions().getApplyTreesTransform(comboBox)));
+		tab.setDescriptionLabel("Description");
+		tab.setDataSummaryLabel("Data:");
+		tab.setOptionsPanel(new JPanel());
+		tab.setup();
 
-        comboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
-                    tab.hideDialog.setSelected(hide);
-                } catch (Exception ex) {
-                }
-            }
-        });
-        return tab;
-    }
+		comboBox.addActionListener(e -> {
+			try {
+				String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
+				boolean hide = ProgramProperties.get("HideDialog." + name, false);
+				tab.hideDialog.setSelected(hide);
+			} catch (Exception ignored) {
+			}
+		});
+		return tab;
+	}
 
 
-    /**
+	/**
      * sets up the splits tab  for methods
      *
-     * @return
-     */
-    private Component getSplitsAlgorithmTab() {
+	 */
+	private Component getSplitsAlgorithmTab() {
         final AlgorithmsTab tab = new AlgorithmsTab();
         tab.setName(Splits.NAME);
 
@@ -536,30 +518,28 @@ public class AlgorithmsWindow implements IDirectableViewer {
         comboBox.setAction(getActions().getComboBoxAction(dir, tab,
                 getActions().getApplySplitsTransform(comboBox)));
 
-        loadComboBox(comboBox, getActions().getSplitsTransformActions());
+		loadComboBox(comboBox, getActions().getSplitsTransformActions());
 
-        tab.setCBoxLabel("Choose splits transformation:");
-        tab.setCBox(comboBox);
-        tab.setApplyButton(new JButton(getActions().getApplySplitsTransform(comboBox)));
-        tab.setDescriptionLabel("Description");
-        tab.setDataSummaryLabel("Data:");
-        tab.setOptionsPanel(new JPanel());
-        tab.setup();
+		tab.setCBoxLabel("Choose splits transformation:");
+		tab.setCBox(comboBox);
+		tab.setApplyButton(new JButton(getActions().getApplySplitsTransform(comboBox)));
+		tab.setDescriptionLabel("Description");
+		tab.setDataSummaryLabel("Data:");
+		tab.setOptionsPanel(new JPanel());
+		tab.setup();
 
-        comboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
-                    tab.hideDialog.setSelected(hide);
-                } catch (Exception ex) {
-                }
-            }
-        });
-        return tab;
-    }
+		comboBox.addActionListener(e -> {
+			try {
+				String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
+				boolean hide = ProgramProperties.get("HideDialog." + name, false);
+				tab.hideDialog.setSelected(hide);
+			} catch (Exception ignored) {
+			}
+		});
+		return tab;
+	}
 
-    private Component getReticulateAlgorithmTab() {
+	private Component getReticulateAlgorithmTab() {
         final AlgorithmsTab tab = new AlgorithmsTab();
         tab.setName(Reticulate.NAME);
 
@@ -573,38 +553,33 @@ public class AlgorithmsWindow implements IDirectableViewer {
         comboBox.setAction(getActions().getComboBoxAction(dir, tab,
                 getActions().getApplyReticulateTransform(comboBox)));
 
-        loadComboBox(comboBox, getActions().getReticulateTransformActions());
+		loadComboBox(comboBox, getActions().getReticulateTransformActions());
 
-        tab.setCBoxLabel("Choose reticulate transformation:");
-        tab.setCBox(comboBox);
-        tab.setApplyButton(new JButton(getActions().getApplyReticulateTransform(comboBox)));
-        tab.setDescriptionLabel("Description");
-        tab.setDataSummaryLabel("Data:");
-        tab.setOptionsPanel(new JPanel());
-        tab.setup();
+		tab.setCBoxLabel("Choose reticulate transformation:");
+		tab.setCBox(comboBox);
+		tab.setApplyButton(new JButton(getActions().getApplyReticulateTransform(comboBox)));
+		tab.setDescriptionLabel("Description");
+		tab.setDataSummaryLabel("Data:");
+		tab.setOptionsPanel(new JPanel());
+		tab.setup();
 
-        comboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
-                    boolean hide = ProgramProperties.get("HideDialog." + name, false);
-                    tab.hideDialog.setSelected(hide);
-                } catch (Exception ex) {
-                }
-            }
-        });
-        return tab;
-    }
+		comboBox.addActionListener(e -> {
+			try {
+				String name = (String) ((AbstractAction) comboBox.getSelectedItem()).getValue(AbstractAction.NAME);
+				boolean hide = ProgramProperties.get("HideDialog." + name, false);
+				tab.hideDialog.setSelected(hide);
+			} catch (Exception ignored) {
+			}
+		});
+		return tab;
+	}
 
 
-    /**
+	/**
      * selects the named tab, subtab and transform
      *
-     * @param tabName
-     * @param subTabName
-     * @param transformName
-     */
-    public void select(String tabName, String subTabName, String transformName) {
+	 */
+	public void select(String tabName, String subTabName, String transformName) {
         boolean found = false;
         for (int tabId = 0; tabId < tabbedPane.getTabCount(); tabId++) {
             String name = tabbedPane.getTitleAt(tabId);
@@ -644,10 +619,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * loads a combobox with all transforms found in a given package, of given type
      *
-     * @param cbox
-     * @param actions
-     */
-    /*
+	 */
+	/*
      * old version of this function by Daniel
      */
     /*
@@ -692,9 +665,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the combobox associated with a name
      *
-     * @param name
-     */
-    public JComboBox getComboBox(String name) {
+	 */
+	public JComboBox getComboBox(String name) {
         JTabbedPane pane = ((JTabbedPane) name2tabid.get(name));
         return ((AlgorithmsTab) pane.getComponentAt(pane.indexOfTab(AlgorithmsWindow.METHOD))).getCBox();
     }
@@ -702,9 +674,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the complete splits tab
      *
-     * @return
-     */
-    private Component getTaxaTab() {
+	 */
+	private Component getTaxaTab() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setName(Taxa.NAME);
         tabs.addTab(AlgorithmsWindow.FILTER, getFilterTaxaTab());
@@ -715,9 +686,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the complete unaligned tab
      *
-     * @return
-     */
-    private Component getUnalignedTab() {
+	 */
+	private Component getUnalignedTab() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setName(Unaligned.NAME);
         tabs.addTab(AlgorithmsWindow.METHOD, getUnalignedAlgorithmTab());
@@ -729,9 +699,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the complete charactres tab
      *
-     * @return
-     */
-    private Component getCharactersTab() {
+	 */
+	private Component getCharactersTab() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setName(Characters.NAME);
         tabs.addTab(AlgorithmsWindow.METHOD, getCharactersAlgorithmTab());
@@ -745,9 +714,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the complete distances tab
      *
-     * @return
-     */
-    private Component getDistancesTab() {
+	 */
+	private Component getDistancesTab() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setName(Distances.NAME);
         tabs.addTab(AlgorithmsWindow.METHOD, getDistancesAlgorithmTab());
@@ -760,9 +728,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the complete quartes tab
      *
-     * @return
-     */
-    private Component getQuartetsTab() {
+	 */
+	private Component getQuartetsTab() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setName(Quartets.NAME);
         tabs.addTab(AlgorithmsWindow.METHOD, getQuartetsAlgorithmTab());
@@ -774,9 +741,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the complete trees tab
      *
-     * @return
-     */
-    private Component getTreesTab() {
+	 */
+	private Component getTreesTab() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setName(Trees.NAME);
         tabs.addTab(AlgorithmsWindow.METHOD, getTreesAlgorithmTab());
@@ -788,9 +754,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the complete splits tab
      *
-     * @return
-     */
-    private Component getSplitsTab() {
+	 */
+	private Component getSplitsTab() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setName(Splits.NAME);
         tabs.addTab(AlgorithmsWindow.METHOD, getSplitsAlgorithmTab());
@@ -810,9 +775,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the filter taxa tab
      *
-     * @return
-     */
-    private Component getFilterTaxaTab() {
+	 */
+	private Component getFilterTaxaTab() {
         FilterTaxaPanel panel = new FilterTaxaPanel(dir, (MainViewer) dir.getViewerByClass(MainViewer.class));
         addUpdateableActionsListener(panel);
         addUpdateableView(panel);
@@ -823,9 +787,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the filter characters tab
      *
-     * @return
-     */
-    private Component getFilterCharactersTab() {
+	 */
+	private Component getFilterCharactersTab() {
         FilterCharactersPanel panel = new FilterCharactersPanel(dir);
         addUpdateableActionsListener(panel.getActions());
         addUpdateableView(panel);
@@ -835,9 +798,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the select characters tab
      *
-     * @return
-     */
-    private Component getSelectCharactersTab() {
+	 */
+	private Component getSelectCharactersTab() {
         splitstree4.gui.algorithms.select.SelectCharactersPanel panel = new
                 splitstree4.gui.algorithms.select.SelectCharactersPanel(dir);
         addUpdateableActionsListener(panel.getActions());
@@ -848,9 +810,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the select trees tab
      *
-     * @return
-     */
-    private Component getFilterTreesTab() {
+	 */
+	private Component getFilterTreesTab() {
         FilterTreesPanel panel = new FilterTreesPanel(dir);
         addUpdateableActionsListener(panel);
         addUpdateableView(panel);
@@ -860,9 +821,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the select trees tab
      *
-     * @return
-     */
-    private Component getSelectTreesTab() {
+	 */
+	private Component getSelectTreesTab() {
         splitstree4.gui.algorithms.select.SelectTreesPanel
                 panel = new splitstree4.gui.algorithms.select.SelectTreesPanel(dir);
         addUpdateableActionsListener(panel.getActions());
@@ -874,9 +834,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the modify taxa tab
      *
-     * @return
-     */
-    private Component getModifyTaxaTab() {
+	 */
+	private Component getModifyTaxaTab() {
         ModifyTaxaPanel panel = new ModifyTaxaPanel(dir);
         addUpdateableActionsListener(panel);
         addUpdateableView(panel);
@@ -887,9 +846,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * gets the modify splits tab
      *
-     * @return
-     */
-    private Component getModifySplitsTab() {
+	 */
+	private Component getModifySplitsTab() {
         ModifySplitsPanel panel = new ModifySplitsPanel(dir);
         addUpdateableActionsListener(panel.getActions());
         addUpdateableView(panel);
@@ -907,9 +865,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * adds an updateable action listener
      *
-     * @param ua
-     */
-    public void addUpdateableActionsListener(UpdateableActions ua) {
+	 */
+	public void addUpdateableActionsListener(UpdateableActions ua) {
         updateableActions.add(ua);
     }
 
@@ -927,9 +884,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * chage the selection state of cirtical items
      *
-     * @param onOff
-     */
-    private void notifyEnableCritical(boolean onOff) {
+	 */
+	private void notifyEnableCritical(boolean onOff) {
         for (Object updateableAction : updateableActions) {
             UpdateableActions ua = (UpdateableActions) updateableAction;
             ua.setEnableCritical(onOff);
@@ -939,9 +895,8 @@ public class AlgorithmsWindow implements IDirectableViewer {
     /**
      * adds an updateable action listener
      *
-     * @param uv
-     */
-    public void addUpdateableView(IUpdateableView uv) {
+	 */
+	public void addUpdateableView(IUpdateableView uv) {
         updateableViews.add(uv);
     }
 
@@ -957,23 +912,23 @@ public class AlgorithmsWindow implements IDirectableViewer {
 
 
     /**
-     * @author miguel
-     * <p/>
-     * An inner class to render a combobox that contains objects.
-     * (One that may contain Separators as well)
-     */
-    class ComboBoxRenderer extends JLabel implements ListCellRenderer {
-        final String SEPARATOR = "SEPARATOR";
-        JSeparator separator;
+	 * @author miguel
+	 * <p/>
+	 * An inner class to render a combobox that contains objects.
+	 * (One that may contain Separators as well)
+	 */
+	static class ComboBoxRenderer extends JLabel implements ListCellRenderer {
+		final String SEPARATOR = "SEPARATOR";
+		final JSeparator separator;
 
-        public ComboBoxRenderer() {
-            setOpaque(true);
-            setBorder(new EmptyBorder(1, 1, 1, 1));
-            separator = new JSeparator(JSeparator.HORIZONTAL);
-        }
+		public ComboBoxRenderer() {
+			setOpaque(true);
+			setBorder(new EmptyBorder(1, 1, 1, 1));
+			separator = new JSeparator(JSeparator.HORIZONTAL);
+		}
 
-        public Component getListCellRendererComponent(JList list, // uses this object's colors to set up foreground and background colors and set up the font.
-                                                      Object value, // the object to render.
+		public Component getListCellRendererComponent(JList list, // uses this object's colors to set up foreground and background colors and set up the font.
+													  Object value, // the object to render.
                                                       int index, // the index of the object to render.
                                                       boolean isSelected, // determine which colors to use.
                                                       boolean cellHasFocus)// indicates whether the  object to render has the focus.
@@ -1003,22 +958,22 @@ public class AlgorithmsWindow implements IDirectableViewer {
     }
 
     /**
-     * @author miguel
-     * <p/>
-     * An inner class to listen to actions performed in a ComboBox with Separators
-     */
-    class BlockComboListener implements ActionListener {
-        final String SEPARATOR = "SEPARATOR";
-        JComboBox comboBox;
-        Object currentItem;
-        int currentIndex;
+	 * @author miguel
+	 * <p/>
+	 * An inner class to listen to actions performed in a ComboBox with Separators
+	 */
+	static class BlockComboListener implements ActionListener {
+		final String SEPARATOR = "SEPARATOR";
+		final JComboBox comboBox;
+		Object currentItem;
+		int currentIndex;
 
-        BlockComboListener(JComboBox comboBox) {
-            this.comboBox = comboBox;
-            comboBox.setSelectedIndex(-1); //No selected item
-            currentItem = comboBox.getSelectedItem();
-            currentIndex = comboBox.getSelectedIndex();
-        }
+		BlockComboListener(JComboBox comboBox) {
+			this.comboBox = comboBox;
+			comboBox.setSelectedIndex(-1); //No selected item
+			currentItem = comboBox.getSelectedItem();
+			currentIndex = comboBox.getSelectedIndex();
+		}
 
         public void actionPerformed(ActionEvent e) {
             String tempItemName = comboBox.getSelectedItem().toString();

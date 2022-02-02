@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @author miguel
- *
- * Created on Aug 6, 2004
- *
- */
 package splitstree4.algorithms.characters;
 
 /**
@@ -39,7 +33,6 @@ public class SaturatedDistancesException extends Exception {
     /**
      * Constructor for the exception
      *
-     * @param str
      */
     public SaturatedDistancesException(String str) {
         super(str);

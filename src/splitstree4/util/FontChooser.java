@@ -27,8 +27,6 @@ package splitstree4.util;
 //
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -109,13 +107,9 @@ public class FontChooser extends JDialog implements ActionListener {
         // updates get reflected in our preview label.
         if (useColorChooser) {
             colorChooser = new JColorChooser(Color.black);
-            colorChooser.getSelectionModel()
-                    .addChangeListener(new ChangeListener() {
-                        public void stateChanged(ChangeEvent e) {
-                            updatePreviewColor();
-                        }
-                    });
-            c.add(colorChooser, BorderLayout.CENTER);
+			colorChooser.getSelectionModel()
+					.addChangeListener(e -> updatePreviewColor());
+			c.add(colorChooser, BorderLayout.CENTER);
         }
         JPanel previewPanel = new JPanel(new BorderLayout());
         previewLabel = new JLabel("Here's a sample of this font.");
@@ -126,17 +120,9 @@ public class FontChooser extends JDialog implements ActionListener {
 
         // Add in the Ok and Cancel buttons for our dialog box
         JButton okButton = new JButton("Ok");
-        okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                closeAndSave();
-            }
-        });
+		okButton.addActionListener(ae -> closeAndSave());
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                closeAndCancel();
-            }
-        });
+		cancelButton.addActionListener(ae -> closeAndCancel());
 
         JPanel controlPanel = new JPanel();
         controlPanel.add(okButton);

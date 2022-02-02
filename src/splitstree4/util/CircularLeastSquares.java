@@ -60,9 +60,9 @@ public class CircularLeastSquares {
 
     private final double EPSILON = 1e-14;
 
-    private int[] ordering;
+    private final int[] ordering;
 
-    private int ntax;
+	private final int ntax;
 
     /**
      * Initialise structure and circular ordering.
@@ -621,7 +621,6 @@ public class CircularLeastSquares {
      * <p>
      * where w_i = 0 and u_i = 0 if i in the zero set, and otherwise u_i = 1.
      *
-     * @param zeroset
      * @param w       (initial value, also used to return values.
      */
     private void circularCGw(BitSet zeroset, double[] w) {
@@ -689,20 +688,20 @@ public class CircularLeastSquares {
 }
 
 class LassoReporter {
-    private int n;
-    private int count;
-    private Vector allBetas;
-    private Vector residuals;
+	private int n;
+	private int count;
+	private final Vector allBetas;
+	private final Vector residuals;
 
 
-    public LassoReporter() {
-        n = 0;
-        count = 0;
-        allBetas = new Vector();
-        residuals = new Vector();
-    }
+	public LassoReporter() {
+		n = 0;
+		count = 0;
+		allBetas = new Vector();
+		residuals = new Vector();
+	}
 
-    public int getNIterations() {
+	public int getNIterations() {
         return count;
     }
 

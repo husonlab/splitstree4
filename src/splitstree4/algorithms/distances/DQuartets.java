@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * returns all quartets that have positive isolation index
- * @author Daniel Huson and David Bryant
- * @version $Id: DQuartets.java,v 1.11 2007-09-11 12:31:06 kloepper Exp $
- * 8.03
- */
 package splitstree4.algorithms.distances;
 
 import splitstree4.core.Document;
@@ -41,7 +35,6 @@ public class DQuartets implements Distances2Quartets {
      * Determine whether given method can be applied to given data.
      *
      * @param taxa      the taxa
-     * @param distances
      * @return true, if method applies to given data
      */
     public boolean isApplicable(Document doc, Taxa taxa, Distances distances) {
@@ -52,7 +45,6 @@ public class DQuartets implements Distances2Quartets {
      * Applies the method to the given data
      *
      * @param taxa      the taxa
-     * @param distances
      * @return the computed set of splits
      */
     public Quartets apply(Document doc, Taxa taxa, Distances distances) throws Exception {
@@ -102,7 +94,6 @@ public class DQuartets implements Distances2Quartets {
     /**
      * set the threshold that the isolation index has to exceed
      *
-     * @param threshold
      */
     public void setOptionthreshold(double threshold) {
         this.threshold = threshold;

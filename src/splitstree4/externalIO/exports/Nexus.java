@@ -32,7 +32,7 @@ import java.util.Map;
  */
 public class Nexus extends ExporterAdapter implements Exporter {
 
-    private String Description = "Save blocks in Nexus format";
+    private final String Description = "Save blocks in Nexus format";
 
     /**
      * can we import this data?
@@ -53,7 +53,6 @@ public class Nexus extends ExporterAdapter implements Exporter {
     /**
      * convert input into nexus format
      *
-     * @param doc
      * @return null
      */
     public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {

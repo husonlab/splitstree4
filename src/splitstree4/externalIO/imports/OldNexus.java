@@ -40,12 +40,11 @@ public class OldNexus extends FileFilter implements Importer {
     String datatype = null;
 
 
-    String Description = "Nexus Files (*.nxs,*.nex,*.nexus)";
+    final String Description = "Nexus Files (*.nxs,*.nex,*.nexus)";
 
     /**
      * does this importer apply to the type of nexus block
      *
-     * @param blockName
      * @return true, if can handle this import
      */
     public boolean isApplicableToBlock(String blockName) {
@@ -56,7 +55,6 @@ public class OldNexus extends FileFilter implements Importer {
     /**
      * can we import this data?
      *
-     * @param input0
      * @return true, if can handle this import
      */
     public boolean isApplicable(Reader input0) throws IOException {
@@ -69,7 +67,6 @@ public class OldNexus extends FileFilter implements Importer {
     /**
      * convert a input string into nexus format
      *
-     * @param input0
      * @return String nexus format
      */
     public String apply(Reader input0) throws IOException {
@@ -138,7 +135,7 @@ public class OldNexus extends FileFilter implements Importer {
             if (sk.sval.equalsIgnoreCase("#nexus")) {
                 head.append("#nexus\n");
                 if (topComments.length() > 0)
-                    head.append("[!").append(topComments.toString()).append("]");
+					head.append("[!").append(topComments).append("]");
             }
             // clean blocks
             else if (sk.sval.equalsIgnoreCase("begin")) {
@@ -262,7 +259,7 @@ public class OldNexus extends FileFilter implements Importer {
         else
             throw new IOException("Unable to parse, could not determine the number of taxa");
         //System.out.println(taxa+"\n"+taxa+result.toString());
-        return head.toString() + taxa + body.toString();
+		return head + taxa + body;
     }
 
 

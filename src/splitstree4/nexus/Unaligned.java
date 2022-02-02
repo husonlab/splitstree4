@@ -35,19 +35,19 @@ import java.util.List;
  */
 public class Unaligned extends NexusBlock {
     /**
-     * the format subclass
-     */
-    public final class Format {
-        private String datatype, symbols;
-        private boolean respectCase, labels;
-        private char missing;
+	 * the format subclass
+	 */
+	public static final class Format {
+		private String datatype, symbols;
+		private boolean respectCase, labels;
+		private char missing;
 
-        /**
-         * the Constructor
-         */
-        public Format() {
-            datatype = "standard";
-            symbols = "";
+		/**
+		 * the Constructor
+		 */
+		public Format() {
+			datatype = "standard";
+			symbols = "";
             respectCase = false;
             labels = true;
             missing = '?';
@@ -172,8 +172,7 @@ public class Unaligned extends NexusBlock {
         /**
          * Set the value of missing
          *
-         * @param missing
-         */
+		 */
         public void setMissing(char missing) throws SplitsException {
             if (NexusStreamTokenizer.isLabelPunctuation(missing)
                     || NexusStreamTokenizer.isSpace(missing))
@@ -187,12 +186,12 @@ public class Unaligned extends NexusBlock {
     // Main data:
     private Format fmt = null;
     private int ntax;
-    private char[][] matrix;
-    private boolean gapMissingMode;
-    /**
-     * Identification string
-     */
-    public final static String NAME = "Unaligned";
+	private char[][] matrix;
+	private final boolean gapMissingMode;
+	/**
+	 * Identification string
+	 */
+	public final static String NAME = "Unaligned";
 
     /**
      * Construct a new Unaligned object.
@@ -227,8 +226,7 @@ public class Unaligned extends NexusBlock {
     /**
      * set the number of taxa
      *
-     * @param ntax
-     */
+	 */
     public void setNtax(int ntax) {
         this.ntax = ntax;
         matrix = new char[ntax + 1][];
@@ -258,7 +256,6 @@ public class Unaligned extends NexusBlock {
     /**
      * returns a row of data as a string
      *
-     * @param t
      * @return a sequence
      */
     public String getRowAsString(int t) {
@@ -466,10 +463,10 @@ public class Unaligned extends NexusBlock {
         w.write(";\n");
 
         w.write("MATRIX\n");
-        try {
-            writeMatrix(w, taxa);
-        } catch (SplitsException ex) {
-        } // simply can't happen
+		try {
+			writeMatrix(w, taxa);
+		} catch (SplitsException ignored) {
+		} // simply can't happen
 
         w.write("END; [" + Unaligned.NAME + "]\n");
     }
@@ -516,7 +513,6 @@ public class Unaligned extends NexusBlock {
     /**
      * gets the value of a format switch
      *
-     * @param name
      * @return value of format switch
      */
     public boolean getFormatSwitchValue(String name) {
@@ -542,9 +538,7 @@ public class Unaligned extends NexusBlock {
     /**
      * return the induced object obtained by hiding taxa
      *
-     * @param origTaxa
-     * @param hiddenTaxa
-     */
+	 */
     public void hideTaxa(Taxa origTaxa, TaxaSet hiddenTaxa) {
         if (hiddenTaxa.cardinality() == 0 && originalUnaligned == null)
             return;   // nothing to do

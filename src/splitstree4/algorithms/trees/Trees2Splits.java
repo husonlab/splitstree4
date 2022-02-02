@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: Trees2Splits.java,v 1.6 2006-05-23 05:57:33 huson Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.algorithms.trees;
 

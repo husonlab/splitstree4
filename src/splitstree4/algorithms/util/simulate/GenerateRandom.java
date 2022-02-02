@@ -41,8 +41,6 @@ public class GenerateRandom extends Random {
     /**
      * Returns a random number uniformly distributed between low and high
      *
-     * @param low
-     * @param high
      * @return double Random number between low and high
      */
     public double nextUniform(double low, double high) {
@@ -53,7 +51,6 @@ public class GenerateRandom extends Random {
     /**
      * Generates random double from exponential with given mean
      *
-     * @param mean
      * @return random double
      */
     public double nextExponential(double mean) {
@@ -63,8 +60,6 @@ public class GenerateRandom extends Random {
     /**
      * Generates random number from Gamma distribution \Gamma[\alpha,\beta] with given parameters
      *
-     * @param alpha
-     * @param beta
      * @return double (random number)
      */
     public double nextGamma(double alpha, double beta) {
@@ -74,8 +69,6 @@ public class GenerateRandom extends Random {
     /**
      * Generates random double from Gaussian distribution with given mean or variance
      *
-     * @param mean
-     * @param variance
      * @return double
      */
     public double nextGaussian(double mean, double variance) {
@@ -99,7 +92,6 @@ public class GenerateRandom extends Random {
      * Marsaglia, G. and Tsang, W.W. (2000) A simple method for generating gamma variables. ACM transactions
      * on Mathematical Software 26(3), 363--372.
      *
-     * @param alpha
      * @return double
      */
     public double nextGamma(double alpha) {
@@ -130,7 +122,6 @@ public class GenerateRandom extends Random {
     /**
      * Generate a random value from the ChiSquared with given degrees of freedom
      *
-     * @param degFreedom
      * @return single sampled value
      */
     public double nextChiSquared(double degFreedom) {
@@ -140,11 +131,8 @@ public class GenerateRandom extends Random {
     /**
      * Generate a random value from the non-Central Chi-Squared with given degrees of freedom.
      *
-     * @param degFreedom
-     * @param nonCentrality
      * @return (double) random double.
-     * @throws Exception
-     */
+	 */
     public double nextChiSquared(double degFreedom, double nonCentrality) throws Exception {
         if (degFreedom < 1.0) {
             throw new Exception("Chi-squared with deg freedom less than unity");
@@ -159,7 +147,6 @@ public class GenerateRandom extends Random {
     /**
      * Generates a random subset of 0...n-1.
      *
-     * @param n
      * @return random BitSet
      */
     public BitSet nextBitSet(int n) {

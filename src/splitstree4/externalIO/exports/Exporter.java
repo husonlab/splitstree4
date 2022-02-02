@@ -34,7 +34,6 @@ public interface Exporter {
     /**
      * can we import this data?
      *
-     * @param dp
      * @param selected set of selected blocks
      * @return true, if can handle this import
      */
@@ -48,8 +47,7 @@ public interface Exporter {
      * @param dp         The Document
      * @param blockNames list of blocks to exported
      * @return mapping from export names to original names
-     * @throws Exception
-     */
+	 */
     Map<String, String> apply(Writer w, Document dp, Collection<String> blockNames) throws Exception;
 
     /**
@@ -61,8 +59,7 @@ public interface Exporter {
      * @param blockNames     list of blocks to exported
      * @param additionalInfo Additional info required by exporter
      * @return mapping from export names to original names
-     * @throws Exception
-     */
+	 */
     Map<String, String> apply(Writer w, Document dp, Collection<String> blockNames, ExporterInfo additionalInfo) throws Exception;
 
     /**
@@ -77,8 +74,7 @@ public interface Exporter {
      * Mainly used for character sequences. If true, save all sites, otherwise
      * only save unmasked sites
      *
-     * @param saveAll
-     */
+	 */
     void setOptionExportAll(boolean saveAll);
 
     /**

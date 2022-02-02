@@ -32,30 +32,30 @@ import java.util.List;
 public class KMerDistance implements Unaligned2Distances {
     public final boolean EXPERT = true;
 
-    // known distance methods
-    static final String Muscle = "Muscle";
-    static final String Euklidian = "Euklidian";
+	// known distance methods
+	static final String Muscle = "Muscle";
+	static final String Euklidian = "Euklidian";
 
-    public final static String DESCRIPTION = "Calculates the k-mer distance";
-    private int kMerLength = 3;
-    private String DistanceMethod = "Muscle";
+	public final static String DESCRIPTION = "Calculates the k-mer distance";
+	private int kMerLength = 3;
+	private String DistanceMethod = "Muscle";
 
-    private boolean compressedAlphabet = false;
+	private final boolean compressedAlphabet = false;
 
-    private int[] proteinMap = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, 1, 2, 3, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, 16, -1, 17, 18, -1, 19, 20};
-    private int[] dnaMap = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, 1, -1, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1};
-    private int[] rnaMap = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, 1, -1, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1};
-    private int[] binaryMap = new int[]{0, 1};
+	private final int[] proteinMap = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, 1, 2, 3, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, 16, -1, 17, 18, -1, 19, 20};
+	private final int[] dnaMap = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, 1, -1, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1};
+	private final int[] rnaMap = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1, 1, -1, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1};
+	private final int[] binaryMap = new int[]{0, 1};
 
-    /**
-     * Determine whether given method can be applied to given data.
-     *
-     * @param taxa the taxa
-     * @param data the unaligned sequences
-     * @return true, if method applies to given data
-     */
-    public boolean isApplicable(Document doc, Taxa taxa, Unaligned data) {
-        return (taxa.isValid() & data.isValid());
+	/**
+	 * Determine whether given method can be applied to given data.
+	 *
+	 * @param taxa the taxa
+	 * @param data the unaligned sequences
+	 * @return true, if method applies to given data
+	 */
+	public boolean isApplicable(Document doc, Taxa taxa, Unaligned data) {
+		return (taxa.isValid() & data.isValid());
     }
 
     /**
@@ -132,8 +132,7 @@ public class KMerDistance implements Unaligned2Distances {
     /**
      * get the length of the kmer used in the calculation
      *
-     * @return
-     */
+	 */
     public int getOptionkMerLength() {
         return this.kMerLength;
     }
@@ -141,8 +140,7 @@ public class KMerDistance implements Unaligned2Distances {
     /**
      * set the length of the kmer used in the calculation
      *
-     * @param kMerLength
-     */
+	 */
     public void setOptionkMerLength(int kMerLength) {
         this.kMerLength = kMerLength;
     }

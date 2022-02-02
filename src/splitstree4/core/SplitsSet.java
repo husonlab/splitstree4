@@ -113,8 +113,7 @@ public class SplitsSet implements Cloneable {
     /**
      * sets the intervals vector
      *
-     * @param intervals
-     */
+	 */
     public void setIntervals(Vector intervals) {
         this.intervals = intervals;
     }
@@ -132,8 +131,7 @@ public class SplitsSet implements Cloneable {
     /**
      * sets the confidences vector
      *
-     * @param confidences
-     */
+	 */
     public void setConfidences(Vector confidences) {
         this.confidences = confidences;
     }
@@ -244,8 +242,7 @@ public class SplitsSet implements Cloneable {
      *
      * @param A          one side of the split
      * @param weight     the weight
-     * @param confidence
-     */
+	 */
     public void add(TaxaSet A, float weight, float confidence) {
         add(A, weight, confidence, null, null);
     }
@@ -336,7 +333,6 @@ public class SplitsSet implements Cloneable {
     /**
      * gets the confidence          of a split
      *
-     * @param i
      * @return confidence
      */
     public float getConfidence(int i) {
@@ -346,9 +342,7 @@ public class SplitsSet implements Cloneable {
     /**
      * sets the confidence of a split
      *
-     * @param i
-     * @param confidence
-     */
+	 */
     public void setConfidence(int i, float confidence) {
         if (i - 1 >= confidences.size())
             confidences.add(i - 1, confidence);
@@ -359,7 +353,6 @@ public class SplitsSet implements Cloneable {
     /**
      * Get a confidence interval for a split
      *
-     * @param i
      * @return Interval
      */
     public Interval getInterval(int i) {
@@ -369,9 +362,7 @@ public class SplitsSet implements Cloneable {
     /**
      * Get a confidence interval for a split
      *
-     * @param i
-     * @param interval
-     */
+	 */
     public void setInterval(int i, Interval interval) {
         if (i - 1 >= intervals.size())
             intervals.add(i - 1, interval);

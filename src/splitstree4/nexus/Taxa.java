@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: Taxa.java,v 1.52 2010-05-09 19:15:29 bryant Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.nexus;
 
@@ -65,7 +59,6 @@ public class Taxa extends NexusBlock {
     /**
      * Construct a new taxa object and set the initial cardinality to ntax
      *
-     * @param ntax
      */
     public Taxa(int ntax) {
         super();
@@ -256,9 +249,6 @@ public class Taxa extends NexusBlock {
     /**
      * overrides method in NexusBlock
      *
-     * @param w
-     * @param taxa
-     * @throws IOException
      */
     public void write(Writer w, Taxa taxa) throws IOException {
         write(w);
@@ -439,7 +429,6 @@ public class Taxa extends NexusBlock {
     /**
      * set the original taxa
      *
-     * @param taxa
      */
     public void setOriginalTaxa(Taxa taxa) {
         originalTaxa = taxa;
@@ -459,7 +448,6 @@ public class Taxa extends NexusBlock {
      * Note that these numbers are given with respect to the current taxa set,
      * not the original one!
      *
-     * @param additionalHidden
      */
     public void hideAdditionalTaxa(TaxaSet additionalHidden) throws SplitsException {
         if (originalTaxa == null)
@@ -524,13 +512,12 @@ public class Taxa extends NexusBlock {
         } catch (IOException ex) {
             Basic.caught(ex);
         }
-        System.err.println(label + ":\n" + sw.toString());
+        System.err.println(label + ":\n" + sw);
     }
 
     /**
      * add a taxon to the taxa block
      *
-     * @param taxonLabel
      */
     public void add(String taxonLabel) {
         add(taxonLabel, null);
@@ -539,7 +526,6 @@ public class Taxa extends NexusBlock {
     /**
      * add a taxon to the taxa block
      *
-     * @param taxonLabel
      * @param info       information string associated with taxon
      */
     public void add(String taxonLabel, String info) {
@@ -560,7 +546,6 @@ public class Taxa extends NexusBlock {
     /**
      * returns true, if taxa block contains given set of labels
      *
-     * @param labels
      * @return true, if all labels contained
      */
     public boolean contains(Collection labels) {
@@ -575,7 +560,6 @@ public class Taxa extends NexusBlock {
     /**
      * gets the set of all labels for the given taxaSet
      *
-     * @param taxaSet
      * @return set of labels
      */
     public Set<String> getLabels(TaxaSet taxaSet) {
@@ -588,7 +572,6 @@ public class Taxa extends NexusBlock {
     /**
      * check that all labels are unique
      *
-     * @throws IOException
      */
     public void checkLabelsAreUnique() throws IOException {
         Set<String> set = new HashSet<>();

@@ -22,7 +22,6 @@ import jloda.util.Basic;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
@@ -52,40 +51,38 @@ public class TestHTML {
         editorPane.setEditorKit(new HTMLEditorKit());
 
         editorPane.addHyperlinkListener(
-                new HyperlinkListener() {
-                    public void hyperlinkUpdate(HyperlinkEvent e) {
-                        // Das aenndern des Mauszeigers geht ab
-                        // Java 1.3 auch automatisch
-                        if (e.getEventType() ==
-                                HyperlinkEvent.EventType.ENTERED) {
-                            ((JEditorPane) e.getSource()).setCursor(
-                                    Cursor.getPredefinedCursor(
-                                            Cursor.HAND_CURSOR));
-                        } else if (e.getEventType() ==
-                                HyperlinkEvent.EventType.EXITED) {
-                            ((JEditorPane) e.getSource()).setCursor(
-                                    Cursor.getPredefinedCursor(
-                                            Cursor.DEFAULT_CURSOR));
-                        } else
-                            // Hier wird auf ein Klick reagiert
-                            if (e.getEventType() ==
-                                    HyperlinkEvent.EventType.ACTIVATED) {
-                                JEditorPane pane = (JEditorPane) e.getSource();
-                                if (e instanceof HTMLFrameHyperlinkEvent) {
-                                    HTMLFrameHyperlinkEvent evt =
-                                            (HTMLFrameHyperlinkEvent) e;
-                                    HTMLDocument doc =
-                                            (HTMLDocument) pane.getDocument();
-                                    doc.processHTMLFrameHyperlinkEvent(evt);
-                                } else try {
-                                    // Normaler Link
-                                    pane.setPage(e.getURL());
-                                } catch (Throwable t) {
-                                    t.printStackTrace();
-                                }
-                            }
-                    }
-                });
+				e -> {
+					// Das aenndern des Mauszeigers geht ab
+					// Java 1.3 auch automatisch
+					if (e.getEventType() ==
+						HyperlinkEvent.EventType.ENTERED) {
+						((JEditorPane) e.getSource()).setCursor(
+								Cursor.getPredefinedCursor(
+										Cursor.HAND_CURSOR));
+					} else if (e.getEventType() ==
+							   HyperlinkEvent.EventType.EXITED) {
+						((JEditorPane) e.getSource()).setCursor(
+								Cursor.getPredefinedCursor(
+										Cursor.DEFAULT_CURSOR));
+					} else
+						// Hier wird auf ein Klick reagiert
+						if (e.getEventType() ==
+							HyperlinkEvent.EventType.ACTIVATED) {
+							JEditorPane pane = (JEditorPane) e.getSource();
+							if (e instanceof HTMLFrameHyperlinkEvent) {
+								HTMLFrameHyperlinkEvent evt =
+										(HTMLFrameHyperlinkEvent) e;
+								HTMLDocument doc =
+										(HTMLDocument) pane.getDocument();
+								doc.processHTMLFrameHyperlinkEvent(evt);
+							} else try {
+								// Normaler Link
+								pane.setPage(e.getURL());
+							} catch (Throwable t) {
+								t.printStackTrace();
+							}
+						}
+				});
 
         try {
             editorPane.setPage(new URL("http://www-ab.informatik.uni-tuebingen.de/software/splitstree4/test.html"));

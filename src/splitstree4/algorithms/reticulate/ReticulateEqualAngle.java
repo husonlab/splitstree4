@@ -36,7 +36,7 @@ import java.util.*;
  * Implements an extended version of the equal angle algorithm that can draw reticulate networks.
  */
 public class ReticulateEqualAngle implements Reticulate2Network {
-    private boolean verbose = false;
+    private final boolean verbose = false;
 
     private double deltaAngle = 15.0;
     private boolean useWeights = true;
@@ -44,8 +44,8 @@ public class ReticulateEqualAngle implements Reticulate2Network {
     private double maxAngle = 180;
 
     static final String greedy = "Greedy";
-    static final String perfect = "Perfect";
-    private String optionSorting = greedy;
+	static final String perfect = "Perfect";
+	private final String optionSorting = greedy;
 
 
     private HashMap rNode2ReticulationNodeData;
@@ -91,8 +91,8 @@ public class ReticulateEqualAngle implements Reticulate2Network {
             ReticulationNodeData rNodeData = (ReticulationNodeData) rNode2ReticulationNodeData.get(rNode);
             //System.out.println("\n" + rNodeData + "\n");
             Node parent = rNodeData.getParent();
-            if (parent2rNodes.get(parent) == null) parent2rNodes.put(parent, new HashSet());
-            ((HashSet) parent2rNodes.get(parent)).add(rNode);
+			parent2rNodes.computeIfAbsent(parent, k -> new HashSet());
+			((HashSet) parent2rNodes.get(parent)).add(rNode);
         }
 
         HashMap node2AngleSize = new HashMap();
@@ -161,8 +161,8 @@ public class ReticulateEqualAngle implements Reticulate2Network {
 
         it = rNode2ReticulationNodeData.keySet().iterator();
         while (it.hasNext()) {
-            Node rNode = (Node) it.next();
-            ReticulationNodeData rNodeData = (ReticulationNodeData) rNode2ReticulationNodeData.get(rNode);
+			Node rNode = it.next();
+			ReticulationNodeData rNodeData = (ReticulationNodeData) rNode2ReticulationNodeData.get(rNode);
             // find pathes from p and q to parent
             if (!rNodeData.getP().getSource().equals(rNodeData.getParent())) {
                 LinkedList path2p = findMinPath2Ancestor(rNodeData.getP().getSource(), rNodeData.getParent(), parent2rNodes);
@@ -202,7 +202,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
         HashSet<Node> start2SubNodes = new HashSet<>();
         // add tree stuff
         while (it.hasNext()) {
-            Node next = (Node) it.next();
+			Node next = it.next();
             // is decendant?
             Edge e = start.getCommonEdge(next);
             // is tree edge
@@ -220,7 +220,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
         if (parent2rNodes.get(start) != null) {
             it = parent2rNodes.get(start).iterator();
             while (it.hasNext()) {
-                Node next = (Node) it.next();
+				Node next = it.next();
                 if (node2SubNodes.get(next) == null) {
                     //System.out.println("Recusion");
                     recButtomUpSubNodes(next, node2SubNodes, parent2rNodes);
@@ -238,7 +238,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
         //System.out.println("\nnode: " + start + "\tsub: " + node2SubLeafs.get(start));
         int nLeafs = 0;
 
-        if (node2AngleSize.containsKey(start)) nLeafs += (Integer) node2AngleSize.get(start);
+		if (node2AngleSize.containsKey(start)) nLeafs += node2AngleSize.get(start);
         // add treenodes
         for (Node next : start.adjacentNodes()) {
             if (next.getInDegree() == 1 && next.getCommonEdge(start).getSource().equals(start)) {
@@ -323,14 +323,6 @@ public class ReticulateEqualAngle implements Reticulate2Network {
 
 
     /**
-     * @param graphView
-     * @param graph
-     * @param start
-     * @param startAngle
-     * @param nTax
-     * @return return a HashMap with key a node and vlaue a double[] with value at 0 is the start Angle of the tree or imaginary edge to the node  and value at 1 is the angle of the
-     * tree or imaginary edge to the node
-     * @throws Exception
      */
     private void recTopDownLabelNodes(PhyloGraphView graphView, PhyloSplitsGraph graph, Node start, double startAngle, int nTax, HashMap node2AngleSize, HashMap node2SubNodes, HashSet before, HashMap parent2rNodes, HashMap node2ActiverNodes) throws Exception {
         if (verbose) System.out.println("\nstart: " + start + "\t before: " + before);
@@ -347,8 +339,7 @@ public class ReticulateEqualAngle implements Reticulate2Network {
             orderedRNodes = buildLocalWorkFlow((HashSet) parent2rNodes.get(start), ordGraph);
         }
         // the list of tree decendants of start
-        ArrayList decendants = new ArrayList();
-        decendants.addAll(orderedRNodes);
+		ArrayList decendants = new ArrayList(orderedRNodes);
         for (Node n : start.adjacentNodes()) {
             if (n.getInDegree() == 1 && n.getCommonEdge(start).getSource().equals(start))
                 decendants.add(n);
@@ -390,19 +381,6 @@ public class ReticulateEqualAngle implements Reticulate2Network {
     /**
      * This method draws a list orf ordered decendants without respecting the weight on the reticulation edges
      *
-     * @param start
-     * @param startAngle
-     * @param graph
-     * @param graphView
-     * @param orderedRNodes
-     * @param ordList
-     * @param parent2rNodes
-     * @param node2ActiverNodes
-     * @param node2SubNodes
-     * @param node2AngleSize
-     * @param nTax
-     * @param before
-     * @throws Exception
      */
     private void drawOrderedList(Node start, double startAngle, PhyloSplitsGraph graph, PhyloGraphView graphView, ArrayList orderedRNodes, ArrayList ordList, HashMap parent2rNodes, HashMap node2ActiverNodes, HashMap node2SubNodes, HashMap node2AngleSize, int nTax, HashSet before) throws Exception {
         // draw all subtrees we do this in order of the rNodes, such that we know that p and q of a reticulation have been drawn, before we draw the reticulation
@@ -542,9 +520,6 @@ public class ReticulateEqualAngle implements Reticulate2Network {
         } else if (parent2.equals(imaginaryParent)) {
             placeVerticalReticulationWithNoWeight(graphView, P1, P3, P4, rNode);
         } else {
-            /**
-             *  The placement is bvetween  the line frome parent1 to parent2 and the line from rNode to imaginaryParent  where we add some
-             */
             // equations for a and b in (x1,y1) + (x2-x1, y2-y1) a  AND (x3,y3) + (x4-x3,y4-y3) b (Schnittpunkt)
             double konstanteA = (P3.getX() - P1.getX()) / (P2.getX() - P1.getX());
             double koeffizientA = (P4.getX() - P3.getX()) / (P2.getX() - P1.getX());
@@ -653,12 +628,6 @@ public class ReticulateEqualAngle implements Reticulate2Network {
     }
 
     /**
-     * @param orderedRNodesIndex
-     * @param orderedRNodes
-     * @param decendants
-     * @param nodes2nConections
-     * @param partialOrdering
-     * @return
      */
 
     private ArrayList recGenerateOrderings(int orderedRNodesIndex, ArrayList orderedRNodes, ArrayList decendants, int[][] nodes2nConections, ArrayList partialOrdering) {
@@ -727,36 +696,36 @@ public class ReticulateEqualAngle implements Reticulate2Network {
             if (verbose)
                 System.out.println("\nnode: " + rNode + "\tnode2Pathp: " + node2Pathp + "\tnode2Pathq: " + node2Pathq);
             // add p and q to the ordering
-            if (!node2Pathp.equals(rNodeData.getParent()) && ordList.indexOf(node2Pathp) == -1) {
-                if (verbose)
-                    System.out.println("adding node: " + node2Pathp + "\t before: " + before.contains(node2Pathp));
-                int minPosition = 0;
-                int minScore = Integer.MAX_VALUE;
-                for (int i = 0; i <= ordList.size() && minScore > 0; i++) {
-                    ordList.add(i, node2Pathp);
-                    int score = getCrossingScore(nodes2nConections, node2Pathp, decendants, ordList, i);
-                    if (minScore > score) {
-                        minScore = score;
-                        minPosition = i;
-                        crossings = minScore;
-                    }
-                    ordList.remove(i);
-                }
-                ordList.add(minPosition, node2Pathp);
-                if (verbose)
-                    System.out.println("minScore: " + minScore + "\tminPosition: " + minPosition + "\tordList: " + ordList);
-            }
-            if (!node2Pathq.equals(rNodeData.getParent()) && ordList.indexOf(node2Pathq) == -1) {
-                if (verbose)
-                    System.out.println("adding edge: node " + node2Pathq + "\t before: " + before.contains(node2Pathq));
-                int minPosition = 0;
-                int minScore = Integer.MAX_VALUE;
-                for (int i = 0; i <= ordList.size() && minScore > 0; i++) {
-                    ordList.add(i, node2Pathq);
-                    int score = getCrossingScore(nodes2nConections, node2Pathq, decendants, ordList, i);
-                    if (minScore > score) {
-                        minScore = score;
-                        minPosition = i;
+			if (!node2Pathp.equals(rNodeData.getParent()) && !ordList.contains(node2Pathp)) {
+				if (verbose)
+					System.out.println("adding node: " + node2Pathp + "\t before: " + before.contains(node2Pathp));
+				int minPosition = 0;
+				int minScore = Integer.MAX_VALUE;
+				for (int i = 0; i <= ordList.size() && minScore > 0; i++) {
+					ordList.add(i, node2Pathp);
+					int score = getCrossingScore(nodes2nConections, node2Pathp, decendants, ordList, i);
+					if (minScore > score) {
+						minScore = score;
+						minPosition = i;
+						crossings = minScore;
+					}
+					ordList.remove(i);
+				}
+				ordList.add(minPosition, node2Pathp);
+				if (verbose)
+					System.out.println("minScore: " + minScore + "\tminPosition: " + minPosition + "\tordList: " + ordList);
+			}
+			if (!node2Pathq.equals(rNodeData.getParent()) && !ordList.contains(node2Pathq)) {
+				if (verbose)
+					System.out.println("adding edge: node " + node2Pathq + "\t before: " + before.contains(node2Pathq));
+				int minPosition = 0;
+				int minScore = Integer.MAX_VALUE;
+				for (int i = 0; i <= ordList.size() && minScore > 0; i++) {
+					ordList.add(i, node2Pathq);
+					int score = getCrossingScore(nodes2nConections, node2Pathq, decendants, ordList, i);
+					if (minScore > score) {
+						minScore = score;
+						minPosition = i;
                         crossings = minScore;
                     }
                     ordList.remove(i);
@@ -800,18 +769,18 @@ public class ReticulateEqualAngle implements Reticulate2Network {
         it = decendants.iterator();
         while (it.hasNext()) {
             Node n = (Node) it.next();
-            if (verbose) System.out.println("n: " + n + "\tordList: " + ordList);
-            if (ordList.indexOf(n) == -1 && n.getInDegree() == 1) {
-                int minPosition = 0;
-                int minScore = Integer.MAX_VALUE;
-                if (verbose) System.out.println("adding edge: Node " + n + "\t before: " + before);
-                for (int i = 0; i <= ordList.size() && minScore > 0; i++) {
-                    ordList.add(i, n);
-                    int score = getCrossingScore(nodes2nConections, n, decendants, ordList, i);
-                    if (minScore > score) {
-                        minScore = score;
-                        minPosition = i;
-                        crossings = minScore;
+			if (verbose) System.out.println("n: " + n + "\tordList: " + ordList);
+			if (!ordList.contains(n) && n.getInDegree() == 1) {
+				int minPosition = 0;
+				int minScore = Integer.MAX_VALUE;
+				if (verbose) System.out.println("adding edge: Node " + n + "\t before: " + before);
+				for (int i = 0; i <= ordList.size() && minScore > 0; i++) {
+					ordList.add(i, n);
+					int score = getCrossingScore(nodes2nConections, n, decendants, ordList, i);
+					if (minScore > score) {
+						minScore = score;
+						minPosition = i;
+						crossings = minScore;
                     }
                     ordList.remove(i);
                 }
@@ -986,7 +955,6 @@ public class ReticulateEqualAngle implements Reticulate2Network {
     /**
      * Gives back a linked List of the reticulation beeing childs of start. the list is ordered in the sequence the nodes must be added to start
      *
-     * @return
      */
 
     private ArrayList buildLocalWorkFlow(HashSet rNodes, PhyloSplitsGraph ordGraph) {
@@ -1031,8 +999,6 @@ public class ReticulateEqualAngle implements Reticulate2Network {
      * Gives back a graph with nodes are indications of reticulation nodes and an edge between two nodes if the movement of one node has an influence on the edgelength of a
      * reticulation edge of the other
      *
-     * @param graph
-     * @return
      */
     private PhyloSplitsGraph buildReticulationDependencyGraph(PhyloSplitsGraph graph, HashMap depRetNode2rNode) {
         HashMap rNode2DepRetNode = new HashMap();
@@ -1081,27 +1047,29 @@ public class ReticulateEqualAngle implements Reticulate2Network {
                 }
                 seenNodes.add(next);
             }
-            //System.out.println(rNode2ReticulationNodeData.get(retN));
-        }
-        return depRet;
-    }
+			//System.out.println(rNode2ReticulationNodeData.get(retN));
+		}
+		return depRet;
+	}
 
 
-    /**
-     * Graph stuff *
-     */
+	/**
+	 * Graph stuff *
+	 */
 
-    static private Integer white = 0, gray = 1, black = 2;
-    static private int time = -1;
+	static private final Integer white = 0;
+	static private final Integer gray = 1;
+	static private final Integer black = 2;
+	static private int time = -1;
 
-    public LinkedList DFS(PhyloSplitsGraph graph, boolean breakCycles, boolean removeForwardEdges) {
-        HashMap node2Color = new HashMap();
-        HashMap node2Predecessor = new HashMap();
-        HashMap node2time = new HashMap();
-        LinkedList sortedNodes = new LinkedList();
-        Iterator it = graph.nodes().iterator();
-        while (it.hasNext()) {
-            Node n = (Node) it.next();
+	public LinkedList DFS(PhyloSplitsGraph graph, boolean breakCycles, boolean removeForwardEdges) {
+		HashMap node2Color = new HashMap();
+		HashMap node2Predecessor = new HashMap();
+		HashMap node2time = new HashMap();
+		LinkedList sortedNodes = new LinkedList();
+		Iterator it = graph.nodes().iterator();
+		while (it.hasNext()) {
+			Node n = (Node) it.next();
             node2Color.put(n, white);
             node2Predecessor.put(n, null);
             // first is discovery, second is finishing time
@@ -1189,30 +1157,15 @@ public class ReticulateEqualAngle implements Reticulate2Network {
         this.deltaAngle = delta;
     }
 
-    /**
-     * gets the method to use
-     *
-     * @return name of method
-     */
- /*   public String getOptionSort() {
+    /*   public String getOptionSort() {
         return optionSorting;
     }
  */
-    /**
-     * sets the method to use
-     *
-     * @param optionMethod
-     */
-  /*  public void setOptionSort(String optionMethod) {
+    /*  public void setOptionSort(String optionMethod) {
         this.optionSorting = optionMethod;
     }
   */
-    /**
-     * returns list of all known methods
-     *
-     * @return methods
-     */
-   /* public List selectionOptionSort(Document doc) {
+    /* public List selectionOptionSort(Document doc) {
         List methods = new LinkedList();
         methods.add(greedy);
         methods.add(perfect);

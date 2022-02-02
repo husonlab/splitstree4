@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: Stats.java,v 1.22 2010-05-31 04:27:41 huson Exp $
- */
 package splitstree4.analysis.splits;
 
 
@@ -31,10 +29,10 @@ import splitstree4.util.SplitsUtilities;
  */
 public class Stats implements SplitsAnalysisMethod {
     /**
-     * implementations of analysis-algorithms should overwrite this
-     * String with a short description of what they do.
-     */
-    public static String DESCRIPTION = "Compute basic stats for splits";
+	 * implementations of analysis-algorithms should overwrite this
+	 * String with a short description of what they do.
+	 */
+	public static final String DESCRIPTION = "Compute basic stats for splits";
 
     /**
      * gets a description of the method
@@ -59,7 +57,6 @@ public class Stats implements SplitsAnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
      * @param taxa   the taxa
      * @param splits the block
      */

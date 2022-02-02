@@ -30,23 +30,22 @@ import java.util.Random;
  * Daniel Huson and David Bryant
  */
 public class NodeColorCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    NodeArray colors;
-    boolean fg;
-    boolean bg;
-    boolean label;
-    boolean lbg;
+	final MainViewer viewer;
+	final NodeArray colors;
+	final boolean fg;
+	final boolean bg;
+	final boolean label;
+	final boolean lbg;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param color  color or null, null is invisible
-     */
-    public NodeColorCommand(MainViewer viewer, Color color, boolean randomColors, boolean fg, boolean bg, boolean label, boolean lbg) {
-        this.viewer = viewer;
-        this.fg = fg;
-        this.bg = bg;
+	/**
+	 * constructor
+	 *
+	 * @param color color or null, null is invisible
+	 */
+	public NodeColorCommand(MainViewer viewer, Color color, boolean randomColors, boolean fg, boolean bg, boolean label, boolean lbg) {
+		this.viewer = viewer;
+		this.fg = fg;
+		this.bg = bg;
         this.label = label;
         this.lbg = lbg;
 
@@ -72,9 +71,8 @@ public class NodeColorCommand extends ICommandAdapter implements ICommand {
     /**
      * constructor  for reverse command
      *
-     * @param viewer
-     */
-    private NodeColorCommand(MainViewer viewer, boolean fg, boolean bg, boolean label, boolean lbg) {
+	 */
+	private NodeColorCommand(MainViewer viewer, boolean fg, boolean bg, boolean label, boolean lbg) {
         this.viewer = viewer;
         this.fg = fg;
         this.bg = bg;

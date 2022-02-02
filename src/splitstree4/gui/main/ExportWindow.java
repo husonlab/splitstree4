@@ -42,7 +42,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.List;
@@ -52,30 +51,30 @@ import java.util.*;
  * the export window
  */
 public class ExportWindow implements IDirectableViewer {
-    private boolean uptodate = true;
-    java.util.List allActions = new LinkedList();
-    JLabel descriptionLabel = null;
-    private JFrame frame;
-    private JPanel top;
-    private JPanel button;
-    private Director dir;
-    private Document doc;
-    private DefaultListModel list = null;
-    private ActionJList jlist = null;
-    private String selectedExport = null;
-    private ExportWindow viewer;
-    private Set selectedBlocksSet = new HashSet();
-    private List selectedBlocksList = new LinkedList(); // list in correct order
+	private boolean uptodate = true;
+	final java.util.List allActions = new LinkedList();
+	JLabel descriptionLabel = null;
+	private final JFrame frame;
+	private JPanel top;
+	private JPanel button;
+	private final Director dir;
+	private final Document doc;
+	private DefaultListModel list = null;
+	private ActionJList jlist = null;
+	private String selectedExport = null;
+	private final ExportWindow viewer;
+	private final Set selectedBlocksSet = new HashSet();
+	private final List selectedBlocksList = new LinkedList(); // list in correct order
 
-    //constructor
+	//constructor
 
-    public ExportWindow(Director dir) {
-        viewer = this;
-        this.dir = dir;
-        doc = dir.getDocument();
+	public ExportWindow(Director dir) {
+		viewer = this;
+		this.dir = dir;
+		doc = dir.getDocument();
 
-        list = new DefaultListModel();
-        frame = new JFrame();
+		list = new DefaultListModel();
+		frame = new JFrame();
         frame.setIconImages(ProgramProperties.getProgramIconImages());
         setTitle(dir);
         frame.setJMenuBar(setupMenuBar());
@@ -172,8 +171,7 @@ public class ExportWindow implements IDirectableViewer {
     /**
      * set uptodate state
      *
-     * @param flag
-     */
+	 */
     public void setUptoDate(boolean flag) {
         uptodate = flag;
     }
@@ -253,11 +251,7 @@ public class ExportWindow implements IDirectableViewer {
 
         top.add(MakeSuitableExports(doc, new LinkedList()), constraints);
 
-        /**
-         * buttons
-         */
-
-        // 'APPLY': run algorithm with user-options, without closing this window.
+		// 'APPLY': run algorithm with user-options, without closing this window.
         JButton applyB = new JButton(getApplyAction());
 
         // 'CANCEL': close this window
@@ -280,7 +274,6 @@ public class ExportWindow implements IDirectableViewer {
     /**
      * list of suitable exporters
      *
-     * @param doc
      * @param blocks selected blocks
      * @return exporters
      */
@@ -288,39 +281,37 @@ public class ExportWindow implements IDirectableViewer {
         String[] categories = null;
         try {
 
-            categories = ExportManager.getSuitableExporter(doc, blocks);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        list.clear();
-        for (String category : categories) list.addElement(category);
-        jlist = new ActionJList(list);
-        if (!list.get(0).equals("No suitable Exporter found")) jlist.setSelectedIndex(0);
+			categories = ExportManager.getSuitableExporter(doc, blocks);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		list.clear();
+		for (String category : categories) list.addElement(category);
+		jlist = new ActionJList(list);
+		if (!list.get(0).equals("No suitable Exporter found")) jlist.setSelectedIndex(0);
 
-        //Using custom actionListener for JList (listens for double-click and return key)
-        jlist.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                // int index = jlist.getSelectedIndex();
-                try {
-                    selectedExport = (String) jlist.getSelectedValue();
-                    if (selectedExport != null && !selectedExport.equalsIgnoreCase("No suitable Exporter found")) {
-                        saveDialog();
-                        dir.removeViewer(viewer);
-                        frame.dispose();
-                    }
-                } catch (Exception e1) {
-                    new Alert(null, "There was an error saving the file: " + e1.getMessage());
+		//Using custom actionListener for JList (listens for double-click and return key)
+		jlist.addActionListener(ae -> {
+			// int index = jlist.getSelectedIndex();
+			try {
+				selectedExport = (String) jlist.getSelectedValue();
+				if (selectedExport != null && !selectedExport.equalsIgnoreCase("No suitable Exporter found")) {
+					saveDialog();
+					dir.removeViewer(viewer);
+					frame.dispose();
+				}
+			} catch (Exception e1) {
+				new Alert(null, "There was an error saving the file: " + e1.getMessage());
 
-                    e1.printStackTrace();
-                }
-            }
-        });
-        JScrollPane ex = new JScrollPane(jlist);
-        Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        TitledBorder titleBorder = new TitledBorder(loweredetched, "Available Exporter");
-        Border space = BorderFactory.createEmptyBorder(20, 15, 15, 15);
-        Border exportBorder = BorderFactory.createCompoundBorder(space, titleBorder);
-        ex.setBorder(exportBorder);
+				e1.printStackTrace();
+			}
+		});
+		JScrollPane ex = new JScrollPane(jlist);
+		Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		TitledBorder titleBorder = new TitledBorder(loweredetched, "Available Exporter");
+		Border space = BorderFactory.createEmptyBorder(20, 15, 15, 15);
+		Border exportBorder = BorderFactory.createCompoundBorder(space, titleBorder);
+		ex.setBorder(exportBorder);
         ex.setSize(220, 330);
         ex.setPreferredSize(new Dimension(220, 330));
         ex.setMinimumSize(new Dimension(220, 330));
@@ -465,7 +456,7 @@ public class ExportWindow implements IDirectableViewer {
     }
 
 
-    private Map checkBoxAction = new HashMap();
+	private final Map checkBoxAction = new HashMap();
 
     private AbstractAction getCheckBoxAction(final String blockName) {
         if (checkBoxAction.containsKey(blockName))

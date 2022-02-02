@@ -277,12 +277,7 @@ public class SimulationExperiments {
      * document specified. The tree is generated according to the coalescent,  with a relaxed clock. The characters
      * are generated according to the Jukes Cantor model
      *
-     * @param doc
-     * @param ntax
-     * @param nchars
-     * @param height
-     * @param balance
-     */
+	 */
     public static void simulateData(Document doc, int ntax, int nchars, double height, double balance) {
 
         Taxa taxa = RandomTaxa.generateTaxa(ntax);
@@ -307,12 +302,7 @@ public class SimulationExperiments {
      * coalescent,  with a relaxed clock. The distances are generated using an multivariate normal with
      * covariance matrix I * (stdev^2)
      *
-     * @param doc
-     * @param ntax
-     * @param height
-     * @param balance
-     * @param stdev
-     */
+	 */
     public static void simulateData(Document doc, int ntax, double height, double balance, double stdev) {
 
         Taxa taxa = RandomTaxa.generateTaxa(ntax);
@@ -718,9 +708,7 @@ public class SimulationExperiments {
      * Runs a simulation test where data is generated on trees, neoighbornet is run, and we compute whether
      * or not neighbornet contains the splits in the true tree.
      *
-     * @param doc
-     * @param filename
-     */
+	 */
     public static void splitsInNetworkTest(Document doc, String filename) {
         try {
 
@@ -844,9 +832,7 @@ public class SimulationExperiments {
     /**
      * Test for false positives of the treeness test.
      *
-     * @param doc
-     * @param filename
-     */
+	 */
     public static void falsePositiveTest(Document doc, String filename) {
         try {
 
@@ -933,9 +919,7 @@ public class SimulationExperiments {
      * We use a very simple model for recombinant data.... 1/2 of the sites are generated from
      * one tree and 1/2 are from the other.
      *
-     * @param doc
-     * @param filename
-     */
+	 */
     public static void falseNegativeTest(Document doc, String filename) {
         try {
 

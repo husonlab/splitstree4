@@ -45,22 +45,22 @@ import java.util.Vector;
  */
 public class LeastAngleRegression {
 
-    private Matrix X;    //Design matrix
-    private Matrix y;    //Variable(?) vector
-    private Matrix yLambda;
-    private Matrix beta;
-    private String normalisation;
-    private Vector modelSpecs;
-    private Matrix betaAIC;
-    public double valAIC;
-    private BitSet forcedSplits;
-    private boolean verbose = false;
+	private final Matrix X;    //Design matrix
+	private final Matrix y;    //Variable(?) vector
+	private final Matrix yLambda;
+	private Matrix beta;
+	private final String normalisation;
+	private final Vector modelSpecs;
+	private Matrix betaAIC;
+	public double valAIC;
+	private BitSet forcedSplits;
+	private boolean verbose = false;
 
 
-    //The following are introduced just for the simulation experiments
-    //We consider three optima, one for each sigma method, and one for the full.
-    public double aicVar1;
-    public double aicVar2;
+	//The following are introduced just for the simulation experiments
+	//We consider three optima, one for each sigma method, and one for the full.
+	public double aicVar1;
+	public double aicVar2;
     public double aicVar3;
 
     public double aic1;
@@ -644,14 +644,14 @@ public class LeastAngleRegression {
 
     }
 
-    private class ModelSpecs {
-        public BitSet active;
-        double residual;
-        double aic1;
-        double aic2;
-        double aic3;
-        Matrix beta;
-    }
+	private static class ModelSpecs {
+		public BitSet active;
+		double residual;
+		double aic1;
+		double aic2;
+		double aic3;
+		Matrix beta;
+	}
 
     //ToDo: Add accessors for X and y and results.
 }

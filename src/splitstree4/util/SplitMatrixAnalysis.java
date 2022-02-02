@@ -39,9 +39,6 @@ public class SplitMatrixAnalysis {
      * Finds the id of the split in a matrix, first trying oldID
      * to see if that is correct.
      *
-     * @param M
-     * @param A
-     * @param oldID
      * @return correct id, or -1 if the split doesn't appear.
      */
     static private int getSplitId(SplitMatrix M, TaxaSet A, int oldID) {
@@ -54,8 +51,6 @@ public class SplitMatrixAnalysis {
      * Count the number of blocks that the split with given id has
      * positive weight.
      *
-     * @param M
-     * @param id
      * @return count
      */
     static private int getCount(SplitMatrix M, int id) {
@@ -72,8 +67,6 @@ public class SplitMatrixAnalysis {
     /**
      * Get mean weight of the splits.
      *
-     * @param M
-     * @param id
      * @return mean
      */
     static private double getMeanWeight(SplitMatrix M, int id) {
@@ -93,8 +86,6 @@ public class SplitMatrixAnalysis {
      * in M for which the split has strictly positive weight. Puts
      * this quantity in the confidence field.
      *
-     * @param M
-     * @param splits
      */
     static public void evalConfidences(SplitMatrix M, Splits splits) {
         for (int i = 1; i <= splits.getNsplits(); i++) {
@@ -112,7 +103,6 @@ public class SplitMatrixAnalysis {
      * Replaces the weights in the splits by a percentage confidence
      * value computed from the confidence values.
      *
-     * @param splits
      */
     static public void computePercentages(Splits splits) {
         for (int i = 1; i <= splits.getNsplits(); i++) {
@@ -128,7 +118,6 @@ public class SplitMatrixAnalysis {
      * Given a set of splits and weights, returns an array with the same indexing as
      * the split Matrix <b>shifted</b> down one so that it starts at zero.
      *
-     * @param s
      * @return array of doubles indexed 0...nsplits-1
      */
     static public double[] splitsToArrayFromZero(SplitMatrix M, Splits s) {
@@ -148,7 +137,6 @@ public class SplitMatrixAnalysis {
      * Given a set of splits and weights, returns an array with the same indexing as
      * the split Matrix
      *
-     * @param s
      * @return array of doubles indexed 0...nsplits-1
      */
     static public double[] splitsToArray(SplitMatrix M, Splits s) {
@@ -217,34 +205,32 @@ public class SplitMatrixAnalysis {
             if (index < 0)
                 continue; //split didn't appear. It will have interval [0,2*current]
 
-            double[] row = M.getMatrixRow(index);
-            double original = S.getWeight(i);
+			double[] row = M.getMatrixRow(index);
+			double original = S.getWeight(i);
 
-            for (int j = 0; j < nblocks; j++) {
-                double Rij = Math.abs(row[j] - original);
-                DoubleInt x = new DoubleInt(Rij, j);
-                rowIndices[j] = x;
-            }
+			for (int j = 0; j < nblocks; j++) {
+				double Rij = Math.abs(row[j] - original);
+				DoubleInt x = new DoubleInt(Rij, j);
+				rowIndices[j] = x;
+			}
 
-            Arrays.sort(rowIndices, new Comparator() {
-                public int compare(Object x, Object y) {
-                    if (((DoubleInt) x).Rij < ((DoubleInt) y).Rij)
-                        return -1;
-                    else if (((DoubleInt) y).Rij < ((DoubleInt) x).Rij)
-                        return 1;
-                    else
-                        return 0;
-                }
-            });
+			Arrays.sort(rowIndices, (Comparator) (x, y) -> {
+				if (((DoubleInt) x).Rij < ((DoubleInt) y).Rij)
+					return -1;
+				else if (((DoubleInt) y).Rij < ((DoubleInt) x).Rij)
+					return 1;
+				else
+					return 0;
+			});
 
-            int rank = 0;
-            double prevRij = -1.0;
-            for (int k = 0; k < nblocks; k++) {
-                if ((rank == 0) || rowIndices[k].Rij != prevRij) {
-                    rank = k;
-                    prevRij = rowIndices[k].Rij;
-                }
-                int j = rowIndices[k].j;
+			int rank = 0;
+			double prevRij = -1.0;
+			for (int k = 0; k < nblocks; k++) {
+				if ((rank == 0) || rowIndices[k].Rij != prevRij) {
+					rank = k;
+					prevRij = rowIndices[k].Rij;
+				}
+				int j = rowIndices[k].j;
                 sn[j] = Math.max(rank, sn[j]);
             }
 
@@ -310,35 +296,33 @@ public class SplitMatrixAnalysis {
             if (index < 0)
                 continue; //split didn't appear. It will have interval [0,2*current]
 
-            double[] row = M.getMatrixRow(index);
-            double original = S.getWeight(i);
+			double[] row = M.getMatrixRow(index);
+			double original = S.getWeight(i);
 
 
-            for (int j = 0; j < nblocks; j++) {
-                double Rij = row[j] - original;
-                DoubleInt x = new DoubleInt(Rij, j);
-                rowIndices[j] = x;
-            }
+			for (int j = 0; j < nblocks; j++) {
+				double Rij = row[j] - original;
+				DoubleInt x = new DoubleInt(Rij, j);
+				rowIndices[j] = x;
+			}
 
-            Arrays.sort(rowIndices, new Comparator() {
-                public int compare(Object x, Object y) {
-                    if (((DoubleInt) x).Rij < ((DoubleInt) y).Rij)
-                        return -1;
-                    else if (((DoubleInt) y).Rij < ((DoubleInt) x).Rij)
-                        return 1;
-                    else
-                        return 0;
-                }
-            });
+			Arrays.sort(rowIndices, (Comparator) (x, y) -> {
+				if (((DoubleInt) x).Rij < ((DoubleInt) y).Rij)
+					return -1;
+				else if (((DoubleInt) y).Rij < ((DoubleInt) x).Rij)
+					return 1;
+				else
+					return 0;
+			});
 
-            int rank = 0;
-            double prevRij = -1.0;
-            for (int k = 0; k < nblocks; k++) {
-                if ((rank == 0) || rowIndices[k].Rij != prevRij) {
-                    rank = k;
-                    prevRij = rowIndices[k].Rij;
-                }
-                int j = rowIndices[k].j;
+			int rank = 0;
+			double prevRij = -1.0;
+			for (int k = 0; k < nblocks; k++) {
+				if ((rank == 0) || rowIndices[k].Rij != prevRij) {
+					rank = k;
+					prevRij = rowIndices[k].Rij;
+				}
+				int j = rowIndices[k].j;
                 sn[j] = Math.max(rank, sn[j]);
             }
 
@@ -385,9 +369,6 @@ public class SplitMatrixAnalysis {
     /**
      * Returns the median element in the subarray v[i]....v[j-1]
      *
-     * @param v
-     * @param i
-     * @param j
      * @return median value
      */
     static double median(double[] v, int i, int j) {
@@ -398,15 +379,15 @@ public class SplitMatrixAnalysis {
     }
 
 
-    static class DoubleInt {
-        public DoubleInt(double rij, int j) {
-            this.Rij = rij;
-            this.j = j;
-        }
+	static class DoubleInt {
+		public DoubleInt(double rij, int j) {
+			this.Rij = rij;
+			this.j = j;
+		}
 
-        public double Rij;
-        public int j;
-    }
+		public final double Rij;
+		public final int j;
+	}
 
     /**
      * Returns a set of splits with intervals on the splits to give a set of simultaneous confidence intervals
@@ -421,8 +402,6 @@ public class SplitMatrixAnalysis {
      * Using the root function  |x_i* - \hat{x_i}} for split i. Here \hat{x_i} is the estimated value for the
      * ith split weight, while x_i* is the weight for the ith split in the bootstrap replicate.
      *
-     * @param M
-     * @param level
      * @return Set of splits with intervals. Splits with confidence interval [0,0] are omitted.
      */
 
@@ -434,10 +413,6 @@ public class SplitMatrixAnalysis {
      * Same as above, except splits with less appearing in a proportion of fewer than cutoff
      * of the  bootstrap blocks are collected into one category.
      *
-     * @param M
-     * @param level
-     * @param cutoff
-     * @param weightMethod
      * @return Set of splits with intervals. Splits with confidence interval [0,0] are omitted.
      */
     static public Splits getConfidenceNetwork(SplitMatrix M, double level, double cutoff, int weightMethod) {
@@ -488,7 +463,7 @@ public class SplitMatrixAnalysis {
         if (numBundled > 0) {
             for (int j = 0; j < nblocks; j++)
                 bundledMean += bundledSum[j];
-            bundledMean /= (double) nblocks;
+			bundledMean /= nblocks;
         }
         System.err.println("COnfidence interval on " + (M.getNsplits() - numBundled) + "splits, with " + numBundled + " bundled.");
 
@@ -511,35 +486,33 @@ public class SplitMatrixAnalysis {
             int rank = 0;
             double prevRij = -1.0;
 
-            for (int j = 0; j < nblocks; j++) {
-                double Rij = Math.abs(row[j] - original);
-                if (Rij != prevRij) {
-                    rank = j;
-                    prevRij = Rij;
-                }
-                DoubleInt x = new DoubleInt(Rij, rank);
-                rowIndices[j] = x;
-            }
+			for (int j = 0; j < nblocks; j++) {
+				double Rij = Math.abs(row[j] - original);
+				if (Rij != prevRij) {
+					rank = j;
+					prevRij = Rij;
+				}
+				DoubleInt x = new DoubleInt(Rij, rank);
+				rowIndices[j] = x;
+			}
 
-            Arrays.sort(rowIndices, new Comparator() {
-                public int compare(Object x, Object y) {
-                    if (((DoubleInt) x).Rij < ((DoubleInt) y).Rij)
-                        return -1;
-                    else if (((DoubleInt) y).Rij < ((DoubleInt) x).Rij)
-                        return 1;
-                    else
-                        return 0;
-                }
-            });
+			Arrays.sort(rowIndices, (Comparator) (x, y) -> {
+				if (((DoubleInt) x).Rij < ((DoubleInt) y).Rij)
+					return -1;
+				else if (((DoubleInt) y).Rij < ((DoubleInt) x).Rij)
+					return 1;
+				else
+					return 0;
+			});
 
-            for (int k = 0; k < nblocks; k++) {
-                int j = rowIndices[k].j;
-                sn[j] = Math.max(k, sn[j]);
-            }
+			for (int k = 0; k < nblocks; k++) {
+				int j = rowIndices[k].j;
+				sn[j] = Math.max(k, sn[j]);
+			}
 
-            R[i] = new double[nblocks];
-            for (int k = 0; k < nblocks; k++)
-                R[i][k] = rowIndices[k].Rij;
+			R[i] = new double[nblocks];
+			for (int k = 0; k < nblocks; k++)
+				R[i][k] = rowIndices[k].Rij;
         }
 
         /* STEP TWO: Identify level = (1-alpha) quantile for the sn table */
@@ -599,8 +572,6 @@ public class SplitMatrixAnalysis {
      * Produces a set of splits such that the probability a sampled
      * network would be outside the set of splits has probability at most level.
      *
-     * @param M
-     * @param level
      * @return splits
      */
     static private Splits getFakeConfidenceNetwork(SplitMatrix M, double level, int weightType) {

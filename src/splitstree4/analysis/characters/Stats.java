@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: Stats.java,v 1.10 2010-05-31 04:27:41 huson Exp $
- */
 package splitstree4.analysis.characters;
 
 
@@ -30,7 +28,7 @@ import java.util.BitSet;
  * Basic statistics for characters
  */
 public class Stats implements CharactersAnalysisMethod {
-    public static String DESCRIPTION = "Computes basic stats for characters";
+    public static final String DESCRIPTION = "Computes basic stats for characters";
 
     /**
      * gets a description of the method
@@ -44,7 +42,6 @@ public class Stats implements CharactersAnalysisMethod {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param doc
      * @return true, if method applies to given data
      */
     public boolean isApplicable(Document doc) {
@@ -56,8 +53,7 @@ public class Stats implements CharactersAnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
-     */
+	 */
     public String apply(Document doc) {
 
         int nConstant = 0;

@@ -38,19 +38,19 @@ import java.util.List;
  * actions associated with a node-edge-configurator window
  */
 public class ConfiguratorActions {
-    private Configurator conf;
-    private Director dir;
-    private List all = new LinkedList();
+	private final Configurator conf;
+	private final Director dir;
+	private final List all = new LinkedList();
 
-    private boolean ignore = false; // ignore firing when in update only of controls
+	private boolean ignore = false; // ignore firing when in update only of controls
 
-    public ConfiguratorActions(Configurator conf, Director dir) {
-        this.conf = conf;
-        this.dir = dir;
-    }
+	public ConfiguratorActions(Configurator conf, Director dir) {
+		this.conf = conf;
+		this.dir = dir;
+	}
 
-    /**
-     * enable or disable critical actions
+	/**
+	 * enable or disable critical actions
      *
      * @param flag show or hide?
      */
@@ -605,10 +605,6 @@ public class ConfiguratorActions {
 
     //  private AbstractAction confidenceEdgeWidth;
 
-    /**
-     * how to display confidence values in graph
-     * @return action for displaying confidence values
-     */
     /*  public AbstractAction getConfidenceEdgeWidth() {
           AbstractAction action = confidenceEdgeWidth;
           if (action != null) return action;
@@ -633,10 +629,6 @@ public class ConfiguratorActions {
 
     // private AbstractAction confidenceEdgeShade;
 
-    /**
-     * how to display confidence values in graph
-     * @return action for displaying confidence values
-     */
     /*   public AbstractAction getConfidenceEdgeShading() {
            AbstractAction action = confidenceEdgeShade;
            if (action != null) return action;
@@ -671,8 +663,7 @@ public class ConfiguratorActions {
     /**
      * set ignore firing of events
      *
-     * @param ignore
-     */
+	 */
     public void setIgnore(boolean ignore) {
         this.ignore = ignore;
     }

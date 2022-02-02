@@ -38,17 +38,17 @@ import java.util.*;
 
 public class Snap extends ExporterAdapter /*implements Exporter*/ {
 
-    private String Description = "Exports a SNAP xml file";
-    private String Name = "Snap";
+	private final String Description = "Exports a SNAP xml file";
+	private final String Name = "Snap";
 
 
-    /**
-     * can we export this data?
-     *
-     * @param dp the document being exported
-     * @return true, if can handle this export
-     */
-    public boolean isApplicable(Document dp, Collection selected) {
+	/**
+	 * can we export this data?
+	 *
+	 * @param dp the document being exported
+	 * @return true, if can handle this export
+	 */
+	public boolean isApplicable(Document dp, Collection selected) {
 
 
         LinkedList<String> goodBlocks = new LinkedList<>();
@@ -60,17 +60,17 @@ public class Snap extends ExporterAdapter /*implements Exporter*/ {
     }
 
 
-    class SnapInfo implements ExporterInfo {
-        private final String exporterName = "Snap";
-        public boolean hasCancelled;
+	static class SnapInfo implements ExporterInfo {
+		private final String exporterName = "Snap";
+		public boolean hasCancelled;
 
-        public SnapInfo() {
-            hasCancelled = false;
-            speciesTrait = "Species";
-            u = v = 1;
-            alpha = 2;
-            beta = 16;
-            lambda = 1;
+		public SnapInfo() {
+			hasCancelled = false;
+			speciesTrait = "Species";
+			u = v = 1;
+			alpha = 2;
+			beta = 16;
+			lambda = 1;
             treeChoice = 1;
             startTree = "";
             sampleTrees = sampleTimes = samplePopsizes = true;
@@ -232,10 +232,10 @@ public class Snap extends ExporterAdapter /*implements Exporter*/ {
                 int nj = speciesCounts[j];
                 double sum = 0.0;
                 for (int k = 1; k <= nchar; k++) {
-                    double xi = (double) alleleCounts[i][k];
-                    double xj = (double) alleleCounts[j][k];
-                    sum += (xi * (nj - xj) + (ni - xi) * xj) / ((double) ni * nj);
-                }
+					double xi = alleleCounts[i][k];
+					double xj = alleleCounts[j][k];
+					sum += (xi * (nj - xj) + (ni - xi) * xj) / ((double) ni * nj);
+				}
                 piValues[i][j] = sum / nchar;
             }
         }
@@ -306,8 +306,7 @@ for(int j=i;j<=nspecies;j++)
      * @param dp         The document being exported
      * @param blockNames Collection of blocks to be exported
      * @return null
-     * @throws Exception
-     */
+	 */
     public Map apply(Writer w, Document dp, Collection blockNames) throws Exception {
         SnapInfo info = new SnapInfo();
         return apply(w, dp, blockNames, info);
@@ -321,8 +320,7 @@ for(int j=i;j<=nspecies;j++)
      * @param blockNames     Collection of blocks to be exported
      * @param additionalInfo Additional Info
      * @return null
-     * @throws Exception
-     */
+	 */
     public Map apply(Writer w, Document dp, Collection blockNames, ExporterInfo additionalInfo) throws Exception {
 
         SnapInfo info = (SnapInfo) additionalInfo;

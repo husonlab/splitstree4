@@ -39,8 +39,8 @@ import java.util.LinkedList;
  * Listener for all MainViewer events.
  */
 public class GraphViewListener implements IGraphViewListener {
-    MainViewer viewer;
-    final private int inClick = 1;
+    final MainViewer viewer;
+	final private int inClick = 1;
     final private int inMoveNode = 2;
     final private int inRubberband = 3;
     final private int inNewEdge = 4;
@@ -184,12 +184,12 @@ public class GraphViewListener implements IGraphViewListener {
 
                 final Thread worker = new Thread(new Runnable() {
                     public void run() {
-                        try {
-                            synchronized (this) {
-                                wait(500);
-                            }
-                        } catch (InterruptedException e) {
-                        }
+						try {
+							synchronized (this) {
+								wait(500);
+							}
+						} catch (InterruptedException ignored) {
+						}
                         if (stillDownWithoutMoving) {
                             current = inRubberband;
                             viewer.setCursor(Cursor.getDefaultCursor());
@@ -708,7 +708,6 @@ public class GraphViewListener implements IGraphViewListener {
     /**
      * gets a node array containing all current coordinates
      *
-     * @param viewer
      * @return snap shot of current coordinates
      */
     private NodeArray<Point2D> getAllCoordinates(MainViewer viewer) {
@@ -722,7 +721,6 @@ public class GraphViewListener implements IGraphViewListener {
     /**
      * gets an edge array containing all current single internal  points
      *
-     * @param viewer
      * @return snap shot of current coordinates
      */
     private EdgeArray getAllInternalPoints(MainViewer viewer) {
@@ -1127,8 +1125,7 @@ public class GraphViewListener implements IGraphViewListener {
     /**
      * react to a mouse wheel event
      *
-     * @param e
-     */
+	 */
     public void mouseWheelMoved(MouseWheelEvent e) {
         if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
             boolean circular = (viewer.getLayoutType().equals(Network.CIRCULAR));

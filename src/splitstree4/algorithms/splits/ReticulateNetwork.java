@@ -132,8 +132,7 @@ public class ReticulateNetwork implements Splits2Network {
     /**
      * sets the method to use
      *
-     * @param optionMethod
-     */
+	 */
     public void setOptionMethod(String optionMethod) {
         this.optionMethod = optionMethod;
     }
@@ -162,8 +161,7 @@ public class ReticulateNetwork implements Splits2Network {
     /**
      * preserve edges in components?
      *
-     * @param optionShowSplits
-     */
+	 */
     public void setOptionShowSplits(boolean optionShowSplits) {
         this.optionShowSplits = optionShowSplits;
     }
@@ -209,8 +207,7 @@ public class ReticulateNetwork implements Splits2Network {
     /**
      * sets the split 2 characters map if we want to label nodes and edges by
      *
-     * @param split2Chars
-     */
+	 */
     public void setSplit2Chars(Map split2Chars) {
         this.split2Chars = split2Chars;
     }
@@ -227,8 +224,7 @@ public class ReticulateNetwork implements Splits2Network {
     /**
      * sets the reference sequence of labeling
      *
-     * @param firstChars
-     */
+	 */
     public void setFirstChars(char[] firstChars) {
         this.firstChars = firstChars;
     }
@@ -289,7 +285,6 @@ public class ReticulateNetwork implements Splits2Network {
     /**
      * gets the angle associated with a layout option
      *
-     * @param optionLayout
      * @return angle
      */
     public static int getLayoutAngle(String optionLayout) {

@@ -38,7 +38,7 @@ import java.util.Map;
  */
 public class GML extends ExporterAdapter implements Exporter {
 
-    private String Description = "Exports to GML records.";
+    private final String Description = "Exports to GML records.";
 
     public boolean isApplicable(Document doc, Collection blocks) {
         if (blocks.size() != 1 || !blocks.contains(Network.NAME))
@@ -49,12 +49,7 @@ public class GML extends ExporterAdapter implements Exporter {
     /**
      * apply the exporter
      *
-     * @param w
-     * @param doc
-     * @param blockNames
-     * @return
-     * @throws Exception
-     */
+	 */
     public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
 
 

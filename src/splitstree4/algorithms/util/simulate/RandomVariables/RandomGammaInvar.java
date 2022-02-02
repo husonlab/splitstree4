@@ -30,19 +30,19 @@ import splitstree4.algorithms.util.simulate.GenerateRandom;
  * Date: Nov 21, 2007
  */
 public class RandomGammaInvar implements RandomVariable {
-    private GenerateRandom random;
-    private double gammaShape;
-    private double pInvar;
+	private final GenerateRandom random;
+	private final double gammaShape;
+	private final double pInvar;
 
-    /**
-     * Create new random variable
-     *
-     * @param gammaShape Shape parameter for gamma distribution
-     * @param pInvar     proportion of values that are automatically 0
-     * @param random     (GenerateRandom) random number generator
-     */
-    public RandomGammaInvar(double gammaShape, double pInvar, GenerateRandom random) {
-        this.random = random;
+	/**
+	 * Create new random variable
+	 *
+	 * @param gammaShape Shape parameter for gamma distribution
+	 * @param pInvar     proportion of values that are automatically 0
+	 * @param random     (GenerateRandom) random number generator
+	 */
+	public RandomGammaInvar(double gammaShape, double pInvar, GenerateRandom random) {
+		this.random = random;
         this.gammaShape = gammaShape;
         this.pInvar = pInvar;
     }

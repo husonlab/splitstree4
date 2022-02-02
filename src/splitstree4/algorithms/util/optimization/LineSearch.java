@@ -38,8 +38,7 @@ public abstract class LineSearch {
      * @param xnew        array with same dimension as x. Overwritten by point at end of linesearch
      * @param phi_p_alpha array with same dimension as x. Overwritten by gradient at xnew
      * @return double value of f at xnew
-     * @throws NumericalException
-     */
+	 */
     abstract double linesearch(double[] x,
                                double[] p,
                                double[] grad0,

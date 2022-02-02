@@ -39,19 +39,19 @@ import java.util.List;
  * Date: 17.2.2004
  */
 public class ConfidenceWindowActions {
-    private ConfidenceWindow viewer;
-    private Director dir;
-    private List all = new LinkedList();
-    public static final String JCHECKBOX = "JCHECKBOX";
-    public static final String JTEXTAREA = "JTEXTAREA";
+	private final ConfidenceWindow viewer;
+	private final Director dir;
+	private final List all = new LinkedList();
+	public static final String JCHECKBOX = "JCHECKBOX";
+	public static final String JTEXTAREA = "JTEXTAREA";
 
-    public ConfidenceWindowActions(ConfidenceWindow viewer, Director dir) {
-        this.viewer = viewer;
-        this.dir = dir;
-    }
+	public ConfidenceWindowActions(ConfidenceWindow viewer, Director dir) {
+		this.viewer = viewer;
+		this.dir = dir;
+	}
 
-    /**
-     * enable or disable critical actions
+	/**
+	 * enable or disable critical actions
      *
      * @param flag show or hide?
      */

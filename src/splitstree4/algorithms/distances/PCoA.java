@@ -32,7 +32,6 @@ import splitstree4.nexus.Network;
 import splitstree4.nexus.Taxa;
 
 import java.awt.*;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,8 +47,8 @@ public class PCoA implements Distances2Network {
     private int rank;
     int numberOfPositiveEigenValues;
     double[] eigenValues;
-    private Map<String, double[]> name2vector = new HashMap<>();
-    private double[][] vectors;
+	private final Map<String, double[]> name2vector = new HashMap<>();
+	private double[][] vectors;
     private boolean done = false;
 
     private int optionFirstCoordinate = 1;
@@ -66,12 +65,8 @@ public class PCoA implements Distances2Network {
     public Network apply(final Document doc, final Taxa taxa, final Distances distances) {
         final PhyloGraphView graphView = new PhyloGraphView();
 
-        Runnable myRunnable = new Runnable() {
-            public void run() {
-                PCoA.this.run(taxa, distances, graphView);
-            }
-        };
-        Thread t = new Thread(myRunnable); // myRunnable does the calculations
+		Runnable myRunnable = () -> PCoA.this.run(taxa, distances, graphView);
+		Thread t = new Thread(myRunnable); // myRunnable does the calculations
 
         t.start(); // Kick off calculations
 
@@ -101,11 +96,7 @@ public class PCoA implements Distances2Network {
     /**
      * run the PCoA algorithm
      *
-     * @param taxa
-     * @param distances
-     * @param graphView
-     * @throws IOException
-     */
+	 */
     private void run(Taxa taxa, Distances distances, PhyloGraphView graphView) {
         rank = taxa.getNtax();
         distanceMatrix = new Matrix(rank, rank);
@@ -244,7 +235,6 @@ public class PCoA implements Distances2Network {
     /**
      * get coordinates for given name
      *
-     * @param name
      * @return coordinates
      */
     public double[] getCoordinates(String name) {
@@ -254,9 +244,6 @@ public class PCoA implements Distances2Network {
     /**
      * get i-th and j-th coordinates for given name
      *
-     * @param i
-     * @param j
-     * @param name
      * @return (i, j)
      */
     public double[] getProjection(int i, int j, String name) {
@@ -267,10 +254,6 @@ public class PCoA implements Distances2Network {
     /**
      * given i-th, j-th and k-th coordinates for given name
      *
-     * @param i
-     * @param j
-     * @param k
-     * @param name
      * @return (i, j, k)
      */
     public double[] getProjection(int i, int j, int k, String name) {
@@ -291,7 +274,6 @@ public class PCoA implements Distances2Network {
     /**
      * compute centered inner product matrix
      *
-     * @param matrix
      * @return new matrix
      */
     private Matrix computeDoubleCenteringOfSquaredMatrix(Matrix matrix) {
@@ -323,7 +305,6 @@ public class PCoA implements Distances2Network {
     /**
      * sort indices by values
      *
-     * @param m
      * @return sorted indices
      * todo: replace by proper sorting
      */

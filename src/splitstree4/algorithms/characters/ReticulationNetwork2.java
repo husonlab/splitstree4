@@ -36,7 +36,7 @@ import java.io.StringWriter;
 public class ReticulationNetwork2 extends GalledNetwork implements Characters2Network {
 
     public final boolean EXPERT = true;
-    int optionMinSplitWeight = 1;
+	final int optionMinSplitWeight = 1;
 
     /**
      * Applies the method to the given data

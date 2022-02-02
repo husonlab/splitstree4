@@ -41,17 +41,17 @@ import java.util.*;
 public class NexusTreeMerger {
 
     static class Taxon {
-        private static int nextId = 1;
+		private static int nextId = 1;
 
-        public String name = "<default>";
-        public int id;
-        public Vector occurrences = new Vector();
+		public String name = "<default>";
+		public final int id;
+		public final Vector occurrences = new Vector();
 
-        public Taxon(String name) {
-            this.name = name;
-            this.id = nextId++;
-        }
-    }
+		public Taxon(String name) {
+			this.name = name;
+			this.id = nextId++;
+		}
+	}
 
     public static void main(String[] argv) throws Exception {
         if (argv.length != 1) {
@@ -75,12 +75,8 @@ public class NexusTreeMerger {
         System.out.println("input dir:   " + inputDir.getAbsolutePath());
         System.out.println("output file: " + outputFile.getAbsolutePath());
 
-        FilenameFilter fnf = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".nex") || name.endsWith(".tre");
-            }
-        };
-        File[] children = inputDir.listFiles(fnf);
+		FilenameFilter fnf = (dir, name) -> name.endsWith(".nex") || name.endsWith(".tre");
+		File[] children = inputDir.listFiles(fnf);
 
         HashMap name2taxon = new HashMap();
         ArrayList trees = new ArrayList();
@@ -150,32 +146,30 @@ public class NexusTreeMerger {
         outContent.append(DATESTRING).append("* merge of files:").append("\n");
         for (int i = 0; i < children.length; i++) {
             File child = children[i];
-            outContent.append(child.getAbsolutePath()).append("{").append(numTaxaPerFile.get(i)).append(" taxa}").append("\n");
-        }
-        outContent.append("]\n");
-        outContent.append("\n");
-        outContent.append("\n");
+			outContent.append(child.getAbsolutePath()).append("{").append(numTaxaPerFile.get(i)).append(" taxa}").append("\n");
+		}
+		outContent.append("]\n");
+		outContent.append("\n");
+		outContent.append("\n");
 
-        int numTaxa = Taxon.nextId - 1;
-        outContent.append("BEGIN Taxa;" + "\n");
-        outContent.append("DIMENSIONS ntax=").append(numTaxa).append(";").append("\n");
-        outContent.append("TAXLABELS" + "\n");
-        Comparator comp = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                String one = (String) o1;
-                String two = (String) o2;
-                return one.compareTo(two);
-            }
-        };
-        TreeSet sortedKeys = new TreeSet(comp);
-        {
-            Set keys = name2taxon.keySet();
-            sortedKeys.addAll(keys);
-        }
-        {
-            int i = 1;
-            for (Object sortedKey : sortedKeys) {
-                String name = (String) sortedKey;
+		int numTaxa = Taxon.nextId - 1;
+		outContent.append("BEGIN Taxa;" + "\n");
+		outContent.append("DIMENSIONS ntax=").append(numTaxa).append(";").append("\n");
+		outContent.append("TAXLABELS" + "\n");
+		Comparator comp = (o1, o2) -> {
+			String one = (String) o1;
+			String two = (String) o2;
+			return one.compareTo(two);
+		};
+		TreeSet sortedKeys = new TreeSet(comp);
+		{
+			Set keys = name2taxon.keySet();
+			sortedKeys.addAll(keys);
+		}
+		{
+			int i = 1;
+			for (Object sortedKey : sortedKeys) {
+				String name = (String) sortedKey;
                 //int id = ((Taxon)name2taxon.get(name)).id();
                 outContent.append("[").append(i).append("] '").append(name).append("'").append("\n");
                 i++;
@@ -262,8 +256,8 @@ public class NexusTreeMerger {
         outContent.append("\n");
 
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(outputFile)));
-        pw.print(outContent.toString());
-        pw.close();
+		pw.print(outContent);
+		pw.close();
     }
 
     public String sandboxedCall(HashMap localId2name, String tree) throws Exception {
@@ -278,7 +272,7 @@ public class NexusTreeMerger {
         System.out.println("newickconverterJar: " + newickconverterJar);
         URLClassLoader ucl = new URLClassLoader(new URL[]{newickconverterJar.toURL()});
         Class x = Class.forName("splitsX.workbench.geneorder.Newick2TreeExperimentalRemap", true, ucl);
-        System.out.println(x.toString());
+		System.out.println(x);
         Class[] parameterTypes = new Class[]{HashMap.class, String.class};
         Method remapMethod;
         Object[] arguments = new Object[]{localId2name, tree};
@@ -301,19 +295,15 @@ public class NexusTreeMerger {
 
     private static String padStringWithTrailingBlanks(String orig, int totalSize) {
         StringBuilder sb = new StringBuilder();
-        sb.append(orig);
-        for (int i = orig.length(); i < totalSize; i++) {
-            sb.append(" ");
-        }
+		sb.append(orig);
+		sb.append(" ".repeat(Math.max(0, totalSize - orig.length())));
         return sb.toString();
     }
 
     private static String padStringWithLeadingBlanks(String orig, int totalSize) {
         StringBuilder sb = new StringBuilder();
-        for (int i = orig.length(); i < totalSize; i++) {
-            sb.append(" ");
-        }
-        sb.append(orig);
+		sb.append(" ".repeat(Math.max(0, totalSize - orig.length())));
+		sb.append(orig);
         return sb.toString();
     }
 

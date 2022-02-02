@@ -21,7 +21,10 @@ package splitstree4.gui.main;
 import jloda.swing.util.BasicSwing;
 
 import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -119,12 +122,8 @@ public class TextEditor extends JFrame {
                 }
             };
             theTextComponent.addMouseListener(mil);
-            theTextComponent.addMouseMotionListener(mil);
-            theTextComponent.addCaretListener(new CaretListener() {
-                public void caretUpdate(CaretEvent e) {
-                    resetHighlight();
-                }
-            });
+			theTextComponent.addMouseMotionListener(mil);
+			theTextComponent.addCaretListener(e -> resetHighlight());
 
         }
 
@@ -143,17 +142,15 @@ public class TextEditor extends JFrame {
         }
 
         private void resetHighlight() {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    theHighlighter.removeHighlight(theLastHighlight);
-                    Element root = theTextComponent.getDocument().getDefaultRootElement();
-                    int line = root.getElementIndex(theTextComponent.getCaretPosition());
-                    Element lineElement = root.getElement(line);
-                    int start = lineElement.getStartOffset();
-                    addHighlight(start);
-                }
-            });
-        }
+			SwingUtilities.invokeLater(() -> {
+				theHighlighter.removeHighlight(theLastHighlight);
+				Element root = theTextComponent.getDocument().getDefaultRootElement();
+				int line = root.getElementIndex(theTextComponent.getCaretPosition());
+				Element lineElement = root.getElement(line);
+				int start = lineElement.getStartOffset();
+				addHighlight(start);
+			});
+		}
 
         private void addHighlight(int offset) {
             try {
@@ -169,19 +166,19 @@ public class TextEditor extends JFrame {
         }
     }
 
-    private static class LineNumberPanel extends JPanel implements DocumentListener {
-        private JTextComponent theTextComponent;
-        private FontMetrics theFontMetrics;
-        private int currentRowWidth;
+	private static class LineNumberPanel extends JPanel implements DocumentListener {
+		private final JTextComponent theTextComponent;
+		private final FontMetrics theFontMetrics;
+		private int currentRowWidth;
 
-        public LineNumberPanel(JTextComponent aTextComponent) {
-            theTextComponent = aTextComponent;
-            theTextComponent.getDocument().addDocumentListener(this);
-            setOpaque(true);
-            setBackground(DEFAULT_BACKGROUND);
-            setFont(theTextComponent.getFont());
-            theFontMetrics = getFontMetrics(getFont());
-            setForeground(theTextComponent.getForeground());
+		public LineNumberPanel(JTextComponent aTextComponent) {
+			theTextComponent = aTextComponent;
+			theTextComponent.getDocument().addDocumentListener(this);
+			setOpaque(true);
+			setBackground(DEFAULT_BACKGROUND);
+			setFont(theTextComponent.getFont());
+			theFontMetrics = getFontMetrics(getFont());
+			setForeground(theTextComponent.getForeground());
             currentRowWidth = getDesiredRowWidth();
         }
 
@@ -267,8 +264,7 @@ public class TextEditor extends JFrame {
     /**
      * select this line next time undo tab is opened
      *
-     * @param lineno
-     */
+	 */
     public void setEditSelectLine(int lineno) {
         BasicSwing.selectLine(inputTextArea, lineno);
         selectedLineInInputText = lineno;
@@ -281,8 +277,7 @@ public class TextEditor extends JFrame {
     /**
      * sets the text to be displayed in the editor
      *
-     * @param text
-     */
+	 */
     public void setEditText(String text) {
         if (inputTextArea != null)
             inputTextArea.setText(text);
@@ -291,8 +286,7 @@ public class TextEditor extends JFrame {
     /**
      * appends the text to the text in the editor
      *
-     * @param text
-     */
+	 */
     public void appendEditText(String text) {
         if (inputTextArea != null)
             inputTextArea.append(text);

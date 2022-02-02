@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- *@author Daniel Huson and David Bryant
- */
 
 package splitstree4.nexus;
 
@@ -38,19 +35,19 @@ import java.util.List;
  */
 public class Distances extends NexusBlock {
     /**
-     * the format subclass
-     */
-    public class Format {
-        private String triangle;
-        private boolean labels;
-        private boolean diagonal;
-        private String varType = "ols";
+	 * the format subclass
+	 */
+	public static class Format {
+		private String triangle;
+		private boolean labels;
+		private boolean diagonal;
+		private String varType = "ols";
 
-        /**
-         * the Constructor
-         */
-        public Format() {
-            triangle = "both";
+		/**
+		 * the Constructor
+		 */
+		public Format() {
+			triangle = "both";
             labels = true;
             diagonal = true;
             varType = "ols";
@@ -124,7 +121,6 @@ public class Distances extends NexusBlock {
         /**
          * Set the var type
          *
-         * @param val
          */
         public void setVarType(String val) {
             this.varType = val;
@@ -286,24 +282,19 @@ public class Distances extends NexusBlock {
     }
 
     public void setVar(int i, int j, double var) {
-        /** If variances have not yet been defined, allocates the
-         * array and initialises to one. Otherwise, it just
-         * sets the appropriate variance value.
-         */
-        if (variance == null) {
-            variance = new double[ntax + 1][ntax + 1];
-            for (int ii = 0; ii < ntax; ii++)
-                for (int jj = 0; jj < ntax; jj++)
-                    variance[ii][jj] = 1.0;
-            format.setVarType("user");
-        }
+		if (variance == null) {
+			variance = new double[ntax + 1][ntax + 1];
+			for (int ii = 0; ii < ntax; ii++)
+				for (int jj = 0; jj < ntax; jj++)
+					variance[ii][jj] = 1.0;
+			format.setVarType("user");
+		}
         variance[i][j] = var;
     }
 
     /**
      * Get the max length of all the labels.
      *
-     * @param taxa
      * @return longer the max length.
      */
     private int max_label_length(Taxa taxa) {
@@ -329,15 +320,15 @@ public class Distances extends NexusBlock {
      * @param index the index of label
      */
     private void pad(Writer w, Taxa taxa, int index) {
-        try {
-            int len = taxa.getLabel(index).length();
-            int max = max_label_length(taxa);
+		try {
+			int len = taxa.getLabel(index).length();
+			int max = max_label_length(taxa);
 
-            for (int i = 1; i <= (max - len + 2); i++) {
-                w.write(" ");
-            }
-        } catch (Exception ex) {
-        }
+			for (int i = 1; i <= (max - len + 2); i++) {
+				w.write(" ");
+			}
+		} catch (Exception ignored) {
+		}
     }
 
 
@@ -564,7 +555,6 @@ public class Distances extends NexusBlock {
     /**
      * gets the value of a format switch
      *
-     * @param name
      * @return value of format switch
      */
     public boolean getFormatSwitchValue(String name) {
@@ -583,7 +573,6 @@ public class Distances extends NexusBlock {
     /**
      * clones a distances object
      *
-     * @param taxa
      * @return a clone
      */
     public Distances clone(Taxa taxa) {
@@ -605,8 +594,6 @@ public class Distances extends NexusBlock {
     /**
      * return the induced object obtained by hiding taxa
      *
-     * @param origTaxa
-     * @param hiddenTaxa
      */
     public void hideTaxa(Taxa origTaxa, TaxaSet hiddenTaxa) {
         if ((hiddenTaxa == null || hiddenTaxa.cardinality() == 0) && originalDistances == null)

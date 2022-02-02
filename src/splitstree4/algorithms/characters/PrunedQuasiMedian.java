@@ -51,12 +51,7 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
     /**
      * computes the actual graph
      *
-     * @param progressListener
-     * @param inputSequences
-     * @param weights
-     * @return
-     * @throws CanceledException
-     */
+	 */
     public PhyloSplitsGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException {
 
         Set outputSequences = computeGeodesicPrunedQuasiMedianClosure(progressListener, inputSequences, weights.length);
@@ -64,46 +59,41 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
 
     }
 
-    /**
-     * compute the quasi median closure for the given set of sequences
-     *
-     * @param sequences
-     * @param refA      if !=null, use this reference sequence in computation of quasi median
-     * @param refB      if !=null, use this reference sequence in computation of quasi median
-     * @return quasi median closure
-     */
-    public Set computeQuasiMedianClosure(Set sequences, String refA, String refB) {
-        Set oldSequences = new TreeSet();
-        Set curSequences = new HashSet();
-        Set newSequences = new HashSet();
+	/**
+	 * compute the quasi median closure for the given set of sequences
+	 *
+	 * @param refA if !=null, use this reference sequence in computation of quasi median
+	 * @param refB if !=null, use this reference sequence in computation of quasi median
+	 * @return quasi median closure
+	 */
+	public Set computeQuasiMedianClosure(Set<String> sequences, String refA, String refB) {
+		var newSequences = new HashSet<String>();
 
-        //System.err.println("Computing quasi-median closure:");
-        oldSequences.addAll(sequences);
-        curSequences.addAll(sequences);
+		//System.err.println("Computing quasi-median closure:");
+		var oldSequences = new TreeSet<String>(sequences);
+		var curSequences = new HashSet<String>(sequences);
 
-        while (curSequences.size() > 0) {
-            String[] oldArray = (String[]) oldSequences.toArray(new String[oldSequences.size()]);
-            newSequences.clear();
-            for (String seqA : oldArray) {
-                for (String seqB : oldArray) {
-                    for (Object curSequence : curSequences) {
-                        String seqC = (String) curSequence;
-                        if (!seqC.equals(seqA) && !seqC.equals(seqB)) {
-                            String[] medianSequences = refA != null ? computeQuasiMedian(seqA, seqB, seqC, refA, refB) :
-                                    computeQuasiMedian(seqA, seqB, seqC);
-                            for (String medianSequence : medianSequences) {
-                                if (!oldSequences.contains(medianSequence) && !curSequences.contains(medianSequence)) {
-                                    newSequences.add(medianSequence);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            oldSequences.addAll(curSequences);
+		while (curSequences.size() > 0) {
+			String[] oldArray = oldSequences.toArray(new String[0]);
+			for (var seqA : oldArray) {
+				for (var seqB : oldArray) {
+					for (var curSequence : curSequences) {
+						if (!curSequence.equals(seqA) && !curSequence.equals(seqB)) {
+							String[] medianSequences = refA != null ? computeQuasiMedian(seqA, seqB, curSequence, refA, refB) :
+									computeQuasiMedian(seqA, seqB, curSequence);
+							for (String medianSequence : medianSequences) {
+								if (!oldSequences.contains(medianSequence) && !curSequences.contains(medianSequence)) {
+									newSequences.add(medianSequence);
+								}
+							}
+						}
+					}
+				}
+			}
+			oldSequences.addAll(curSequences);
             curSequences.clear();
-            Set tmp = curSequences;
-            curSequences = newSequences;
+            var tmp = curSequences;
+			curSequences = newSequences;
             newSequences = tmp;
             // System.err.println("Size: " + oldSequences.size());
         }
@@ -114,8 +104,6 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
     /**
      * compute the quasi median closure for the given set of sequences
      *
-     * @param sequences
-     * @param sequenceLength
      * @return quasi median closure
      */
     private Set computeGeodesicPrunedQuasiMedianClosure(ProgressListener progressListener, Set sequences, int sequenceLength) throws CanceledException {
@@ -123,14 +111,14 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
 
         System.err.println("Computing geodesically-pruned quasi-median closure:");
 
-        String[] input = (String[]) sequences.toArray(new String[sequences.size()]);
+        String[] input = (String[]) sequences.toArray(new String[0]);
 
-        double[][] scores = computeScores(input, sequenceLength);
+		double[][] scores = computeScores(input, sequenceLength);
 
-        progressListener.setMaximum(input.length * input.length);    //initialize maximum progress
+        progressListener.setMaximum((long) input.length * input.length);    //initialize maximum progress
 
 
-        for (int i = 0; i < input.length; i++) {
+		for (int i = 0; i < input.length; i++) {
             for (int j = i + 1; j < input.length; j++) {
                 //  System.err.println("Processing " + i + "," + j);
                 BitSet use = new BitSet();
@@ -203,9 +191,9 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
                     System.err.println("Geodesic (" + geodesic.size() + "):");
                     for (Object aGeodesic : geodesic) System.err.println(aGeodesic);
                 }
-                progressListener.setProgress(i * j);
+                progressListener.setProgress((long) i * j);
 
-            }
+			}
         }
         return result;
     }
@@ -213,10 +201,6 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
     /**
      * compute the best geodesic between two nodes
      *
-     * @param seqA
-     * @param seqB
-     * @param expanded
-     * @param scores
      * @return geodesic
      */
     private Set computeGeodesic(String seqA, String seqB, Set expanded, double[][] scores) {
@@ -254,13 +238,7 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
     /**
      * get the best path from start to end
      *
-     * @param end
-     * @param v
-     * @param e
-     * @param currentScore
-     * @param currentPath
-     * @param bestPath
-     */
+	 */
     private void computeBestPathRec(Graph graph, Node end, Node v, Edge e, NodeDoubleArray bestScore, NodeSet inPath, double currentScore,
                                     HashSet currentPath,
                                     Set bestPath, double[][] scores) {
@@ -295,9 +273,6 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
     /**
      * computes the quasi median for three sequences
      *
-     * @param seqA
-     * @param seqB
-     * @param seqC
      * @return quasi median
      */
     private String[] computeQuasiMedian(String seqA, String seqB, String seqC) {
@@ -336,17 +311,12 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
                 stack.add(third);
             }
         }
-        return (String[]) median.toArray(new String[median.size()]);
-    }
+        return (String[]) median.toArray(new String[0]);
+	}
 
-    /**
+	/**
      * computes the quasi median for three sequences. When resolving a three-way median, use only states in reference sequences
      *
-     * @param seqA
-     * @param seqB
-     * @param seqC
-     * @param refA
-     * @param refB
      * @return quasi median
      */
     private String[] computeQuasiMedian(String seqA, String seqB, String seqC, String refA, String refB) {
@@ -390,14 +360,12 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
                 }
             }
         }
-        return (String[]) median.toArray(new String[median.size()]);
-    }
+        return (String[]) median.toArray(new String[0]);
+	}
 
-    /**
+	/**
      * computes a log score for each state at each   position of the alignment
      *
-     * @param input
-     * @param sequenceLength
      * @return scores
      */
     private double[][] computeScores(String[] input, int sequenceLength) {
@@ -421,8 +389,6 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
     /**
      * get the log score of a sequence
      *
-     * @param seq
-     * @param scores
      * @return log score
      */
     private double getScore(String seq, double[][] scores) {
@@ -435,7 +401,6 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
     /**
      * computes the one-step graph
      *
-     * @param sequences
      * @return one-step graph
      */
     public PhyloSplitsGraph computeOneStepGraph(Set sequences) {
@@ -460,8 +425,6 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
     /**
      * if two sequences differ at exactly one position, gets position
      *
-     * @param seqa
-     * @param seqb
      * @return single difference position or -1
      */
     private int computeOneStep(String seqa, String seqb) {
@@ -481,8 +444,6 @@ public class PrunedQuasiMedian extends QuasiMedianBase implements Characters2Net
     /**
      * expand a condensed sequence
      *
-     * @param condensed
-     * @param orig2CondensedPos
      * @return expanded sequence
      */
     private String expandCondensed(String condensed, int[] orig2CondensedPos) {

@@ -31,25 +31,25 @@ import splitstree4.nexus.Trees;
  * @deprecated
  */
 public class ReticulationNetwork extends ReticulatedEvolutionOnTrees implements Trees2Network {
-    static final boolean EXPERT = true;
+	static final boolean EXPERT = true;
 
-    public final static String MEDIAN = "median";
-    public final static String MEAN = "mean";
-    public final static String COUNT = "count";
-    public final static String SUM = "sum";
-    public final static String NONE = "none";
-    private String optionEdgeWeights = MEAN;
-    private double threshold = 0.00;
+	public final static String MEDIAN = "median";
+	public final static String MEAN = "mean";
+	public final static String COUNT = "count";
+	public final static String SUM = "sum";
+	public final static String NONE = "none";
+	private final String optionEdgeWeights = MEAN;
+	private final double threshold = 0.00;
 
-    /**
-     * Applies the method to the given data
-     *
-     * @param taxa  the taxa
-     * @param trees the input trees
-     * @return the computed set of splits
-     */
-    public Network apply(Document doc, Taxa taxa, Trees trees) throws Exception {
-        // first make splits from a set of (partial) Trees
+	/**
+	 * Applies the method to the given data
+	 *
+	 * @param taxa  the taxa
+	 * @param trees the input trees
+	 * @return the computed set of splits
+	 */
+	public Network apply(Document doc, Taxa taxa, Trees trees) throws Exception {
+		// first make splits from a set of (partial) Trees
         Splits splits;
         if (trees.getPartial()) {
             SuperNetwork zc = new SuperNetwork();

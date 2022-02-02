@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Actions that the viewer gets from the director to present to the user
- * @author huson
- * Date: 26-Nov-2003
- */
 package splitstree4.gui;
 
 import jloda.swing.director.IDirectorListener;
@@ -59,7 +54,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
@@ -91,8 +85,7 @@ public class DirectorActions implements IDirectorListener {
     /**
      * Constructor. Sets up all the actions
      *
-     * @param dir
-     */
+	 */
     DirectorActions(final Director dir) {
         this.dir = dir;
     }
@@ -104,9 +97,9 @@ public class DirectorActions implements IDirectorListener {
      */
     static public void setEnableCritical(List<Action> actions, boolean flag) {
         for (Action action : actions) {
-            if (action.getValue(DirectorActions.CRITICAL) != null
-                    && (((Boolean) action.getValue(DirectorActions.CRITICAL))).equals(Boolean.TRUE))
-                action.setEnabled(flag);
+			if (action.getValue(DirectorActions.CRITICAL) != null
+				&& action.getValue(DirectorActions.CRITICAL).equals(Boolean.TRUE))
+				action.setEnabled(flag);
         }
     }
 
@@ -129,10 +122,10 @@ public class DirectorActions implements IDirectorListener {
                 String name = (String) action.getValue(DirectorActions.DEPENDS_ON);
                 if (dir.getDocument().isValidByName(name)) {
                     Transformation transform = null;
-                    try {
-                        transform = (Transformation) action.getValue(DirectorActions.TRANSFORM);
-                    } catch (ClassCastException e) {
-                    }
+					try {
+						transform = (Transformation) action.getValue(DirectorActions.TRANSFORM);
+					} catch (ClassCastException ignored) {
+					}
                     if (transform == null || dir.getDocument().isApplicable(transform))
                         enable = true;
                     if (transform != null && action.getValue(DirectorActions.JCHECKBOX) != null) {
@@ -219,7 +212,7 @@ public class DirectorActions implements IDirectorListener {
         return newProject = action;
     }
 
-    private Map menuTitleActions = new HashMap();
+	private final Map menuTitleActions = new HashMap();
 
     /**
      * returns a  menu action
@@ -273,11 +266,7 @@ public class DirectorActions implements IDirectorListener {
                 if (ProgramProperties.isMacOS()) {
                     //Use native file dialog on mac
                     FileDialog dialog = new FileDialog(dir.getMainViewerFrame(), "Open file", FileDialog.LOAD);
-                    dialog.setFilenameFilter(new FilenameFilter() {
-                        public boolean accept(File dir, String name) {
-                            return true;
-                        }
-                    });
+					dialog.setFilenameFilter((dir, name) -> true);
 
                     dialog.setVisible(true);
                     if (dialog.getFile() != null) {
@@ -323,11 +312,11 @@ public class DirectorActions implements IDirectorListener {
                     }
                 } else {
                     if (ProjectManager.getNumberOfProjects() > 1) {
-                        try {
-                            dir.close();
+						try {
+							dir.close();
 
-                        } catch (CanceledException ex) {
-                        }
+						} catch (CanceledException ignored) {
+						}
 
                     }
                 }
@@ -346,11 +335,11 @@ public class DirectorActions implements IDirectorListener {
         return openFile = action;
     }
 
-    Map openRecent = new HashMap();
+	final Map openRecent = new HashMap();
 
     public AbstractAction getOpenRecent(final String path) {
-        if (openRecent.keySet().contains(path))
-            return (AbstractAction) openRecent.get(path);
+		if (openRecent.containsKey(path))
+			return (AbstractAction) openRecent.get(path);
         AbstractAction action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
                 MainViewer mainViewer = dir.showMainViewer();
@@ -527,10 +516,10 @@ public class DirectorActions implements IDirectorListener {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                try {
-                    undoManager.undo();
-                } catch (CannotUndoException ex) {
-                }
+				try {
+					undoManager.undo();
+				} catch (CannotUndoException ignored) {
+				}
                 updateUndoRedo(undoManager);
             }
         };
@@ -555,17 +544,9 @@ public class DirectorActions implements IDirectorListener {
      * updates the undo action
      */
     public void updateUndoRedo(UndoManager undoManager) {
-        if (undoManager.canUndo()) {
-            getUndo(((MainViewer) dir.getMainViewer()).getUndoManagerText()).setEnabled(true);
-        } else {
-            getUndo(((MainViewer) dir.getMainViewer()).getUndoManagerText()).setEnabled(false);
-        }
-        if (undoManager.canRedo()) {
-            getRedo(((MainViewer) dir.getMainViewer()).getUndoManagerText()).setEnabled(true);
-        } else {
-            getRedo(((MainViewer) dir.getMainViewer()).getUndoManagerText()).setEnabled(false);
-        }
-    }
+		getUndo(((MainViewer) dir.getMainViewer()).getUndoManagerText()).setEnabled(undoManager.canUndo());
+		getRedo(((MainViewer) dir.getMainViewer()).getUndoManagerText()).setEnabled(undoManager.canRedo());
+	}
 
     private AbstractAction redo;
 
@@ -578,10 +559,10 @@ public class DirectorActions implements IDirectorListener {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                try {
-                    undoManager.redo();
-                } catch (CannotRedoException ex) {
-                }
+				try {
+					undoManager.redo();
+				} catch (CannotRedoException ignored) {
+				}
                 updateUndoRedo(undoManager);
             }
         };
@@ -1018,10 +999,10 @@ public class DirectorActions implements IDirectorListener {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                new Message(dir.showMainViewer().getFrame(),
-                        "Please cite:\nD.H. Huson and D. Bryant,"
-                                + " Application of Phylogenetic Networks in Evolutionary Studies, "
-                                + "Molecular Biology and Evolution, 23(2):254-267, 2006.");
+				Message.show(dir.showMainViewer().getFrame(),
+						"Please cite:\nD.H. Huson and D. Bryant,"
+						+ " Application of Phylogenetic Networks in Evolutionary Studies, "
+						+ "Molecular Biology and Evolution, 23(2):254-267, 2006.");
             }
         };
         action.putValue(AbstractAction.NAME, "How to Cite...");
@@ -1033,7 +1014,7 @@ public class DirectorActions implements IDirectorListener {
     }
 
 
-    Map syntaxMap = new HashMap();
+	final Map syntaxMap = new HashMap();
 
     public AbstractAction getSyntaxAction(final String name, final Integer mnemonic) {
         AbstractAction action = (AbstractAction) syntaxMap.get(name);
@@ -1042,10 +1023,10 @@ public class DirectorActions implements IDirectorListener {
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
                 dir.getActions().getMessageWindow().actionPerformed(null);
-                try {
-                    dir.getDocument().execute("help data=" + name);
-                } catch (Exception e) {
-                }
+				try {
+					dir.getDocument().execute("help data=" + name);
+				} catch (Exception ignored) {
+				}
             }
         };
         action.putValue(AbstractAction.NAME, name);
@@ -1057,53 +1038,7 @@ public class DirectorActions implements IDirectorListener {
     }
 
 
-    /**
-     * PluginData Manager Stuff
-
-
-     //static because there is only one plugin window for the whole program!
-     private AbstractAction pluginManagerAction;
-     static private PluginOverview pluginManagerWindow;
-
-     /**
-     * gets an instance of the action event
-     *
-     * @return action event
-
-    public AbstractAction getPluginManagerWindow() {
-    AbstractAction action = pluginManagerAction;
-    if (action != null)
-    return action;
-
-    //setup Message Window event
-    action = new AbstractAction() {
-    public void actionPerformed(ActionEvent event) {
-    if (pluginManagerWindow != null) {
-    pluginManagerWindow.getMainFrame().setState(JFrame.NORMAL);
-    pluginManagerWindow.getMainFrame().toFront();
-    pluginManagerWindow.getMainFrame().setVisible(true);
-    } else {
-    PluginManagerSettings pms = new PluginManagerSettings();
-    pms.setMysqlTunneling(SplitsTreeProperties.mysqlTunneling);
-    pms.setServerPluginFolder(SplitsTreeProperties.serverPluginFolder);
-    pms.setDatabaseName(SplitsTreeProperties.pluginDatabase);
-    pms.setPluginFolder(ProgramProperties.get("PluginFolder"));
-    pms.setMainProgramVersion(SplitsTreeProperties.getShortVersion());
-    pluginManagerWindow = new PluginOverview(ProgramProperties.getProgramIcon().getImage(),
-    "PluginData Manager Overview - " + SplitsTreeProperties.getShortVersion(),
-    pms, true);
-    }
-    }
-    };
-    action.putValue(AbstractAction.NAME, "Plugin Manager...");
-    action.putValue(AbstractAction.SHORT_DESCRIPTION, "Open the plugin manager");
-    action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Preferences16.gif"));
-
-    all.add(action);
-    return pluginManagerAction = action;
-    }
-     */
-    /**
+	/**
      * is viewer currently locked?
      *
      * @return true, if locked

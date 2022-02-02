@@ -86,7 +86,7 @@ public class RandomCharacters {
                 simT.data = M.randomPi(random);
 
                 if (rate == 0.0) {
-                    char state = symbols.charAt(((Integer) simT.data).intValue());
+                    char state = symbols.charAt((Integer) simT.data);
                     for (int i = 1; i <= ntax; i++)
                         chars.set(i, site, state);
                 } else {

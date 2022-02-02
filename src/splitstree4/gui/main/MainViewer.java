@@ -63,35 +63,35 @@ import java.util.Set;
  * Daniel Huson, 2003
  */
 public class MainViewer extends PhyloGraphView implements IDirectableViewer, IMainViewer {
-    // we get most actions from the director, but not these;
-    MainViewerActions viewerActions;
-    MainViewerMenuBar menuBar;
+	// we get most actions from the director, but not these;
+	final MainViewerActions viewerActions;
+	final MainViewerMenuBar menuBar;
 
-    MainViewerToolBar mainToolBar;
+	final MainViewerToolBar mainToolBar;
 
-    // data tree stuff:
-    private DataTree dataTree; //JTree containing the data
+	// data tree stuff:
+	private final DataTree dataTree; //JTree containing the data
 
-    // source tab
-    TextEditor editor = new TextEditor();
+	// source tab
+	final TextEditor editor = new TextEditor();
 
-    // undo stuff:
-    private UndoManager undoManagerNetwork = new UndoManager();
-    private UndoableEditSupport undoSupportNetwork = new UndoableEditSupport();
+	// undo stuff:
+	private final UndoManager undoManagerNetwork = new UndoManager();
+	private final UndoableEditSupport undoSupportNetwork = new UndoableEditSupport();
 
-    private UndoManager undoManagerText = new UndoManager();
+	private final UndoManager undoManagerText = new UndoManager();
 
-    private JFrame frame;
-    private StatusBar statusBar = new StatusBar();
+	private final JFrame frame;
+	private final StatusBar statusBar = new StatusBar();
 
-    private boolean uptoDate; // have we redrawn after updateViewer request
-    private Director dir = null; // the director
+	private boolean uptoDate; // have we redrawn after updateViewer request
+	private Director dir = null; // the director
 
-    private String layoutType = Network.CIRCULAR; // circular or rectilinear drawing? Affects zooming and rotation
+	private String layoutType = Network.CIRCULAR; // circular or rectilinear drawing? Affects zooming and rotation
 
-    private boolean radiallyLayoutNodeLabels = false;
+	private boolean radiallyLayoutNodeLabels = false;
 
-    static private Set<String> previouslySelectedNodeLabels = new HashSet<>(); // keep track of latest selection
+	static private final Set<String> previouslySelectedNodeLabels = new HashSet<>(); // keep track of latest selection
 
     private ISearcher[] searchers; // searchers
 
@@ -176,12 +176,12 @@ public class MainViewer extends PhyloGraphView implements IDirectableViewer, IMa
 
         frame.addWindowListener(new WindowListenerAdapter() {
             public void windowClosing(WindowEvent event) {
-                try {
-                    dir.close();
-                    frame.setVisible(false);
-                    frame.dispose();
-                } catch (CanceledException ex) {
-                }
+				try {
+					dir.close();
+					frame.setVisible(false);
+					frame.dispose();
+				} catch (CanceledException ignored) {
+				}
             }
 
             public void windowOpened(WindowEvent event) {
@@ -417,16 +417,14 @@ public class MainViewer extends PhyloGraphView implements IDirectableViewer, IMa
                 resetCursor();
             } else {
                 try {
-                    SwingUtilities.invokeAndWait(new Runnable() {
-                        public void run() {
-                            getActions().setEnableCritical(true);
-                            getActions().updateEnableState();
-                            statusBar.setStatusLine(dir.getDocument());
-                            locked = false;
-                            resetCursor();
-                        }
-                    });
-                } catch (InterruptedException | InvocationTargetException e) {
+					SwingUtilities.invokeAndWait(() -> {
+						getActions().setEnableCritical(true);
+						getActions().updateEnableState();
+						statusBar.setStatusLine(dir.getDocument());
+						locked = false;
+						resetCursor();
+					});
+				} catch (InterruptedException | InvocationTargetException e) {
                     Basic.caught(e);
                 }
             }

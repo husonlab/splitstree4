@@ -41,33 +41,33 @@ import java.text.DecimalFormat;
  * To change this template use File | Settings | File Templates.
  */
 public class ConfidenceNetworkDialog {
-    JDialog dialog;
+    final JDialog dialog;
 
-    private static String[] weightTypes = {"Frequency", "Upper", "Midpoint", "Lower", "Estimate"};
+	private static final String[] weightTypes = {"Frequency", "Upper", "Midpoint", "Lower", "Estimate"};
 
-    JFormattedTextField levelField;
+	final JFormattedTextField levelField;
 
-    public static final int FREQ = 0;
-    public static final int UPPER = 1;
-    public static final int MID = 2;
-    public static final int LOWER = 3;
-    public static final int ESTIMATED = 4;
-
-
-    private JPanel mainPanel;
-    private JComboBox comboBox;
-    private JButton cancelButton;
-    private JButton applyButton;
-
-    boolean execute; //True when the user presses run
-    private Frame owner;
-
-    int levelPercent;
+	public static final int FREQ = 0;
+	public static final int UPPER = 1;
+	public static final int MID = 2;
+	public static final int LOWER = 3;
+	public static final int ESTIMATED = 4;
 
 
-    public boolean executeNetwork() {
-        return execute;
-    }
+	private final JPanel mainPanel;
+	private final JComboBox comboBox;
+	private final JButton cancelButton;
+	private final JButton applyButton;
+
+	boolean execute; //True when the user presses run
+	private final Frame owner;
+
+	int levelPercent;
+
+
+	public boolean executeNetwork() {
+		return execute;
+	}
 
     public int getLevel() {
         return levelPercent;
@@ -81,9 +81,7 @@ public class ConfidenceNetworkDialog {
     /**
      * builds the ConfidenceNetworkDialog and displays it
      *
-     * @param dialogOwner
-     * @param level
-     */
+	 */
     public ConfidenceNetworkDialog(Frame dialogOwner, int level) {
 
         //ToDo: Get rid of all the redundant code here!
@@ -156,8 +154,7 @@ public class ConfidenceNetworkDialog {
     /**
      * shows the ConfidenceNetworkDialog and constructs the conficence network, if desired
      *
-     * @param dir
-     */
+	 */
     public void showDialog(Director dir) {
         dialog.setVisible(true);
 

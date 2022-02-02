@@ -43,7 +43,6 @@ public class PhylipDistances extends FileFilter implements Importer {
     /**
      * does this importer apply to the type of nexus block
      *
-     * @param blockName
      * @return true, if can handle this import
      */
     public boolean isApplicableToBlock(String blockName) {
@@ -53,7 +52,6 @@ public class PhylipDistances extends FileFilter implements Importer {
     /**
      * can we import this data?
      *
-     * @param input
      * @return true, if can handle this import
      */
     public boolean isApplicable(Reader input) throws Exception {
@@ -70,9 +68,7 @@ public class PhylipDistances extends FileFilter implements Importer {
     /**
      * convert input into nexus format
      *
-     * @param input
-     * @return
-     */
+	 */
     public String apply(Reader input) throws Exception {
         StreamTokenizer st = new StreamTokenizer(input);
         st.resetSyntax();
@@ -96,7 +92,7 @@ public class PhylipDistances extends FileFilter implements Importer {
         }
         distancesBuf.append(";\nend;\n");
         taxaBuf.append(";\nend;\n");
-        return (taxaBuf.toString() + distancesBuf.toString());
+		return (taxaBuf.toString() + distancesBuf);
     }
 
 

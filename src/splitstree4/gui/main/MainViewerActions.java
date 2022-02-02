@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Main viewer actions
- * @author huson
- * 11.03
- */
 package splitstree4.gui.main;
 
 import jloda.graph.*;
@@ -85,11 +80,11 @@ import java.util.*;
  * viewer
  */
 public class MainViewerActions {
-    private Director dir;
-    private MainViewer viewer;
+    private final Director dir;
+    private final MainViewer viewer;
     // we keep a list of critical actions: these are ones that must be disabled
     // when the director tells us to block user input
-    private List<Action> all = new LinkedList<>();
+    private final List<Action> all = new LinkedList<>();
     public final static String DEPENDS_ON_NODESELECTION = "NSELECT";
     public final static String DEPENDS_ON_EDGESELECTION = "ESELECT";
     public final static String DEPENDS_ON_ROOTED = "ROOT";
@@ -97,7 +92,7 @@ public class MainViewerActions {
     private boolean isSelectedInterleaveCBox = false; //false if the option checkbox is not selected
     private boolean isSelectedTransposeCBox = false; //false if the option checkbox is not selected
 
-    private boolean inChangingStates = false;
+    private final boolean inChangingStates = false;
 
     /**
      * setup the viewer actions
@@ -133,17 +128,11 @@ public class MainViewerActions {
         }
         //Checking if we should enabled or disabled transpose's action
         // depending on the state of interleave's action
-        if (isSelectedInterleaveCBox)
-            ((AbstractAction) nameState2action.get(Characters.NAME + "Transpose")).setEnabled(false);
-        else
-            ((AbstractAction) nameState2action.get(Characters.NAME + "Transpose")).setEnabled(true);
+        ((AbstractAction) nameState2action.get(Characters.NAME + "Transpose")).setEnabled(!isSelectedInterleaveCBox);
 
         //Checking if we should enabled or disabled interleave's action
         // depending on the state of transpose's action
-        if (isSelectedTransposeCBox)
-            ((AbstractAction) nameState2action.get(Characters.NAME + "Interleave")).setEnabled(false);
-        else
-            ((AbstractAction) nameState2action.get(Characters.NAME + "Interleave")).setEnabled(true);
+        ((AbstractAction) nameState2action.get(Characters.NAME + "Interleave")).setEnabled(!isSelectedTransposeCBox);
 
         getAutoLayoutLabels(null).setEnabled(doc.isValidByName(Network.NAME));
         {
@@ -275,7 +264,7 @@ public class MainViewerActions {
             public void actionPerformed(ActionEvent event) {
                 try {
                     dir.close();
-                } catch (CanceledException ex) {
+                } catch (CanceledException ignored) {
                 }
             }
         };
@@ -378,7 +367,7 @@ public class MainViewerActions {
             public void actionPerformed(ActionEvent event) {
                 try {
                     doSaveAsDialog();
-                } catch (CanceledException ex) {
+                } catch (CanceledException ignored) {
                 }
             }
         };
@@ -961,7 +950,7 @@ public class MainViewerActions {
                 boolean state = true;
                 try {
                     state = simpleLayoutLabelsCB.getState();
-                } catch (Exception ex) {
+                } catch (Exception ignored) {
                 } // not used in a checkboxmenuitem
                 final ICommand cmd = new SimpleLabelCommand(viewer, dir.getDocument(), state);
                 new Edit(cmd, "simple layout labels " + (state ? "on" : "off")).execute(viewer.getUndoSupportNetwork());
@@ -996,7 +985,7 @@ public class MainViewerActions {
                 try {
                     state = autoLayoutLabelsCB.getState();
                     dir.getDocument().getAssumptions().setAutoLayoutNodeLabels(state);
-                } catch (Exception ex) {
+                } catch (Exception ignored) {
                 } // not used in a checkboxmenuitem
                 final ICommand cmd = new AutoLabelCommand(viewer, dir.getDocument(), state);
                 new Edit(cmd, "auto layout labels " + (state ? "on" : "off")).execute(viewer.getUndoSupportNetwork());
@@ -1031,7 +1020,7 @@ public class MainViewerActions {
                 try {
                     state = radiallyLayoutLabelsCB.getState();
                     dir.getDocument().getAssumptions().setRadiallyLayoutNodeLabels(state);
-                } catch (Exception ex) {
+                } catch (Exception ignored) {
                 } // not used in a checkboxmenuitem
                 final ICommand cmd = new RadiallyLabelCommand(viewer, dir.getDocument(), state);
                 new Edit(cmd, "radially layout labels " + (state ? "on" : "off")).execute(viewer.getUndoSupportNetwork());
@@ -1239,7 +1228,7 @@ public class MainViewerActions {
         return collapseAll = action;
     }
 
-    Map<String, Action> nameState2action = new HashMap<>();
+    final Map<String, Action> nameState2action = new HashMap<>();
 
     /**
      * this is used to change formatting for the named block
@@ -1311,7 +1300,7 @@ public class MainViewerActions {
                     viewer.editor.getInputTextArea().setCaretPosition(a);
                     viewer.editor.getInputTextArea().requestFocus();
                     viewer.editor.getInputTextArea().select(a, b);
-                } catch (Exception ex) {
+                } catch (Exception ignored) {
                 }
             }
         };
@@ -1340,7 +1329,7 @@ public class MainViewerActions {
             public void actionPerformed(ActionEvent event) {
                 try {
                     viewer.getUndoManagerNetwork().undo();
-                } catch (CannotUndoException ex) {
+                } catch (CannotUndoException ignored) {
                 }
                 updateUndo();
                 updateRedo();
@@ -1390,7 +1379,7 @@ public class MainViewerActions {
             public void actionPerformed(ActionEvent event) {
                 try {
                     viewer.getUndoManagerNetwork().redo();
-                } catch (CannotRedoException ex) {
+                } catch (CannotRedoException ignored) {
                 }
                 updateRedo();
                 updateUndo();
@@ -1529,7 +1518,7 @@ public class MainViewerActions {
                     for (File file : files) {
 						buf.append(" '").append(StringUtils.doubleBackSlashes(file.getAbsolutePath())).append("'");
                     }
-                    viewer.getDir().execute("load treeFiles=" + buf.toString() + ";update;");
+                    viewer.getDir().execute("load treeFiles=" + buf + ";update;");
                 } catch (Exception ex) {
                     new Alert("Load trees failed: " + ex.getMessage());
                 }
@@ -1679,7 +1668,7 @@ public class MainViewerActions {
                     for (Object file : files) {
 						buf.append(" '").append(StringUtils.doubleBackSlashes((String) file)).append("'");
                     }
-                    viewer.getDir().execute("load charfiles=" + buf.toString() + ";update;");
+                    viewer.getDir().execute("load charfiles=" + buf + ";update;");
                 } catch (Exception ex) {
                     new Alert("Concatenate character sequences failed: " + ex.getMessage());
                 }
@@ -1781,7 +1770,7 @@ public class MainViewerActions {
                 for (int t = 1; t <= taxa.getNtax(); t++)
                     if (!keep.contains(taxa.getLabel(t)))
                         buf.append(" ").append(taxa.getLabel(t));
-                dir.execute("assume extaxa=" + buf.toString() + ";");
+                dir.execute("assume extaxa=" + buf + ";");
             }
         };
         action.putValue(AbstractAction.NAME, "Keep Only Selected Taxa");
@@ -1835,7 +1824,7 @@ public class MainViewerActions {
                         }
                     }
                 }
-                dir.execute("assume extaxa=" + buf.toString() + ";");
+                dir.execute("assume extaxa=" + buf + ";");
             }
 
         };
@@ -2314,13 +2303,11 @@ public class MainViewerActions {
         return optimizeSelected = action;
     }
 
-    private Map launchTransform = new HashMap();
+    private final Map launchTransform = new HashMap();
 
     /**
      * launch a characters transformation and then open method view
      *
-     * @param clazz
-     * @param shortCutKey
      * @return apply action
      */
 
@@ -2332,8 +2319,6 @@ public class MainViewerActions {
     /**
      * launch a characters transformation and then open method view
      *
-     * @param clazz
-     * @param shortCutKey
      * @return apply action
      */
 
@@ -2381,7 +2366,7 @@ public class MainViewerActions {
         action.putValue(AbstractAction.NAME, shortName);
         try {
             action.putValue(DirectorActions.TRANSFORM, clazz.newInstance());
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
         action.putValue(AbstractAction.SHORT_DESCRIPTION, "Apply " + shortName + " method");
         action.putValue(DirectorActions.CRITICAL, true);
@@ -2401,11 +2386,6 @@ public class MainViewerActions {
     /**
      * launch one of the transforms that are available in the methods dialog
      *
-     * @param cbox
-     * @param blockName
-     * @param clazz
-     * @param shortCutKey
-     * @param icon
      * @return action that launches the given class
      */
     public AbstractAction getLaunchTransform(final JCheckBoxMenuItem cbox, final String blockName, final Class clazz, final char shortCutKey, ImageIcon icon) {
@@ -2475,7 +2455,7 @@ public class MainViewerActions {
                         }
                     }
 
-                dir.analysis("splits once PhylogeneticDiversity SelectedTaxa=" + count + " " + buf.toString());
+                dir.analysis("splits once PhylogeneticDiversity SelectedTaxa=" + count + " " + buf);
             }
         };
         action.putValue(AbstractAction.NAME, "Compute Phylogenetic Diversity");
@@ -2506,7 +2486,7 @@ public class MainViewerActions {
                         }
 
                     }
-                dir.analysis("distances once DeltaScore SelectedTaxa=" + count + " " + buf.toString());
+                dir.analysis("distances once DeltaScore SelectedTaxa=" + count + " " + buf);
             }
         };
         action.putValue(AbstractAction.NAME, "Compute Delta Score");
@@ -2765,20 +2745,17 @@ public class MainViewerActions {
         action.putValue(DirectorActions.DEPENDS_ON, Trees.NAME);
         action.putValue(DirectorActions.CRITICAL, true);
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Back16.gif"));
-        action.putValue(EnableDisable.ENABLEDISABLE, new EnableDisable() {
-            public boolean enable() {
-                Document doc = dir.getDocument();
-                Assumptions assumptions = doc.getAssumptions();
-                if (doc.isValidByName(Trees.NAME) && doc.isValidByName(Assumptions.NAME)) {
-                    TreesTransform treesTransform = assumptions.getTreesTransform();
-                    if (treesTransform instanceof TreeSelector) {
-                        TreeSelector selector = (TreeSelector) treesTransform;
-                        if (selector.getOptionWhich() > 1)
-                            return true;
-                    }
+        action.putValue(EnableDisable.ENABLEDISABLE, (EnableDisable) () -> {
+            Document doc = dir.getDocument();
+            Assumptions assumptions = doc.getAssumptions();
+            if (doc.isValidByName(Trees.NAME) && doc.isValidByName(Assumptions.NAME)) {
+                TreesTransform treesTransform = assumptions.getTreesTransform();
+                if (treesTransform instanceof TreeSelector) {
+                    TreeSelector selector = (TreeSelector) treesTransform;
+                    return selector.getOptionWhich() > 1;
                 }
-                return false;
             }
+            return false;
         });
         all.add(action);
         return previousTree = action;
@@ -2813,21 +2790,18 @@ public class MainViewerActions {
         action.putValue(DirectorActions.DEPENDS_ON, Trees.NAME);
         action.putValue(DirectorActions.CRITICAL, true);
         action.putValue(AbstractAction.SMALL_ICON, ResourceManager.getIcon("sun/Forward16.gif"));
-        action.putValue(EnableDisable.ENABLEDISABLE, new EnableDisable() {
-            public boolean enable() {
-                Document doc = dir.getDocument();
-                Assumptions assumptions = doc.getAssumptions();
-                if (doc.isValidByName(Trees.NAME) && doc.isValidByName(Assumptions.NAME)) {
-                    Trees trees = doc.getTrees();
-                    TreesTransform treesTransform = assumptions.getTreesTransform();
-                    if (treesTransform instanceof TreeSelector) {
-                        TreeSelector selector = (TreeSelector) treesTransform;
-                        if (selector.getOptionWhich() < trees.getNtrees())
-                            return true;
-                    }
+        action.putValue(EnableDisable.ENABLEDISABLE, (EnableDisable) () -> {
+            Document doc = dir.getDocument();
+            Assumptions assumptions = doc.getAssumptions();
+            if (doc.isValidByName(Trees.NAME) && doc.isValidByName(Assumptions.NAME)) {
+                Trees trees = doc.getTrees();
+                TreesTransform treesTransform = assumptions.getTreesTransform();
+                if (treesTransform instanceof TreeSelector) {
+                    TreeSelector selector = (TreeSelector) treesTransform;
+                    return selector.getOptionWhich() < trees.getNtrees();
                 }
-                return false;
             }
+            return false;
         });
         all.add(action);
         return nextTree = action;
@@ -3027,7 +3001,7 @@ public class MainViewerActions {
     }
 
 
-    private Map addMethodWindowSelect = new HashMap();
+    private final Map addMethodWindowSelect = new HashMap();
     private AlgorithmsWindow methodViewer;
 
     /**
@@ -3136,14 +3110,10 @@ public class MainViewerActions {
 
     public void updateTaxaSetView() {
         System.out.println(dir.getDocument().getTaxa());
-        if (dir.getDocument().getTaxa() == null || dir.getDocument().getTaxa().getNtax() == 0) {
-            taxaSetView.setEnabled(false);
-        } else {
-            taxaSetView.setEnabled(true);
-        }
+        taxaSetView.setEnabled(dir.getDocument().getTaxa() != null && dir.getDocument().getTaxa().getNtax() != 0);
     }
 
-    private Map<String, AbstractAction> menuTitleActionsSourceTab = new HashMap<>();
+    private final Map<String, AbstractAction> menuTitleActionsSourceTab = new HashMap<>();
 
     /**
      * returns a  menu action
@@ -3167,7 +3137,7 @@ public class MainViewerActions {
         return action;
     }
 
-    private Map<String, AbstractAction> menuTitleActionsDataTab = new HashMap<>();
+    private final Map<String, AbstractAction> menuTitleActionsDataTab = new HashMap<>();
 
     /**
      * returns a  menu action

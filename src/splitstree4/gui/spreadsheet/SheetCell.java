@@ -30,29 +30,29 @@ import java.util.Vector;
  */
 public class SheetCell {
 
-    static final int UNDEFINED = 0;
-    static final int EDITED = 1;
-    static final int UPDATED = 2;
-    static final boolean USER_EDITION = true;
-    static final boolean UPDATE_EVENT = false;
+	static final int UNDEFINED = 0;
+	static final int EDITED = 1;
+	static final int UPDATED = 2;
+	static final boolean USER_EDITION = true;
+	static final boolean UPDATE_EVENT = false;
 
-    Object value;
-    int state;
-    Vector listeners;
-    Vector listenees;
-    Color background;
-    Color foreground;
-    int row;
-    int column;
+	Object value;
+	int state;
+	Vector listeners;
+	Vector listenees;
+	final Color background;
+	final Color foreground;
+	final int row;
+	final int column;
 
 
-    public SheetCell(int r, int c) {
-        row = r;
-        column = c;
-        value = null;
-        background = Color.white;
-        foreground = Color.black;
-    }
+	public SheetCell(int r, int c) {
+		row = r;
+		column = c;
+		value = null;
+		background = Color.white;
+		foreground = Color.black;
+	}
 
 
     public SheetCell(int r, int c, Object value) {

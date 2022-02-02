@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: Stats.java,v 1.10 2010-05-31 04:27:41 huson Exp $
- */
 package splitstree4.analysis.characters;
 
 
@@ -30,7 +28,7 @@ import splitstree4.util.CharactersUtilities;
  * Basic statistics for characters
  */
 public class GeneDiversity implements CharactersAnalysisMethod {
-    public static String DESCRIPTION = "Computes gene diversity statistics for haplotype sequences";
+    public static final String DESCRIPTION = "Computes gene diversity statistics for haplotype sequences";
 
     /**
      * gets a description of the method
@@ -44,7 +42,6 @@ public class GeneDiversity implements CharactersAnalysisMethod {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param doc
      * @return true, if method applies to given data
      */
     public boolean isApplicable(Document doc) {
@@ -55,8 +52,7 @@ public class GeneDiversity implements CharactersAnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
-     */
+	 */
     public String apply(Document doc) {
         //First identify haplotypes in the data.
         Taxa taxa = doc.getTaxa();

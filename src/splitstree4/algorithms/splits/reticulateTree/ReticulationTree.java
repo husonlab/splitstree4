@@ -114,8 +114,7 @@ public class ReticulationTree implements Comparator {
     /**
      * determins the reticulates as the complement of the backbone
      *
-     * @param ntax
-     */
+	 */
     public void determineReticulates(int ntax) {
         TaxaSet hyb = new TaxaSet();
         for (int ib = 0; ib < backbones.length; ib++)
@@ -132,10 +131,7 @@ public class ReticulationTree implements Comparator {
     /**
      * compares two objects by decreasing length of backbone
      *
-     * @param o1
-     * @param o2
-     * @return
-     */
+	 */
     public int compare(Object o1, Object o2) {
         int[] backbone1 = ((Reticulation) o1).getBackbone();
         int[] backbone2 = ((Reticulation) o2).getBackbone();
@@ -156,8 +152,7 @@ public class ReticulationTree implements Comparator {
     /**
      * copy the whole case
      *
-     * @param ret
-     */
+	 */
     public void copy(ReticulationTree ret) {
         reticulates = copy(ret.reticulates);
         firstPositionCovered = copy(ret.firstPositionCovered);
@@ -172,8 +167,7 @@ public class ReticulationTree implements Comparator {
     /**
      * returns string representation of this reticulation
      *
-     * @return
-     */
+	 */
     public String toString() {
         StringBuilder re = new StringBuilder();
         re.append("reticulates ");
@@ -275,8 +269,7 @@ public class ReticulationTree implements Comparator {
     /**
      * @param reticulation    the number of the reticulation
      * @param positionCovered 1 for first position, 2 for second position
-     * @param splits
-     */
+	 */
     public void setReticulation2Splits(int reticulation, int positionCovered, HashSet splits) {
         reticulation2splits[reticulation][positionCovered - 1] = splits;
     }

@@ -43,9 +43,7 @@ public class TestForRoot {
     /**
      * this method tests of the given root is consistent with the calculated scenario
      *
-     * @return
-     * @throws Exception
-     */
+	 */
     public static boolean checkIfRootCanBePlaced(PhyloSplitsGraph treeGraph, Taxa treeTaxa, Splits treeSplits, int treeOutgroupID, Taxa orgTaxa, Splits orgSplits, int[] treeTaxa2OrgTaxa, TaxaSet rTaxa, ReticulationTree ret) {
         PhyloSplitsGraph testGraph = new PhyloSplitsGraph();
         Node[] rTaxa2Node = new Node[orgTaxa.getNtax() + 1];
@@ -66,11 +64,7 @@ public class TestForRoot {
     /**
      * check the graph for cycles
      *
-     * @param testGraph
-     * @param startNode
-     * @return
-     * @throws Exception
-     */
+	 */
     private static boolean findCycle(PhyloSplitsGraph testGraph, Node startNode) {
         for (Edge e : startNode.adjacentEdges()) {
             Node toVisit = e.getTarget();
@@ -91,19 +85,7 @@ public class TestForRoot {
     /**
      * recursivly generate the test graph,
      *
-     * @param testGraph
-     * @param seenRTaxa
-     * @param treeGraph
-     * @param treeSplits
-     * @param rTaxa2Node
-     * @param treeTaxa2OrgTaxa
-     * @param startNode
-     * @param ret
-     * @param seenNodes
-     * @param orgTaxa
-     * @param rTaxa
-     * @throws Exception
-     */
+	 */
     private static void RecMakeRootTestGraph(PhyloSplitsGraph testGraph, TaxaSet seenRTaxa, PhyloSplitsGraph treeGraph, Splits treeSplits, Node[] rTaxa2Node, int[] treeTaxa2OrgTaxa, Node startNode, ReticulationTree ret, HashSet seenNodes, Taxa orgTaxa, TaxaSet rTaxa) {
     }
 

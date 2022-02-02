@@ -18,14 +18,6 @@
  */
 package splitstree4.gui.main;
 
-/**
- * This is a simple line-number gutter that displays the line
- * numbers at the beginning of each lines.
- *
- * @author Miguel Jett�
- * @since April 11th, 2005
- */
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -70,8 +62,8 @@ public class LineNumberView extends JComponent {
     private int textFontAscent;
     private int textFontHeight;
 
-    private JTextComponent text;
-    private SizeSequence sizes;
+    private final JTextComponent text;
+	private SizeSequence sizes;
     private int startLine = 0;
     private boolean structureChanged = true;
 
@@ -250,12 +242,12 @@ public class LineNumberView extends JComponent {
             Object newValue = evt.getNewValue();
             String propertyName = evt.getPropertyName();
             if ("document".equals(propertyName)) {
-                if (oldValue != null && oldValue instanceof Document) {
-                    ((Document) oldValue).removeDocumentListener(this);
-                }
-                if (newValue != null && newValue instanceof Document) {
-                    ((Document) newValue).addDocumentListener(this);
-                }
+				if (oldValue instanceof Document) {
+					((Document) oldValue).removeDocumentListener(this);
+				}
+				if (newValue instanceof Document) {
+					((Document) newValue).addDocumentListener(this);
+				}
             }
 
             updateCachedMetrics();

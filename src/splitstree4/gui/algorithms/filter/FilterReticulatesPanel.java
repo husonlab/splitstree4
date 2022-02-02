@@ -28,8 +28,6 @@ import splitstree4.nexus.Reticulate;
 import splitstree4.nexus.Taxa;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
@@ -42,7 +40,7 @@ import java.util.LinkedList;
  * To change this template use File | Settings | File Templates.
  */
 public class FilterReticulatesPanel extends JPanel implements IUpdateableView, UpdateableActions {
-    java.util.List all = new LinkedList();
+    final java.util.List all = new LinkedList();
 
     // the lists with the information init is done with initInformation() and updated via the actions of the
     // rootComponents, nettedComponents and nettedComponentsBackbones
@@ -69,9 +67,9 @@ public class FilterReticulatesPanel extends JPanel implements IUpdateableView, U
     // the scroll pane with the different configurations of the netted component selected in the nettedComponentsScrollPane
     private JComponent nettedComponentsBackbonesScrollPane = null;
 
-    // data stuff
-    private Reticulate ret = null;
-    private Director dir;
+	// data stuff
+	private Reticulate ret = null;
+	private final Director dir;
 
     //constructor
     public FilterReticulatesPanel(Director dir) {
@@ -150,74 +148,70 @@ public class FilterReticulatesPanel extends JPanel implements IUpdateableView, U
             add(possibleNettedCompBackbonesLabel, gbc);
 
             // the left chooser
-            gbc.fill = GridBagConstraints.BOTH;
+			gbc.fill = GridBagConstraints.BOTH;
+			gbc.gridwidth = 2;
+			gbc.gridheight = 1;
+			gbc.weightx = 1;
+			gbc.weighty = 1;
+			gbc.gridx = 0;
+			gbc.gridy = 2;
+			gbc.anchor = GridBagConstraints.PAGE_START;
+			jListNettedComponents = new ActionJList(listNettedComponents);
+			jListNettedComponents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			jListNettedComponents.addListSelectionListener(e -> {
+				if ((!e.getValueIsAdjusting()) || e.getFirstIndex() == -1)
+					return;
+				int s = ((ActionJList) e.getSource()).getSelectedIndex();
+				//update the celements of the jListNettedComponentsContent
+				listNettedComponentsContent.clear();
+				int index = ret.getContainedNettedComponentsOfActiveRootComponent()[s + 1];
+				selectedActiveNettedComponent = s;
+				//System.out.println("selectionIndex: " + s + "\tnettedCompIndex: " + index);
+				for (int j = 1; j <= ret.getNumberOfNettedComponentBackbones(index); j++) {
+					listNettedComponentsContent.add(j - 1, ret.getNettedComponentBackboneLabel(index, j));
+				}
+				jListNettedComponentsContent.setSelectedIndex(selectedActiveNettedComponentsBackbones[s]);
+			});
+			// disable jList if no NettedComponents are present
+			if (ret.getNNettedComponents() == 0) jListNettedComponents.setEnabled(false);
+			nettedComponentsScrollPane = new JScrollPane(jListNettedComponents);
+			nettedComponentsScrollPane.setToolTipText("Netted Components of the selected root component");
+			add(nettedComponentsScrollPane, gbc);
+			jListNettedComponents.setSelectedIndex(0);
+
+			// the right chooser
+			gbc.fill = GridBagConstraints.BOTH;
+			gbc.anchor = GridBagConstraints.PAGE_START;
             gbc.gridwidth = 2;
             gbc.gridheight = 1;
             gbc.weightx = 1;
             gbc.weighty = 1;
-            gbc.gridx = 0;
-            gbc.gridy = 2;
-            gbc.anchor = GridBagConstraints.PAGE_START;
-            jListNettedComponents = new ActionJList(listNettedComponents);
-            jListNettedComponents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            jListNettedComponents.addListSelectionListener(new ListSelectionListener() {
-                public void valueChanged(ListSelectionEvent e) {
-                    if ((!e.getValueIsAdjusting()) || e.getFirstIndex() == -1)
-                        return;
-                    int s = ((ActionJList) e.getSource()).getSelectedIndex();
-                    //update the celements of the jListNettedComponentsContent
-                    listNettedComponentsContent.clear();
-                    int index = ret.getContainedNettedComponentsOfActiveRootComponent()[s + 1];
-                    selectedActiveNettedComponent = s;
-                    //System.out.println("selectionIndex: " + s + "\tnettedCompIndex: " + index);
-                    for (int j = 1; j <= ret.getNumberOfNettedComponentBackbones(index); j++) {
-                        listNettedComponentsContent.add(j - 1, ret.getNettedComponentBackboneLabel(index, j));
-                    }
-                    jListNettedComponentsContent.setSelectedIndex(selectedActiveNettedComponentsBackbones[s]);
-                }
-            });
-            // disable jList if no NettedComponents are present
-            if (ret.getNNettedComponents() == 0) jListNettedComponents.setEnabled(false);
-            nettedComponentsScrollPane = new JScrollPane(jListNettedComponents);
-            nettedComponentsScrollPane.setToolTipText("Netted Components of the selected root component");
-            add(nettedComponentsScrollPane, gbc);
-            jListNettedComponents.setSelectedIndex(0);
+			gbc.gridx = 2;
+			gbc.gridy = 2;
 
-            // the right chooser
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.anchor = GridBagConstraints.PAGE_START;
-            gbc.gridwidth = 2;
-            gbc.gridheight = 1;
-            gbc.weightx = 1;
-            gbc.weighty = 1;
-            gbc.gridx = 2;
-            gbc.gridy = 2;
+			jListNettedComponentsContent = new ActionJList(listNettedComponentsContent);
+			jListNettedComponentsContent.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			// disable jList if no NettedComponents are present
+			if (ret.getNNettedComponents() == 0) jListNettedComponentsContent.setEnabled(false);
+			nettedComponentsBackbonesScrollPane = new JScrollPane(jListNettedComponentsContent);
+			nettedComponentsBackbonesScrollPane.setToolTipText("Possible backbones of the selected netted Component");
+			add(nettedComponentsBackbonesScrollPane, gbc);
+			jListNettedComponentsContent.addListSelectionListener(e -> {
+				if ((!e.getValueIsAdjusting()) || e.getFirstIndex() == -1)
+					return;
+				int s = ((ActionJList) e.getSource()).getSelectedIndex();
+				selectedActiveNettedComponentsBackbones[selectedActiveNettedComponent] = s;
+				updateDescriptionLabel();
 
-            jListNettedComponentsContent = new ActionJList(listNettedComponentsContent);
-            jListNettedComponentsContent.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            // disable jList if no NettedComponents are present
-            if (ret.getNNettedComponents() == 0) jListNettedComponentsContent.setEnabled(false);
-            nettedComponentsBackbonesScrollPane = new JScrollPane(jListNettedComponentsContent);
-            nettedComponentsBackbonesScrollPane.setToolTipText("Possible backbones of the selected netted Component");
-            add(nettedComponentsBackbonesScrollPane, gbc);
-            jListNettedComponentsContent.addListSelectionListener(new ListSelectionListener() {
-                public void valueChanged(ListSelectionEvent e) {
-                    if ((!e.getValueIsAdjusting()) || e.getFirstIndex() == -1)
-                        return;
-                    int s = ((ActionJList) e.getSource()).getSelectedIndex();
-                    selectedActiveNettedComponentsBackbones[selectedActiveNettedComponent] = s;
-                    updateDescriptionLabel();
-
-                }
-            });
+			});
 
 
-            updateDescriptionLabel();
-            Box box = Box.createHorizontalBox();
-            box.add(descriptionLabel);
-            box.add(Box.createHorizontalStrut(500));
-            box.setBorder(BorderFactory.createEtchedBorder());
-            box.setMinimumSize(new Dimension(100, 20));
+			updateDescriptionLabel();
+			Box box = Box.createHorizontalBox();
+			box.add(descriptionLabel);
+			box.add(Box.createHorizontalStrut(500));
+			box.setBorder(BorderFactory.createEtchedBorder());
+			box.setMinimumSize(new Dimension(100, 20));
 
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.anchor = GridBagConstraints.LAST_LINE_START;
@@ -241,7 +235,7 @@ public class FilterReticulatesPanel extends JPanel implements IUpdateableView, U
         if (selectedActiveNettedComponentsBackbones.length > 0) {
             StringBuilder newInitLabel = new StringBuilder("backbone is: '" + ret.getRootComponentLabel(ret.getActiveRootComponent()) + "' netted component config is: '");
             for (int selectedActiveNettedComponentsBackbone : selectedActiveNettedComponentsBackbones) {
-                newInitLabel.append(" " + (selectedActiveNettedComponentsBackbone + 1));
+				newInitLabel.append(" ").append(selectedActiveNettedComponentsBackbone + 1);
             }
             newInitLabel.append("'");
             descriptionLabel.setText(newInitLabel.toString());
@@ -315,10 +309,7 @@ public class FilterReticulatesPanel extends JPanel implements IUpdateableView, U
     public void updateEnableState() {
         DirectorActions.updateEnableState(dir, all);
         // because we don't want to duplicate that code
-        if (dir.getDocument().isValidByName(Taxa.NAME))
-            getApplyAction().setEnabled(true);
-        else
-            getApplyAction().setEnabled(false);
+		getApplyAction().setEnabled(dir.getDocument().isValidByName(Taxa.NAME));
 
     }
 
@@ -366,9 +357,7 @@ public class FilterReticulatesPanel extends JPanel implements IUpdateableView, U
     /**
      * return the root component selection action
      *
-     * @param dir
-     * @return
-     */
+	 */
     AbstractAction getComboBoxAction(final Director dir) {
         return new AbstractAction() {
             public void actionPerformed(ActionEvent event) {

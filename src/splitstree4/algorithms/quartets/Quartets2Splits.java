@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: Quartets2Splits.java,v 1.7 2007-09-11 12:31:09 kloepper Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.algorithms.quartets;
 

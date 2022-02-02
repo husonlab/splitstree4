@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: Fit.java,v 1.2 2010-05-31 04:27:41 huson Exp $
- */
 package splitstree4.analysis.splits;
 
 
@@ -32,10 +30,10 @@ import splitstree4.util.SplitsUtilities;
  */
 public class Fit implements SplitsAnalysisMethod {
     /**
-     * implementations of analysis-algorithms should overwrite this
-     * String with a short description of what they do.
-     */
-    public static String DESCRIPTION = "Compute the fit and the LS fit of a distance matrix and a set of splits";
+	 * implementations of analysis-algorithms should overwrite this
+	 * String with a short description of what they do.
+	 */
+	public static final String DESCRIPTION = "Compute the fit and the LS fit of a distance matrix and a set of splits";
 
     /**
      * gets a description of the method

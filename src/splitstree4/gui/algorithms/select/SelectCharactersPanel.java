@@ -31,19 +31,17 @@ import java.awt.*;
  * Date: 19-Dec-2003
  */
 public class SelectCharactersPanel extends JPanel implements IUpdateableView {
-    private Director dir;
-    private SelectCharactersActions actions;
+	private final Director dir;
+	private final SelectCharactersActions actions;
 
 
-    private JLabel descriptionLabel = new JLabel();
+	private final JLabel descriptionLabel = new JLabel();
 
-    /**
-     * sets up the algorithms window
-     *
-     * @param dir
-     */
-    public SelectCharactersPanel(Director dir) {
-        this.dir = dir;
+	/**
+	 * sets up the algorithms window
+	 */
+	public SelectCharactersPanel(Director dir) {
+		this.dir = dir;
         actions = new SelectCharactersActions(dir);
         setup();
     }

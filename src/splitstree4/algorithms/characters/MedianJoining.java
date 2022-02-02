@@ -57,8 +57,6 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
     /**
      * runs the median joining algorithm
      *
-     * @param inputSequences
-     * @param weights
      * @return median joining network
      */
     public PhyloSplitsGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException {
@@ -87,9 +85,6 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
     /**
      * Main loop of the median joining algorithm
      *
-     * @param input
-     * @param epsilon
-     * @return sequences present in the median joining network
      */
     private void computeMedianJoiningMainLoop(ProgressListener progressListener, Set input, double[] weights, int epsilon, Set<String> outputSequences) throws CanceledException {
         outputSequences.addAll(input);
@@ -160,11 +155,6 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
     /**
      * computes the minimum spanning network upto a tolerance of epsilon
      *
-     * @param sequences
-     * @param weights
-     * @param epsilon
-     * @param graph
-     * @param feasibleLinks
      */
     private void computeMinimumSpanningNetwork(Set sequences, double[] weights, int epsilon, PhyloSplitsGraph graph, EdgeSet feasibleLinks) {
         String[] array = (String[]) sequences.toArray(new String[0]);
@@ -175,15 +165,11 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
 
         for (int i = 0; i < array.length; i++) {
             for (int j = i + 1; j < array.length; j++) {
-                matrix[i][j] = computeDistance(array[i], array[j], weights);
-                Double value = matrix[i][j];
-                List<Pair<Integer, Integer>> pairs = value2pairs.get(value);
-                if (pairs == null) {
-                    pairs = new ArrayList<>();
-                    value2pairs.put(value, pairs);
-                }
-                pairs.add(new Pair(i, j));
-            }
+				matrix[i][j] = computeDistance(array[i], array[j], weights);
+				Double value = matrix[i][j];
+				List<Pair<Integer, Integer>> pairs = value2pairs.computeIfAbsent(value, k -> new ArrayList<>());
+				pairs.add(new Pair(i, j));
+			}
         }
 
         Node[] nodes = new Node[array.length];
@@ -193,28 +179,28 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
         for (int i = 0; i < array.length; i++) {
             nodes[i] = graph.newNode(array[i]);
             graph.setLabel(nodes[i], array[i]);
-            componentsOfMSN[i] = i;
-            componentsOfThresholdGraph[i] = i;
-        }
+			componentsOfMSN[i] = i;
+			componentsOfThresholdGraph[i] = i;
+		}
 
-        int numComponentsMSN = array.length;
+		int numComponentsMSN = array.length;
 
-        // TODO: This implementation of the minimum spanning network is wrong, add only edges between different connected components
+		// TODO: This implementation of the minimum spanning network is wrong, add only edges between different connected components
 
-        double maxValue = Double.MAX_VALUE;
-        // all sets of edges in ascending order of lengths
-        for (Object o : value2pairs.keySet()) {
-            Double value = (Double) o;
-            double threshold = value;
-            if (threshold > maxValue)
-                break;
-            var ijPairs = (List<Pair<Integer, Integer>>) value2pairs.get(value);
+		double maxValue = Double.MAX_VALUE;
+		// all sets of edges in ascending order of lengths
+		for (Double o : value2pairs.keySet()) {
+			Double value = o;
+			double threshold = value;
+			if (threshold > maxValue)
+				break;
+			var ijPairs = (List<Pair<Integer, Integer>>) value2pairs.get(value);
 
-            // update threshold graph components:
-            for (int i = 0; i < array.length; i++) {
-                for (int j = i + 1; j < array.length; j++) {
-                    if (componentsOfThresholdGraph[i] != componentsOfThresholdGraph[j] && matrix[i][j] < threshold - epsilon) {
-                        int oldComponent = componentsOfThresholdGraph[i];
+			// update threshold graph components:
+			for (int i = 0; i < array.length; i++) {
+				for (int j = i + 1; j < array.length; j++) {
+					if (componentsOfThresholdGraph[i] != componentsOfThresholdGraph[j] && matrix[i][j] < threshold - epsilon) {
+						int oldComponent = componentsOfThresholdGraph[i];
 						int newComponent = componentsOfThresholdGraph[j];
 						for (int k = 0; k < array.length; k++) {
 							if (componentsOfThresholdGraph[k] == oldComponent)
@@ -262,11 +248,6 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
     /**
      * determine whether v and target are connected by a chain of edges all of weight-threshold. Use for debugging
      *
-     * @param graph
-     * @param v
-     * @param target
-     * @param visited
-     * @param threshold
      * @return true, if connected
      */
     private boolean areConnected(PhyloSplitsGraph graph, Node v, Node target, NodeSet visited, double threshold) {
@@ -290,9 +271,6 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
     /**
      * iteratively removes all nodes that are connected to only two other and are not part of the original input
      *
-     * @param graph
-     * @param input
-     * @param sequences
      * @return true, if anything was removed
      */
     private boolean removeObsoleteNodes(PhyloSplitsGraph graph, Set input, Set sequences, EdgeSet feasibleLinks) {
@@ -331,10 +309,6 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
     /**
      * compute the cost of connecting seqM to the other three sequences
      *
-     * @param seqU
-     * @param seqV
-     * @param seqW
-     * @param seqM
      * @return cost
      */
     private double computeConnectionCost(String seqU, String seqV, String seqW, String seqM, double[] weights) {
@@ -344,8 +318,6 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
     /**
      * compute weighted distance between two sequences
      *
-     * @param seqA
-     * @param seqB
      * @return distance
      */
     private double computeDistance(String seqA, String seqB, double[] weights) {
@@ -364,9 +336,6 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
     /**
      * computes the quasi median for three sequences
      *
-     * @param seqA
-     * @param seqB
-     * @param seqC
      * @return quasi median
      */
     private String[] computeQuasiMedian(String seqA, String seqB, String seqC) {
@@ -405,7 +374,7 @@ public class MedianJoining extends QuasiMedianBase implements Characters2Network
                 stack.add(third);
             }
         }
-        return (String[]) median.toArray(new String[median.size()]);
+		return (String[]) median.toArray(new String[0]);
     }
 
     /**

@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: SplitsUtilities.java,v 1.50 2008-07-01 19:06:00 bryant Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.util;
 
@@ -139,8 +133,6 @@ public class SplitsUtilities {
      * sets the previous taxa and splits. This is used by computeCycle when
      * keep cycle is desired
      *
-     * @param taxa
-     * @param splits
      */
     static public void setPreviousTaxaSplits(Taxa taxa, Splits splits) {
         prevTaxa = (Taxa) taxa.clone();
@@ -154,7 +146,6 @@ public class SplitsUtilities {
     /**
      * compute a cycle for a set of splits
      *
-     * @param splits
      * @return cycle
      */
     static public int[] computeCycle(Splits splits) {
@@ -394,8 +385,6 @@ public class SplitsUtilities {
     /**
      * returns true, if the cycle given and the one in the text are the same
      *
-     * @param cycle
-     * @param text
      * @return true if cycles are equal
      */
     public static boolean equalCycles(int[] cycle, String text) {
@@ -415,8 +404,6 @@ public class SplitsUtilities {
     /**
      * remove all splits whose weight falls below the given threshold
      *
-     * @param splits
-     * @param thresholdValue
      */
     public static void applyWeightThreshold(Splits splits, float thresholdValue) {
         boolean changed = false;
@@ -434,8 +421,6 @@ public class SplitsUtilities {
     /**
      * remove all splits whose confidence falls below the given threshold
      *
-     * @param splits
-     * @param thresholdValue
      */
     public static void applyConfidenceThreshold(Splits splits, float thresholdValue) {
         boolean changed = false;
@@ -453,9 +438,6 @@ public class SplitsUtilities {
     /**
      * determines whether two splits on the same taxa set are compatible
      *
-     * @param ntax
-     * @param split1
-     * @param split2
      * @return true, if split1 and split2 are compatible
      */
     public static boolean areCompatible(int ntax, TaxaSet split1, TaxaSet split2) {
@@ -471,7 +453,6 @@ public class SplitsUtilities {
     /**
      * gets the compatiblity matrix
      *
-     * @param splits
      * @return compatibility matrix
      */
     public boolean[][] getCompatibilityMatrix(final Splits splits) {
@@ -491,9 +472,6 @@ public class SplitsUtilities {
     /**
      * determines whether three splits on the same taxa set are weakly compatible
      *
-     * @param ntax
-     * @param split1
-     * @param split2
      * @return true, if split1 and split2 are compatible
      */
     public static boolean areWeaklyCompatible(int ntax, TaxaSet split1, TaxaSet split2,
@@ -519,7 +497,6 @@ public class SplitsUtilities {
     /**
      * sort splits by decreasing weight
      *
-     * @param splits
      */
     public static void sortByDecreasingWeight(Splits splits) {
         SortedSet weightId = new TreeSet(new Split());
@@ -541,9 +518,6 @@ public class SplitsUtilities {
     /**
      * do the three  bitsets intersect?
      *
-     * @param a
-     * @param b
-     * @param c
      * @return true, if non-empty   intersection
      */
     private static boolean intersects(BitSet a, BitSet b, BitSet c) {
@@ -556,9 +530,6 @@ public class SplitsUtilities {
     /**
      * verify that all splits are proper and are contained in the taxon set
      *
-     * @param splits
-     * @param taxa
-     * @throws SplitsException
      */
     public static void verifySplits(Splits splits, Taxa taxa) throws SplitsException {
         for (int s = 1; s <= splits.getNsplits(); s++) {
@@ -576,9 +547,6 @@ public class SplitsUtilities {
      * returns the number of positions for which the char is constant on at least one side of the split.
      * All characters including gaps etc are distiqnuished
      *
-     * @param splits
-     * @param s
-     * @param chars
      * @return number of positions that give relaxed support to split
      */
     public static int getRelaxedSupport(Splits splits, int s, Characters chars) {
@@ -611,8 +579,6 @@ public class SplitsUtilities {
     /**
      * add all missing trivial splits
      *
-     * @param splits
-     * @param ntax
      * @return number of trivial splits added
      */
     public static int addAllTrivial(Splits splits, int ntax, float weight) {
@@ -639,9 +605,6 @@ public class SplitsUtilities {
      * get set of all all original splits that map to current splits whose ids are in the set indices
      *
      * @param taxa           set of taxa
-     * @param partialSplits
-     * @param partialIndices
-     * @param fullSplits
      * @return bit set
      */
     public static BitSet matchPartialSplits(Taxa taxa, Splits partialSplits, BitSet partialIndices, Splits fullSplits) {
@@ -724,10 +687,6 @@ public class SplitsUtilities {
     /**
      * cpmputes a tree from a set of splits
      *
-     * @param graph
-     * @param splits
-     * @param taxa
-     * @param weights
      * @return tree
      */
     public static PhyloSplitsGraph treeFromSplits(PhyloSplitsGraph graph, Splits splits, Taxa taxa, boolean weights) {
@@ -816,7 +775,6 @@ public class SplitsUtilities {
     /**
      * determines the mean split weight
      *
-     * @param splits
      * @return the mean weight
      */
     public static double getMean(Splits splits) {
@@ -828,7 +786,6 @@ public class SplitsUtilities {
     /**
      * Returns the compatability matrix as a boolean array, [1...nsplits][1...nsplits]
      *
-     * @param splits
      * @return compatiblity matrix
      */
     public static boolean[][] compatibilityMatrix(Splits splits) {
@@ -848,9 +805,6 @@ public class SplitsUtilities {
     /**
      * does given split part form an interval in the given circular ordering?
      *
-     * @param taxa
-     * @param cycle
-     * @param sp
      * @return is split circular with respect to the gjven cycle?
      */
     public static boolean isCircular(Taxa taxa, int[] cycle, TaxaSet sp) {

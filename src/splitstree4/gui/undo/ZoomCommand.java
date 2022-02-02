@@ -28,34 +28,24 @@ import java.awt.*;
  * daniel Huson, 5.2005
  */
 public class ZoomCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    Transform trans;
-    double factorx;
-    double factory;
-    Point aPt;
+	final MainViewer viewer;
+	final Transform trans;
+	final double factorx;
+	final double factory;
+	final Point aPt;
 
-    /**
-     * zoom to center
-     *
-     * @param view
-     * @param trans
-     * @param factorx
-     * @param factory
-     */
-    public ZoomCommand(MainViewer view, Transform trans, double factorx, double factory) {
-        this(view, trans, factorx, factory, null);
-    }
+	/**
+	 * zoom to center
+	 */
+	public ZoomCommand(MainViewer view, Transform trans, double factorx, double factory) {
+		this(view, trans, factorx, factory, null);
+	}
 
-    /**
+	/**
      * zoom to a point
      *
-     * @param view
-     * @param trans
-     * @param factorx
-     * @param factory
-     * @param aPt
-     */
-    public ZoomCommand(MainViewer view, Transform trans, double factorx, double factory, Point aPt) {
+	 */
+	public ZoomCommand(MainViewer view, Transform trans, double factorx, double factory, Point aPt) {
         this.viewer = view;
         this.trans = trans;
         this.factorx = factorx;
@@ -66,12 +56,7 @@ public class ZoomCommand extends ICommandAdapter implements ICommand {
     public ICommand execute() {
         setReverseCommand(new TransformCommand(viewer, trans, trans));
         trans.composeScale(factorx, factory);
-        /**
-         if (aPt != null)
-
-         //@todo  scroll so that point aPt stays constant
-         */
-        viewer.repaint();
-        return getReverseCommand();
+		viewer.repaint();
+		return getReverseCommand();
     }
 }

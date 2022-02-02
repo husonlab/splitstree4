@@ -59,9 +59,7 @@ public class ClosestTree implements Splits2Splits {
      * Finds a maximum weight clique and sets the weights of all splits
      * not in the clique to zero.
      *
-     * @param splits
-     * @param weights
-     */
+	 */
     static public void apply(Splits splits, double[] weights) {
         boolean[][] AdjMatrix;
         double[] vertexWeights;
@@ -94,11 +92,7 @@ public class ClosestTree implements Splits2Splits {
     /**
      * applies the splits to splits transfomration
      *
-     * @param doc
-     * @param taxa
-     * @param splits
-     * @throws jloda.util.CanceledException
-     */
+	 */
     public void apply(Document doc, Taxa taxa, Splits splits) throws CanceledException {
 
         double totalSquaredWeight = 0.0;

@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @author ?
- * nexus file filter
- * 12.03
- */
 package splitstree4.util;
 
 import jloda.util.parse.NexusStreamParser;
@@ -45,9 +40,8 @@ public class NexusFileFilter extends FileFilter {
             if (f.isDirectory()) return true;
             String extension = getExtension(f);
             if (extension != null)
-                if (extension.equalsIgnoreCase("nex")
-                        || extension.equalsIgnoreCase("nxs"))
-                    return true;
+				return extension.equalsIgnoreCase("nex")
+					   || extension.equalsIgnoreCase("nxs");
         }
         return false;
     }
@@ -80,7 +74,6 @@ public class NexusFileFilter extends FileFilter {
     /**
      * determines whether given file is a valid new Nexus file
      *
-     * @param file
      * @return true, if file begins with "#nexus begin taxa;"
      */
     public static boolean isNexusFile(File file) {
@@ -96,7 +89,6 @@ public class NexusFileFilter extends FileFilter {
     /**
      * does this text look like new-style nexus?
      *
-     * @param text
      * @return true, if looks like new style nexus
      */
     public static boolean isNexusText(String text) {

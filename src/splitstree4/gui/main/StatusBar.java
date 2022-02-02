@@ -57,8 +57,7 @@ public class StatusBar extends jloda.swing.util.StatusBar {
     /**
      * set the status line for given document
      *
-     * @param doc
-     */
+	 */
     public void setStatusLine(Document doc) {
         if (doc == null || !doc.isValid() || !doc.isValidByName(Taxa.NAME))
             setText2("No data");

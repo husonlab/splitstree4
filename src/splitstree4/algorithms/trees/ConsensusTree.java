@@ -46,7 +46,7 @@ public class ConsensusTree implements Trees2Splits {
     private String optionMethod = MAJORITY;
 
 
-    ConsensusNetwork consensusNetwork = new ConsensusNetwork();
+    final ConsensusNetwork consensusNetwork = new ConsensusNetwork();
 
     /**
      * Applies the method to the given data
@@ -115,8 +115,7 @@ public class ConsensusTree implements Trees2Splits {
     /**
      * decide what to scale the edge weights by
      *
-     * @return
-     */
+	 */
     public String getOptionEdgeWeights() {
         return consensusNetwork.getOptionEdgeWeights();
     }
@@ -124,8 +123,7 @@ public class ConsensusTree implements Trees2Splits {
     /**
      * decide what to scale the edge weights by
      *
-     * @param optionEdgeWeights
-     */
+	 */
     public void setOptionEdgeWeights(String optionEdgeWeights) {
         consensusNetwork.setOptionEdgeWeights(optionEdgeWeights);
     }
@@ -133,7 +131,6 @@ public class ConsensusTree implements Trees2Splits {
     /**
      * return the possible chocies for optionEdgeWeights
      *
-     * @param doc
      * @return list of choices
      */
     public List selectionOptionEdgeWeights(Document doc) {

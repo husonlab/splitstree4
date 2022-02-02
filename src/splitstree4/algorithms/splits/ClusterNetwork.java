@@ -46,8 +46,8 @@ import java.util.*;
 public class ClusterNetwork implements Splits2Network {
     final static String DESCRIPTION = "Cluster network for rooted set of splits (Huson et al, 2007, in preparation)";
 
-    private boolean optionShowClusters = false;
-    private String optionOutGroup = Taxa.FIRSTTAXON;
+    private final boolean optionShowClusters = false;
+	private String optionOutGroup = Taxa.FIRSTTAXON;
     private boolean optionUseWeights = true;
     public String optionLayout = ReticulateNetwork.EQUALANGLE120;
     private boolean optionSimplify = false;
@@ -84,35 +84,33 @@ public class ClusterNetwork implements Splits2Network {
         graphView = new PhyloGraphView();
         graph = graphView.getPhyloGraph();
 
-        int[] cycle = determineCycle(splits, outgroupIndex, ntax);
-        int[] cycleInverse = new int[ntax + 1];
-        for (int i = 1; i <= ntax; i++) {
-            cycleInverse[cycle[i]] = i;
-        }
+		int[] cycle = determineCycle(splits, outgroupIndex, ntax);
+		int[] cycleInverse = new int[ntax + 1];
+		for (int i = 1; i <= ntax; i++) {
+			cycleInverse[cycle[i]] = i;
+		}
 
-        // sort clusters by 1. increasing order of size and 2. lexicographically by cycle
-        // A pair consists of (cluster,key), where cluster is a TaxaSet of the taxa and
-        // key is an array of the cycle positions of the taxa
-        SortedSet clusters = new TreeSet(new Comparator() {
-            public int compare(Object o1, Object o2) {
-                Pair p1 = (Pair) o1;
-                Pair p2 = (Pair) o2;
-                int[] key1 = (int[]) p1.getSecond();
-                int[] key2 = (int[]) p2.getSecond();
+		// sort clusters by 1. increasing order of size and 2. lexicographically by cycle
+		// A pair consists of (cluster,key), where cluster is a TaxaSet of the taxa and
+		// key is an array of the cycle positions of the taxa
+		SortedSet clusters = new TreeSet((o1, o2) -> {
+			Pair p1 = (Pair) o1;
+			Pair p2 = (Pair) o2;
+			int[] key1 = (int[]) p1.getSecond();
+			int[] key2 = (int[]) p2.getSecond();
 
-                if (key1.length < key2.length)
-                    return -1;
-                else if (key1.length > key2.length)
-                    return 1;
-                for (int i = 0; i < key1.length; i++) {
-                    if (key1[i] < key2[i])
-                        return -1;
-                    else if (key1[i] > key2[i])
-                        return 1;
-                }
-                return 0;
-            }
-        });
+			if (key1.length < key2.length)
+				return -1;
+			else if (key1.length > key2.length)
+				return 1;
+			for (int i = 0; i < key1.length; i++) {
+				if (key1[i] < key2[i])
+					return -1;
+				else if (key1[i] > key2[i])
+					return 1;
+			}
+			return 0;
+		});
 
         // maps each  cardinality to the list of clusters of that size
         List[] card2clusters = new List[ntax];
@@ -397,10 +395,7 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * assign equal angle coordinates
      *
-     * @param root
-     * @param splits
-     * @param splitId2angle
-     */
+	 */
     private void assignCoordinatesEqualAngle(Node root,
                                              Splits splits, double[] splitId2angle,
                                              double smallDistance, double widthFactor) {
@@ -482,9 +477,7 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * assign rectangular phylogram coordinates
      *
-     * @param root
-     * @param splits
-     */
+	 */
     private void assignCoordinatesRectangularPhylogram(Node root, double rootHeight, Splits splits, double[] splitId2height, double smallDistance, double widthFactor) {
         for (Node v = graph.getFirstNode(); v != null; v = v.getNext()) {
             graphView.setLocation(v, null);
@@ -574,7 +567,6 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * recursively assign coordinates to rectangular cladogram
      *
-     * @param v
      * @return location of v
      */
     private Point2D assignCoordinatesRectangularCladogramRec(Node v) {
@@ -606,9 +598,6 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * computes the angle of a cluster
      *
-     * @param cluster
-     * @param cycleInverse
-     * @param ntax
      * @return angle
      */
     private double computeAngle(TaxaSet cluster, int[] cycleInverse, int ntax) {
@@ -628,9 +617,6 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * computes the height of a cluster for the rectangular view
      *
-     * @param cluster
-     * @param cycleInverse
-     * @param ntax
      * @return height
      */
     private double computeHeight(TaxaSet cluster, int[] cycleInverse, int ntax) {
@@ -649,9 +635,7 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * recursively mark all nodes below this as covered
      *
-     * @param v
-     * @param covered
-     */
+	 */
     private void markAsCoveredRec(Node v, NodeSet covered) {
         if (!covered.contains(v)) {
             covered.add(v);
@@ -664,9 +648,6 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * sets the cycle so that the outgroup is at the first position
      *
-     * @param splits
-     * @param outgroupIndex
-     * @param ntax
      * @return cycle with outgroup at first position
      */
     private int[] determineCycle(Splits splits, int outgroupIndex, int ntax) {
@@ -703,9 +684,7 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * simplifies the cluster network
      *
-     * @param root
-     * @param blueEdges
-     */
+	 */
     private void simplify(Node root, EdgeSet blueEdges) {
         // 1. determine all black connected components
         NodeIntArray node2component = new NodeIntArray(graph);
@@ -748,7 +727,7 @@ public class ClusterNetwork implements Splits2Network {
             Set used = new HashSet();
             List rootList = (List) indegree2RootList.get(indegree);
             if (rootList != null) {
-                Node[] roots = (Node[]) rootList.toArray(new Node[rootList.size()]);
+				Node[] roots = (Node[]) rootList.toArray(new Node[0]);
                 for (int r = 0; r < roots.length; r++) {
                     List nodesToDelete = new LinkedList();
                     Node v = roots[r];
@@ -781,8 +760,7 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * simplify the K-PQ subgraph
      *
-     * @param qSet
-     */
+	 */
     private void simplifyKPQ(Set qSet) {
         if (qSet.size() > 1)     // have something to simplify
         {
@@ -797,35 +775,35 @@ public class ClusterNetwork implements Splits2Network {
                         graph.setLabel(newV, graph.getLabel(newV) + ", " + graph.getLabel(v));
                 }
                 if (graph.getNumberOfTaxa(v) > 0) {
-                    for (Integer t : graph.getTaxa(v)) {
-                        graph.addTaxon(newV, t);
-                    }
-                    final List<Edge> edgesToDelete = new ArrayList<>();
+					for (Integer t : graph.getTaxa(v)) {
+						graph.addTaxon(newV, t);
+					}
+					final List<Edge> edgesToDelete = new ArrayList<>();
 
-                    final List<Edge> edges = new ArrayList<>();
-                    for (Edge f : v.adjacentEdges()) {
-                        edges.add(f);
-                    }
+					final List<Edge> edges = new ArrayList<>();
+					for (Edge f : v.adjacentEdges()) {
+						edges.add(f);
+					}
 
-                    for (Object edge : edges) {
-                        Edge e = (Edge) edge;
-                        Edge newE;
-                        if (e.getTarget() == v)
-                            newE = graph.newEdge(e.getSource(), newV);
-                        else
-                            newE = graph.newEdge(newV, e.getTarget());
-                        graph.setSplit(newE, graph.getSplit(e));
-                        graph.setWeight(newE, graph.getWeight(newE));
-                        if (v == e.getTarget())
-                            graphView.setColor(newE, Color.BLUE);
-                        edgesToDelete.add(e);
-                    }
-                    // remove old edges:
-                    for (Object anEdgesToDelete : edgesToDelete) {
-                        Edge e = (Edge) anEdgesToDelete;
-                        graph.deleteEdge(e);
-                    }
-                }
+					for (Edge edge : edges) {
+						Edge e = edge;
+						Edge newE;
+						if (e.getTarget() == v)
+							newE = graph.newEdge(e.getSource(), newV);
+						else
+							newE = graph.newEdge(newV, e.getTarget());
+						graph.setSplit(newE, graph.getSplit(e));
+						graph.setWeight(newE, graph.getWeight(newE));
+						if (v == e.getTarget())
+							graphView.setColor(newE, Color.BLUE);
+						edgesToDelete.add(e);
+					}
+					// remove old edges:
+					for (Edge anEdgesToDelete : edgesToDelete) {
+						Edge e = anEdgesToDelete;
+						graph.deleteEdge(e);
+					}
+				}
             }
         }
     }
@@ -833,7 +811,6 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * gets all precursor nodes for v
      *
-     * @param v
      * @return all sources of incoming edges     for v
      */
     private Set getPrecursors(Node v) {
@@ -848,12 +825,7 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * recursively determine a black component
      *
-     * @param v
-     * @param e
-     * @param blueEdges
-     * @param node2component
-     * @param component
-     */
+	 */
     private void determineBlackComponentRec(Node v, Edge e, EdgeSet blueEdges, NodeIntArray node2component, int component) {
         node2component.set(v, component);
 
@@ -895,8 +867,7 @@ public class ClusterNetwork implements Splits2Network {
     /**
      * sets the outgroup taxon that defines the root
      *
-     * @param optionOutGroup
-     */
+	 */
     public void setOptionOutGroup(String optionOutGroup) {
         this.optionOutGroup = optionOutGroup;
     }

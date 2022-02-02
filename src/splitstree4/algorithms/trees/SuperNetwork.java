@@ -207,11 +207,7 @@ public class SuperNetwork implements Trees2Splits {
      * set the weight to the mean weight of all projections of this split and confidence to
      * the count of trees containing a projection of the split
      *
-     * @param pSplits
-     * @param supportSet
-     * @param taxa
-     * @param splits
-     */
+	 */
     private void setWeightsConfidences(Document doc, Map[] pSplits,
                                        TaxaSet[] supportSet, Taxa taxa, Splits splits) throws CanceledException {
         for (int s = 1; s <= splits.getNsplits(); s++) {
@@ -265,13 +261,7 @@ public class SuperNetwork implements Trees2Splits {
      * sets the weight of a split in the network as the average relative length of the edge
      * in the input trees
      *
-     * @param doc
-     * @param pSplits
-     * @param supportSet
-     * @param taxa
-     * @param splits
-     * @throws CanceledException
-     */
+	 */
     private void setWeightAverageReleativeLength(Document doc, Map[] pSplits,
                                                  TaxaSet[] supportSet, Taxa taxa, Splits splits) throws
             CanceledException {
@@ -320,8 +310,6 @@ public class SuperNetwork implements Trees2Splits {
     /**
      * returns the set of all partial splits in the given tree
      *
-     * @param trees
-     * @param which
      * @param pSplitsOfTree partial splits are returned here
      * @param support       supporting taxa are returned here
      */
@@ -364,11 +352,7 @@ public class SuperNetwork implements Trees2Splits {
     /**
      * runs the closure method. Does this multiple times, if desired
      *
-     * @param doc
-     * @param taxa
-     * @param partialSplits
-     * @throws CanceledException
-     */
+	 */
     private void computeClosureOuterLoop(Document doc, Taxa taxa, Set partialSplits) {
         this.rand = new Random(this.optionSeed);
 
@@ -400,8 +384,6 @@ public class SuperNetwork implements Trees2Splits {
     /**
      * gets the number of full splits
      *
-     * @param numAllTaxa
-     * @param partialSplits
      * @return number of full splits
      */
     public int getNumberOfFullSplits(int numAllTaxa, Set partialSplits) {
@@ -418,8 +400,7 @@ public class SuperNetwork implements Trees2Splits {
      * computes the split closure obtained using the zig-zap rule
      *
      * @param doc           the document
-     * @param partialSplits
-     */
+	 */
     private void computeClosure(Document doc, Set partialSplits) throws CanceledException {
 
         PartialSplit[] splits;
@@ -522,10 +503,7 @@ public class SuperNetwork implements Trees2Splits {
     /**
      * applies a simple refinement heuristic
      *
-     * @param doc
-     * @param partialSplits
-     * @throws CanceledException
-     */
+	 */
     private void applyRefineHeuristic(Document doc, Set partialSplits) throws CanceledException {
 
 
@@ -682,7 +660,6 @@ public class SuperNetwork implements Trees2Splits {
     /**
      * return the possible chocies for optionEdgeWeights
      *
-     * @param doc
      * @return list of choices
      */
     public List selectionOptionEdgeWeights(Document doc) {

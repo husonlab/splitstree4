@@ -28,8 +28,7 @@ public class ConfiguratorParseException extends Exception {
     /**
      * constructor
      *
-     * @param message
-     */
+	 */
     public ConfiguratorParseException(String message) {
         super(message);
     }

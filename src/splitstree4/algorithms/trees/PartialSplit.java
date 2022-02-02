@@ -51,8 +51,7 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * sets only one half of the split, assumes the rest will be set later
      *
-     * @param A
-     */
+	 */
     public PartialSplit(TaxaSet A) {
         this.A = A;
     }
@@ -61,8 +60,7 @@ public class PartialSplit implements Comparator, Cloneable {
      * sets only one half of the split, assumes the rest will be set later
      * and weight and confidence
      *
-     * @param A
-     */
+	 */
     public PartialSplit(TaxaSet A, float weight, float confidence) {
         this.A = A;
         this.weight = weight;
@@ -72,9 +70,7 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * constructor given both sides A and B, a weight and confidence
      *
-     * @param A
-     * @param B
-     */
+	 */
     public PartialSplit(TaxaSet A, TaxaSet B) {
         set(A, B);
     }
@@ -82,11 +78,7 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * constructor given both sides A and B, a weight and confidence
      *
-     * @param A
-     * @param B
-     * @param weight
-     * @param confidence
-     */
+	 */
     public PartialSplit(TaxaSet A, TaxaSet B, float weight, float confidence) {
         set(A, B, weight, confidence);
     }
@@ -94,9 +86,7 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * set boths sides
      *
-     * @param A
-     * @param B
-     */
+	 */
     public void set(TaxaSet A, TaxaSet B) {
         if (compareSides(A, B) <= 0) {
             this.A = A;
@@ -110,11 +100,7 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * set boths sides and the weight and confidence
      *
-     * @param A
-     * @param B
-     * @param weight
-     * @param confidence
-     */
+	 */
     public void set(TaxaSet A, TaxaSet B, float weight, float confidence) {
         set(A, B);
         this.weight = weight;
@@ -124,8 +110,7 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * assuming only the first side has been set, sets the second as the complement in all
      *
-     * @param all
-     */
+	 */
     public void setComplement(TaxaSet all) {
         TaxaSet C = (TaxaSet) all.clone();
         C.andNot(this.A);
@@ -135,8 +120,6 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * compare the two sides of a split
      *
-     * @param A
-     * @param B
      * @return -1 if A lexicographically first, 1 if B first, and 0 if equal
      */
     public static int compareSides(TaxaSet A, TaxaSet B) {
@@ -159,8 +142,7 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * returns string representation
      *
-     * @return
-     */
+	 */
     public String toString() {
         Writer w = new StringWriter();
         try {
@@ -174,9 +156,7 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * writes the partial split
      *
-     * @param w
-     * @throws java.io.IOException
-     */
+	 */
     public void write(Writer w) throws IOException {
         BitSet bs = A.getBits();
         int t;
@@ -243,8 +223,6 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * comparator used e.g. in TreeSet
      *
-     * @param o1
-     * @param o2
      * @return -1, 0 or 1
      */
     public int compare(Object o1, Object o2) {
@@ -259,7 +237,6 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * equal partial splits?
      *
-     * @param ps
      * @return true, if equal as partial splits
      */
     public boolean equals(Object ps) {
@@ -282,7 +259,6 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * returns true, if this is an extension (or equals) ps
      *
-     * @param ps
      * @return true if extension
      */
     public boolean isExtensionOf(PartialSplit ps) {
@@ -419,7 +395,6 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * get the 0 or 1 side of the split
      *
-     * @param i
      * @return A, if i=0 and B, else
      */
     private TaxaSet getSide(int i) {
@@ -452,7 +427,6 @@ public class PartialSplit implements Comparator, Cloneable {
      * returns the split induced by the given taxaSet.
      * Returns null, if A=0 or B=0
      *
-     * @param taxaSet
      * @return projected split or null
      */
     public PartialSplit getInduced(TaxaSet taxaSet) {
@@ -497,7 +471,6 @@ public class PartialSplit implements Comparator, Cloneable {
     /**
      * is this partial split compatible to the one given?
      *
-     * @param ps
      * @return true, if splits are compatible
      */
     public boolean isCompatible(PartialSplit ps) {

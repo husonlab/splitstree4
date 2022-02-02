@@ -34,19 +34,19 @@ import splitstree4.nexus.Characters;
 public class StateVector {
 
 
-    Object[] cells; //Values in the matrix
-    int nstates; //Number of rows and columns
-    String[] labels; //Column labels
+	final Object[] cells; //Values in the matrix
+	final int nstates; //Number of rows and columns
+	final String[] labels; //Column labels
 
 
-    public StateVector(Characters chars) {
-        String sym = chars.getFormat().getSymbols();
-        nstates = sym.length();
-        cells = new Object[nstates];
-        labels = new String[nstates];
-        for (int i = 0; i < nstates; i++)
-            labels[i] = sym.substring(i, i + 1);
-    }
+	public StateVector(Characters chars) {
+		String sym = chars.getFormat().getSymbols();
+		nstates = sym.length();
+		cells = new Object[nstates];
+		labels = new String[nstates];
+		for (int i = 0; i < nstates; i++)
+			labels[i] = sym.substring(i, i + 1);
+	}
 
     public StateVector(Characters chars, Object[] entries) {
         this(chars);

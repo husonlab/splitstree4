@@ -44,7 +44,6 @@ public class DFilter {
     /**
      * destroy all d-dimensional boxes in splits graph
      *
-     * @param splits
      * @param maxDimension maximal dimension d
      * @return number of splits removed
      */
@@ -58,7 +57,6 @@ public class DFilter {
      * destroy all d-dimensional boxes in splits graph
      *
      * @param maxDimension maximal dimension d
-     * @param splits
      * @return number of splits deleted
      */
     public int apply(int maxDimension, Splits splits) {
@@ -110,7 +108,6 @@ public class DFilter {
     /**
      * build the incompatibility graph
      *
-     * @param splits
      * @return incompatibility graph
      */
     Graph buildIncompatibilityGraph(Splits splits) {
@@ -140,7 +137,6 @@ public class DFilter {
     /**
      * computes the subgraph in which every node is contained in a d-clique
      *
-     * @param graph
      * @param d     clique size
      */
     private void computeDSubgraph(Graph graph, int d) throws NotOwnerException, CanceledException {
@@ -170,13 +166,6 @@ public class DFilter {
     /**
      * recursively determine whether v is contained in a d-clique.
      *
-     * @param graph
-     * @param v
-     * @param e
-     * @param i
-     * @param d
-     * @param clique
-     * @param discard
      * @return true, if v contained in a d-clique
      */
     private boolean findClique(Graph graph, Node v, Edge e, int i, int d, NodeSet clique, NodeSet discard) {
@@ -201,12 +190,8 @@ public class DFilter {
     /**
      * determines whether node w is connected to all nodes in U
      *
-     * @param graph
-     * @param w
-     * @param U
      * @return true, if w is connected to all nodes in U
-     * @throws NotOwnerException
-     */
+	 */
     private boolean isConnectedTo(Graph graph, Node w, NodeSet U) throws NotOwnerException {
         int count = 0;
         for (Edge e = graph.getFirstAdjacentEdge(w); e != null; e = graph.getNextAdjacentEdge(e, w)) {
@@ -224,9 +209,7 @@ public class DFilter {
      * Modify graph to become the maximal induced graph in which all nodes have degree >maxDegree
      * If maxDegree==1, then we additionally require that all remaining nodes are contained in a triangle
      *
-     * @param graph
-     * @param maxDegree
-     */
+	 */
     private void relaxGraph(Graph graph, int maxDegree) throws NotOwnerException, CanceledException {
         System.err.print("Relax graph: ");
 
@@ -241,10 +224,8 @@ public class DFilter {
         while (!active.isEmpty()) {
             Node v = active.getFirstElement();
             if (graph.getDegree(v) < maxDegree || (maxDegree <= maxDegreeHeuristicThreshold && hasDegreeDButNotInClique(maxDegree + 1, graph, v))) {
-                for (Node w : v.adjacentNodes()) {
-                    active.add(w);
-                }
-                active.remove(v);
+				active.addAll(v.adjacentNodes());
+				active.remove(v);
                 graph.deleteNode(v);
             } else
                 active.remove(v);
@@ -257,10 +238,8 @@ public class DFilter {
     /**
      * gets the node will the lowest compatability score
      *
-     * @param graph
      * @return worst node
-     * @throws NotOwnerException
-     */
+	 */
     private Node getWorstNode(Graph graph) throws NotOwnerException {
         float worstCompatibility = 0;
         Node worstNode = null;
@@ -278,11 +257,8 @@ public class DFilter {
      * gets the compatibility score of a node.
      * This is the weight oif the splits minus the weight of all contradicting splits
      *
-     * @param graph
-     * @param v
      * @return compatibility score
-     * @throws NotOwnerException
-     */
+	 */
     private int getCompatibilityScore(Graph graph, Node v) throws NotOwnerException {
         int score = ((Pair) graph.getInfo(v)).getSecondInt();
         for (Node w : v.adjacentNodes()) {
@@ -295,10 +271,8 @@ public class DFilter {
      * determines whether the node v has degree==d but  is not contained in a clique of size d+1
      *
      * @param d* @param graph
-     * @param v
      * @return false, if the node v has degree!=d or is contained in a d+1 clique
-     * @throws NotOwnerException
-     */
+	 */
     private boolean hasDegreeDButNotInClique(int d, Graph graph, Node v) throws NotOwnerException {
         if (graph.getDegree(v) != d)
             return false;
@@ -316,8 +290,6 @@ public class DFilter {
     /**
      * return the filtered set of splits
      *
-     * @param splits
-     * @param toDelete
      * @return filtered splits
      */
     private Splits removeSplits(Splits splits, BitSet toDelete) {

@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: Splits.java,v 1.72 2008-07-01 19:06:00 bryant Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.nexus;
 
@@ -41,31 +35,31 @@ import java.util.*;
 /**
  * NexusBlock splits class
  */
-public class Splits extends NexusBlock implements Cloneable {
-    /**
-     * Identification string
-     */
-    final public static String NAME = "Splits";
-    private Format format = null;
-    private Properties properties = null;
-    private float threshold;
-    private int[] cycle;
-    private SplitsSet splits;
+public class Splits extends NexusBlock {
+	/**
+	 * Identification string
+	 */
+	final public static String NAME = "Splits";
+	private Format format = null;
+	private Properties properties = null;
+	private float threshold;
+	private int[] cycle;
+	private final SplitsSet splits;
 
-    /**
-     * The format subclass
-     */
-    public class Format implements Cloneable {
-        private boolean labels = false;
-        private boolean weights = true;
-        private boolean confidences = false;
-        private boolean intervals = false;
+	/**
+	 * The format subclass
+	 */
+	public static class Format {
+		private boolean labels = false;
+		private boolean weights = true;
+		private boolean confidences = false;
+		private boolean intervals = false;
 
-        /**
-         * Constructor
-         */
-        public Format() {
-        }
+		/**
+		 * Constructor
+		 */
+		public Format() {
+		}
 
         /**
          * Show labels?
@@ -115,7 +109,6 @@ public class Splits extends NexusBlock implements Cloneable {
         /**
          * show confidences?
          *
-         * @param confidences
          */
         public void setConfidences(boolean confidences) {
             this.confidences = confidences;
@@ -131,7 +124,6 @@ public class Splits extends NexusBlock implements Cloneable {
         /**
          * show confidence intervals?
          *
-         * @param intervals
          */
         public void setIntervals(boolean intervals) {
             this.intervals = intervals;
@@ -139,19 +131,19 @@ public class Splits extends NexusBlock implements Cloneable {
 
     }
 
-    /**
-     * The properties of the splits
-     */
-    public class Properties implements Cloneable {
-        public final static int COMPATIBLE = 1;
-        public final static int CYCLIC = 2;
-        public final static int WEAKLY_COMPATIBLE = 3;
-        public final static int INCOMPATIBLE = 4;
-        public final static int UNKNOWN = 5;
-        int compatibility = UNKNOWN;
-        private double fit = -1.0;
-        private double lsfit = -1.0;
-        private boolean leastSquares = false;
+	/**
+	 * The properties of the splits
+	 */
+	public static class Properties {
+		public final static int COMPATIBLE = 1;
+		public final static int CYCLIC = 2;
+		public final static int WEAKLY_COMPATIBLE = 3;
+		public final static int INCOMPATIBLE = 4;
+		public final static int UNKNOWN = 5;
+		int compatibility = UNKNOWN;
+		private double fit = -1.0;
+		private double lsfit = -1.0;
+		private boolean leastSquares = false;
 
         /**
          * do edges represent least square estimates?
@@ -165,7 +157,6 @@ public class Splits extends NexusBlock implements Cloneable {
         /**
          * do edges represent least square estimates?
          *
-         * @param leastSquares
          */
         public void setLeastSquares(boolean leastSquares) {
             this.leastSquares = leastSquares;
@@ -421,7 +412,6 @@ public class Splits extends NexusBlock implements Cloneable {
      *
      * @param A          one side of the split
      * @param weight     the weight
-     * @param confidence
      */
     public void add(TaxaSet A, float weight, float confidence) {
         splits.add(A, weight, confidence);
@@ -453,11 +443,6 @@ public class Splits extends NexusBlock implements Cloneable {
     /**
      * Adds a split
      *
-     * @param A
-     * @param weight
-     * @param confidence
-     * @param interval
-     * @param lab
      */
     public void add(TaxaSet A, float weight, float confidence, Interval interval, String lab) {
         splits.add(A, weight, confidence, interval, lab);
@@ -522,7 +507,6 @@ public class Splits extends NexusBlock implements Cloneable {
     /**
      * Returns a human-readable string describing this split
      *
-     * @param i
      * @return split
      */
     public String toLogString(int i) {
@@ -541,7 +525,7 @@ public class Splits extends NexusBlock implements Cloneable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return this.toString() + "\n" + sw.toString();
+		return this + "\n" + sw;
     }
 
 
@@ -794,10 +778,7 @@ public class Splits extends NexusBlock implements Cloneable {
                     properties.compatibility == Properties.INCOMPATIBLE))
                 properties.compatibility = Properties.INCOMPATIBLE;
 
-            if (np.findIgnoreCase(p, "leastsquares", true, getProperties().isLeastSquares()))
-                getProperties().setLeastSquares(true);
-            else
-                getProperties().setLeastSquares(false);
+			getProperties().setLeastSquares(np.findIgnoreCase(p, "leastsquares", true, getProperties().isLeastSquares()));
         }
 
         if (np.peekMatchIgnoreCase("CYCLE")) {
@@ -931,8 +912,6 @@ public class Splits extends NexusBlock implements Cloneable {
     /**
      * copy splits
      *
-     * @param taxa
-     * @param source
      */
     public void copy(Taxa taxa, Splits source) {
         // turn on everything:
@@ -961,7 +940,6 @@ public class Splits extends NexusBlock implements Cloneable {
     /**
      * gets the value of a format switch
      *
-     * @param name
      * @return value of format switch
      */
     public boolean getFormatSwitchValue(String name) {
@@ -979,8 +957,6 @@ public class Splits extends NexusBlock implements Cloneable {
     /**
      * induces splits not containing the hidden taxa
      *
-     * @param origTaxa
-     * @param hiddenTaxa
      */
     public void hideTaxa(Taxa origTaxa, TaxaSet hiddenTaxa) {
         if ((hiddenTaxa == null || hiddenTaxa.cardinality() == 0) && originalSplits == null)
@@ -1075,7 +1051,6 @@ public class Splits extends NexusBlock implements Cloneable {
     /**
      * restores the original splits
      *
-     * @param originalTaxa
      */
     public void restoreOriginal(Taxa originalTaxa) {
         this.copy(originalTaxa, originalSplits);
@@ -1085,7 +1060,6 @@ public class Splits extends NexusBlock implements Cloneable {
     /**
      * save a copy of myself into original splits.
      *
-     * @param originalTaxa
      */
     public void setOriginal(Taxa originalTaxa) {
         originalSplits = this.clone(originalTaxa);
@@ -1104,8 +1078,6 @@ public class Splits extends NexusBlock implements Cloneable {
     /**
      * hide the named splits
      *
-     * @param taxa
-     * @param toHide
      */
     public void hideSplits(Taxa taxa, BitSet toHide) {
         if (toHide.cardinality() > 0) {

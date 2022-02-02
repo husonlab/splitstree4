@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: Stats.java,v 1.10 2010-05-31 04:27:41 huson Exp $
- */
 package splitstree4.analysis.characters;
 
 
@@ -28,7 +26,7 @@ import splitstree4.nexus.Characters;
  * Basic statistics for characters
  */
 public class ProportionPolymorphic implements CharactersAnalysisMethod {
-    public static String DESCRIPTION = "Returns population genetic statistics related to proportion of polymorphic (segregating) sites. (Tajima 1989)";
+    public static final String DESCRIPTION = "Returns population genetic statistics related to proportion of polymorphic (segregating) sites. (Tajima 1989)";
 
     /**
      * gets a description of the method
@@ -44,7 +42,6 @@ public class ProportionPolymorphic implements CharactersAnalysisMethod {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param doc
      * @return true, if method applies to given data
      */
     public boolean isApplicable(Document doc) {

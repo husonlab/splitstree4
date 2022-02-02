@@ -32,10 +32,10 @@ import splitstree4.nexus.Taxa;
 public class NodeLabelsCommand extends ICommandAdapter implements ICommand {
     boolean names;
     boolean ids;
-    MainViewer viewer;
-    boolean selectedOnly;
-    NodeArray origLabels;
-    boolean isReverseCommand;
+	final MainViewer viewer;
+	boolean selectedOnly;
+	NodeArray origLabels;
+	final boolean isReverseCommand;
 
     public NodeLabelsCommand(MainViewer viewer, boolean names, boolean ids,
                              boolean selectedOnly) {
@@ -50,8 +50,7 @@ public class NodeLabelsCommand extends ICommandAdapter implements ICommand {
     /**
      * this constructor only used for reverse command
      *
-     * @param viewer
-     */
+	 */
     private NodeLabelsCommand(MainViewer viewer) {
         this.viewer = viewer;
 

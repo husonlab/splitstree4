@@ -25,7 +25,7 @@ package splitstree4.main;
  * Date: 18.12.2003
  */
 public class Version {
-    static String NAME = "SplitsTree4";
+    static final String NAME = "SplitsTree4";
 	// this string gets modified by the nightly  build script...
-	static String SHORT_DESCRIPTION = "SplitsTree4 (version 4.17.2, built 20 Jan 2022)";
+	static final String SHORT_DESCRIPTION = "SplitsTree4 (version 4.17.2, built 20 Jan 2022)";
 }

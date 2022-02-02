@@ -44,10 +44,7 @@ public class AutoLabelCommand extends ICommandAdapter implements ICommand {
     /**
      * constructor
      *
-     * @param view
-     * @param doc
-     * @param state
-     */
+	 */
     public AutoLabelCommand(MainViewer view, Document doc, boolean state) {
         this.viewer = view;
         this.doc = doc;

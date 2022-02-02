@@ -35,9 +35,7 @@ public class SetOutgroupCommand extends ICommandAdapter implements ICommand {
     /**
      * set the outgroup taxon set
      *
-     * @param viewer
-     * @param outgroup
-     */
+	 */
     public SetOutgroupCommand(MainViewer viewer, TaxaSet outgroup) {
         this.viewer = viewer;
         this.outgroup = outgroup;

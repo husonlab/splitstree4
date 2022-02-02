@@ -29,8 +29,8 @@ import java.util.Random;
  * Estimates the proportion of invariant sites using capture-recapture
  */
 public class CaptureRecapture implements CharactersAnalysisMethod {
-    public static String DESCRIPTION = "Estimation of invariant sites using capture-recapture method (Lockhart, Huson, Steel, 2000)";
-    int optionTaxaCutoff = 20; //Cut off before we switch to sampling
+    public static final String DESCRIPTION = "Estimation of invariant sites using capture-recapture method (Lockhart, Huson, Steel, 2000)";
+	int optionTaxaCutoff = 20; //Cut off before we switch to sampling
 
     /**
      * gets a description of the method
@@ -45,7 +45,6 @@ public class CaptureRecapture implements CharactersAnalysisMethod {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param doc
      * @return true, if method applies to given data
      */
     public boolean isApplicable(Document doc) {
@@ -55,9 +54,6 @@ public class CaptureRecapture implements CharactersAnalysisMethod {
     /**
      * Chooses a random (small) subset of size elements in [1...n]
      *
-     * @param size
-     * @param n
-     * @param random
      * @return array of size with numbers from [1...n]
      */
     private static int[] randomSubset(int size, int n, Random random) {
@@ -78,7 +74,6 @@ public class CaptureRecapture implements CharactersAnalysisMethod {
     /**
      * Checks to see that, for site m, the taxa in q are not missing, gaps, etc.
      *
-     * @param block
      * @param q     array of taxa ids
      * @param m     site
      * @return true iff all not missing, not gaps, and site not masked
@@ -101,8 +96,6 @@ public class CaptureRecapture implements CharactersAnalysisMethod {
     /**
      * Computes v statistic (Steel etal) for the quartet q
      *
-     * @param q
-     * @param block
      * @return v score
      */
 
@@ -171,7 +164,6 @@ public class CaptureRecapture implements CharactersAnalysisMethod {
     /**
      * Computes the proportion of Invariance sites using Steel et al.'s method
      *
-     * @param chars
      * @return proportion assumed invariant
      */
     public double estimatePinv(Characters chars) {
@@ -244,8 +236,7 @@ public class CaptureRecapture implements CharactersAnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
-     */
+	 */
     public String apply(Document doc) {//, Taxa taxa, Characters block) throws Exception {
 
         double pinv = estimatePinv(doc.getCharacters());

@@ -33,10 +33,7 @@ public class SimpleLabelCommand extends ICommandAdapter implements ICommand {
     /**
      * constructor
      *
-     * @param view
-     * @param doc
-     * @param state
-     */
+	 */
     public SimpleLabelCommand(MainViewer view, Document doc, boolean state) {
         this.viewer = view;
         this.doc = doc;

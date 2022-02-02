@@ -16,10 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** The taxa window
- *
- * @author Markus Franz
- */
 package splitstree4.gui.algorithms.modify;
 
 import jloda.swing.director.IUpdateableView;
@@ -42,6 +38,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.Vector;
@@ -54,24 +51,24 @@ import java.util.Vector;
  */
 public class ModifyTaxaPanel extends JPanel implements IUpdateableView, UpdateableActions {
 
-    java.util.List all = new LinkedList();
-    private Director dir;
+	final java.util.List all = new LinkedList();
+	private Director dir;
     JTable table;
     JScrollPane scrollPane;
     int ntraits;
 
 
-    class MyTableModel extends DefaultTableModel {
-        public MyTableModel(Object[][] data, Object[] columnNames) {
-            super(data, columnNames);
-        }
+	static class MyTableModel extends DefaultTableModel {
+		public MyTableModel(Object[][] data, Object[] columnNames) {
+			super(data, columnNames);
+		}
 
-        public boolean isCellEditable(int row, int col) {
-            return col >= 1;
-        }
+		public boolean isCellEditable(int row, int col) {
+			return col >= 1;
+		}
 
-        public Vector getColumnIdentifiers() {
-            return columnIdentifiers;
+		public Vector getColumnIdentifiers() {
+			return columnIdentifiers;
         }
     }
 
@@ -191,17 +188,17 @@ public class ModifyTaxaPanel extends JPanel implements IUpdateableView, Updateab
         add(footerPanel, "South");
     }
 
-    private abstract class ComponentListenerAdapter
-            implements ComponentListener {
-        public void componentHidden(ComponentEvent e) {
-            resizingAction();
-        }
+	private abstract static class ComponentListenerAdapter
+			implements ComponentListener {
+		public void componentHidden(ComponentEvent e) {
+			resizingAction();
+		}
 
-        public void componentMoved(ComponentEvent e) {
-            resizingAction();
-        }
+		public void componentMoved(ComponentEvent e) {
+			resizingAction();
+		}
 
-        public void componentResized(ComponentEvent e) {
+		public void componentResized(ComponentEvent e) {
             resizingAction();
         }
 
@@ -266,10 +263,7 @@ public class ModifyTaxaPanel extends JPanel implements IUpdateableView, Updateab
         DirectorActions.updateEnableState(dir, all);
         // because we don't want to duplicate that code
 
-        if (dir.getDocument().isValidByName(Traits.NAME) || table.getColumnCount() > 1)
-            getApplyAction().setEnabled(true);
-        else
-            getApplyAction().setEnabled(false);
+		getApplyAction().setEnabled(dir.getDocument().isValidByName(Traits.NAME) || table.getColumnCount() > 1);
     }
 
     private AbstractAction applyAction;
@@ -402,9 +396,8 @@ public class ModifyTaxaPanel extends JPanel implements IUpdateableView, Updateab
                         table.setAutoCreateColumnsFromModel(false);
                         DefaultTableModel model = (DefaultTableModel) table.getModel();
                         String[] values = new String[table.getRowCount()];
-                        for (int i = 0; i < values.length; i++)
-                            values[i] = Traits.MISSING_TRAIT;
-                        model.addColumn(newtrait, values);
+						Arrays.fill(values, Traits.MISSING_TRAIT);
+						model.addColumn(newtrait, values);
 
                         TableColumn column = new TableColumn(table.getColumnCount());
                         column.setHeaderValue(newtrait);
@@ -480,12 +473,12 @@ public class ModifyTaxaPanel extends JPanel implements IUpdateableView, Updateab
                         // Correct the model indices in the TableColumn objects
                         // by decrementing those indices that follow the deleted column
                         Enumeration<TableColumn> enumTC = table.getColumnModel().getColumns();
-                        for (; enumTC.hasMoreElements(); ) {
-                            TableColumn c = enumTC.nextElement();
-                            if (c.getModelIndex() >= columnModelIndex) {
-                                c.setModelIndex(c.getModelIndex() - 1);
-                            }
-                        }
+						while (enumTC.hasMoreElements()) {
+							TableColumn c = enumTC.nextElement();
+							if (c.getModelIndex() >= columnModelIndex) {
+								c.setModelIndex(c.getModelIndex() - 1);
+							}
+						}
                         model.fireTableStructureChanged();
                         updateEnableState();
 
@@ -548,25 +541,25 @@ public class ModifyTaxaPanel extends JPanel implements IUpdateableView, Updateab
                 int[] cols = table.getSelectedColumns();
                 int[] rows = table.getSelectedRows();
                 for (int col : cols) {
-                    if (col == 0)
-                        break; //No effect on taxa column.
+					if (col == 0)
+						break; //No effect on taxa column.
 
-                    for (int j = 0; j < rows.length; j++) {
-                        String taxaName = (String) table.getValueAt(rows[j], 0);
-                        int pos = taxaName.indexOf("_");
-                        String val;
-                        if (pos >= 0)
-                            val = taxaName.substring(0, pos);
-                        else
-                            val = taxaName;
-                        table.setValueAt(val, rows[j], col);
+					for (int row : rows) {
+						String taxaName = (String) table.getValueAt(row, 0);
+						int pos = taxaName.indexOf("_");
+						String val;
+						if (pos >= 0)
+							val = taxaName.substring(0, pos);
+						else
+							val = taxaName;
+						table.setValueAt(val, row, col);
 
-                        // todo: not available in Java 1.5, but needed in 1.6 onwards
-                        //int modelRow = table.convertRowIndexToModel(rows[j]);
-                        // table.getModel().setValueAt(val,modelRow,modelCol);
-                    }
+						// todo: not available in Java 1.5, but needed in 1.6 onwards
+						//int modelRow = table.convertRowIndexToModel(rows[j]);
+						// table.getModel().setValueAt(val,modelRow,modelCol);
+					}
 
-                }
+				}
             }
         };
         action.putValue(AbstractAction.NAME, "Guess value");

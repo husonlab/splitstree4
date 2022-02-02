@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: SplitsException.java,v 1.4 2004-08-24 17:37:07 huson Exp $
- *
- * @author Daniel Huson and David Bryant
- */
 
 package splitstree4.core;
 

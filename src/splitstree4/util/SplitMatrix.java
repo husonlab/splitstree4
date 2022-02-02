@@ -39,30 +39,27 @@ import java.util.Map;
 public class SplitMatrix {
 
 
-    private int nblocks;   //Number of Split sets
-    SparseTable<Double> matrix;     //Split weights, indexed by split and then split set.
+	private int nblocks;   //Number of Split sets
+	final SparseTable<Double> matrix;     //Split weights, indexed by split and then split set.
 
-    private Map splitIndices; // Map from splits to indices
-    private Splits allSplits; //Splits block containing all splits
+	private final Map splitIndices; // Map from splits to indices
+	private final Splits allSplits; //Splits block containing all splits
 
-    /**
-     * Create a new Split matrix.
-     *
-     * @param ntax
-     */
-    public SplitMatrix(int ntax) {
-        matrix = new SparseTable<>();
-        allSplits = new Splits(ntax);
-        splitIndices = new HashMap();
-    }
+	/**
+	 * Create a new Split matrix.
+	 */
+	public SplitMatrix(int ntax) {
+		matrix = new SparseTable<>();
+		allSplits = new Splits(ntax);
+		splitIndices = new HashMap();
+	}
 
 
     /**
      * Create a new Split matrix with rows (empty) identified with the given set of splits.
      *
-     * @param ntax
-     */
-    public SplitMatrix(int ntax, Splits splits) {
+	 */
+	public SplitMatrix(int ntax, Splits splits) {
         matrix = new SparseTable();
         allSplits = new Splits(ntax);
         splitIndices = new HashMap();
@@ -73,10 +70,8 @@ public class SplitMatrix {
     /**
      * Constructs a SplitMatrix from a set of trees
      *
-     * @param trees
-     * @param taxa
-     */
-    public SplitMatrix(Trees trees, Taxa taxa) {
+	 */
+	public SplitMatrix(Trees trees, Taxa taxa) {
         matrix = new SparseTable();
         splitIndices = new HashMap();
         allSplits = new Splits(taxa.getNtax());
@@ -91,7 +86,6 @@ public class SplitMatrix {
     /**
      * Searches for a split in the matrix. Returns -1 if the split is not found
      *
-     * @param sp
      * @return index (1..nsplits in matrix) or -1 if split is not found.
      */
     public int findSplit(TaxaSet sp) {
@@ -114,7 +108,6 @@ public class SplitMatrix {
      * the new split is inserted in allSplits, and
      * the index of the new split position is returned.
      *
-     * @param sp
      * @return index
      */
     private int findOrAddSplit(TaxaSet sp) {
@@ -136,9 +129,8 @@ public class SplitMatrix {
     /**
      * Adds a new block wiith a new set of splits and stores weights in a new block.
      *
-     * @param newSplits
-     */
-    public void add(Splits newSplits) {
+	 */
+	public void add(Splits newSplits) {
 
         int newBlockId = getNblocks() + 1;
         for (int i = 1; i <= newSplits.getNsplits(); i++) {
@@ -154,9 +146,8 @@ public class SplitMatrix {
      * to the split matrix. Splits that are already present in the matrix will not be added,
      * the other splits will be added in the order that they appear in newSplits.
      *
-     * @param newSplits
-     */
-    public void addSplitsWithoutBlock(Splits newSplits) {
+	 */
+	public void addSplitsWithoutBlock(Splits newSplits) {
         for (int i = 1; i <= newSplits.getNsplits(); i++) {
             TaxaSet sp = newSplits.get(i);
             findOrAddSplit(sp);
@@ -166,8 +157,6 @@ public class SplitMatrix {
     /**
      * Returns a split weight, or 0.0 if that block doesn't have that split.
      *
-     * @param split
-     * @param blockNum
      * @return weight
      */
     public double get(int split, int blockNum) {
@@ -179,8 +168,6 @@ public class SplitMatrix {
     //ToDo: Delete this
 
     /**
-     * @param split
-     * @return
      * @deprecated
      */
     public double getOriginal(int split) {
@@ -191,8 +178,6 @@ public class SplitMatrix {
     //ToDo: Delete this
 
     /**
-     * @param split
-     * @return
      * @deprecated
      */
     public String getLabel(int split) {
@@ -202,18 +187,14 @@ public class SplitMatrix {
     /**
      * Sets the weight for a particular split (here indexed 1... nsplits in matrix)
      *
-     * @param splitNum
-     * @param blockNum
-     * @param val
-     */
-    public void set(int splitNum, int blockNum, double val) {
+	 */
+	public void set(int splitNum, int blockNum, double val) {
         matrix.set(splitNum, blockNum, val);
     }
 
     /**
      * Return the split as indexed in matrix.
      *
-     * @param id
      * @return TaxaSet
      */
     public TaxaSet getSplit(int id) {
@@ -259,7 +240,6 @@ public class SplitMatrix {
     /**
      * returns vector of weights for the given split id. indexed 0..nblocks-1
      *
-     * @param splitId
      * @return row
      */
     public double[] getMatrixRow(int splitId) {
@@ -275,7 +255,6 @@ public class SplitMatrix {
     /**
      * Returns column blockId in matrix, indexed 0..nsplits-1
      *
-     * @param blockId
      * @return column
      */
     public double[] getMatrixColumn(int blockId) {

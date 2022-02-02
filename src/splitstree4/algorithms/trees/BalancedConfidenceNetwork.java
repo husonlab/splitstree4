@@ -87,8 +87,7 @@ public class BalancedConfidenceNetwork implements Trees2Splits {
     /**
      * Set the confidence interval used in construction.
      *
-     * @param level
-     */
+	 */
     public void setOptionLevel(double level) {
         this.level = level;
     }

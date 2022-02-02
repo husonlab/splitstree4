@@ -51,52 +51,36 @@ public interface SearchManager {
     /**
      * Find next instance
      *
-     * @param searchText
-     * @param options
      * @return - returns boolean: true if text found, false otherwise
-     * @throws PatternSyntaxException
-     */
+	 */
     boolean next(String searchText, SearchOptions options) throws PatternSyntaxException;
 
 
     /**
      * Find previous instance
      *
-     * @param searchText
-     * @param options
      * @return - returns boolean: true if text found, false otherwise
-     * @throws PatternSyntaxException
-     */
+	 */
     boolean previous(String searchText, SearchOptions options) throws PatternSyntaxException;
 
     /**
      * Replace selection with current. Does nothing if selection invalid.
      *
-     * @param searchText
-     * @param options
-     * @throws PatternSyntaxException
-     */
+	 */
     void replace(String searchText, String replaceText, SearchOptions options) throws PatternSyntaxException;
 
 
     /**
      * Replace all occurrences of text in document, subject to options.
      *
-     * @param searchText
-     * @param replaceText
-     * @param options
      * @return number of instances replaced
-     * @throws PatternSyntaxException
-     */
+	 */
     int replaceAll(String searchText, String replaceText, SearchOptions options) throws PatternSyntaxException;
 
     /**
      * Selects all occurrences of text in document, subject to options and constraints of document type
      *
-     * @param searchText
-     * @param options
-     * @throws PatternSyntaxException
-     */
+	 */
     void findAll(String searchText, SearchOptions options) throws PatternSyntaxException;
 
 }

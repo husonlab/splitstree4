@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: Distances2Trees.java,v 1.2 2007-09-11 12:31:06 kloepper Exp $
- *
- * @author Christian Rausch
- *
- */
 
 package splitstree4.algorithms.distances;
 

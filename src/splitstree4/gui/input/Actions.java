@@ -58,14 +58,13 @@ public class Actions {
     private UndoManager undoManager;
 
     // we keep a list of critical actions: these are ones that must be disabled
-    // when the director tells us to block user input
-    private List<Action> all = new LinkedList<>();
+	// when the director tells us to block user input
+	private final List<Action> all = new LinkedList<>();
 
     /**
      * setup the  actions
      *
-     * @param inputDialog
-     */
+	 */
     public Actions(InputDialog inputDialog) {
         super();
         this.inputDialog = inputDialog;
@@ -76,8 +75,7 @@ public class Actions {
     /**
      * sets the undo manager
      *
-     * @param undoManager
-     */
+	 */
     public void setUndoManager(UndoManager undoManager) {
         this.undoManager = undoManager;
     }
@@ -297,11 +295,11 @@ public class Actions {
                         Basic.caught(ex);
                         new Alert(theDir.getMainViewerFrame(), "Enter data failed: " + ex.getMessage());
                         if (makeNewDocument)
-                            try {
-                                theDoc.setDirty(false);
-                                theDir.close();
-                            } catch (CanceledException e) {
-                            }
+							try {
+								theDoc.setDirty(false);
+								theDir.close();
+							} catch (CanceledException ignored) {
+							}
                         return;
                     }
                 } else {
@@ -313,11 +311,11 @@ public class Actions {
                         theDoc.clear();
                         new Alert(theDir.getMainViewerFrame(), "Enter data failed: " + ex.getMessage());
                         if (makeNewDocument)
-                            try {
-                                theDoc.setDirty(false);
-                                theDir.close();
-                            } catch (CanceledException e) {
-                            }
+							try {
+								theDoc.setDirty(false);
+								theDir.close();
+							} catch (CanceledException ignored) {
+							}
                         return;
 
                     }
@@ -351,15 +349,15 @@ public class Actions {
             return gotoLine;
         AbstractAction action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                    int lineNo = Integer.parseInt(JOptionPane.showInputDialog(inputDialog, "Go to line:")) - 1;
-                    int a = inputDialog.getEditor().getInputTextArea().getLineStartOffset(lineNo);
-                    int b = inputDialog.getEditor().getInputTextArea().getLineStartOffset(lineNo + 1) - 1;
-                    inputDialog.getEditor().getInputTextArea().setCaretPosition(a);
-                    inputDialog.getEditor().getInputTextArea().requestFocus();
-                    inputDialog.getEditor().getInputTextArea().select(a, b);
-                } catch (Exception ex) {
-                }
+				try {
+					int lineNo = Integer.parseInt(JOptionPane.showInputDialog(inputDialog, "Go to line:")) - 1;
+					int a = inputDialog.getEditor().getInputTextArea().getLineStartOffset(lineNo);
+					int b = inputDialog.getEditor().getInputTextArea().getLineStartOffset(lineNo + 1) - 1;
+					inputDialog.getEditor().getInputTextArea().setCaretPosition(a);
+					inputDialog.getEditor().getInputTextArea().requestFocus();
+					inputDialog.getEditor().getInputTextArea().select(a, b);
+				} catch (Exception ignored) {
+				}
             }
         };
         action.putValue(AbstractAction.NAME, "Go To Line...");
@@ -383,10 +381,10 @@ public class Actions {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                try {
-                    undoManager.undo();
-                } catch (CannotRedoException ex) {
-                }
+				try {
+					undoManager.undo();
+				} catch (CannotRedoException ignored) {
+				}
                 updateUndoRedo();
             }
         };
@@ -414,10 +412,10 @@ public class Actions {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                try {
-                    undoManager.redo();
-                } catch (CannotRedoException ex) {
-                }
+				try {
+					undoManager.redo();
+				} catch (CannotRedoException ignored) {
+				}
                 updateUndoRedo();
             }
         };
@@ -512,7 +510,7 @@ public class Actions {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                inputDialog.setFormat(inputDialog.GUESS);
+				inputDialog.setFormat(InputDialog.GUESS);
 
             }
         };
@@ -533,7 +531,7 @@ public class Actions {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                inputDialog.setFormat(inputDialog.NEXUS);
+				inputDialog.setFormat(InputDialog.NEXUS);
 
             }
         };
@@ -554,7 +552,7 @@ public class Actions {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                inputDialog.setFormat(inputDialog.OLDNEXUS);
+				inputDialog.setFormat(InputDialog.OLDNEXUS);
 
             }
         };
@@ -575,7 +573,7 @@ public class Actions {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                inputDialog.setFormat(inputDialog.PHYLIPSEQUENCES);
+				inputDialog.setFormat(InputDialog.PHYLIPSEQUENCES);
 
             }
         };
@@ -596,7 +594,7 @@ public class Actions {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                inputDialog.setFormat(inputDialog.PHYLIPDISTANCES);
+				inputDialog.setFormat(InputDialog.PHYLIPDISTANCES);
 
             }
         };
@@ -617,7 +615,7 @@ public class Actions {
 
         action = new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
-                inputDialog.setFormat(inputDialog.NEWICK);
+				inputDialog.setFormat(InputDialog.NEWICK);
 
             }
         };

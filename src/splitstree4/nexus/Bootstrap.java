@@ -47,19 +47,19 @@ import java.util.Random;
 public class Bootstrap extends NexusBlock {
 
     /**
-     * the subclass Format
-     */
-    public final class Format {
-        // labels
-        private boolean labels;
-        // List the splits, or just the bootstrap values. This has to be true if there are splits not present in the
-        // documents splits block. Perhaps it should always be true, since otherwise we'd lose information.
-        private boolean showSplits;
-        //??
-        private boolean all;
+	 * the subclass Format
+	 */
+	public static final class Format {
+		// labels
+		private boolean labels;
+		// List the splits, or just the bootstrap values. This has to be true if there are splits not present in the
+		// documents splits block. Perhaps it should always be true, since otherwise we'd lose information.
+		private boolean showSplits;
+		//??
+		private boolean all;
 
-        /*the constructor of Format */
-        public Format() {
+		/*the constructor of Format */
+		public Format() {
             labels = false;
             showSplits = true;
             all = true;
@@ -77,7 +77,6 @@ public class Bootstrap extends NexusBlock {
         /**
          * Sets the value of labels
          *
-         * @param lab
          */
         public void setLabels(boolean lab) {
             this.labels = lab;
@@ -95,7 +94,6 @@ public class Bootstrap extends NexusBlock {
         /**
          * Sets the value of show splits
          *
-         * @param s
          */
         public void setShowSplits(boolean s) {
             this.showSplits = s;
@@ -113,7 +111,6 @@ public class Bootstrap extends NexusBlock {
         /**
          * Sets the value of all
          *
-         * @param all
          */
         public void setAll(boolean all) {
             this.all = all;
@@ -224,23 +221,23 @@ public class Bootstrap extends NexusBlock {
 
     // public Methods
 
-    /**
-     * the subclass to count ids
-     *
-     * @deprecated
-     */
-    private class IdCount {
-        public int id;
-        public int count;
+	/**
+	 * the subclass to count ids
+	 *
+	 * @deprecated
+	 */
+	private static class IdCount {
+		public final int id;
+		public int count;
 
-        public IdCount() {
-            id = 0;
-            count = 0;
-        }
+		public IdCount() {
+			id = 0;
+			count = 0;
+		}
 
-        public IdCount(int id, int count) {
-            this.id = id;
-            this.count = count;
+		public IdCount(int id, int count) {
+			this.id = id;
+			this.count = count;
         }
 
         public void addOne() {
@@ -271,10 +268,6 @@ public class Bootstrap extends NexusBlock {
     /**
      * Computes the boostrap analysis given the document
      *
-     * @param doc
-     * @throws IOException
-     * @throws CanceledException
-     * @throws SplitsException
      */
     public void compute(Document doc) throws IOException, CanceledException, SplitsException {
 
@@ -371,12 +364,6 @@ public class Bootstrap extends NexusBlock {
     /**
      * Performs a parametric bootstrap, generating replicate alignments on the tree T with model M.
      *
-     * @param doc
-     * @param T
-     * @param M
-     * @throws IOException
-     * @throws CanceledException
-     * @throws SplitsException
      */
     //ToDo: Add interface, remove parallel code with non-parametric bootstrap.
     public void computeParametric(Document doc, PaupNode T, SubstitutionModel M) throws CanceledException, SplitsException {
@@ -449,17 +436,6 @@ public class Bootstrap extends NexusBlock {
         setSplitMatrix(splitMatrix);
     }
 
-    /**
-     * private methods
-     */
-
-    /**
-     * Count the splits  in a Set
-     *
-     * @param s             The Splits Set
-     * @param occuredSplits
-     */
-
     /*private void countsplits(Splits s, Map occuredSplits, int r, Splits osplits) {
 
         int n = s.getNsplits();
@@ -510,11 +486,7 @@ public class Bootstrap extends NexusBlock {
 
     }*/
 
-    /**
-     * Getter
-     */
-
-    /**
+	/**
      * Return the format object
      *
      * @return the format object
@@ -656,7 +628,6 @@ public class Bootstrap extends NexusBlock {
     /**
      * Sets the split matrix
      *
-     * @param splitMatrix
      */
     public void setSplitMatrix(SplitMatrix splitMatrix) {
         this.splitMatrix = splitMatrix;
@@ -674,7 +645,6 @@ public class Bootstrap extends NexusBlock {
     /**
      * Sets the ntax
      *
-     * @param n
      */
     public void setNtax(int n) {
         this.ntax = n;
@@ -683,7 +653,6 @@ public class Bootstrap extends NexusBlock {
     /**
      * Sets the nsplits
      *
-     * @param n
      */
     public void setNsplits(int n) {
         this.nsplits = n;
@@ -705,11 +674,7 @@ public class Bootstrap extends NexusBlock {
         this.bsplits = bsplits;
     }
 
-    /**
-     * Usage
-     */
-
-    /**
+	/**
      * Show the usage of bootstrap.
      *
      * @param ps the print stream
@@ -739,12 +704,8 @@ public class Bootstrap extends NexusBlock {
 
     }
 
-    /**
-     * IO Handling
-     */
 
-
-    /**
+	/**
      * Read the st_bootstrap
      *
      * @param np   NexusStreamParser
@@ -879,7 +840,6 @@ public class Bootstrap extends NexusBlock {
      *
      * @param np     the NexusStreamParser to read from.
      * @param splits the set of splits
-     * @throws IOException
      */
     private void readMatrix(NexusStreamParser np, Splits splits) throws IOException {
         int i = 0; // number of split
@@ -919,8 +879,6 @@ public class Bootstrap extends NexusBlock {
      * write a matrix to the given writer
      *
      * @param w    The writer to which the matrix should be written to.
-     * @param taxa
-     * @throws java.io.IOException
      */
     public void write(Writer w, Taxa taxa)
             throws java.io.IOException {
@@ -981,7 +939,6 @@ public class Bootstrap extends NexusBlock {
     /**
      * gets the value of a format switch
      *
-     * @param name
      * @return value of format switch
      */
     public boolean getFormatSwitchValue(String name) {

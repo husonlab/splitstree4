@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * imports sequences in phylip format
- * @version $Id: PhylipSequencesInterleaved.java,v 1.1 2008-03-14 14:05:22 bryant Exp $
- * @author bryant
- * Date: March 10,2008
- */
 package splitstree4.externalIO.imports;
 
 import splitstree4.nexus.Characters;
@@ -41,9 +35,9 @@ public class PhylipSequencesInterleaved extends PhylipSequences {
 
 
     protected String readMatrix(BufferedReader br, int ntax, int nchar) throws IOException {
-        StringBuilder names = new StringBuilder("");
-        StringBuilder sequencesHeader = new StringBuilder();
-        StringBuilder sequences = new StringBuilder("");
+        StringBuilder names = new StringBuilder();
+		StringBuilder sequencesHeader = new StringBuilder();
+		StringBuilder sequences = new StringBuilder();
         names.append("#nexus\nbegin taxa;\n dimensions ntax=").append(ntax).append(";\n");
         names.append("taxlabels\n");
 

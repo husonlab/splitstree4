@@ -40,19 +40,17 @@ public class SplitsTree {
 
     public static void main(String[] args) {
         try {
-            //install shutdown hook
-            //its run() method is executed for sure as the VM shuts down
-            Runnable finalizer = new Runnable() {
-                public void run() {
-                }
-            };
-            Runtime.getRuntime().addShutdownHook(new Thread(finalizer));
+			//install shutdown hook
+			//its run() method is executed for sure as the VM shuts down
+			Runnable finalizer = () -> {
+			};
+			Runtime.getRuntime().addShutdownHook(new Thread(finalizer));
 
-            //run application
-            SplitsTree application = (new SplitsTree());
-            application.parseArguments(args);
+			//run application
+			SplitsTree application = (new SplitsTree());
+			application.parseArguments(args);
 
-        } catch (Throwable th) {
+		} catch (Throwable th) {
             //catch any exceptions and the like that propagate up to the top level
             if (!th.getMessage().equals("Help")) {
                 Basic.caught(th);
@@ -66,8 +64,7 @@ public class SplitsTree {
      * the main class
      *
      * @param args command line arguments
-     * @throws java.lang.Exception
-     */
+	 */
     public void parseArguments(String[] args) throws Exception {
         ResourceManager.insertResourceRoot(splitstree4.resources.Resources.class);
         Basic.startCollectionStdErr();
@@ -117,49 +114,47 @@ public class SplitsTree {
 
 
         if (ProgramProperties.isUseGUI())  // run in GUI mode
-        {
-            System.setProperty("user.dir", System.getProperty("user.home"));
-            SplitsTreeProperties.initializeProperties(propertiesFile);
-            if (showSplash)
-                SplitsTreeProperties.getAbout().showAbout();
+		{
+			System.setProperty("user.dir", System.getProperty("user.home"));
+			SplitsTreeProperties.initializeProperties(propertiesFile);
+			if (showSplash)
+				SplitsTreeProperties.getAbout().showAbout();
 
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    Director dir = Director.newProject();
-                    if (showSplash)
-                        SplitsTreeProperties.getAbout().hideSplash();
+			SwingUtilities.invokeLater(() -> {
+				Director dir = Director.newProject();
+				if (showSplash)
+					SplitsTreeProperties.getAbout().hideSplash();
 
-                    if (showMessages) {
-                        dir.getActions().getMessageWindow().actionPerformed(null);
-                        dir.getMainViewerFrame().toFront(); // keep main viewer in front
-                    }
+				if (showMessages) {
+					dir.getActions().getMessageWindow().actionPerformed(null);
+					dir.getMainViewerFrame().toFront(); // keep main viewer in front
+				}
 
-                    Basic.restoreSystemOut(System.err); // send system out to system err
-                    System.err.println(Basic.stopCollectingStdErr());
+				Basic.restoreSystemOut(System.err); // send system out to system err
+				System.err.println(Basic.stopCollectingStdErr());
 
-                    if (!fileName.equals("")) {// initial file given
-                        File file = new File(fileName);
-                        SplitsTreeProperties.addRecentFile(file);
+				if (!fileName.equals("")) {// initial file given
+					File file = new File(fileName);
+					SplitsTreeProperties.addRecentFile(file);
 
-                        if (NexusFileFilter.isNexusFile(file)) {
-                            dir.openFile(file);
-                        } else {
-                            dir.importFile(file);
-                        }
-                    }
-                    if (!initCommand.equals("")) // run initial commands, if any
-                    {
-                        while (dir.isInUpdate())  // wait until finished reading file
-                        {
-                            try {
-                                Thread.sleep(100);
-                            } catch (java.lang.InterruptedException ignored) {
-                            }
-                        }
-                        dir.execute(initCommand);
-                    }
-                }
-            });
+					if (NexusFileFilter.isNexusFile(file)) {
+						dir.openFile(file);
+					} else {
+						dir.importFile(file);
+					}
+				}
+				if (!initCommand.equals("")) // run initial commands, if any
+				{
+					while (dir.isInUpdate())  // wait until finished reading file
+					{
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException ignored) {
+						}
+					}
+					dir.execute(initCommand);
+				}
+			});
         } else // command line mode
         {
             SplitsTreeProperties.initializeProperties(propertiesFile);

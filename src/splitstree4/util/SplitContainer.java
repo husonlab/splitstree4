@@ -39,19 +39,19 @@ import java.util.Vector;
 
 public class SplitContainer {
 
-    private int ntax;
-    private Vector splitWeights;
-    private Map splitIndices; // Map from splits to indices
-    private Splits allSplits; //Splits block containing all splits
+	private final int ntax;
+	private final Vector splitWeights;
+	private final Map splitIndices; // Map from splits to indices
+	private final Splits allSplits; //Splits block containing all splits
 
-    private int weightMethod = this.MEAN_WEIGHTS;
-    private int confidenceMethod = this.PROPORTION;
-    private boolean isBootstrap = false; //Flag indicating whether the first splits are the bootstrap splits
+	private int weightMethod = this.MEAN_WEIGHTS;
+	private int confidenceMethod = this.PROPORTION;
+	private boolean isBootstrap = false; //Flag indicating whether the first splits are the bootstrap splits
 
 
-    /* Methods for computing split weights */
-    public final int MEAN_WEIGHTS = 0;
-    public final int MEDIAN_WEIGHTS = 1;
+	/* Methods for computing split weights */
+	public final int MEAN_WEIGHTS = 0;
+	public final int MEDIAN_WEIGHTS = 1;
 
     /* Methods for computing p-values */
     public final int PROPORTION = 0;
@@ -72,8 +72,7 @@ public class SplitContainer {
      * Constructor used when bootstrapping - the first splits are the original estimate, and not
      * used when computing weights.
      *
-     * @param originalSplits
-     */
+	 */
     public SplitContainer(Splits originalSplits) {
         this.ntax = originalSplits.getNtax();
         splitWeights = new Vector();
@@ -109,10 +108,7 @@ public class SplitContainer {
     }
 
     /**
-     * @param blockNum
-     * @param splitNum
-     * @return
-     */
+	 */
     public float get(int blockNum, int splitNum) {
         Vector v = (Vector) splitWeights.get(blockNum);
         if (splitNum >= v.size())
@@ -156,8 +152,7 @@ public class SplitContainer {
      * /**
      * Return number of blocks currently stored
      *
-     * @return
-     */
+	 */
     public int getNumSplitBlocks() {
         return splitWeights.size();
     }
@@ -165,8 +160,7 @@ public class SplitContainer {
     /**
      * Return method used to estimate weights in summary splits
      *
-     * @return
-     */
+	 */
     public int getWeightMethod() {
         return weightMethod;
     }
@@ -174,8 +168,7 @@ public class SplitContainer {
     /**
      * Set method used to evaluate weights in summary splits
      *
-     * @param val
-     */
+	 */
     public void setWeightMethod(int val) {
 
         if (weightMethod != val) {
@@ -186,8 +179,7 @@ public class SplitContainer {
     /**
      * Return method used to evaluate confidence levels in summary splits
      *
-     * @return
-     */
+	 */
     public int getConfidenceMethod() {
         return confidenceMethod;
     }
@@ -195,8 +187,7 @@ public class SplitContainer {
     /**
      * Set method used to evaluation confidence levels in summary splits
      *
-     * @param val
-     */
+	 */
     public void setConfidenceMethod(int val) {
         if (val != confidenceMethod) {
             confidenceMethod = val;
@@ -216,8 +207,7 @@ public class SplitContainer {
      * Returns an indexed split block, or null if the  index is not valid.
      *
      * @param index Replicate number.
-     * @return
-     */
+	 */
     Splits getBlock(int index) {
         if (index < 0 || index >= getNumSplitBlocks())
             return null;

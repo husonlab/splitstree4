@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: UnalignedAnalysisMethod.java,v 1.1 2005-11-08 11:13:42 huson Exp $
- */
 package splitstree4.analysis.unaligned;
 
 import splitstree4.analysis.AnalysisMethod;
@@ -43,7 +41,6 @@ public interface UnalignedAnalysisMethod extends AnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
      * @param taxa      the taxa
      * @param unaligned the block
      */

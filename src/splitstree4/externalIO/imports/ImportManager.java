@@ -38,7 +38,7 @@ import java.util.ArrayList;
  */
 public class ImportManager {
 
-    private static String packageName = "splitstree4.externalIO.imports";
+    private static final String packageName = "splitstree4.externalIO.imports";
 
     public ImportManager() {
 
@@ -84,7 +84,6 @@ public class ImportManager {
     /**
      * gets the list of file filters for a given type of nexus block
      *
-     * @param blockName
      * @return list of file filters
      */
 
@@ -124,11 +123,8 @@ public class ImportManager {
     /**
      * import data from the named file
      *
-     * @param file
      * @return nexus version of data
-     * @throws IOException
-     * @throws SplitsException
-     */
+	 */
     static public String importData(File file) throws Exception {
         return importData(file, null);
     }
@@ -136,12 +132,8 @@ public class ImportManager {
     /**
      * import data from the named file
      *
-     * @param file
-     * @param dataType
      * @return nexus version of data
-     * @throws IOException
-     * @throws SplitsException
-     */
+	 */
     static public String importData(File file, String dataType) throws Exception {
         //MZ: 2006-01-28
         String[] importers;
@@ -191,7 +183,6 @@ public class ImportManager {
     /**
      * import data from a source string
      *
-     * @param source
      * @return nexus
      */
     static public String importDataFromString(String source) {
@@ -201,8 +192,6 @@ public class ImportManager {
     /**
      * import data from a source string
      *
-     * @param source
-     * @param dataType
      * @return String
      */
     static public String importDataFromString(String source, String dataType) {

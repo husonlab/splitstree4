@@ -27,7 +27,6 @@ import splitstree4.core.Document;
 import splitstree4.nexus.Taxa;
 import splitstree4.nexus.Trees;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -73,7 +72,7 @@ public class HybridTreesGenerator {
 
         }
 
-        Reader r = new FileReader(new File(fname));
+        Reader r = new FileReader(fname);
         if (r == null)
             throw new IOException("Failed to open file: " + fname);
 

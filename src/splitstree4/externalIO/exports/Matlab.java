@@ -42,18 +42,18 @@ import java.util.Map;
 
 public class Matlab extends ExporterAdapter implements Exporter {
 
-    private String Description = "Exports data for matlab format";
-    private String Name = "Matlab";
+	private final String Description = "Exports data for matlab format";
+	private final String Name = "Matlab";
 
 
-    private static final boolean sortTaxa = false;  //Sort taxa according to the cycle.
+	private static final boolean sortTaxa = false;  //Sort taxa according to the cycle.
 
 
-    /**
-     * can we export this data?
-     *
-     * @param dp the document being exported
-     * @return true, if can handle this export
+	/**
+	 * can we export this data?
+	 *
+	 * @param dp the document being exported
+	 * @return true, if can handle this export
      */
     public boolean isApplicable(Document dp, Collection selected) {
 
@@ -75,8 +75,7 @@ public class Matlab extends ExporterAdapter implements Exporter {
      * @param dp         The document being exported
      * @param blockNames Collection of blocks to be exported
      * @return null
-     * @throws Exception
-     */
+	 */
     public Map apply(Writer w, Document dp, Collection blockNames) throws Exception {
 
         w.write("%%MATLAB%%\n");

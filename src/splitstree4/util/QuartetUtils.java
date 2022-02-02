@@ -24,7 +24,4 @@ package splitstree4.util;
  */
 public class QuartetUtils {
 
-    /**
-     * No Utilities needed until now
-     */
 }

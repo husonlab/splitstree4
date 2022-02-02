@@ -47,8 +47,7 @@ public class UndoableNodeLabelSearcher implements IObjectSearcher {
     /**
      * constructor
      *
-     * @param viewer
-     */
+	 */
     public UndoableNodeLabelSearcher(MainViewer viewer) {
         this(null, SEARCHER_NAME, viewer);
     }
@@ -56,9 +55,7 @@ public class UndoableNodeLabelSearcher implements IObjectSearcher {
     /**
      * constructor
      *
-     * @param frame
-     * @param viewer
-     */
+	 */
     public UndoableNodeLabelSearcher(Frame frame, MainViewer viewer) {
         this(frame, SEARCHER_NAME, viewer);
     }
@@ -67,8 +64,7 @@ public class UndoableNodeLabelSearcher implements IObjectSearcher {
      * constructor
      *
      * @param
-     * @param viewer
-     */
+	 */
     public UndoableNodeLabelSearcher(Frame frame, String name, MainViewer viewer) {
         this.frame = frame;
         this.name = name;
@@ -147,8 +143,7 @@ public class UndoableNodeLabelSearcher implements IObjectSearcher {
     /**
      * set selection state of current object
      *
-     * @param select
-     */
+	 */
     public void setCurrentSelected(boolean select) {
         if (current != null) {
             if (select)
@@ -165,8 +160,7 @@ public class UndoableNodeLabelSearcher implements IObjectSearcher {
     /**
      * set select state of all objects
      *
-     * @param select
-     */
+	 */
     public void selectAll(boolean select) {
         viewer.selectAllNodes(select);
         viewer.repaint();
@@ -187,8 +181,7 @@ public class UndoableNodeLabelSearcher implements IObjectSearcher {
     /**
      * set the label of the current object
      *
-     * @param newLabel
-     */
+	 */
     public void setCurrentLabel(String newLabel) {
         if (current != null) {
             String currentLabel = viewer.getLabel(current);
@@ -265,8 +258,7 @@ public class UndoableNodeLabelSearcher implements IObjectSearcher {
     /**
      * fire the label changed listener
      *
-     * @param v
-     */
+	 */
     private void fireLabelChangedListeners(Node v) {
         for (Object labelChangedListener : labelChangedListeners) {
             LabelChangedListener listener = (LabelChangedListener) labelChangedListener;
@@ -277,8 +269,7 @@ public class UndoableNodeLabelSearcher implements IObjectSearcher {
     /**
      * add a label changed listener
      *
-     * @param listener
-     */
+	 */
     public void addLabelChangedListener(LabelChangedListener listener) {
         labelChangedListeners.add(listener);
     }
@@ -286,8 +277,7 @@ public class UndoableNodeLabelSearcher implements IObjectSearcher {
     /**
      * remove a label changed listener
      *
-     * @param listener
-     */
+	 */
     public void removeLabelChangedListener(LabelChangedListener listener) {
         labelChangedListeners.remove(listener);
     }

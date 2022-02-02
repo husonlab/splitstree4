@@ -42,7 +42,7 @@ public class Hamming implements Characters2Distances {
     JPanel guiPanel;
     private final static String[] AMBIG_OPTIONS = {"Ignore", "AverageStates", "MatchStates"};
     public final static String DESCRIPTION = "Calculates distances using the hamming distance.";
-    protected String TASK = "Hamming Distance";
+	protected final String TASK = "Hamming Distance";
 
     /**
      * Determine whether Hamming distances can be computed with given data.
@@ -97,7 +97,6 @@ public class Hamming implements Characters2Distances {
     /**
      * return the possible options to deal with ambiguous states.
      *
-     * @param doc
      * @return a list of String representing the options.
      */
     public List selectionOptionHandleAmbiguousStates(Document doc) {

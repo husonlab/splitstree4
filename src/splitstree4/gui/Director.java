@@ -51,24 +51,24 @@ import java.util.List;
  * Coordinates views, actions and doc. The director runs a project.
  *
  * @author huson
- *         Date: 26-Nov-2003
+ * Date: 26-Nov-2003
  */
 public class Director implements IDirector {
-    private Document doc;
-    private boolean docInUpdate = false;
-    private List viewers;
-    private List directorEventListeners;
-    private DirectorActions actions;
-    private int ID;
+	private final Document doc;
+	private boolean docInUpdate = false;
+	private final List viewers;
+	private final List directorEventListeners;
+	private final DirectorActions actions;
+	private int ID;
 
-    private Thread executionWorkerThread = null;
+	private Thread executionWorkerThread = null;
 
-    private boolean isInternalDocument = false;
+	private boolean isInternalDocument = false;
 
-    /**
-     * construct a new director with associated doc and actions.
-     */
-    public Director(Document doc) {
+	/**
+	 * construct a new director with associated doc and actions.
+	 */
+	public Director(Document doc) {
         this.doc = doc;
         viewers = new LinkedList();
         directorEventListeners = new LinkedList();
@@ -88,8 +88,7 @@ public class Director implements IDirector {
     /**
      * execute a command. Lock all viewer input, then request to doc to execute command
      *
-     * @param command
-     */
+	 */
     public void execute(final String command) {
         execute(command, null);
     }
@@ -97,8 +96,7 @@ public class Director implements IDirector {
     /**
      * execute a command. Lock all viewer input, then request to doc to execute command
      *
-     * @param command
-     */
+	 */
     public void execute(final String command, final CommandManager commandManager) {
         execute(command, commandManager, getMainViewerFrame());
     }
@@ -106,66 +104,62 @@ public class Director implements IDirector {
     /**
      * execute a command. Lock all viewer input, then request to doc to execute command
      *
-     * @param command
-     */
+	 */
     public void execute(final String command, final CommandManager commandManager, final Component parent) {
         System.err.println("executing " + command);
         if (docInUpdate) // shouldn't happen!
             System.err.println("Warning: execute(" + command + "): concurrent execution");
 
         if (executionWorkerThread == null || !executionWorkerThread.isAlive()) {
-            notifyLockInput();
+			notifyLockInput();
 
-            executionWorkerThread = new Thread(new Runnable() {
-                public void run() {
-                    docInUpdate = true;
-                    ProgressDialog progressDialog = new ProgressDialog("", "", parent);
-                    doc.setProgressListener(progressDialog);
-                    try {
-                        // this is used to carry over taxon and split annotations from one update to the next
-                        if (doc.isValidByName(Network.NAME)) {
-                            PhyloGraphView graphView = (MainViewer) getMainViewer();
-                            if (graphView != null) {
-                                doc.getNetwork().syncPhyloGraphView2Network(doc.getTaxa(), graphView);
-                                doc.getNetwork().updateTaxon2VertexDescriptionMap(doc.taxon2VertexDescription);
-                            }
-                        }
+			executionWorkerThread = new Thread(() -> {
+				docInUpdate = true;
+				ProgressDialog progressDialog = new ProgressDialog("", "", parent);
+				doc.setProgressListener(progressDialog);
+				try {
+					// this is used to carry over taxon and split annotations from one update to the next
+					if (doc.isValidByName(Network.NAME)) {
+						PhyloGraphView graphView = (MainViewer) getMainViewer();
+						if (graphView != null) {
+							doc.getNetwork().syncPhyloGraphView2Network(doc.getTaxa(), graphView);
+							doc.getNetwork().updateTaxon2VertexDescriptionMap(doc.taxon2VertexDescription);
+						}
+					}
 
-                        if (commandManager == null)
-                            doc.execute(command);
-                        else
-                            commandManager.execute(command);
-                    } catch (CanceledException ex) {
-                        System.err.println("USER CANCELED EXECUTE");
-                    } catch (OutOfMemoryError ex) {
-                        System.gc();
-                        new Alert("Out of memory");
-                    } catch (Exception ex) {
-                        Basic.caught(ex);
-                        new Alert(getMainViewer().getFrame(), "Execute failed: " + ex.getMessage());
-                    }
+					if (commandManager == null)
+						doc.execute(command);
+					else
+						commandManager.execute(command);
+				} catch (CanceledException ex) {
+					System.err.println("USER CANCELED EXECUTE");
+				} catch (OutOfMemoryError ex) {
+					System.gc();
+					new Alert("Out of memory");
+				} catch (Exception ex) {
+					Basic.caught(ex);
+					new Alert(getMainViewer().getFrame(), "Execute failed: " + ex.getMessage());
+				}
 
-                    notifyUpdateViewer(Director.ALL);
-                    WaitUntilAllViewersAreUptoDate();
-                    notifyUnlockInput();
+				notifyUpdateViewer(Director.ALL);
+				WaitUntilAllViewersAreUptoDate();
+				notifyUnlockInput();
 
-                    progressDialog.close();
-                    doc.setProgressListener(null);
-                    docInUpdate = false;
-                    if (getMainViewer() != null)
-                        getMainViewer().getFrame().toFront();
-                }
-            });
-            executionWorkerThread.setPriority(Thread.currentThread().getPriority() - 1);
-            executionWorkerThread.start();
+				progressDialog.close();
+				doc.setProgressListener(null);
+				docInUpdate = false;
+				if (getMainViewer() != null)
+					getMainViewer().getFrame().toFront();
+			});
+			executionWorkerThread.setPriority(Thread.currentThread().getPriority() - 1);
+			executionWorkerThread.start();
         }
     }
 
     /**
      * execute a command within the swing thread
      *
-     * @param command
-     */
+	 */
     public boolean executeImmediately(final String command) {
         return executeImmediately(command, null);
     }
@@ -173,8 +167,7 @@ public class Director implements IDirector {
     /**
      * execute a command within the swing thread
      *
-     * @param command
-     */
+	 */
     public boolean executeImmediately(final String command, CommandManager commandManager) {
         //System.err.println("executing " + command);
         try {
@@ -201,122 +194,111 @@ public class Director implements IDirector {
     /**
      * execute an analysis command. Lock all viewer input, display result in a pop-up window
      *
-     * @param command
-     */
+	 */
     public void analysis(final String command) {
-        getActions().getMessageWindow().actionPerformed(null);
-        System.err.println("Executing: analysis " + command + ";");
-        if (docInUpdate) // shouldn't happen!
-            System.err.println("Warning: analysis(" + command + "): concurrent execution");
+		getActions().getMessageWindow().actionPerformed(null);
+		System.err.println("Executing: analysis " + command + ";");
+		if (docInUpdate) // shouldn't happen!
+			System.err.println("Warning: analysis(" + command + "): concurrent execution");
 
-        notifyLockInput();
-        Thread worker = new Thread(new Runnable() {
-            public void run() {
-                docInUpdate = true;
-                ProgressDialog progressDialog = new ProgressDialog("", "", getMainViewerFrame());
-                doc.setProgressListener(progressDialog);
+		notifyLockInput();
+		Thread worker = new Thread(() -> {
+			docInUpdate = true;
+			ProgressDialog progressDialog = new ProgressDialog("", "", getMainViewerFrame());
+			doc.setProgressListener(progressDialog);
 
-                try {
-                    Analysis analysis = new Analysis(false);
-                    analysis.read(new NexusStreamParser(new StringReader("begin st_analysis;" + command + ";end;")));
+			try {
+				Analysis analysis = new Analysis(false);
+				analysis.read(new NexusStreamParser(new StringReader("begin st_analysis;" + command + ";end;")));
 
-                    final String result = analysis.apply(doc);
-                    if (result != null) {
-                        try {
-                            SwingUtilities.invokeAndWait(new Runnable() {
-                                public void run() {
-                                    new Message(getMainViewer().getFrame(), result, "Analysis result");
-                                    // TODO: here we want to open a nice result window!
-                                }
-                            });
-                        } catch (InterruptedException ex) {
-                        }
-                    }
-                } catch (CanceledException ex) {
-                    System.err.println("USER CANCELED EXECUTE");
-                } catch (Exception ex) {
-                    Basic.caught(ex);
-                    new Alert(getMainViewer().getFrame(), "AnalysisMethod failed: " + ex.getMessage());
-                }
+				final String result = analysis.apply(doc);
+				if (result != null) {
+					try {
+						SwingUtilities.invokeAndWait(() -> {
+							Message.show(getMainViewer().getFrame(), result, "Analysis result");
+							// TODO: here we want to open a nice result window!
+						});
+					} catch (InterruptedException ignored) {
+					}
+				}
+			} catch (CanceledException ex) {
+				System.err.println("USER CANCELED EXECUTE");
+			} catch (Exception ex) {
+				Basic.caught(ex);
+				new Alert(getMainViewer().getFrame(), "AnalysisMethod failed: " + ex.getMessage());
+			}
 
-                //notifyUpdateViewer(Director.ALL);
-                //WaitUntilAllViewersAreUptoDate();
-                notifyUnlockInput();
+			//notifyUpdateViewer(Director.ALL);
+			//WaitUntilAllViewersAreUptoDate();
+			notifyUnlockInput();
 
-                progressDialog.close();
-                doc.setProgressListener(null);
-                docInUpdate = false;
-            }
-        });
-        worker.setPriority(Thread.currentThread().getPriority() - 1);
+			progressDialog.close();
+			doc.setProgressListener(null);
+			docInUpdate = false;
+		});
+		worker.setPriority(Thread.currentThread().getPriority() - 1);
         worker.start();
     }
 
     /**
      * open a new file
      *
-     * @param file
-     */
+	 */
     public void openFile(final File file) {
-        if (docInUpdate) // shouldn't happen!
-            System.err.println("Warning: open(" + file + "): concurrent execution");
+		if (docInUpdate) // shouldn't happen!
+			System.err.println("Warning: open(" + file + "): concurrent execution");
 
-        notifyLockInput();
-        Thread worker = new Thread(new Runnable() {
-            public void run() {
-                docInUpdate = true;
+		notifyLockInput();
+		Thread worker = new Thread(() -> {
+			docInUpdate = true;
 
-                ProgressDialog progressDialog = new ProgressDialog("Reading File", "", getMainViewerFrame());
-                doc.setProgressListener(progressDialog);
-                doc.notifyEnabled(false);
+			ProgressDialog progressDialog = new ProgressDialog("Reading File", "", getMainViewerFrame());
+			doc.setProgressListener(progressDialog);
+			doc.notifyEnabled(false);
 
-                try {
-                    System.err.println("Opening");
-                    getDocument().open(getMainViewerFrame(), file);
-                    System.err.println("done");
+			try {
+				System.err.println("Opening");
+				getDocument().open(getMainViewerFrame(), file);
+				System.err.println("done");
 
-                } catch (Exception ex) {
-                    Basic.caught(ex);
+			} catch (Exception ex) {
+				Basic.caught(ex);
 
-                    final Exception fex = ex;
-                    try {
-                        SwingUtilities.invokeAndWait(new Runnable() {
-                            public void run() {
-                                try {
-                                    openEditor(new FileReader(file), NexusStreamParser.getLineNumber(fex));
-                                } catch (FileNotFoundException fe) {
-                                    Basic.caught(fe);
-                                }
-                            }
-                        });
-                    } catch (Exception ex2) {
-                        Basic.caught(ex2);
-                    } catch (OutOfMemoryError ex2) {
-                        System.gc();
-                        new Alert("Out of memory");
-                    }
-                }
-                notifyUpdateViewer(Director.TITLE);
-                WaitUntilAllViewersAreUptoDate();
+				final Exception fex = ex;
+				try {
+					SwingUtilities.invokeAndWait(() -> {
+						try {
+							openEditor(new FileReader(file), NexusStreamParser.getLineNumber(fex));
+						} catch (FileNotFoundException fe) {
+							Basic.caught(fe);
+						}
+					});
+				} catch (Exception ex2) {
+					Basic.caught(ex2);
+				} catch (OutOfMemoryError ex2) {
+					System.gc();
+					new Alert("Out of memory");
+				}
+			}
+			notifyUpdateViewer(Director.TITLE);
+			WaitUntilAllViewersAreUptoDate();
 
-                notifyUpdateViewer(Director.ALL);
-                WaitUntilAllViewersAreUptoDate();
-                notifyUnlockInput();
+			notifyUpdateViewer(Director.ALL);
+			WaitUntilAllViewersAreUptoDate();
+			notifyUnlockInput();
 
-                progressDialog.close();
-                doc.setProgressListener(null);
-                docInUpdate = false;
-            }
-        });
-        worker.setPriority(Thread.currentThread().getPriority() - 1);
+			progressDialog.close();
+			doc.setProgressListener(null);
+			docInUpdate = false;
+		});
+		worker.setPriority(Thread.currentThread().getPriority() - 1);
         worker.start();
     }
 
     /**
      * read nexus from a reader     and execute
      *
-     * @param reader
-     */
+	 */
     public void read(final Reader reader) {
         read(reader, true);
     }
@@ -324,8 +306,7 @@ public class Director implements IDirector {
     /**
      * load nexus from a reader
      *
-     * @param reader
-     */
+	 */
     public void load(final Reader reader) {
 
         read(reader, false);
@@ -335,103 +316,90 @@ public class Director implements IDirector {
     /**
      * read nexus from a reader and do update, if desired
      *
-     * @param reader
-     * @param doUpdate
-     */
+	 */
     public void read(final Reader reader, final boolean doUpdate) {
-        if (docInUpdate) // shouldn't happen!
-            System.err.println("Warning: read(" + reader + "): concurrent execution");
+		if (docInUpdate) // shouldn't happen!
+			System.err.println("Warning: read(" + reader + "): concurrent execution");
 
-        notifyLockInput();
-        Thread worker = new Thread(new Runnable() {
-            public void run() {
-                docInUpdate = true;
+		notifyLockInput();
+		Thread worker = new Thread(() -> {
+			docInUpdate = true;
 
-                ProgressDialog progressDialog = new ProgressDialog("Reading File", "", getMainViewerFrame());
-                doc.setProgressListener(progressDialog);
-                doc.notifyEnabled(false);
+			ProgressDialog progressDialog = new ProgressDialog("Reading File", "", getMainViewerFrame());
+			doc.setProgressListener(progressDialog);
+			doc.notifyEnabled(false);
 
-                try {
-                    getDocument().readNexus(reader);
-                    progressDialog.setCancelable(true);
-                    if (doUpdate)
-                        getDocument().update();
-                    // tell undo tab that text is uptodate
-                    SwingUtilities.invokeAndWait(new Runnable() {
-                        public void run() {
-                            MainViewer mainViewer = (MainViewer) (getMainViewer());
-                            mainViewer.getTextEditor().setEditTextOriginal(mainViewer.getTextEditor().getEditText());
-                        }
-                    });
-                } catch (CanceledException ex) {
-                    System.err.println("USER CANCELED READ");
+			try {
+				getDocument().readNexus(reader);
+				progressDialog.setCancelable(true);
+				if (doUpdate)
+					getDocument().update();
+				// tell undo tab that text is uptodate
+				SwingUtilities.invokeAndWait(() -> {
+					MainViewer mainViewer = (MainViewer) (getMainViewer());
+					mainViewer.getTextEditor().setEditTextOriginal(mainViewer.getTextEditor().getEditText());
+				});
+			} catch (CanceledException ex) {
+				System.err.println("USER CANCELED READ");
 
 
-                } catch (Exception ex) {
-                    new Alert(getMainViewerFrame(), "Read failed: " + ex.getMessage());
-                    Basic.caught(ex);
-                    final Exception fex = ex;
-                    try {
-                        reader.reset();
-                        SwingUtilities.invokeAndWait(new Runnable() {
-                            public void run() {
-                                openEditor(reader, NexusStreamParser.getLineNumber(fex));
-                            }
-                        });
-                    } catch (Exception ex2) {
-                        Basic.caught(ex2);
-                    }
-                }
-                notifyUpdateViewer(Director.TITLE);
-                WaitUntilAllViewersAreUptoDate();
+			} catch (Exception ex) {
+				new Alert(getMainViewerFrame(), "Read failed: " + ex.getMessage());
+				Basic.caught(ex);
+				final Exception fex = ex;
+				try {
+					reader.reset();
+					SwingUtilities.invokeAndWait(() -> openEditor(reader, NexusStreamParser.getLineNumber(fex)));
+				} catch (Exception ex2) {
+					Basic.caught(ex2);
+				}
+			}
+			notifyUpdateViewer(Director.TITLE);
+			WaitUntilAllViewersAreUptoDate();
 
-                notifyUpdateViewer(Director.ALL);
-                WaitUntilAllViewersAreUptoDate();
+			notifyUpdateViewer(Director.ALL);
+			WaitUntilAllViewersAreUptoDate();
 
-                notifyUnlockInput();
-                progressDialog.close();
-                doc.setProgressListener(null);
-                docInUpdate = false;
-            }
-        });
-        worker.setPriority(Thread.currentThread().getPriority() - 1);
+			notifyUnlockInput();
+			progressDialog.close();
+			doc.setProgressListener(null);
+			docInUpdate = false;
+		});
+		worker.setPriority(Thread.currentThread().getPriority() - 1);
         worker.start();
     }
 
     /**
      * Save document to file
      *
-     * @param file
-     */
+	 */
     public void saveFile(final File file) {
-        if (docInUpdate) // shouldn't happen!
-            System.err.println("Warning: save(" + file + "): concurrent execution");
+		if (docInUpdate) // shouldn't happen!
+			System.err.println("Warning: save(" + file + "): concurrent execution");
 
-        notifyLockInput();
-        Thread worker = new Thread(new Runnable() {
-            public void run() {
-                docInUpdate = true;
+		notifyLockInput();
+		Thread worker = new Thread(() -> {
+			docInUpdate = true;
 
-                ProgressDialog progressDialog = new ProgressDialog("Saving", "", getMainViewerFrame());
-                doc.setProgressListener(progressDialog);
-                getDocument().getAssumptions().setUptodate(true);
-                try {
-                    getDocument().save(file);
-                } catch (Exception ex) {
-                    Basic.caught(ex);
-                } finally {
-                    getDocument().getAssumptions().setUptodate(false);
-                }
-                notifyUpdateViewer(Director.TITLE);
-                WaitUntilAllViewersAreUptoDate();
-                notifyUnlockInput();
+			ProgressDialog progressDialog = new ProgressDialog("Saving", "", getMainViewerFrame());
+			doc.setProgressListener(progressDialog);
+			getDocument().getAssumptions().setUptodate(true);
+			try {
+				getDocument().save(file);
+			} catch (Exception ex) {
+				Basic.caught(ex);
+			} finally {
+				getDocument().getAssumptions().setUptodate(false);
+			}
+			notifyUpdateViewer(Director.TITLE);
+			WaitUntilAllViewersAreUptoDate();
+			notifyUnlockInput();
 
-                progressDialog.close();
-                doc.setProgressListener(null);
-                docInUpdate = false;
-            }
-        });
-        worker.setPriority(Thread.currentThread().getPriority() - 1);
+			progressDialog.close();
+			doc.setProgressListener(null);
+			docInUpdate = false;
+		});
+		worker.setPriority(Thread.currentThread().getPriority() - 1);
         worker.start();
     }
 
@@ -443,56 +411,53 @@ public class Director implements IDirector {
     /**
      * export data to a file
      *
-     * @param file
-     */
+	 */
     public void exportFile(final File file, final String exporter, final Collection blocks, final ExporterInfo additionalInfo) {
-        if (docInUpdate) // shouldn't happen!
-            System.err.println("Warning: export(" + file + "): concurrent execution");
+		if (docInUpdate) // shouldn't happen!
+			System.err.println("Warning: export(" + file + "): concurrent execution");
 
-        notifyLockInput();
-        Thread worker = new Thread(new Runnable() {
-            public void run() {
-                docInUpdate = true;
+		notifyLockInput();
+		Thread worker = new Thread(() -> {
+			docInUpdate = true;
 
-                ProgressDialog progressDialog = new ProgressDialog("Exporting", "", null);
-                doc.setProgressListener(progressDialog);
+			ProgressDialog progressDialog = new ProgressDialog("Exporting", "", null);
+			doc.setProgressListener(progressDialog);
 
-                // sync view to Network if Network is to be exported
-                if (blocks.contains(Network.NAME)) {
-                    MainViewer viewer = (MainViewer) getMainViewer();
-                    Network network = getDocument().getNetwork();
-                    network.syncPhyloGraphView2Network(getDocument().getTaxa(), viewer);
-                    getDocument().setNetwork(network);
-                }
-                // if blocks contains chars and some chars are masked, ask whether
-                // to save all sites or just all active sites
-                boolean complete = true;
-                if (blocks.contains(Characters.NAME) && doc.getCharacters().getMask() != null
-                        && doc.getCharacters().getNactive() < doc.getCharacters().getNchar()) {
-                    Object[] options = {"Save All", "Save Active Only", "Cancel"};
-                    int result = JOptionPane.showOptionDialog(getMainViewer().getFrame(),
-                            "Some characters have been excluded", "Export option", JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-                    System.err.println("result: " + result);
-                    if (result == 1)
-                        complete = false;
-                }
+			// sync view to Network if Network is to be exported
+			if (blocks.contains(Network.NAME)) {
+				MainViewer viewer = (MainViewer) getMainViewer();
+				Network network = getDocument().getNetwork();
+				network.syncPhyloGraphView2Network(getDocument().getTaxa(), viewer);
+				getDocument().setNetwork(network);
+			}
+			// if blocks contains chars and some chars are masked, ask whether
+			// to save all sites or just all active sites
+			boolean complete = true;
+			if (blocks.contains(Characters.NAME) && doc.getCharacters().getMask() != null
+				&& doc.getCharacters().getNactive() < doc.getCharacters().getNchar()) {
+				Object[] options = {"Save All", "Save Active Only", "Cancel"};
+				int result = JOptionPane.showOptionDialog(getMainViewer().getFrame(),
+						"Some characters have been excluded", "Export option", JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+				System.err.println("result: " + result);
+				if (result == 1)
+					complete = false;
+			}
 
-                try {
-                    getDocument().exportFile(file, exporter, doc, blocks, complete, additionalInfo);
-                } catch (Exception ex) {
-                    Basic.caught(ex);
-                }
-                notifyUpdateViewer(Director.ALL);
-                WaitUntilAllViewersAreUptoDate();
-                notifyUnlockInput();
+			try {
+				getDocument().exportFile(file, exporter, doc, blocks, complete, additionalInfo);
+			} catch (Exception ex) {
+				Basic.caught(ex);
+			}
+			notifyUpdateViewer(Director.ALL);
+			WaitUntilAllViewersAreUptoDate();
+			notifyUnlockInput();
 
-                progressDialog.close();
-                doc.setProgressListener(null);
-                docInUpdate = false;
-            }
-        });
-        worker.setPriority(Thread.currentThread().getPriority() - 1);
+			progressDialog.close();
+			doc.setProgressListener(null);
+			docInUpdate = false;
+		});
+		worker.setPriority(Thread.currentThread().getPriority() - 1);
         worker.start();
     }
 
@@ -502,88 +467,82 @@ public class Director implements IDirector {
      * @param file the file
      */
     public void importFile(final File file) {
-        if (docInUpdate) // shouldn't happen!
-            System.err.println("Warning: import(" + file + "): concurrent execution");
+		if (docInUpdate) // shouldn't happen!
+			System.err.println("Warning: import(" + file + "): concurrent execution");
 
-        notifyLockInput();
-        Thread worker = new Thread(new Runnable() {
-            public void run() {
-                docInUpdate = true;
+		notifyLockInput();
+		Thread worker = new Thread(() -> {
+			docInUpdate = true;
 
-                ProgressDialog progressDialog = new ProgressDialog("Importing", "", getMainViewerFrame());
-                doc.setProgressListener(progressDialog);
-                try {
-                    String input = ImportManager.importData(file);
-                    doc.clear();
-                    doc.setDirty(true);
-                    doc.readNexus(new StringReader(input));
-                    if (!BlockChooser.show(doc.getParent(), doc)) {
-                        throw new CanceledException();
-                    }
+			ProgressDialog progressDialog = new ProgressDialog("Importing", "", getMainViewerFrame());
+			doc.setProgressListener(progressDialog);
+			try {
+				String input = ImportManager.importData(file);
+				doc.clear();
+				doc.setDirty(true);
+				doc.readNexus(new StringReader(input));
+				if (!BlockChooser.show(doc.getParent(), doc)) {
+					throw new CanceledException();
+				}
 
-                    if (doc.isValidByName(Characters.NAME) && doc.getCharacters().getFormat().getDatatype().equals(Characters.Datatypes.UNKNOWN)) {
-                        doc.getCharacters().getFormat().setDatatype(Document.chooseDatatype(getMainViewerFrame()));
-                    }
+				if (doc.isValidByName(Characters.NAME) && doc.getCharacters().getFormat().getDatatype().equals(Characters.Datatypes.UNKNOWN)) {
+					doc.getCharacters().getFormat().setDatatype(Document.chooseDatatype(getMainViewerFrame()));
+				}
 
-                    if (TreesNameDialog.isApplicable(doc))
-                        new TreesNameDialog(getMainViewerFrame(), doc);
-                    else if (input.endsWith("[" + Basic.getShortName(MrBayesPartitions.class) + "]"))
-                        MrBayesPartitions.extractTaxa(getMainViewerFrame(), file, doc);
+				if (TreesNameDialog.isApplicable(doc))
+					new TreesNameDialog(getMainViewerFrame(), doc);
+				else if (input.endsWith("[" + Basic.getShortName(MrBayesPartitions.class) + "]"))
+					MrBayesPartitions.extractTaxa(getMainViewerFrame(), file, doc);
 
-                    doc.execute("update");
-                } catch (FileNotFoundException e) {
-                    new Alert(getMainViewerFrame(), "File not found: " + file.getName());
-                } catch (CanceledException ex) {
-                    doc.clear();
+				doc.execute("update");
+			} catch (FileNotFoundException e) {
+				new Alert(getMainViewerFrame(), "File not found: " + file.getName());
+			} catch (CanceledException ex) {
+				doc.clear();
 
-                    if (file.canRead()) {
-                        try {
-                            SwingUtilities.invokeAndWait(new Runnable() {
-                                public void run() {
-                                    try {
-                                        openEditor(new FileReader(file), 0);
+				if (file.canRead()) {
+					try {
+						SwingUtilities.invokeAndWait(() -> {
+							try {
+								openEditor(new FileReader(file), 0);
 
-                                    } catch (Exception fex) {
-                                        Basic.caught(fex);
-                                    }
-                                }
-                            });
-                        } catch (InterruptedException | InvocationTargetException e) {
-                            Basic.caught(e);
-                        }
-                    }
-                } catch (Exception ex) {
-                    new Alert(getMainViewerFrame(), "Import failed: unknown format or error in file"
-                            + " (e.g. illegal characters or multiple occurrences of same taxon name).");
-                    Basic.caught(ex);
-                    doc.clear();
-                    if (file.canRead()) {
-                        try {
-                            SwingUtilities.invokeAndWait(new Runnable() {
-                                public void run() {
-                                    try {
-                                        openEditor(new FileReader(file), 0);
+							} catch (Exception fex) {
+								Basic.caught(fex);
+							}
+						});
+					} catch (InterruptedException | InvocationTargetException e) {
+						Basic.caught(e);
+					}
+				}
+			} catch (Exception ex) {
+				new Alert(getMainViewerFrame(), "Import failed: unknown format or error in file"
+												+ " (e.g. illegal characters or multiple occurrences of same taxon name).");
+				Basic.caught(ex);
+				doc.clear();
+				if (file.canRead()) {
+					try {
+						SwingUtilities.invokeAndWait(() -> {
+							try {
+								openEditor(new FileReader(file), 0);
 
-                                    } catch (Exception fex) {
-                                        Basic.caught(fex);
-                                    }
-                                }
-                            });
-                        } catch (InterruptedException | InvocationTargetException e) {
-                            Basic.caught(e);
-                        }
-                    }
-                }
-                notifyUpdateViewer(Director.ALL);
-                WaitUntilAllViewersAreUptoDate();
-                notifyUnlockInput();
+							} catch (Exception fex) {
+								Basic.caught(fex);
+							}
+						});
+					} catch (InterruptedException | InvocationTargetException e) {
+						Basic.caught(e);
+					}
+				}
+			}
+			notifyUpdateViewer(Director.ALL);
+			WaitUntilAllViewersAreUptoDate();
+			notifyUnlockInput();
 
-                progressDialog.close();
-                doc.setProgressListener(null);
-                docInUpdate = false;
-            }
-        });
-        worker.setPriority(Thread.currentThread().getPriority() - 1);
+			progressDialog.close();
+			doc.setProgressListener(null);
+			docInUpdate = false;
+		});
+		worker.setPriority(Thread.currentThread().getPriority() - 1);
         worker.start();
     }
 
@@ -591,8 +550,7 @@ public class Director implements IDirector {
     /**
      * add a viewer to this doc
      *
-     * @param viewer
-     */
+	 */
     public IDirectableViewer addViewer(IDirectableViewer viewer) {
         viewers.add(viewer);
         directorEventListeners.add(viewer);
@@ -603,7 +561,6 @@ public class Director implements IDirector {
     /**
      * does this director (still) contain the named viewer
      *
-     * @param viewer
      * @return true, if director has this viewer
      */
     public boolean containsViewer(IDirectableViewer viewer) {
@@ -613,8 +570,7 @@ public class Director implements IDirector {
     /**
      * remove a viewer from this doc
      *
-     * @param viewer
-     */
+	 */
     public void removeViewer(IDirectableViewer viewer) {
         viewers.remove(viewer);
         directorEventListeners.remove(viewer);
@@ -640,10 +596,10 @@ public class Director implements IDirector {
 
         while (!isAllViewersUptodate()) {
             try {
-                Thread.sleep(10);
-            } catch (Exception e) {
-            }
-        }
+				Thread.sleep(10);
+			} catch (Exception ignored) {
+			}
+		}
     }
 
     /**
@@ -672,20 +628,18 @@ public class Director implements IDirector {
             final IDirectorListener d = (IDirectorListener) directorEventListener;
 
             try {
-                // Put the update into the swing event queue
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        try {
-                            d.setUptoDate(false);
-                            d.updateView(what);
-                            d.setUptoDate(true);
-                        } catch (Exception ex) {
-                            Basic.caught(ex);
-                            d.setUptoDate(true);
-                        }
-                    }
-                });
-            } catch (Exception ex) {
+				// Put the update into the swing event queue
+				SwingUtilities.invokeLater(() -> {
+					try {
+						d.setUptoDate(false);
+						d.updateView(what);
+						d.setUptoDate(true);
+					} catch (Exception ex) {
+						Basic.caught(ex);
+						d.setUptoDate(true);
+					}
+				});
+			} catch (Exception ex) {
                 Basic.caught(ex);
                 d.setUptoDate(true);
             }
@@ -743,8 +697,7 @@ public class Director implements IDirector {
     /**
      * sets the project ID
      *
-     * @param ID
-     */
+	 */
     public void setID(int ID) {
         this.ID = ID;
     }
@@ -761,7 +714,6 @@ public class Director implements IDirector {
     /**
      * do we already have a viewer of the given class?
      *
-     * @param aClass
      * @return true if a viewer of the current class is already open
      */
     public boolean hasViewer(Class aClass) {
@@ -817,7 +769,6 @@ public class Director implements IDirector {
     /**
      * returns a viewer of the given class
      *
-     * @param aClass
      * @return viewer of the given class, or null
      */
     public IDirectableViewer getViewerByClass(Class aClass) {
@@ -854,8 +805,7 @@ public class Director implements IDirector {
     /**
      * sets the location of the viewer on the screen
      *
-     * @param viewer
-     */
+	 */
     public void setViewerLocation(IDirectableViewer viewer) {
         if (viewer instanceof MainViewer) {
             int x = (getID() % 10) * 30 + 50;
@@ -885,8 +835,7 @@ public class Director implements IDirector {
     /**
      * set the dirty flag
      *
-     * @param dirty
-     */
+	 */
     public void setDirty(boolean dirty) {
         getDocument().setDirty(dirty);
     }

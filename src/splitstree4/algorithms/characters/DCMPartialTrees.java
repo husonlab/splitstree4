@@ -152,9 +152,9 @@ public class DCMPartialTrees implements Characters2Trees {
                             buf.append(ordering[p]);
                         }
                         cgviz.add("num=" + sets.size() + " first=" + (i + 1) + " last=" + (j + 1) + " size=" +
-                                (j - i + 1) + " start=" + taxon2start[ti] + " end=" + taxon2end[tj] +
-                                " set=" + buf.toString() +
-                                ": " + taxon2start[ti] + " " + (i + 1) + " " + taxon2end[tj] + " " + (j + 1));
+								  (j - i + 1) + " start=" + taxon2start[ti] + " end=" + taxon2end[tj] +
+								  " set=" + buf +
+								  ": " + taxon2start[ti] + " " + (i + 1) + " " + taxon2end[tj] + " " + (j + 1));
                     }
                 } else {
                     System.err.println("# Skipping subproblem: " + currentSet + ", too small");
@@ -281,8 +281,7 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
      * minimum size of overlap
      *
-     * @return
-     */
+	 */
     public int getOptionMinOverlap() {
         return optionMinOverlap;
     }
@@ -290,8 +289,7 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
      * minimum size of overlap
      *
-     * @param optionMinOverlap
-     */
+	 */
     public void setOptionMinOverlap(int optionMinOverlap) {
         this.optionMinOverlap = optionMinOverlap;
     }
@@ -299,8 +297,7 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
      * name of characters transform
      *
-     * @return
-     */
+	 */
     public String getOptionBaseCharactersMethod() {
         return optionBaseCharactersMethod;
     }
@@ -308,8 +305,7 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
      * name of characters transform
      *
-     * @param optionBaseCharactersMethod
-     */
+	 */
     public void setOptionBaseCharactersMethod(String optionBaseCharactersMethod) {
         this.optionBaseCharactersMethod = optionBaseCharactersMethod;
     }
@@ -317,8 +313,7 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
      * name of distance transform
      *
-     * @return
-     */
+	 */
     public String getOptionBaseDistancesMethod() {
         return optionBaseDistancesMethod;
     }
@@ -326,8 +321,7 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
      * name of distance transform
      *
-     * @param optionBaseDistancesMethod
-     */
+	 */
     public void setOptionBaseDistancesMethod(String optionBaseDistancesMethod) {
         this.optionBaseDistancesMethod = optionBaseDistancesMethod;
     }
@@ -335,8 +329,7 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
      * minimum number of sequences to cover any position
      *
-     * @return
-     */
+	 */
     public int getOptionMinCoverage() {
         return optionMinCoverage;
     }
@@ -344,8 +337,7 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
      * minimum number of sequences to cover any position
      *
-     * @param optionMinCoverage
-     */
+	 */
     public void setOptionMinCoverage(int optionMinCoverage) {
         this.optionMinCoverage = optionMinCoverage;
     }
@@ -393,12 +385,6 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
 	 * determine which characters to hide
 	 *
-	 * @param nchar
-	 * @param currentTaxa
-	 * @param taxon2start
-	 * @param taxon2end
-	 * @param minCover
-	 * @return
 	 */
 	private List<Integer> determineCharToHide(int nchar, TaxaSet currentTaxa, int[] taxon2start, int[] taxon2end, int minCover) {
 
@@ -442,8 +428,6 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
      * determines which taxa need to be hidden in origTaxa so that we get currentTaxa
      *
-     * @param origTaxa
-     * @param currentTaxa
      * @return to hide
      */
     private TaxaSet determineTaxaToHide(Taxa origTaxa, TaxaSet currentTaxa) {
@@ -457,11 +441,7 @@ public class DCMPartialTrees implements Characters2Trees {
     /**
      * determine the start and end positions of all fragments of sequence
      *
-     * @param taxa
-     * @param chars
-     * @param taxon2start
-     * @param taxon2end
-     */
+	 */
     private void determineStartEndPosition(Taxa taxa, Characters chars, int[] taxon2start, int[] taxon2end) {
         for (int t = 1; t <= taxa.getNtax(); t++) {
             int start = 0;
@@ -485,8 +465,6 @@ public class DCMPartialTrees implements Characters2Trees {
      * compute a perfect elimination scheme. All we do is order by end positions
      * of fragments
      *
-     * @param taxa
-     * @param taxon2end
      * @return ordering with components 0...ntax-1
      */
     private int[] computeEliminationScheme(Taxa taxa, int[] taxon2end) {
@@ -495,7 +473,7 @@ public class DCMPartialTrees implements Characters2Trees {
         for (int t = 1; t <= taxa.getNtax(); t++) {
             list.add(new Pair(taxon2end[t], t));
         }
-        Pair[] array = (Pair[]) list.toArray(new Pair[list.size()]);
+		Pair[] array = (Pair[]) list.toArray(new Pair[0]);
         Arrays.sort(array);
         int[] ordering = new int[taxa.getNtax()];
         for (int i = 0; i < ordering.length; i++)

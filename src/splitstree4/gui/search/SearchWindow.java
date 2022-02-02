@@ -18,21 +18,6 @@
  */
 package splitstree4.gui.search;
 
-/**
- * FIND AND REPLACE METHODS:
- * -------------------------
- * The next methods are used in order to compute the
- * Find/Replace... tool in the Editor Window. This is located in
- * the Edit menu of the Editor Window and is called from MainViewerMenuBar()
- * when we create the menu bar.
- *
- * @author Miguel Jett�
- * @since March 10th, 2004
- * New revision: April 14th, 2005
- * -- Regular expressions were added to the find and replace actions.
- * -- Changed the the whole look of the DialogBox with new options.
- */
-
 import jloda.swing.commands.CommandManager;
 import jloda.swing.director.IDirectableViewer;
 import jloda.swing.director.IDirector;
@@ -51,11 +36,11 @@ import java.awt.event.WindowEvent;
 
 
 public class SearchWindow implements IDirectableViewer {
-    private JFrame frame; //Window of the search dialog.
-    private JPanel mainPanel;
-    private Director dir;
-    private SearchActions searchActions;
-    boolean uptodate;
+    private final JFrame frame; //Window of the search dialog.
+	private JPanel mainPanel;
+	private Director dir;
+	private final SearchActions searchActions;
+	boolean uptodate;
 
     //Fields used when constructing GUI. Note: here we only declare
     //gui components which we need to access later. Other stuff is declared locally.
@@ -81,8 +66,7 @@ public class SearchWindow implements IDirectableViewer {
     /**
      * Initialises the dialog and the gui
      *
-     * @param dir
-     */
+	 */
     public SearchWindow(Director dir) {
 
         this.dir = dir;
@@ -263,8 +247,7 @@ public class SearchWindow implements IDirectableViewer {
      * set the director to a new director
      * If this is used, frame is set not to destroy itself
      *
-     * @param dir
-     */
+	 */
     public void changeDirector(final Director dir) {
         this.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.dir = dir;
@@ -307,11 +290,7 @@ public class SearchWindow implements IDirectableViewer {
         });
     }
 
-    /************************************
-     * Access and control routines, including implementations of DirectableViewer methods
-     */
-
-    /**
+	/**
      * is viewer uptodate?
      *
      * @return uptodate
@@ -341,7 +320,6 @@ public class SearchWindow implements IDirectableViewer {
     /**
      * Constructs title for find/replace window
      *
-     * @param dir
      * @return new title
      */
     private String getNewTitle(Director dir) {
@@ -356,8 +334,7 @@ public class SearchWindow implements IDirectableViewer {
     /**
      * sets title for find/replace window
      *
-     * @param newTitle
-     */
+	 */
     private void setTitle(String newTitle) {
         if (!getFrame().getTitle().equals(newTitle))
             frame.setTitle(newTitle);
@@ -408,8 +385,7 @@ public class SearchWindow implements IDirectableViewer {
     /**
      * Set visibility of the  window.
      *
-     * @param visible
-     */
+	 */
     public void setVisible(boolean visible) {
         frame.setVisible(visible);
     }
@@ -418,8 +394,7 @@ public class SearchWindow implements IDirectableViewer {
     /**
      * set uptodate state
      *
-     * @param flag
-     */
+	 */
     public void setUptoDate(boolean flag) {
         uptodate = flag;
     }

@@ -34,8 +34,8 @@ module splitstree {
     exports splitstree4.externalIO.exports;
     exports splitstree4.externalIO.imports;
     exports splitstree4.gui;
-    exports splitstree4.gui.TreePainter;
-    exports splitstree4.gui.algorithms;
+	exports splitstree4.gui.treepainter;
+	exports splitstree4.gui.algorithms;
     exports splitstree4.gui.algorithms.filter;
     exports splitstree4.gui.algorithms.modify;
     exports splitstree4.gui.algorithms.select;

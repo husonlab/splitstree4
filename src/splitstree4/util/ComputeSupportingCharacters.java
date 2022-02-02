@@ -34,10 +34,7 @@ public class ComputeSupportingCharacters {
     /**
      * compute the set of supporting characters for the given splits
      *
-     * @param doc
-     * @param selectedSplits
-     * @return
-     */
+	 */
     public static BitSet apply(Document doc, BitSet selectedSplits) {
         BitSet supportedCharacters = new BitSet();
         final Splits splits = doc.getSplits();

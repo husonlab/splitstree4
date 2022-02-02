@@ -47,19 +47,19 @@ import java.util.Vector;
  */
 public class TaxaSetViewerActions {
 
-    private TaxaSetViewer viewer;
-    private Director dir;
-    private LinkedList allActions;
+	private final TaxaSetViewer viewer;
+	private final Director dir;
+	private final LinkedList allActions;
 
-    public TaxaSetViewerActions(TaxaSetViewer viewer_, Director dir_) {
-        this.viewer = viewer_;
-        this.dir = dir_;
-        this.allActions = new LinkedList();
-    }
+	public TaxaSetViewerActions(TaxaSetViewer viewer_, Director dir_) {
+		this.viewer = viewer_;
+		this.dir = dir_;
+		this.allActions = new LinkedList();
+	}
 
-    /**
-     * All the Actions of the window
-     */
+	/**
+	 * All the Actions of the window
+	 */
 
     // do apply
     private AbstractAction applyAction;
@@ -553,12 +553,6 @@ public class TaxaSetViewerActions {
         taxaTree.updateUI();
     }
 
-    /**
-     *  extracts all taxa from a graph-node
-     *
-     * @param selectedNode
-     * @return Vector of strings with all taxa Label
-     */
     /*private Vector getNode2TaxaLabel(Node selectedNode){
 
         PhyloGraph graph = phyloView.getPhyloGraph();
@@ -722,7 +716,6 @@ public class TaxaSetViewerActions {
     /**
      * compute intersection of an arbitrary amount of vectors using intersectionOfTwoVectors
      *
-     * @param allVectors
      * @return intersection vector
      */
     private Vector intersectionOfVectors(Vector allVectors) {

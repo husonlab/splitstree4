@@ -51,18 +51,18 @@ import java.util.List;
  * Date: 19-Dec-2003
  */
 public class SelectCharactersActions implements UpdateableActions {
-    private Director dir;
-    private List<Action> all = new LinkedList<>();
-    public static final String JCHECKBOX = "JCHECKBOX";
-    public static final String JTEXTAREA = "JTEXTAREA";
+	private final Director dir;
+	private final List<Action> all = new LinkedList<>();
+	public static final String JCHECKBOX = "JCHECKBOX";
+	public static final String JTEXTAREA = "JTEXTAREA";
 
-    public SelectCharactersActions(Director dir) {
-        this.dir = dir;
-    }
+	public SelectCharactersActions(Director dir) {
+		this.dir = dir;
+	}
 
-    /**
-     * enable or disable critical actions
-     *
+	/**
+	 * enable or disable critical actions
+	 *
      * @param flag show or hide?
      */
     public void setEnableCritical(boolean flag) {
@@ -311,11 +311,7 @@ public class SelectCharactersActions implements UpdateableActions {
     /**
      * parses the list of positions to show
      *
-     * @param doc
-     * @param text
-     * @return
-     * @throws java.io.IOException
-     */
+	 */
     private List parseText(Document doc, String text) throws IOException {
         NexusStreamParser np = new NexusStreamParser(new StringReader("=" + text + ";"));
         return np.getIntegerList("=", ";");

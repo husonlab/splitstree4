@@ -154,9 +154,7 @@ public class VertexDescription implements Cloneable {
      *
      * @param id        vertex id
      * @param nvertices number of vertices
-     * @param np
-     * @throws java.io.IOException
-     */
+	 */
     void read(int id, int nvertices, NexusStreamParser np) throws IOException {
         np.matchIgnoreCase("" + id);
         this.id = id;
@@ -195,7 +193,7 @@ public class VertexDescription implements Cloneable {
      */
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append("").append(id).append(" ").append(x).append(" ").append(y);
+		buf.append(id).append(" ").append(x).append(" ").append(y);
         if (width != WIDTH)
             buf.append(" w=").append(width);
         if (height != HEIGHT)
@@ -214,9 +212,7 @@ public class VertexDescription implements Cloneable {
     /**
      * read a vertex label description
      *
-     * @param np
-     * @throws IOException
-     */
+	 */
     void readLabel(NexusStreamParser np, String prevFont) throws IOException {
         if (prevFont != null)
             font = prevFont;
@@ -243,18 +239,18 @@ public class VertexDescription implements Cloneable {
 
     String labelToString(String prevFont) {
         StringBuilder buf = new StringBuilder();
-        buf.append("").append(id).append(" '").append(label).append("'");
+		buf.append(id).append(" '").append(label).append("'");
         if (labelLayout != ViewBase.LAYOUT)
-            buf.append(" l=").append((int) labelLayout);
+			buf.append(" l=").append(labelLayout);
         if (labelOffset != null && (labelOffset.x != 0 || labelOffset.y != 0))
             buf.append(" x=").append(labelOffset.x).append(" y=").append(labelOffset.y);
         if (labelAngle != 0)
             buf.append(" a=").append(labelAngle);
 
-        if (font != null && (prevFont == null || !font.equals(prevFont)))
-            buf.append(" f='").append(font).append("'");
-        if (labelFgc != null && !labelFgc.equals(FGC))
-            buf.append(" lc=").append(labelFgc.getRed()).append(" ").append(labelFgc.getGreen()).append(" ").append(labelFgc.getBlue());
+		if (font != null && (!font.equals(prevFont)))
+			buf.append(" f='").append(font).append("'");
+		if (labelFgc != null && !labelFgc.equals(FGC))
+			buf.append(" lc=").append(labelFgc.getRed()).append(" ").append(labelFgc.getGreen()).append(" ").append(labelFgc.getBlue());
         if (labelBgc != null && !labelBgc.equals(BGC))
             buf.append(" lk=").append(labelBgc.getRed()).append(" ").append(labelBgc.getGreen()).append(" ").append(labelBgc.getBlue());
         return buf.toString();

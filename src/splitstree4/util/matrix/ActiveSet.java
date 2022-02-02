@@ -203,7 +203,6 @@ public class ActiveSet implements Serializable {
     /**
      * Get indexed solution
      *
-     * @param i
      * @return value of ith element in solution vector
      */
     public double getSoln(int i) {

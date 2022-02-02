@@ -168,8 +168,7 @@ public abstract class DNAdistance extends SequenceBasedDistance {
      * The base frequencies are computed from scratch - but the others
      * are read from what is in Characters.properties (and assumed correct)
      *
-     * @param characters
-     */
+	 */
     public void updateSettings(Characters characters) {
         if (whichPInvar == FROMCHARS) {
             setOptionPInvar(characters.getProperties().getpInvar());
@@ -193,7 +192,6 @@ public abstract class DNAdistance extends SequenceBasedDistance {
     /**
      * REturn the inverse of the moment generating function corresponding to the current settings
      *
-     * @param x
      * @return double
      */
 
@@ -216,22 +214,14 @@ public abstract class DNAdistance extends SequenceBasedDistance {
      * exact Distance - use an exact distance formula (if available) SHould never be called
      * if the transform does not have an exact dist formula.
      *
-     * @param F
-     * @return
-     * @throws SaturatedDistancesException
-     */
+	 */
     abstract protected double exactDist(double[][] F) throws SaturatedDistancesException;
 
     /**
      * Fill in the distance matrix
      *
      * @param doc        The document used to display the progress (not used for taxa or characters)
-     * @param characters
-     * @param model
-     * @return
-     * @throws SplitsException
-     * @throws CanceledException
-     */
+	 */
     protected Distances fillDistanceMatrix(Document doc, Characters characters, NucleotideModel model) throws SplitsException, CanceledException {
 
         int ntax = characters.getNtax();
@@ -294,10 +284,10 @@ public abstract class DNAdistance extends SequenceBasedDistance {
     }
 
     public Distances computeDist(Characters characters) {
-        try {
-            return computeDist(null, characters);
-        } catch (CanceledException | SplitsException e) {
-        }
+		try {
+			return computeDist(null, characters);
+		} catch (CanceledException | SplitsException ignored) {
+		}
         return null;
     }
 

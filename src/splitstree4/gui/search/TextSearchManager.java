@@ -18,13 +18,6 @@
  */
 package splitstree4.gui.search;
 
-/**
- * Find and Replace manager controls how the search is done.
- *
- * @author David Bryant (with some code from Miguel Jette)
- * @since Jan 23, 2006.
- */
-
 import splitstree4.gui.main.MainViewer;
 
 import javax.swing.text.BadLocationException;
@@ -36,7 +29,7 @@ import java.util.regex.PatternSyntaxException;
 class TextSearchManager implements SearchManager {
 
 
-    MainViewer viewer;
+    final MainViewer viewer;
 
 
     public TextSearchManager(MainViewer viewer) {

@@ -70,7 +70,6 @@ public class ConvexHull implements Splits2Network {
      * applies the convex hull construction to obtain a splits graph
      *
      * @param taxa   taxa
-     * @param splits
      * @return the network
      */
     public Network apply(Document doc, Taxa taxa, Splits splits) throws Exception {
@@ -88,7 +87,6 @@ public class ConvexHull implements Splits2Network {
      * Given a non-zero phylograph, it returns that graph, otherwise a new one
      *
      * @param taxa       taxa
-     * @param splits
      * @param graphView  PhyloGraphView or null
      * @param usedSplits which splits have already been used?
      * @return the modified or new graph
@@ -286,30 +284,28 @@ public class ConvexHull implements Splits2Network {
                         }
                     }
                 }
-                //add split to usedSplits
-                usedSplits.set(order[z], true);
-                doc.getProgressListener().checkForCancel();
-            }
-        } catch (CanceledException e) {
-            doc.getProgressListener().setUserCancelled(false);
-        }
+				//add split to usedSplits
+				usedSplits.set(order[z], true);
+				doc.getProgressListener().checkForCancel();
+			}
+		} catch (CanceledException e) {
+			doc.getProgressListener().setUserCancelled(false);
+		}
 
 
-        doc.notifySetProgress(-1);
-        Iterator it = graph.nodes().iterator();
-        while (it.hasNext()) {
-            Node n = (Node) it.next();
-            graph.setLabel(n, null);
+		doc.notifySetProgress(-1);
+		for (Node n : graph.nodes()) {
+			graph.setLabel(n, null);
 
-            if (graph.hasTaxa(n)) {
-                String label = taxa.getLabel(graph.getTaxa(n).iterator().next());
+			if (graph.hasTaxa(n)) {
+				String label = taxa.getLabel(graph.getTaxa(n).iterator().next());
 
-                for (Integer t : graph.getTaxa(n)) {
-                    label += (", " + taxa.getLabel(t));
-                }
-                graph.setLabel(n, label);
-            }
-        }
+				for (Integer t : graph.getTaxa(n)) {
+					label += (", " + taxa.getLabel(t));
+				}
+				graph.setLabel(n, label);
+			}
+		}
 
         int[] cyclicOrdering = splits.getCycle();
 
@@ -398,8 +394,7 @@ public class ConvexHull implements Splits2Network {
     /**
      * set use weights in embedding?
      *
-     * @param weights
-     */
+	 */
     public void setOptionWeights(boolean weights) {
         this.optionWeights = weights;
     }
@@ -419,9 +414,6 @@ public class ConvexHull implements Splits2Network {
      * computes a good order in which to process the splits.
      * Currently orders splits by increasing size
      *
-     * @param taxa
-     * @param splits
-     * @param usedSplits
      * @return order
      */
     private int[] getOrderToProcessSplitsIn(Taxa taxa, Splits splits, BitSet usedSplits) {

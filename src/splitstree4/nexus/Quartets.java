@@ -34,19 +34,19 @@ import java.util.List;
  */
 public class Quartets extends NexusBlock {
     /**
-     * the Format subclass
-     */
-    public final class Format {
-        /**
-         * Weights present or not
-         */
-        protected boolean weights;
-        /**
-         * Are the quartets labeld*
-         */
-        protected boolean labels;
+	 * the Format subclass
+	 */
+	public static final class Format {
+		/**
+		 * Weights present or not
+		 */
+		protected boolean weights;
+		/**
+		 * Are the quartets labeld*
+		 */
+		protected boolean labels;
 
-        /**
+		/**
          * the Constructor
          */
         public Format() {
@@ -67,7 +67,6 @@ public class Quartets extends NexusBlock {
         /**
          * Sets the weights format
          *
-         * @param weights
          */
         public void setWeights(boolean weights) {
             this.weights = weights;
@@ -165,7 +164,7 @@ public class Quartets extends NexusBlock {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return this.toString() + "\n" + sw.toString();
+		return this + "\n" + sw;
     }
 
 
@@ -245,13 +244,12 @@ public class Quartets extends NexusBlock {
      * @return an array containing all of the elements in this set.
      */
     public Quartet[] toArray() {
-        return (Quartet[]) quartets.toArray(new Quartet[quartets.size()]);
+		return (Quartet[]) quartets.toArray(new Quartet[0]);
     }
 
     /**
      * clones these quartets (deep clone)
      *
-     * @param taxa
      * @return the clone
      */
     public Quartets clone(Taxa taxa) {
@@ -296,12 +294,7 @@ public class Quartets extends NexusBlock {
         ps.println("END;");
     }
 
-    /**************************************************************************/
-    /**
-     *   IO Handling
-     */
-
-    /**
+	/**
      * Read a matrics of quartets
      *
      * @param np   the nexus streamparser
@@ -359,11 +352,7 @@ public class Quartets extends NexusBlock {
      * @param taxa the taxa
      */
     public void write(Writer w, Taxa taxa) throws IOException {
-        /** Write the characters block
-         *@param w the writer
-         *@param taxa the taxa
-         */
-        write(w, taxa.getNtax());
+		write(w, taxa.getNtax());
 
     }
 
@@ -445,15 +434,9 @@ public class Quartets extends NexusBlock {
 
     }
 
-    /**************************************************************************/
-    /**
-     * Hidding an restoring Data @todo implement hide and show
-     */
-
-    /**
+	/**
      * gets the value of a format switch
      *
-     * @param name
      * @return value of format switch
      */
     public boolean getFormatSwitchValue(String name) {
@@ -466,8 +449,6 @@ public class Quartets extends NexusBlock {
     /**
      * hide some taxa
      *
-     * @param origTaxa
-     * @param exTaxa
      */
     public void hideTaxa(Taxa origTaxa, TaxaSet exTaxa) {
         System.err.println("hideTaxa for Quartets: not implemented");

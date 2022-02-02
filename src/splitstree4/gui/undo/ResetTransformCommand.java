@@ -25,7 +25,7 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant
  */
 public class ResetTransformCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
+    final MainViewer viewer;
 
     public ResetTransformCommand(MainViewer viewer) {
         this.viewer = viewer;

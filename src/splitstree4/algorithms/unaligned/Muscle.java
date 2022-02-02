@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * runs clustalw externally
- * @version $Id: Muscle.java,v 1.28 2007-09-11 12:31:03 kloepper Exp $
- * @author Andreas Schmidt, Daniel Huson and David Bryant
- * 7.03
- */
 package splitstree4.algorithms.unaligned;
 
 import jloda.util.ProgramProperties;
@@ -50,7 +44,7 @@ public class Muscle implements Unaligned2Characters {
 
     private String optionOptionalParameter = "";
 
-    private String optionPathToCommand = "musclePath";
+    private final String optionPathToCommand = "musclePath";
 
     private int optionMaxIters = 16;
 
@@ -135,12 +129,12 @@ public class Muscle implements Unaligned2Characters {
             System.err.println("### Started external command ###");
             Process p = Runtime.getRuntime().exec(shellCmd);
             BufferedReader err = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-            try {
-                String tmp;
-                while ((tmp = err.readLine()) != null) System.err.println("out: " + tmp);
-                p.waitFor();
-            } catch (InterruptedException e) {
-            }
+			try {
+				String tmp;
+				while ((tmp = err.readLine()) != null) System.err.println("out: " + tmp);
+				p.waitFor();
+			} catch (InterruptedException ignored) {
+			}
 
 
         } catch (Exception e) {
@@ -219,7 +213,6 @@ public class Muscle implements Unaligned2Characters {
     /**
      * sets the method to use
      *
-     * @param clusterMethod_1
      */
     public void setOptionClusterMethod_1(String clusterMethod_1) {
         this.optionClusterMethod_1 = clusterMethod_1;
@@ -249,7 +242,6 @@ public class Muscle implements Unaligned2Characters {
     /**
      * sets the method to use
      *
-     * @param clusterMethod_2
      */
     public void setOptionClusterMethod_2(String clusterMethod_2) {
         this.optionClusterMethod_2 = clusterMethod_2;
@@ -279,7 +271,6 @@ public class Muscle implements Unaligned2Characters {
     /**
      * sets the method to use
      *
-     * @param distanceMeasure_1
      */
     public void setOptionDistanceMeasure_1(String distanceMeasure_1) {
         this.optionDistanceMeasure_1 = distanceMeasure_1;
@@ -313,7 +304,6 @@ public class Muscle implements Unaligned2Characters {
     /**
      * sets the method to use
      *
-     * @param distanceMeasure_2
      */
     public void setOptionDistanceMeasure_2(String distanceMeasure_2) {
         this.optionDistanceMeasure_2 = distanceMeasure_2;
@@ -346,7 +336,6 @@ public class Muscle implements Unaligned2Characters {
     /**
      * sets the score to use
      *
-     * @param optionObjectiveScore
      */
     public void setOptionObjectiveScore(String optionObjectiveScore) {
         this.optionObjectiveScore = optionObjectiveScore;
@@ -409,7 +398,6 @@ public class Muscle implements Unaligned2Characters {
     /**
      * sets the logFile Option
      *
-     * @param optionLogFile
      */
     public void setOptionLogFile(boolean optionLogFile) {
         this.optionLogFile = optionLogFile;
@@ -427,7 +415,6 @@ public class Muscle implements Unaligned2Characters {
     /**
      * sets the logFile Option
      *
-     * @param optionLogFileName
      */
     public void setOptionLogFileName(String optionLogFileName) {
         this.optionLogFileName = optionLogFileName;

@@ -46,8 +46,8 @@ public class EqualAngleOld implements Splits2Network {
     public final static String DESCRIPTION = "Equal angle algorithm (Dress and Huson, 2004)";
     private boolean optionOptimizeDaylight = false;
     private int optionDaylightIterations = 1;
-    private boolean optionOptimizeBoxes = false;
-    private boolean optionUseWeights = true;
+	private final boolean optionOptimizeBoxes = false;
+	private boolean optionUseWeights = true;
     private boolean optionRunConvexHull = true;
     private boolean optionAvoidCollisions = true;
     private PhyloGraphView phyloGraphView = null;
@@ -154,8 +154,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * make sure that no two edges leave the same node at the same angle
      *
-     * @param graph
-     * @param splits
      */
     private void avoidCollisions(PhyloSplitsGraph graph, Splits splits) {
         BitSet seen = new BitSet(); // splits we've already seen
@@ -173,11 +171,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * recursively avoid collisions
      *
-     * @param ntax
-     * @param v
-     * @param graph
-     * @param seen
-     * @param split2newAngle
      */
     private void avoidCollisionsRec(int ntax, Node v, PhyloSplitsGraph graph, BitSet seen, double[] split2newAngle) {
         for (Edge e = v.getFirstAdjacentEdge(); e != null; e = v.getNextAdjacentEdge(e)) {
@@ -208,10 +201,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * initializes the graph
      *
-     * @param taxa
-     * @param splits
-     * @param cycle
-     * @param graph
      */
     private void initGraph(Taxa taxa, Splits splits, int[] cycle, PhyloSplitsGraph graph) throws
             NotOwnerException {
@@ -258,8 +247,6 @@ public class EqualAngleOld implements Splits2Network {
      * returns the list of all non-trivial splits, ordered by by increasing size
      * of the split part containing taxon 1
      *
-     * @param taxa
-     * @param splits
      * @return non-trivial splits
      */
     private List<Integer> getInteriorSplitsOrdered(Taxa taxa, Splits splits) {
@@ -284,7 +271,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * normalizes cycle so that cycle[1]=1
      *
-     * @param cycle
      * @return normalized cycle
      */
     private int[] normalizeCycle(int[] cycle) {
@@ -311,11 +297,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * adds an interior split using the wrapping algorithm
      *
-     * @param taxa
-     * @param cycle
-     * @param splits
-     * @param s
-     * @param graph
      */
     private void wrapSplit(Taxa taxa, Splits splits, int s, int[] cycle, PhyloSplitsGraph graph) throws
             Exception {
@@ -403,8 +384,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * does this edge lead to a leaf?
      *
-     * @param f
-     * @param graph
      * @return is leaf edge
      */
     private boolean isLeafEdge(Edge f, PhyloSplitsGraph graph) throws NotOwnerException {
@@ -415,8 +394,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * this removes all temporary trivial edges added to the graph
      *
-     * @param graph
-     * @throws NotOwnerException
      */
     private void removeTemporaryTrivialEdges(PhyloSplitsGraph graph) throws NotOwnerException {
         EdgeSet tempEdges = new EdgeSet(graph);
@@ -451,9 +428,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * assigns angles to all edges in the graph
      *
-     * @param splits
-     * @param cycle
-     * @param graph
      */
     private void assignAnglesToEdges(Splits splits, int[] cycle, PhyloSplitsGraph graph)
             throws NotOwnerException, CanceledException {
@@ -494,9 +468,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * runs the optimize daylight algorithm
      *
-     * @param taxa
-     * @param graphView
-     * @throws NotOwnerException
      */
     private void runOptimizeDayLight(Taxa taxa, PhyloGraphView graphView) throws CanceledException, NotOwnerException {
 
@@ -510,7 +481,7 @@ public class EqualAngleOld implements Splits2Network {
 
             int count = 0;
 
-			Iterator it = IteratorUtils.randomize(graph.nodes().iterator(), 77 * i);
+			Iterator it = IteratorUtils.randomize(graph.nodes().iterator(), 77L * i);
             while (it.hasNext()) {
                 Node v = (Node) it.next();
                 if (graph.getDegree(v) > 1 && !ignore.contains(v)) {
@@ -526,11 +497,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * optimize the daylight angles of the graph
      *
-     * @param taxa
-     * @param v
-     * @param graphView
-     * @throws NotOwnerException
-     * @throws CanceledException
      */
     private boolean optimizeDaylightNode(Taxa taxa, Node v,
                                          PhyloGraphView graphView) throws NotOwnerException, CanceledException {
@@ -594,14 +560,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * recursively visit the whole subgraph, obtaining the min and max observed angle
      *
-     * @param root
-     * @param v
-     * @param e
-     * @param edge2comp
-     * @param numComp
-     * @param graph
-     * @param visited
-     * @param minMaxAngle
      */
     private void visitComponentRec(Node root, Node v, Edge e, EdgeIntArray edge2comp,
                                    int numComp, PhyloSplitsGraph graph, PhyloGraphView graphView,
@@ -632,8 +590,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * assigns coordinates to nodes
      *
-     * @param useWeights
-     * @param graphView
      */
     private void assignCoordinatesToNodes(boolean useWeights, PhyloGraphView graphView) throws NotOwnerException, CanceledException {
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
@@ -651,11 +607,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * recursively assigns coordinates to all nodes
      *
-     * @param v
-     * @param splitsInPath
-     * @param nodesVisited
-     * @param useWeights
-     * @param graphView
      */
     private void assignCoordinatesToNodesRec(Node v, BitSet splitsInPath,
                                              NodeSet nodesVisited, boolean useWeights, PhyloGraphView graphView)
@@ -714,31 +665,12 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * set optimize daylight option
      *
-     * @param optimizeDaylight
      */
     public void setOptionOptimizeDaylight(boolean optimizeDaylight) {
         this.optionOptimizeDaylight = optimizeDaylight;
     }
 
-    /**
-     * should  interior angle optimization be applied?
-     * @return apply option?
-
-    public boolean getOptionOptimizeInterior() {
-    return optimizeInterior;
-    }
-     */
-
-    /**
-     * set optimize interior angle option
-     * @param optimizeInterior
-
-    public void setOptionOptimizeInterior(boolean optimizeInterior) {
-    this.optimizeInterior = optimizeInterior;
-    }
-     */
-
-    /**
+	/**
      * scale edge lengths by weights?
      *
      * @return use weights?
@@ -750,7 +682,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * scale edge lengths by weights?
      *
-     * @param useWeights
      */
     public void setOptionUseWeights(boolean useWeights) {
         this.optionUseWeights = useWeights;
@@ -759,7 +690,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * run convex hull algorithm on non circular splits?
      *
-     * @param runConvexHull
      */
     public void setOptionRunConvexHull(boolean runConvexHull) {
         this.optionRunConvexHull = runConvexHull;
@@ -768,7 +698,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * runs convex hull algorith,m on non circular splits?
      *
-     * @return
      */
     public boolean getOptionRunConvexHull() {
         return optionRunConvexHull;
@@ -777,7 +706,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * get the number of times to run daylight optimization
      *
-     * @return
      */
     public int getOptionDaylightIterations() {
         return optionDaylightIterations;
@@ -786,7 +714,6 @@ public class EqualAngleOld implements Splits2Network {
     /**
      * set the number of times to run daylight optimization
      *
-     * @param optionDaylightIterations
      */
     public void setOptionDaylightIterations(int optionDaylightIterations) {
         this.optionDaylightIterations = optionDaylightIterations;

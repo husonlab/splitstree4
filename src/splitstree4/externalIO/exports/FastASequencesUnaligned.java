@@ -36,7 +36,7 @@ import java.util.Map;
  */
 public class FastASequencesUnaligned extends ExporterAdapter implements Exporter {
 
-    private String Description = "Exports unaligned sequences in FastA format.";
+    private final String Description = "Exports unaligned sequences in FastA format.";
 
     /**
      * can we import this data?

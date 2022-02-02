@@ -44,7 +44,6 @@ public class MrBayesPartitions extends FileFilter implements Importer {
     /**
      * does this importer apply to the type of nexus block
      *
-     * @param blockName
      * @return true, if can handle this import
      */
     public boolean isApplicableToBlock(String blockName) {
@@ -55,7 +54,6 @@ public class MrBayesPartitions extends FileFilter implements Importer {
     /**
      * can we import this data?
      *
-     * @param input
      * @return true, if can handle this import
      * Checks by trying to read in the first split.
      */
@@ -109,7 +107,6 @@ public class MrBayesPartitions extends FileFilter implements Importer {
     /**
      * convert input into nexus format
      *
-     * @param input
      * @return nexus string
      */
     public String apply(Reader input) throws Exception {
@@ -119,22 +116,21 @@ public class MrBayesPartitions extends FileFilter implements Importer {
             for (int i = 0; i < 6; i++)
                 br.readLine();
 
-            boolean done = false;
             int ntax = 0;
             int nsamples = 0;
 
             Splits splits = new Splits();
 
-            while (!done) {
-                String line = br.readLine();
-                if (line == null || line.length() == 0)
-                    break;
-                //Read the row number. Just returns stuff between tabs.
-                StringTokenizer st = new StringTokenizer(line);
+            while (true) {
+				String line = br.readLine();
+				if (line == null || line.length() == 0)
+					break;
+				//Read the row number. Just returns stuff between tabs.
+				StringTokenizer st = new StringTokenizer(line);
 
-                //First token is row number: skip it.
-                //String rowNum = st.nextToken();
-                st.nextToken();
+				//First token is row number: skip it.
+				//String rowNum = st.nextToken();
+				st.nextToken();
 
                 //Nxt token is the flags for the sets.
                 String split = st.nextToken();
@@ -160,7 +156,7 @@ public class MrBayesPartitions extends FileFilter implements Importer {
                 if (nsamples == 0) {
                     String probString = st.nextToken();
                     double prob = Double.parseDouble(probString);
-                    nsamples = (int) (Math.floor((double) num) / prob);
+					nsamples = (int) (Math.floor(num) / prob);
                 }
                 splits.add(A, num);
 
@@ -267,8 +263,6 @@ public class MrBayesPartitions extends FileFilter implements Importer {
      * The numbers of taxa matches.... its up to MrBayes to get the order right! (which it does)
      *
      * @param mainViewerFrame Frame to place alerts and dialog
-     * @param file
-     * @param doc
      */
     public static void extractTaxa(JFrame mainViewerFrame, File file, Document doc) {
 
@@ -283,12 +277,12 @@ public class MrBayesPartitions extends FileFilter implements Importer {
 
         //Ask the user whether we should input the taxa.
         int n = JOptionPane.showOptionDialog(mainViewerFrame,
-                "Import taxon names from \n" + taxaFile.toString() + "?",
-                "Import Taxa",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                buttons, buttons[1]);
+				"Import taxon names from \n" + taxaFile + "?",
+				"Import Taxa",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				buttons, buttons[1]);
 
 
         if (n == 1) {     //User said yes.
@@ -309,20 +303,20 @@ public class MrBayesPartitions extends FileFilter implements Importer {
 
             //If that didn't work, try and import it.
             if (!valid) {
-                try {
-                    String input = ImportManager.importData(taxaFile);
-                    taxadoc.readNexus(new NexusStreamParser(new StringReader(input)));
-                    valid = true;
-                } catch (Exception e) {
-                }
+				try {
+					String input = ImportManager.importData(taxaFile);
+					taxadoc.readNexus(new NexusStreamParser(new StringReader(input)));
+					valid = true;
+				} catch (Exception ignored) {
+				}
             }
             if (valid) {
                 //Check if the number of taxa matches
                 if (doc.getSplits() != null && doc.getSplits().getNtax() != taxadoc.getTaxa().getNtax()) {
-                    String msg = "The number of taxa in \n" + file.toString() + "\ndiffers from the number of taxa";
-                    msg += " in \n" + taxaFile.toString() + "\nUsing default names instead";
-                    new Alert(mainViewerFrame, msg);
-                } else
+					String msg = "The number of taxa in \n" + file + "\ndiffers from the number of taxa";
+					msg += " in \n" + taxaFile + "\nUsing default names instead";
+					new Alert(mainViewerFrame, msg);
+				} else
                     doc.setTaxa(taxadoc.getTaxa());
             }
         }

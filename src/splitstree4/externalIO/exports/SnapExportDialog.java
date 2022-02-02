@@ -110,47 +110,31 @@ public class SnapExportDialog extends javax.swing.JDialog {
         //jCheckBox1.setText("jCheckBox1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(700, 581));
-        setResizable(false);
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+		setPreferredSize(new java.awt.Dimension(700, 581));
+		setResizable(false);
+		getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Parameters to sample"));
-        jPanel3.setLayout(new java.awt.GridBagLayout());
+		jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Parameters to sample"));
+		jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        treeCheckBox.setSelected(true);
-        treeCheckBox.setText("Trees");
-        treeCheckBox.setToolTipText("Sample trees, if unchecked these are left constant. If checked, divergence times and pop. sizes will also be sampled");
-        treeCheckBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                treeCheckBoxItemStateChanged(evt);
-            }
-        });
-        treeCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                treeCheckBoxActionPerformed(evt);
-            }
-        });
-        treeCheckBox.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                treeCheckBoxPropertyChange(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        jPanel3.add(treeCheckBox, gridBagConstraints);
+		treeCheckBox.setSelected(true);
+		treeCheckBox.setText("Trees");
+		treeCheckBox.setToolTipText("Sample trees, if unchecked these are left constant. If checked, divergence times and pop. sizes will also be sampled");
+		treeCheckBox.addItemListener(evt -> treeCheckBoxItemStateChanged(evt));
+		treeCheckBox.addActionListener(evt -> treeCheckBoxActionPerformed(evt));
+		treeCheckBox.addPropertyChangeListener(evt -> treeCheckBoxPropertyChange(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+		jPanel3.add(treeCheckBox, gridBagConstraints);
 
-        timesCheckBox.setSelected(true);
-        timesCheckBox.setText("Divergence times");
-        timesCheckBox.setToolTipText("Sample divergence times, if unchecked these are left constant");
-        timesCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                timesCheckBoxActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		timesCheckBox.setSelected(true);
+		timesCheckBox.setText("Divergence times");
+		timesCheckBox.setToolTipText("Sample divergence times, if unchecked these are left constant");
+		timesCheckBox.addActionListener(evt -> timesCheckBoxActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -160,13 +144,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
 
         populationCheckBox.setSelected(true);
         populationCheckBox.setText("Population sizes");
-        populationCheckBox.setToolTipText("Sample population sizes, if unchecked these are left constant");
-        populationCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                populationCheckBoxActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		populationCheckBox.setToolTipText("Sample population sizes, if unchecked these are left constant");
+		populationCheckBox.addActionListener(evt -> populationCheckBoxActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -204,13 +184,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
         jPanel8.add(jLabel11, gridBagConstraints);
 
         mcmcLengthField.setText("10000000");
-        mcmcLengthField.setToolTipText("Number of MCMC iterations");
-        mcmcLengthField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mcmcLengthFieldActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		mcmcLengthField.setToolTipText("Number of MCMC iterations");
+		mcmcLengthField.addActionListener(evt -> mcmcLengthFieldActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel8.add(mcmcLengthField, gridBagConstraints);
@@ -221,13 +197,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
         jPanel8.add(jLabel12, gridBagConstraints);
 
         mcmcBurninField.setText("1000000");
-        mcmcBurninField.setToolTipText("Initial iterations discarded");
-        mcmcBurninField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mcmcBurninFieldActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		mcmcBurninField.setToolTipText("Initial iterations discarded");
+		mcmcBurninField.addActionListener(evt -> mcmcBurninFieldActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel8.add(mcmcBurninField, gridBagConstraints);
@@ -238,38 +210,26 @@ public class SnapExportDialog extends javax.swing.JDialog {
         jPanel8.add(jLabel13, gridBagConstraints);
 
         mcmcSampleField.setText("1000");
-        mcmcSampleField.setToolTipText("Frequency at which samples are saved to disk");
-        mcmcSampleField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mcmcSampleFieldActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		mcmcSampleField.setToolTipText("Frequency at which samples are saved to disk");
+		mcmcSampleField.addActionListener(evt -> mcmcSampleFieldActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel8.add(mcmcSampleField, gridBagConstraints);
 
         exportButton.setText("Export...");
-        exportButton.setToolTipText("Export SNAP file");
-        exportButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportButtonActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		exportButton.setToolTipText("Export SNAP file");
+		exportButton.addActionListener(evt -> exportButtonActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanel8.add(exportButton, gridBagConstraints);
 
         cancelButton.setText("Cancel");
-        cancelButton.setToolTipText("Cancel export");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		cancelButton.setToolTipText("Cancel export");
+		cancelButton.addActionListener(evt -> cancelButtonActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -294,13 +254,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
         jPanel5.add(jLabel3, gridBagConstraints);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Gamma"}));
-        jComboBox2.setToolTipText("Prior distribution for theta values");
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		jComboBox2.setToolTipText("Prior distribution for theta values");
+		jComboBox2.addActionListener(evt -> jComboBox2ActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -315,13 +271,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
         jPanel5.add(varLabel, gridBagConstraints);
 
         varField.setText("1");
-        varField.setToolTipText("variance of pop. size prior distribution");
-        varField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                varFieldActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		varField.setToolTipText("variance of pop. size prior distribution");
+		varField.addActionListener(evt -> varFieldActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -336,13 +288,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
         jPanel5.add(meanLabel, gridBagConstraints);
 
         meanField.setText("1");
-        meanField.setToolTipText("Mean of pop. size prior distribution");
-        meanField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                meanFieldActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		meanField.setToolTipText("Mean of pop. size prior distribution");
+		meanField.addActionListener(evt -> meanFieldActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -357,13 +305,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel5.add(jLabel16, gridBagConstraints);
 
-        popTrait.setToolTipText("Which trait in the Traits block determines population or species membership");
-        popTrait.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                popTraitActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		popTrait.setToolTipText("Which trait in the Traits block determines population or species membership");
+		popTrait.addActionListener(evt -> popTraitActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -373,36 +317,28 @@ public class SnapExportDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        getContentPane().add(jPanel5, gridBagConstraints);
+		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+		getContentPane().add(jPanel5, gridBagConstraints);
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Initial values"));
-        jPanel7.setLayout(new java.awt.GridBagLayout());
+		jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Initial values"));
+		jPanel7.setLayout(new java.awt.GridBagLayout());
 
-        startTreeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Paste tree:", "UPGMA tree (Nei's genetic distance)", "Random tree from prior"}));
-        startTreeCombo.setSelectedIndex(2);
-        startTreeCombo.setToolTipText("Tree to start the chain");
-        startTreeCombo.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                startTreeComboItemStateChanged(evt);
-            }
-        });
-        startTreeCombo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startTreeComboActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel7.add(startTreeCombo, gridBagConstraints);
+		startTreeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Paste tree:", "UPGMA tree (Nei's genetic distance)", "Random tree from prior"}));
+		startTreeCombo.setSelectedIndex(2);
+		startTreeCombo.setToolTipText("Tree to start the chain");
+		startTreeCombo.addItemListener(evt -> startTreeComboItemStateChanged(evt));
+		startTreeCombo.addActionListener(evt -> startTreeComboActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 2;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		jPanel7.add(startTreeCombo, gridBagConstraints);
 
-        jLabel9.setText("Starting tree");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+		jLabel9.setText("Starting tree");
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel7.add(jLabel9, gridBagConstraints);
@@ -417,13 +353,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
 
         startThetasCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Read from tree", "Draw from prior"}));
         startThetasCombo.setSelectedIndex(1);
-        startThetasCombo.setToolTipText("Theta values to start the chain");
-        startThetasCombo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startThetasComboActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		startThetasCombo.setToolTipText("Theta values to start the chain");
+		startThetasCombo.addActionListener(evt -> startThetasComboActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -456,13 +388,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         speciesTreeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Yule prior"}));
-        speciesTreeCombo.setToolTipText("Prior distribution for species tree");
-        speciesTreeCombo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                speciesTreeComboActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		speciesTreeCombo.setToolTipText("Prior distribution for species tree");
+		speciesTreeCombo.addActionListener(evt -> speciesTreeComboActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -471,13 +399,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
 
         treePriorParamField.setColumns(6);
         treePriorParamField.setText("1.0");
-        treePriorParamField.setToolTipText("Birth rate for species tree prior");
-        treePriorParamField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                treePriorParamFieldActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		treePriorParamField.setToolTipText("Birth rate for species tree prior");
+		treePriorParamField.addActionListener(evt -> treePriorParamFieldActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -513,17 +437,13 @@ public class SnapExportDialog extends javax.swing.JDialog {
 
         uField.setColumns(8);
         uField.setText("1");
-        uField.setToolTipText("1->0 mutation rate");
-        uField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uFieldActionPerformed(evt);
-            }
-        });
-        uField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                uFieldFocusLost(evt);
-            }
-        });
+		uField.setToolTipText("1->0 mutation rate");
+		uField.addActionListener(evt -> uFieldActionPerformed(evt));
+		uField.addFocusListener(new java.awt.event.FocusAdapter() {
+			public void focusLost(java.awt.event.FocusEvent evt) {
+				uFieldFocusLost(evt);
+			}
+		});
         uField.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 uFieldInputMethodTextChanged(evt);
@@ -550,17 +470,13 @@ public class SnapExportDialog extends javax.swing.JDialog {
 
         vField.setColumns(8);
         vField.setText("1");
-        vField.setToolTipText("0->1 mutation rate");
-        vField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vFieldActionPerformed(evt);
-            }
-        });
-        vField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                vFieldFocusLost(evt);
-            }
-        });
+		vField.setToolTipText("0->1 mutation rate");
+		vField.addActionListener(evt -> vFieldActionPerformed(evt));
+		vField.addFocusListener(new java.awt.event.FocusAdapter() {
+			public void focusLost(java.awt.event.FocusEvent evt) {
+				vFieldFocusLost(evt);
+			}
+		});
         vField.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 vFieldInputMethodTextChanged(evt);
@@ -631,13 +547,9 @@ public class SnapExportDialog extends javax.swing.JDialog {
         allPolymorphicCheck.setSelected(true);
         allPolymorphicCheck.setText("All markers polymorphic");
         allPolymorphicCheck.setToolTipText("Ignore non-polymorphic markers and adjust likelihoods accordingly");
-        allPolymorphicCheck.setEnabled(false);
-        allPolymorphicCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                allPolymorphicCheckActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+		allPolymorphicCheck.setEnabled(false);
+		allPolymorphicCheck.addActionListener(evt -> allPolymorphicCheckActionPerformed(evt));
+		gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 4;
@@ -653,12 +565,8 @@ public class SnapExportDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         getContentPane().add(jPanel6, gridBagConstraints);
 
-        estimatePriorCheck.setText("Estimate prior parameters from data");
-        estimatePriorCheck.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                estimatePriorCheckStateChanged(evt);
-            }
-        });
+		estimatePriorCheck.setText("Estimate prior parameters from data");
+		estimatePriorCheck.addChangeListener(evt -> estimatePriorCheckStateChanged(evt));
         // estimatePriorCheck.setSelected(true);
         //setPriorParamsEnabled(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -803,8 +711,7 @@ public class SnapExportDialog extends javax.swing.JDialog {
      * When the user selects/deselcts the prior state button, the fields
      * for the prior parameters are disabled/enabled resp.
      *
-     * @param evt
-     */
+	 */
     private void estimatePriorCheckStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_estimatePriorCheckStateChanged
         setPriorParamsEnabled(!estimatePriorCheck.isSelected());
     }//GEN-LAST:event_estimatePriorCheckStateChanged
@@ -852,22 +759,20 @@ public class SnapExportDialog extends javax.swing.JDialog {
     }   */
 
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                SnapExportDialog dialog = new SnapExportDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+	/**
+	 * @param args the command line arguments
+	 */
+	public static void main(String[] args) {
+		java.awt.EventQueue.invokeLater(() -> {
+			SnapExportDialog dialog = new SnapExportDialog(new javax.swing.JFrame(), true);
+			dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					System.exit(0);
+				}
+			});
+			dialog.setVisible(true);
+		});
+	}
 
     /* Variables declaration - do not modify
     private javax.swing.JCheckBox allPolymorphicCheck;

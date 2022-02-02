@@ -252,8 +252,7 @@ public class C2Text implements Characters2Trees {
     /**
      * gets the list of possible export formats
      *
-     * @return
-     */
+	 */
     public List selectionOptionFormat(Document doc) {
         try {
             // TODO: only ones applicable to this data type!
@@ -280,8 +279,7 @@ public class C2Text implements Characters2Trees {
     /**
      * file in which to receive data from external program
      *
-     * @return
-     */
+	 */
     public String getOptionReturnFile() {
         return optionReturnFile;
     }

@@ -37,15 +37,13 @@ import java.util.Arrays;
 public class ParsimonyNet /*implements Characters2Splits*/ {
     public Splits apply(Document doc, Taxa taxa, Characters chars) throws Exception {
 
-        /** Use NeighborNet to get an initial ordering */
-        Hamming hamming = new Hamming();
-        Distances dist = hamming.apply(null, taxa, chars);
+		Hamming hamming = new Hamming();
+		Distances dist = hamming.apply(null, taxa, chars);
         int[] ordering = NeighborNet.computeNeighborNetOrdering(dist);    //NB: ordering in positions 1...n
 
 
-        /**Compute length **/
-        String states = chars.getFormat().getSymbols();
-        int r = states.length();
+		String states = chars.getFormat().getSymbols();
+		int r = states.length();
         char missing = chars.getFormat().getMissing();
         char gap = chars.getFormat().getGap();
 

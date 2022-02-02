@@ -68,14 +68,14 @@ public class LeastSquares {
             I = splits.get(i + 1); //Note - indices off by one.
             Isize = I.cardinality();
             for (int j = 0; j < i; j++) {
-                J = (TaxaSet) splits.get(j + 1).clone();
-                Jsize = J.cardinality();
-                J.and(I);
-                int x = J.cardinality(); //Size of intersection
-                int Aij = x * (ntaxa - Isize - Jsize + x) + (Isize - x) * (Jsize - x);
-                Amat.set(i, j, (double) Aij);
-                Amat.set(j, i, (double) Aij);
-            }
+				J = (TaxaSet) splits.get(j + 1).clone();
+				Jsize = J.cardinality();
+				J.and(I);
+				int x = J.cardinality(); //Size of intersection
+				int Aij = x * (ntaxa - Isize - Jsize + x) + (Isize - x) * (Jsize - x);
+				Amat.set(i, j, Aij);
+				Amat.set(j, i, Aij);
+			}
             Amat.set(i, i, Isize * (ntaxa - Isize));
         }
         return Amat;
@@ -120,12 +120,8 @@ public class LeastSquares {
         return Amat;
     }
 
-    /**
-     * Computes A'diag(w)A
-     */
 
-
-    /**
+	/**
      * Computes matrix A'WA where W is a diagonal matrix with diagonal elements given by the vector w
      * and A is the topological matrix for the splits
      * <p/>
@@ -280,13 +276,7 @@ public class LeastSquares {
         return Av;
     }
 
-    /**
-     *`
-     *
-     * @param constrain Non-negativity constraint.
-     */
-
-    /**
+	/**
      * Computes the optimal least squares values for split weights, with or without a positivity constraint
      * Uses  fairly inefficient Cholesky decomposition algorithm (with updating).
      *

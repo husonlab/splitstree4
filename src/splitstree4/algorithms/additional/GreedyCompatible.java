@@ -47,11 +47,7 @@ public class GreedyCompatible implements Splits2Splits {
     /**
      * applies the splits to splits transfomration
      *
-     * @param doc
-     * @param taxa
-     * @param splits
-     * @throws jloda.util.CanceledException
-     */
+	 */
     public void apply(Document doc, Taxa taxa,
                       Splits splits) throws CanceledException {
 

@@ -41,15 +41,13 @@ import javax.swing.*;
  */
 public class K2P extends DNAdistance {
 
-    private double tratio = 2.0;
-    public final static String DESCRIPTION = "Calculates distances using the Kimura2P model";
+    private final double tratio = 2.0;
+	public final static String DESCRIPTION = "Calculates distances using the Kimura2P model";
 
     /**
      * return the option panel for the method
      *
-     * @param doc
-     * @return
-     */
+	 */
     public JPanel getGUIPanel(Document doc) {
         if (guiPanel != null)
             return guiPanel;
@@ -64,10 +62,7 @@ public class K2P extends DNAdistance {
     }
 
     /**
-     * @param F
-     * @return
-     * @throws SaturatedDistancesException
-     */
+	 */
     protected double exactDist(double[][] F) throws SaturatedDistancesException {
         double P = F[0][2] + F[1][3] + F[2][0] + F[3][1];
         double Q = F[0][1] + F[0][3] + F[1][0] + F[1][2];

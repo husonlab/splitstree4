@@ -42,8 +42,8 @@ import javax.swing.*;
  */
 public class HKY85 extends DNAdistance {
 
-    private double tratio = 2.0;
-    public final static String DESCRIPTION = "Calculates distances using the Hasegawa, Kishino and Yano model";
+    private final double tratio = 2.0;
+	public final static String DESCRIPTION = "Calculates distances using the Hasegawa, Kishino and Yano model";
 
     /**
      *
@@ -63,10 +63,7 @@ public class HKY85 extends DNAdistance {
     }
 
     /**
-     * @param F
-     * @return
-     * @throws SaturatedDistancesException
-     */
+	 */
     protected double exactDist(double[][] F) throws SaturatedDistancesException {
         return 0.0; //We will never get here!
     }
@@ -74,9 +71,7 @@ public class HKY85 extends DNAdistance {
     /**
      * return the option panel for the method
      *
-     * @param doc
-     * @return
-     */
+	 */
     public JPanel getGUIPanel(Document doc) {
         if (guiPanel != null)
             return guiPanel;

@@ -65,9 +65,7 @@ public final class QuickSelect {
     /**
      * Returns median of the array - note that this will change the ordering in the array!
      *
-     * @param a
-     * @return
-     */
+	 */
     public static float median(float[] a) {
         int k = a.length / 2 + 1;
         quickSelect(a, k);
@@ -78,11 +76,9 @@ public final class QuickSelect {
     /**
      * Select the kth smallest element in the array a, with linear expected time.
      *
-     * @param a
      * @param low  leftmost index (of subarray)
      * @param high rightmost index (of subarray)
-     * @param k
-     */
+	 */
     private static void quickSelect(float[] a, int low, int high, int k) {
 
         if (low + 10 > high)

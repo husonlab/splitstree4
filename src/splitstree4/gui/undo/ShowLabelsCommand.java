@@ -30,23 +30,19 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant
  */
 public class ShowLabelsCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    boolean selectedOnly;
-    boolean show;
-    NodeArray showNodeLabels;
-    EdgeArray showEdgeLabels;
+	final MainViewer viewer;
+	final boolean selectedOnly;
+	final boolean show;
+	final NodeArray showNodeLabels;
+	final EdgeArray showEdgeLabels;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param show
-     * @param selectedOnly
-     */
-    public ShowLabelsCommand(MainViewer viewer, boolean show, boolean selectedOnly) {
-        this.viewer = viewer;
-        this.selectedOnly = selectedOnly;
-        this.show = show;
+	/**
+	 * constructor
+	 */
+	public ShowLabelsCommand(MainViewer viewer, boolean show, boolean selectedOnly) {
+		this.viewer = viewer;
+		this.selectedOnly = selectedOnly;
+		this.show = show;
 
         PhyloSplitsGraph graph = viewer.getPhyloGraph();
         showNodeLabels = new NodeArray(graph);

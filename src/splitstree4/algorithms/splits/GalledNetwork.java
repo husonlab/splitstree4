@@ -46,19 +46,19 @@ import java.util.*;
  * Implements the Galled network method
  */
 public class GalledNetwork implements Splits2Network {
-    public final boolean EXPERT = true;
-    private boolean verbose = false;
-    private boolean checkRoot = false;
+	public final boolean EXPERT = true;
+	private final boolean verbose = false;
+	private final boolean checkRoot = false;
 
-    // known options:
-    boolean optionShowSplits = false;
-    String optionOutGroup = Taxa.FIRSTTAXON;
-    public String optionLayout = ReticulateNetwork.EQUALANGLE120;
-    private int optionMaxReticulationsPerTangle = 4;
-    private int optionWhich = 0;
-    private int optionMaxReticulationToSearch = 1;
+	// known options:
+	boolean optionShowSplits = false;
+	String optionOutGroup = Taxa.FIRSTTAXON;
+	public String optionLayout = ReticulateNetwork.EQUALANGLE120;
+	private int optionMaxReticulationsPerTangle = 4;
+	private int optionWhich = 0;
+	private int optionMaxReticulationToSearch = 1;
 
-    protected boolean optionShowMutations = false;
+	protected boolean optionShowMutations = false;
     protected boolean optionShowSequences = false;
     public int optionPercentOffset = 10;
 
@@ -257,7 +257,6 @@ public class GalledNetwork implements Splits2Network {
      * build the incompatibility graph.
      * Each node is labeled by a Pair consisting of the ID of the split and its weight
      *
-     * @param splits
      * @return incompatibility graph
      */
     Graph buildIncompatibilityGraph
@@ -293,7 +292,6 @@ public class GalledNetwork implements Splits2Network {
     /**
      * computes the components of the incompatibility graph:
      *
-     * @param incompGraph
      * @return components
      */
     private NodeSet[] computeNonTrivialConnectedComponents(Graph incompGraph, int[] split2incomp) throws NotOwnerException {
@@ -324,18 +322,13 @@ public class GalledNetwork implements Splits2Network {
             for (Object component : components) System.out.println(component);
         }
 
-        return (NodeSet[]) components.toArray(new NodeSet[components.size()]);
+		return (NodeSet[]) components.toArray(new NodeSet[0]);
     }
 
     /**
      * visit a connected component
      *
-     * @param v
-     * @param unvisited
-     * @param graph
-     * @param comp
-     * @throws NotOwnerException
-     */
+	 */
     private void visitComponentRec(Node v, NodeSet unvisited, Graph graph, NodeSet comp) {
         if (unvisited.contains(v)) {
             unvisited.remove(v);
@@ -349,12 +342,6 @@ public class GalledNetwork implements Splits2Network {
     /**
      * computes the taxa and splits induced by the given component of the incompatibility graph
      *
-     * @param taxa
-     * @param splits
-     * @param component
-     * @param incompGraph
-     * @param inducedTaxa
-     * @param inducedSplits
      * @return map from induced taxa to original taxa
      */
     private TaxaSet[] computeInducedProblem(Taxa taxa, Splits splits, NodeSet component, Graph incompGraph, Taxa inducedTaxa, Splits inducedSplits) throws SplitsException {
@@ -438,8 +425,6 @@ public class GalledNetwork implements Splits2Network {
      * determines all netted components in the graph. They are numbered 1, 2...
      *
      * @param split2incomp map splits to non-trivial components of incompat graph
-     * @param graph
-     * @param gateNodes
      * @return the components
      */
     private NodeSet[] computeNettedComps(int[] split2incomp, PhyloSplitsGraph graph, NodeSet gateNodes, int nComps) throws NotOwnerException {
@@ -485,13 +470,7 @@ public class GalledNetwork implements Splits2Network {
     /**
      * recursively determine all netted compnents
      *
-     * @param v
-     * @param seen
-     * @param split2incomp
-     * @param graph
-     * @param components
-     * @throws NotOwnerException
-     */
+	 */
     private void computeNettedCompsRec(Node v, int ncomp, EdgeSet seen, int[] split2incomp, PhyloSplitsGraph graph, NodeSet[] components) throws NotOwnerException {
         for (Edge e = graph.getFirstAdjacentEdge(v); e != null; e = graph.getNextAdjacentEdge(e, v)) {
             if (!seen.contains(e) && split2incomp[graph.getSplit(e)] == ncomp) {
@@ -528,8 +507,7 @@ public class GalledNetwork implements Splits2Network {
     /**
      * preserve edges in components?
      *
-     * @param optionShowSplits
-     */
+	 */
     public void setOptionShowSplits
     (boolean optionShowSplits) {
         this.optionShowSplits = optionShowSplits;

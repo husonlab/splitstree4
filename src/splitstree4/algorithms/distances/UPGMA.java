@@ -18,12 +18,6 @@
  */
 // NOTE: apply uses the upper triangle of the dist matix
 
-/**
- * @version $Id: UPGMA.java,v 1.22 2010-02-04 11:53:16 huson Exp $
- *
- * @author Christian Rausch
- *
- */
 package splitstree4.algorithms.distances;
 
 import jloda.graph.Edge;

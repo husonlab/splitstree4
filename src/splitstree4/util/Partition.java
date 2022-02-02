@@ -57,7 +57,6 @@ public class Partition {
     /**
      * addBlock
      *
-     * @param s
      * @throws Exception if new set overlaps with existing blocks
      */
     public void addBlock(Set<Integer> s) throws Exception {
@@ -67,8 +66,6 @@ public class Partition {
     /**
      * Adds a block together with a name for that block.
      *
-     * @param s
-     * @param name
      * @throws Exception if new set overlaps with existing blocks
      */
     public void addBlock(Set<Integer> s, String name) throws Exception {
@@ -90,7 +87,6 @@ public class Partition {
      *
      * @param first index of first contained position
      * @param last  index of last contained position
-     * @param name
      * @throws Exception if new set overlaps with existing blocks
      */
     public void addBlock(int first, int last, String name) throws Exception {
@@ -112,7 +108,6 @@ public class Partition {
     /**
      * gets a block
      *
-     * @param blockNum
      * @return block
      */
     public Set<Integer> getBlock(int blockNum) {
@@ -122,7 +117,6 @@ public class Partition {
     /**
      * Returns the name of a given block (or null if it has none)
      *
-     * @param blockNum
      * @return String name of the block
      */
     public String getBlockName(int blockNum) {
@@ -137,7 +131,6 @@ public class Partition {
     /**
      * Determine which block contains the given object
      *
-     * @param j
      * @return Returns the number of the block containing o, or Partition.NOT_FOUND if not found.
      */
     public int whichBlock(Integer j) {

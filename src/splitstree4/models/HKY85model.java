@@ -37,9 +37,7 @@ public class HKY85model extends NucleotideModel {
      * than the parameter kappa in Swofford et al, pg 436.)
      * We first compute the corresponding kappa, fill in Q according to the standard model/.
      *
-     * @param basefreqs
-     * @param TsTv
-     */
+	 */
     public HKY85model(double[] basefreqs, double TsTv) {
         super();
 

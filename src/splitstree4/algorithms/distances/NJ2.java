@@ -18,12 +18,6 @@
  */
 // NOTE: apply uses the upper triangle of the dist matix
 
-/**
- * @version $Id: NJ2.java,v 1.3 2007-09-11 12:31:06 kloepper Exp $
- *
- * @author Christian Rausch
- *
- */
 package splitstree4.algorithms.distances;
 
 import jloda.graph.Edge;
@@ -43,7 +37,7 @@ public class NJ2 /* implements Distances2Trees*/ {
 
 
     public final boolean EXPERT = true;
-    public static String DESCRIPTION = "Computes the Neighbour-Joining tree (Saitou and Nei 1987)";
+	public static final String DESCRIPTION = "Computes the Neighbour-Joining tree (Saitou and Nei 1987)";
 
 
     /**

@@ -31,18 +31,18 @@ import java.util.List;
  * Daniel Huson and David Bryant
  */
 public class ConfidenceNetworkActions {
-    ConfidenceNetworkDialog ConfidenceNetworkDialog;
-    List all;
+	final ConfidenceNetworkDialog ConfidenceNetworkDialog;
+	final List all;
 
-    public ConfidenceNetworkActions(ConfidenceNetworkDialog dialog) {
-        this.ConfidenceNetworkDialog = dialog;
-        this.all = new LinkedList();
-    }
+	public ConfidenceNetworkActions(ConfidenceNetworkDialog dialog) {
+		this.ConfidenceNetworkDialog = dialog;
+		this.all = new LinkedList();
+	}
 
-    AbstractAction cancelAction;
+	AbstractAction cancelAction;
 
-    AbstractAction getCancelAction() {
-        AbstractAction action = cancelAction;
+	AbstractAction getCancelAction() {
+		AbstractAction action = cancelAction;
         if (action != null)
             return action;
 

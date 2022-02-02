@@ -183,8 +183,7 @@ public class DocumentData {
     /**
      * Sets the Sets block
      *
-     * @param sets
-     */
+	 */
     public void setSets(Sets sets) {
         this.sets = sets;
     }
@@ -201,7 +200,6 @@ public class DocumentData {
     /**
      * sets the trees block
      *
-     * @param trees
      */
     public void setTrees(Trees trees) {
         this.trees = trees;
@@ -264,7 +262,6 @@ public class DocumentData {
     /**
      * get the reticulate block
      *
-     * @return
      */
     public Reticulate getReticulate() {
         return reticulate;
@@ -273,7 +270,6 @@ public class DocumentData {
     /**
      * set the reticulate block
      *
-     * @param reticulate
      */
     public void setReticulate(Reticulate reticulate) {
         this.reticulate = reticulate;
@@ -329,7 +325,6 @@ public class DocumentData {
     /**
      * is this block valid?
      *
-     * @param block
      * @return true, if valid
      */
     public boolean isValid(NexusBlock block) {
@@ -340,7 +335,6 @@ public class DocumentData {
      * Given name of a block, returns associated block. Does  not check if
      * block is valid or not.
      *
-     * @param name
      * @return NexusBlock block with that name, or null if there is none.
      */
     public NexusBlock getBlockByName(String name) {
@@ -378,7 +372,6 @@ public class DocumentData {
     /**
      * returns true, if named block is valid, false, else
      *
-     * @param name
      * @return block is valid
      */
     public boolean isValidByName(String name) {
@@ -426,7 +419,6 @@ public class DocumentData {
     /**
      * set the current document title
      *
-     * @param title
      */
     public void setTitle(String title) {
         this.title = title;
@@ -444,7 +436,6 @@ public class DocumentData {
     /**
      * sets the file and title associated with this document
      *
-     * @param file
      */
     public void setFile(File file) {
         this.file = file;
@@ -458,8 +449,6 @@ public class DocumentData {
     /**
      * sets the file to the named one, modifying the name to make it unique, if desired
      *
-     * @param name
-     * @param unique
      */
     public void setFile(String name, boolean unique) {
         if (unique) {
@@ -473,8 +462,6 @@ public class DocumentData {
     /**
      * adds the given suffix to the given file (if it is not there already)
      *
-     * @param orig
-     * @param suffix
      */
     public void setFile(File orig, String suffix) {
         String filename = orig.getAbsolutePath();
@@ -509,7 +496,6 @@ public class DocumentData {
     /**
      * has this document been modified?
      *
-     * @param dirty
      */
     public void setDirty(boolean dirty) {
         this.dirty = dirty;

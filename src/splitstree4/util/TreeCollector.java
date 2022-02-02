@@ -43,20 +43,20 @@ import java.util.*;
  * Date: 11-Dec-2004
  */
 public class TreeCollector {
-    int numTrees;
-    Trees trees;
-    Taxa taxa;
-    BitSet firstInGroup; //  this points to the first tree in an consecutive
-    // list of trees that where added together using the add command
+	int numTrees;
+	final Trees trees;
+	final Taxa taxa;
+	final BitSet firstInGroup; //  this points to the first tree in an consecutive
+	// list of trees that where added together using the add command
 
-    /**
-     * constructors a tree collector
-     *
-     * @param taxa    the set of all taxa involved
-     * @param partial will trees be partial?
-     */
-    public TreeCollector(Taxa taxa, boolean partial) {
-        this.taxa = taxa;
+	/**
+	 * constructors a tree collector
+	 *
+	 * @param taxa    the set of all taxa involved
+	 * @param partial will trees be partial?
+	 */
+	public TreeCollector(Taxa taxa, boolean partial) {
+		this.taxa = taxa;
         trees = new Trees();
         trees.setIdentityTranslate(taxa);
         numTrees = 0;
@@ -66,9 +66,7 @@ public class TreeCollector {
     /**
      * adds a set of trees to the collection
      *
-     * @param addTrees
-     * @param addTaxa
-     */
+	 */
     public void addGroup(Trees addTrees, Taxa addTaxa) throws SplitsException, NotOwnerException {
         if (addTrees.getNtrees() > 0) {
             this.trees.setIdentityTranslate(addTaxa);
@@ -148,30 +146,28 @@ public class TreeCollector {
                 if (graph.getSource(e) == source || graph.getTarget(e) == sink) // source or sink edge
                 {
                     graph.setInfo(e, 0);
-                } else // compare trees
-                {
-                    int t1 = (Integer) graph.getInfo(graph.getSource(e));
-                    int t2 = (Integer) graph.getInfo(graph.getTarget(e));
-                    int weight = computeWeight(t1, t2);
+				} else // compare trees
+				{
+					int t1 = (Integer) graph.getInfo(graph.getSource(e));
+					int t2 = (Integer) graph.getInfo(graph.getTarget(e));
+					int weight = computeWeight(t1, t2);
 
-                    graph.setInfo(e, weight);
-                }
-            }
+					graph.setInfo(e, weight);
+				}
+			}
 
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    JFrame frame = new JFrame();
+			SwingUtilities.invokeAndWait(() -> {
+				JFrame frame = new JFrame();
 
-                    graphView.setSize(400, 400);
-                    frame.setSize(400, 400);
-                    frame.getContentPane().add(graphView);
-                    frame.setVisible(true);
+				graphView.setSize(400, 400);
+				frame.setSize(400, 400);
+				frame.getContentPane().add(graphView);
+				frame.setVisible(true);
 
-                    graphView.setVisible(true);
-                    graphView.fitGraphToWindow();
-                    graphView.setAutoLayoutLabels(true);
-                }
-            });
+				graphView.setVisible(true);
+				graphView.fitGraphToWindow();
+				graphView.setAutoLayoutLabels(true);
+			});
 
 
             System.err.println("graph: " + graph);
@@ -197,8 +193,6 @@ public class TreeCollector {
      * returns the proportion of similarity of two trees: 0 completely different,
      * 1 identical
      *
-     * @param t1
-     * @param t2
      * @return number of pairs of incompatible induced splits
      */
     private int computeWeight(int t1, int t2) throws NotOwnerException {
@@ -229,8 +223,6 @@ public class TreeCollector {
     /**
      * project all splits onto the given taxa set
      *
-     * @param taxa
-     * @param psplits
      * @return list of projected splits
      */
     private Set projectSplits(TaxaSet taxa, Set psplits) {

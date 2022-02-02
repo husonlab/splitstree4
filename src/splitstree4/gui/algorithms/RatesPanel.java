@@ -38,27 +38,27 @@ import java.awt.event.FocusListener;
  * To change this template use File | Settings | File Templates.
  */
 public class RatesPanel extends JPanel implements ActionListener, FocusListener {
-    static String[] buttonNames = {"Equal rates", "Gamma"};
-    static String[] buttonCommands = {"equal", "gamma", "alpha", "pinvar", "capture"};
+	static final String[] buttonNames = {"Equal rates", "Gamma"};
+	static final String[] buttonCommands = {"equal", "gamma", "alpha", "pinvar", "capture"};
 
 
-    Characters characters;
-    Document doc;
-    final DNAdistance distTransform;
-    JRadioButton[] rateButtons;
-    JTextField alphaField;
-    JTextField pinvField;
-    JButton estimateButton;
+	final Characters characters;
+	final Document doc;
+	final DNAdistance distTransform;
+	final JRadioButton[] rateButtons;
+	final JTextField alphaField;
+	final JTextField pinvField;
+	final JButton estimateButton;
 
-    public RatesPanel(Characters characters, DNAdistance distTransform, Document doc) {
+	public RatesPanel(Characters characters, DNAdistance distTransform, Document doc) {
 
-        super();
+		super();
 
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-        this.setBorder(BorderFactory.createTitledBorder("Site rate variation"));
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints constraints = new GridBagConstraints();
+		this.setBorder(BorderFactory.createTitledBorder("Site rate variation"));
 
-        this.characters = characters;
+		this.characters = characters;
         this.distTransform = distTransform;
         this.doc = doc;
 
@@ -134,11 +134,11 @@ public class RatesPanel extends JPanel implements ActionListener, FocusListener 
         estimateButton.setEnabled(false);
         estimateButton.setToolTipText("Estimate proportion of invariable sites using the Capture-Recapture heuristic");
         CaptureRecapture captureRecapture = new CaptureRecapture();
-        try {
-            if (captureRecapture.isApplicable(doc))
-                estimateButton.setEnabled(true);
-        } catch (Exception e) {
-        }
+		try {
+			if (captureRecapture.isApplicable(doc))
+				estimateButton.setEnabled(true);
+		} catch (Exception ignored) {
+		}
 
 
         this.add(estimateButton, constraints);

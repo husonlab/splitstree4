@@ -37,8 +37,7 @@ public class ErrorFunction {
      * Steve Verrill translated the FORTRAN code (updated 6/18/92)
      * into Java.  This translation was performed on February 21, 2002.
      *
-     * @param x
-     */
+	 */
     public static double derf(double x) {
 
 /*
@@ -172,8 +171,7 @@ C***END PROLOGUE  DERF
      * Steve Verrill translated the FORTRAN code (updated 6/18/92)
      * into Java.  This translation was performed on February 22, 2002.
      *
-     * @param x
-     */
+	 */
 
 
     public static double derfc(double x) {
@@ -469,17 +467,17 @@ C***END PROLOGUE  DERFC
      * version is part of the SLATEC library of numerical analysis
      * routines.<p>
      * Steve Verrill translated the FORTRAN code (updated 5/1/92)
-     * into Java.  This translation was performed on February 22, 2002.
-     *
-     * @param x  Value at which the series is to be evaluated
-     * @param cs Array of n terms of a Chebyshev series.  In evaluating
-     *           cs, only half the first coefficient is summed.
-     * @param n  Number of terms in array cs (excludes the term
-     *           in the 0th spot)
-     */
+	 * into Java.  This translation was performed on February 22, 2002.
+	 *
+	 * @param x  Value at which the series is to be evaluated
+	 * @param cs Array of n terms of a Chebyshev series.  In evaluating
+	 *           cs, only half the first coefficient is summed.
+	 * @param n  Number of terms in array cs (excludes the term
+	 *           in the 0th spot)
+	 */
 
 
-    public static double dcsevl(double x, double cs[], int n) {
+	public static double dcsevl(double x, double[] cs, int n) {
 
 /*
 
@@ -604,17 +602,17 @@ C***END PROLOGUE  DCSEVL
      * version is part of the SLATEC library of numerical analysis
      * routines.<p>
      * Steve Verrill translated the FORTRAN code (updated 3/15/90)
-     * into Java.  This translation was performed on February 22, 2002.
-     *
-     * @param os  Double precision array of nos coefficients in an
-     *            orthogonal series
-     * @param nos Number of coefficients in os
-     * @param eta Scalar containing the
-     *            requested accuracy of the series
-     */
+	 * into Java.  This translation was performed on February 22, 2002.
+	 *
+	 * @param os  Double precision array of nos coefficients in an
+	 *            orthogonal series
+	 * @param nos Number of coefficients in os
+	 * @param eta Scalar containing the
+	 *            requested accuracy of the series
+	 */
 
 
-    public static int initds(double os[], int nos, double eta) {
+	public static int initds(double[] os, int nos, double eta) {
 
 /*
 

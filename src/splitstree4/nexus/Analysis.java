@@ -123,10 +123,7 @@ public class Analysis extends NexusBlock {
     /**
      * write a block, blocks should override this
      *
-     * @param w
-     * @param taxa
-     * @throws java.io.IOException
-     */
+	 */
     public void write(Writer w, Taxa taxa) throws IOException {
         write(w);
     }
@@ -165,8 +162,6 @@ public class Analysis extends NexusBlock {
     /**
      * Applies all current analyzers to the given block
      *
-     * @param doc
-     * @param taxa
      * @param blockName the name of the block
      * @return results of all applied analyzers
      */

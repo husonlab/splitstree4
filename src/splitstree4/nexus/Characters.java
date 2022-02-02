@@ -45,10 +45,6 @@ import java.util.*;
 public class Characters extends NexusBlock {
     public static final int EXCLUDE_ALL_CONSTANT = -1; // 0: don't exclude, positive: exclude some, -1: exclude all
 
-    /**
-     * Flag indicating whether unknown states are converted to missing, or if they return an error.
-     */
-
     //ToDo: Implement read and write for Character Properties
 
     /**
@@ -521,7 +517,7 @@ public class Characters extends NexusBlock {
     /**
      * the properties subclass
      */
-    public class Properties implements Cloneable {
+    public static class Properties {
         private boolean hasGamma;
         private boolean hasPinvar;
         private double gammaParam = -1;
@@ -661,7 +657,7 @@ public class Characters extends NexusBlock {
     /**
      * boolean used to determine if there are gaps or missing positions.
      */
-    public boolean gapMissingMode;
+    public final boolean gapMissingMode;
 
 
     /**
@@ -813,8 +809,6 @@ public class Characters extends NexusBlock {
             charWeights = null;
     }
 
-    /************************Character weights and state labels******************************/
-
 
     /**
      * hasCharweights
@@ -857,8 +851,6 @@ public class Characters extends NexusBlock {
         this.charWeights[c] = x;
     }
 
-    /************************ Colouring  and states ******************************/
-
 
     /**
      * Gets the name of a character, as specified in the CharStateLabels
@@ -871,8 +863,6 @@ public class Characters extends NexusBlock {
             return null;
         return charLabeler.get(c);
     }
-
-    /************************ Colouring  and states ******************************/
 
     /**
      * Checks if the character is a valid state symbol. Will always return
@@ -971,8 +961,6 @@ public class Characters extends NexusBlock {
         return this.hasAmbigStates;
     }
 
-    /**************************Access to elements in the alignment ****************/
-
 
     /**
      * Get the matrix value.
@@ -1030,7 +1018,6 @@ public class Characters extends NexusBlock {
     /**
      * gets a copy of the named column of the alignment
      *
-     * @param pos
      * @return column of characters block
      */
     public String getColumn(int pos) {
@@ -1057,21 +1044,6 @@ public class Characters extends NexusBlock {
         }
         return buf.toString();
     }
-
-    /**
-     * NOT USED AND REDUNDANT... COMMENTED OUT
-     * returns the character at position c for taxon t
-     *
-     * @param t
-     * @param p
-     * @return character at position p for taxon t
-     *
-     *   public char getRowSubset(int t, int p) {
-     *   return getRow(t)[p];
-     *   }
-     */
-
-    /*****************************Ambiguity strings*******************************************************/
 
 
     /**
@@ -1104,7 +1076,6 @@ public class Characters extends NexusBlock {
     public boolean hasAmbigString(int seq, int c) {
         return ambigStates.hasEntry(seq, c);
     }
-    /*****************************Masks*******************************************************/
 
 
     /**
@@ -1167,10 +1138,6 @@ public class Characters extends NexusBlock {
         mask = null;
         this.nactive = -1;
     }
-
-    /**
-     * **********************************INPUT OUTPUT******************************************************
-     */
 
 
     /**
@@ -1280,18 +1247,18 @@ public class Characters extends NexusBlock {
 
 
             if (getProperties().hasGamma()) {
-                getProperties().setGammaParam((double) np.findIgnoreCase(tokens,
+                getProperties().setGammaParam(np.findIgnoreCase(tokens,
                         "gammaShape=", (float) getProperties().getGammaParam()));
             } else {
-                getProperties().setGammaParam((double) np.findIgnoreCase(tokens,
+                getProperties().setGammaParam(np.findIgnoreCase(tokens,
                         "gammaShape=", -1));     //Default is not to change Gamma setting.
             }
 
             if (getProperties().hasPinvar()) {
-                getProperties().setpInvar((double) np.findIgnoreCase(tokens,
+                getProperties().setpInvar(np.findIgnoreCase(tokens,
                         "pInvar=", (float) getProperties().getpInvar()));
             } else {
-                getProperties().setpInvar((double) np.findIgnoreCase(tokens,
+                getProperties().setpInvar(np.findIgnoreCase(tokens,
                         "pInvar=", -1));     //Default is not to change  setting.
             }
         }
@@ -1451,8 +1418,8 @@ public class Characters extends NexusBlock {
             StringBuilder buf = new StringBuilder();
             for (int ch = unknownStates.nextSetBit(0); ch > 0; ch = unknownStates.nextSetBit(ch + 1))
                 buf.append(" ").append((char) ch);
-            new Alert("Unknown states encountered in matrix:\n" + buf.toString() + "\n"
-                    + "All replaced by the gap-char '" + getFormat().getGap() + "'");
+            new Alert("Unknown states encountered in matrix:\n" + buf + "\n"
+                      + "All replaced by the gap-char '" + getFormat().getGap() + "'");
         }
 
 
@@ -2358,7 +2325,7 @@ public class Characters extends NexusBlock {
                     availableChars += "" + ch;
 
                 //Now remove characters that are forbidden
-                String forbidden = ";\\[],()/"; //punctuation characters  // todo: there is a problem with this expression
+                String forbidden = ";\\[],\\(\\)/"; //punctuation characters
                 forbidden += regString(characters.getFormat().getMissing());
                 forbidden += regString(characters.getFormat().getMatchchar());
                 forbidden += regString(characters.getFormat().getGap());

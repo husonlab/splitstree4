@@ -44,11 +44,7 @@ public interface Splits2Splits extends Transformation {
     /**
      * applies the splits to splits transfomration
      *
-     * @param doc
-     * @param taxa
-     * @param splits
-     * @throws jloda.util.CanceledException
-     */
+	 */
     void apply(Document doc, Taxa taxa,
                Splits splits) throws CanceledException;
 }

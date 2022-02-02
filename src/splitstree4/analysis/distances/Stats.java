@@ -37,10 +37,10 @@ import splitstree4.nexus.Taxa;
  */
 public class Stats implements DistancesAnalysisMethod {
     /**
-     * implementations of analysis-algorithms should overwrite this
-     * String with a short description of what they do.
-     */
-    public static String DESCRIPTION = "Basic statistics for distances";
+	 * implementations of analysis-algorithms should overwrite this
+	 * String with a short description of what they do.
+	 */
+	public static final String DESCRIPTION = "Basic statistics for distances";
 
     /**
      * gets a description of the method
@@ -76,7 +76,6 @@ public class Stats implements DistancesAnalysisMethod {
      * where w(a,b,c,d) is the best OLS score for the distances restricted
      * to {a,b,c,d}. Takes O(n^4) time.
      *
-     * @param dist
      * @return qls
      */
     static public double qlsScore(Distances dist) {

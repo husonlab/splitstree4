@@ -34,7 +34,7 @@ public class BaseFreqDistance implements Characters2Distances {
     private boolean optionIgnoreGaps = true;
 
     public final static String DESCRIPTION = "Calculates distances from differences in the base composition";
-    protected String TASK = "Base Frequency Distance";
+	protected final String TASK = "Base Frequency Distance";
 
     protected String getTask() {
         return TASK;
@@ -86,7 +86,7 @@ public class BaseFreqDistance implements Characters2Distances {
                 baseFreqs[s][x] /= count;
                 System.err.print("" + baseFreqs[s][x] + "\t");
             }
-            System.err.println("");
+			System.err.println();
         }
 
 
@@ -125,8 +125,7 @@ public class BaseFreqDistance implements Characters2Distances {
     /**
      * set option ignore gaps
      *
-     * @param ignore
-     */
+	 */
     public void setOptionignoregaps(boolean ignore) {
         optionIgnoreGaps = ignore;
     }

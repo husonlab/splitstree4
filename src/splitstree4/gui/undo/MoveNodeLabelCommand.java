@@ -29,32 +29,27 @@ import java.awt.*;
  * Daniel Huson and David Bryant
  */
 public class MoveNodeLabelCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    Node v;
-    Point oldLocation;
-    Point newLocation;
-    byte oldLabelLayout;
-    byte newLabelLayout;
+	final MainViewer viewer;
+	final Node v;
+	final Point oldLocation;
+	final Point newLocation;
+	final byte oldLabelLayout;
+	byte newLabelLayout;
 
-    public MoveNodeLabelCommand(MainViewer viewer, Node v, Point oldLocation, Point newLocation) {
-        this.viewer = viewer;
-        this.v = v;
-        this.oldLocation = oldLocation;
-        this.newLocation = newLocation;
-        this.oldLabelLayout = viewer.getLabelLayout(v);
-        this.newLabelLayout = NodeView.USER; // the user has changed the position of the label
-    }
+	public MoveNodeLabelCommand(MainViewer viewer, Node v, Point oldLocation, Point newLocation) {
+		this.viewer = viewer;
+		this.v = v;
+		this.oldLocation = oldLocation;
+		this.newLocation = newLocation;
+		this.oldLabelLayout = viewer.getLabelLayout(v);
+		this.newLabelLayout = NodeView.USER; // the user has changed the position of the label
+	}
 
     /**
      * the constructor for the reverse command.
      * Need to explicitly set the new label layout
      *
-     * @param viewer
-     * @param v
-     * @param oldLocation
-     * @param newLocation
-     * @param newLabelLayout
-     */
+	 */
     private MoveNodeLabelCommand(MainViewer viewer, Node v, Point oldLocation, Point newLocation, byte newLabelLayout) {
         this(viewer, v, oldLocation, newLocation);
         this.newLabelLayout = newLabelLayout;

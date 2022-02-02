@@ -33,20 +33,20 @@ import Jama.Matrix;
 
 public class GradientProjectionConjugateGradient {
 
-    private LineSearch linesrch_gp;       //Method for gradient projection line searches
-    private LineSearch linesrch_cg;       //Method for conjugate gradient  line searches
-    private double grad_tol;              //Relative projected gradient norm stopping tolerance
-    private double gp_tol;
-    private int max_gp;
-    private double cg_tol;
-    private int max_cg;
-    private int max_iter;
-    private double step_tol;
+	private final LineSearch linesrch_gp;       //Method for gradient projection line searches
+	private final LineSearch linesrch_cg;       //Method for conjugate gradient  line searches
+	private final double grad_tol;              //Relative projected gradient norm stopping tolerance
+	private final double gp_tol;
+	private int max_gp;
+	private double cg_tol;
+	private int max_cg;
+	private int max_iter;
+	private double step_tol;
 
-    public GradientProjectionConjugateGradient(LineSearch linesrch_gp,
-                                               LineSearch linesrch_cg,
-                                               double grad_tol,
-                                               double gp_tol) {
+	public GradientProjectionConjugateGradient(LineSearch linesrch_gp,
+											   LineSearch linesrch_cg,
+											   double grad_tol,
+											   double gp_tol) {
         this.linesrch_cg = linesrch_cg;
         this.linesrch_gp = linesrch_gp;
         this.grad_tol = grad_tol;

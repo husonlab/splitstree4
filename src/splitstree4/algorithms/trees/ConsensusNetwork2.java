@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * implements consensus networks
- * @version $Id: ConsensusNetwork2.java,v 1.4 2007-09-11 12:31:08 kloepper Exp $
- * @author Tobias Kloepper and Daniel Huson and David Bryant
- * 7.03
- */
 package splitstree4.algorithms.trees;
 
 import jloda.util.CanceledException;
@@ -46,8 +40,8 @@ public class ConsensusNetwork2 implements Trees2Splits {
     public final static String NONE = "none";
     private String optionEdgeWeights = MEAN;
     private double threshold = 0.33;
-    private double minWeight = 1.0E-10;
-    public final static String DESCRIPTION = "Computes the consensus splits of trees (a tree is supporting a split if there is no split that is incompatible to it.)";
+	private final double minWeight = 1.0E-10;
+	public final static String DESCRIPTION = "Computes the consensus splits of trees (a tree is supporting a split if there is no split that is incompatible to it.)";
 
     /**
      * gets a short description of the algorithm
@@ -63,8 +57,8 @@ public class ConsensusNetwork2 implements Trees2Splits {
      * a value object contains a set of all weights seen so far and their counts
      */
     private static class WeightStats {
-        List weights;
-        int totalCount;
+		final List weights;
+		int totalCount;
         double sum;
 
         /**
@@ -79,7 +73,6 @@ public class ConsensusNetwork2 implements Trees2Splits {
         /**
          * add the given weight and count
          *
-         * @param weight
          */
         void add(float weight) {
             Float fWeight = weight;
@@ -299,7 +292,6 @@ public class ConsensusNetwork2 implements Trees2Splits {
     /**
      * sets the threshold (between 0 and 1)
      *
-     * @param threshold
      */
     public void setOptionThreshold(double threshold) {
         this.threshold = Math.min(1.0, Math.max(0.0, threshold));
@@ -308,7 +300,6 @@ public class ConsensusNetwork2 implements Trees2Splits {
     /**
      * decide what to scale the edge weights by
      *
-     * @return
      */
     public String getOptionEdgeWeights() {
         return optionEdgeWeights;
@@ -317,7 +308,6 @@ public class ConsensusNetwork2 implements Trees2Splits {
     /**
      * decide what to scale the edge weights by
      *
-     * @param optionEdgeWeights
      */
     public void setOptionEdgeWeights(String optionEdgeWeights) {
         this.optionEdgeWeights = optionEdgeWeights;
@@ -326,7 +316,6 @@ public class ConsensusNetwork2 implements Trees2Splits {
     /**
      * return the possible chocies for optionEdgeWeights
      *
-     * @param doc
      * @return list of choices
      */
     public List selectionOptionEdgeWeights(Document doc) {

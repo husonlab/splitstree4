@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: CharactersAnalysisMethod.java,v 1.1 2005-11-08 11:13:40 huson Exp $
- */
 package splitstree4.analysis.characters;
 
 import splitstree4.analysis.AnalysisMethod;
@@ -30,7 +28,6 @@ public interface CharactersAnalysisMethod extends AnalysisMethod {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param doc
      * @return true, if method applies to given data
      */
     boolean isApplicable(Document doc)//, Taxa taxa, Characters chars)
@@ -39,8 +36,7 @@ public interface CharactersAnalysisMethod extends AnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
-     */
+	 */
     String apply(Document doc)//, Taxa taxa, Characters block)
     ;
 

@@ -38,9 +38,6 @@ public interface SubstitutionModel {
     /**
      * Returns P_{ij}(t), probability of change to j at time t given i at time 0
      *
-     * @param i
-     * @param j
-     * @param t
      * @return P_{ij}(t), probability of change to j at time t given i at time 0
      */
     double getP(int i, int j, double t);
@@ -48,9 +45,6 @@ public interface SubstitutionModel {
     /**
      * Returns  X_{ij}(t) = \pi_i P_{ij}(t) , probability of i at time 0 AND j at time t
      *
-     * @param i
-     * @param j
-     * @param t
      * @return X_{ij}(t) = \pi_i P_{ij}(t) , probability of i at time 0 AND j at time t
      */
     double getX(int i, int j, double t);
@@ -58,8 +52,6 @@ public interface SubstitutionModel {
     /**
      * Get an entry in the Q matrix (can involve computation)
      *
-     * @param i
-     * @param j
      * @return Q[i][j]
      */
     double getQ(int i, int j);
@@ -67,7 +59,6 @@ public interface SubstitutionModel {
     /**
      * Returns base frequency
      *
-     * @param i
      * @return base frequency of ith state
      */
     double getPi(int i);
@@ -75,7 +66,6 @@ public interface SubstitutionModel {
     /**
      * Returns a state random selected from the base frequencies.
      *
-     * @param random
      * @return state (int 0...nstates-1)
      */
     int randomPi(Random random);
@@ -83,9 +73,6 @@ public interface SubstitutionModel {
     /**
      * Returns a state j from the distribution P_ij(t) with i = start.
      *
-     * @param start
-     * @param t
-     * @param random
      * @return Returns a state j from the distribution P_ij(t) with i = start.
      */
     int randomEndState(int start, double t, Random random);

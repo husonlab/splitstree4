@@ -205,7 +205,6 @@ public abstract class QuasiMedianBase {
     /**
      * compute the matrix of unmasked characters
      *
-     * @param chars
      * @return unmasked characters
      */
     private char[][] computeUnmaskedCharacters(Characters chars) {
@@ -239,8 +238,6 @@ public abstract class QuasiMedianBase {
     /**
      * determines the majority state for the given position
      *
-     * @param chars
-     * @param c
      * @return majority state
      */
     private char determineMajorityState(Characters chars, int c) {
@@ -264,9 +261,7 @@ public abstract class QuasiMedianBase {
     /**
      * all labels of unmasked characters
      *
-     * @param chars
-     * @return
-     */
+	 */
     private String[] computeUnmaskedCharacterLabels(Characters chars) {
         List list = new LinkedList();
         for (int c = 1; c <= chars.getNchar(); c++) {
@@ -289,8 +284,6 @@ public abstract class QuasiMedianBase {
     /**
      * computes the actual graph
      *
-     * @param inputSequences
-     * @param weights
      * @return median joining network
      */
     public abstract PhyloSplitsGraph computeGraph(ProgressListener progressListener, Set inputSequences, double[] weights) throws CanceledException;
@@ -298,9 +291,6 @@ public abstract class QuasiMedianBase {
     /**
      * computes all original positions at which the two sequences differ in display coordinates 1--length
      *
-     * @param conA
-     * @param conB
-     * @param orig2CondensedPos
      * @return positions at which orig sequences differ
      */
     private String computeEdgeLabel(String[] labels, String conA, String conB, int[] orig2CondensedPos, Translator translator) {
@@ -328,9 +318,6 @@ public abstract class QuasiMedianBase {
     /**
      * gets the differences in display coordinates 1--length
      *
-     * @param conA
-     * @param conB
-     * @param orig2CondensedPos
      * @return length
      */
     private int[] getDifferences(String conA, String conB, int[] orig2CondensedPos, Translator translator) {
@@ -353,7 +340,6 @@ public abstract class QuasiMedianBase {
     /**
      * invert the orig 2 new mapping
      *
-     * @param orig2new
      * @return new 2 orig mapping
      */
     private BitSet[] invert(int[] orig2new) {
@@ -374,8 +360,6 @@ public abstract class QuasiMedianBase {
     /**
      * computes the weights associated with the condensed characters
      *
-     * @param numChars
-     * @param origPos2CondensedPos
      * @return weights
      */
     private double[] computeWeights(int numChars, int[] origPos2CondensedPos) {
@@ -395,8 +379,6 @@ public abstract class QuasiMedianBase {
     /**
      * expand a condensed sequence
      *
-     * @param condensed
-     * @param orig2CondensedPos
      * @return expanded sequence
      */
     private String expandCondensed(String condensed, int[] orig2CondensedPos, Translator translator) {
@@ -417,10 +399,6 @@ public abstract class QuasiMedianBase {
     /**
      * computes the condensed sequences
      *
-     * @param ntax
-     * @param chars
-     * @param origPos2CondensedPos
-     * @param origTaxa2CondensedTaxa
      * @return array condensed sequences
      */
     private String[] condenseCharacters(int ntax, int nchar, char[][] chars, int[] origPos2CondensedPos, int[] origTaxa2CondensedTaxa,
@@ -552,28 +530,28 @@ public abstract class QuasiMedianBase {
 
     public void setOptionSubdivideEdges(boolean optionSubdivideEdges) {
         this.optionSubdivideEdges = optionSubdivideEdges;
-    }
+	}
 
-    public boolean getOptionScaleNodesByTaxa() {
-        return optionScaleNodesByTaxa;
-    }
+	public boolean getOptionScaleNodesByTaxa() {
+		return optionScaleNodesByTaxa;
+	}
 
-    public void setOptionScaleNodesByTaxa(boolean optionScaleNodesByTaxa) {
-        this.optionScaleNodesByTaxa = optionScaleNodesByTaxa;
-    }
+	public void setOptionScaleNodesByTaxa(boolean optionScaleNodesByTaxa) {
+		this.optionScaleNodesByTaxa = optionScaleNodesByTaxa;
+	}
 
-    class Translator {
-        Map mapOrigPosCondensedPosCondensedCharToOrigChar = new HashMap();
-        int maxOrigPos = 0;
-        int maxOrigChar = 0;
-        int maxCondensedPos = 0;
+	static class Translator {
+		final Map mapOrigPosCondensedPosCondensedCharToOrigChar = new HashMap();
+		int maxOrigPos = 0;
+		int maxOrigChar = 0;
+		int maxCondensedPos = 0;
 
-        public void put(int origPos, char origChar, int condensedPos, char condensedChar) {
-            maxOrigPos = Math.max(maxOrigPos, origPos);
-            maxOrigChar = Math.max(maxOrigChar, origChar);
-            maxCondensedPos = Math.max(maxCondensedPos, condensedPos);
-            Triple triple = new Triple(origPos, condensedPos, condensedChar);
-            Character ch = origChar;
+		public void put(int origPos, char origChar, int condensedPos, char condensedChar) {
+			maxOrigPos = Math.max(maxOrigPos, origPos);
+			maxOrigChar = Math.max(maxOrigChar, origChar);
+			maxCondensedPos = Math.max(maxCondensedPos, condensedPos);
+			Triple triple = new Triple(origPos, condensedPos, condensedChar);
+			Character ch = origChar;
             mapOrigPosCondensedPosCondensedCharToOrigChar.put(triple, ch);
         }
 
@@ -603,20 +581,20 @@ public abstract class QuasiMedianBase {
             return buf.toString();
         }
 
-        class Triple {
-            int first;
-            int second;
-            char third;
+		class Triple {
+			final int first;
+			final int second;
+			final char third;
 
-            Triple(int first, int second, char third) {
-                this.first = first;
-                this.second = second;
-                this.third = third;
-            }
+			Triple(int first, int second, char third) {
+				this.first = first;
+				this.second = second;
+				this.third = third;
+			}
 
-            public int hashCode() {
-                return first + 17 * second + 37 * third;
-            }
+			public int hashCode() {
+				return first + 17 * second + 37 * third;
+			}
 
             public boolean equals(Object other) {
                 if (other instanceof Triple) {

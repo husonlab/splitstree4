@@ -18,12 +18,6 @@
  */
 package splitstree4.gui.formatter;
 
-/**
- * @author Markus Franz and Daniel Huson and David Bryant
- * Menubar
- * 2006-7
- */
-
 import jloda.swing.director.IDirector;
 import jloda.swing.graphview.GraphView;
 import jloda.swing.window.MenuMnemonics;
@@ -37,17 +31,14 @@ import javax.swing.*;
  * menubar for node/edge configurator
  */
 public class FormatterMenuBar extends JMenuBar {
-    private Formatter conf;
-    private IDirector dir;
+    private final Formatter conf;
+	private IDirector dir;
     private GraphView viewer;
 
     /**
      * construtor
      *
-     * @param conf
-     * @param dir
-     * @param viewer
-     */
+	 */
     public FormatterMenuBar(Formatter conf, IDirector dir, GraphView viewer) {
         super();
 

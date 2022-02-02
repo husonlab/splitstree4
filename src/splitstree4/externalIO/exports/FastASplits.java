@@ -33,7 +33,7 @@ import java.util.Map;
  */
 public class FastASplits extends ExporterAdapter implements Exporter {
 
-    private String Description = "Exports splits as binary sequences in FastA format.";
+    private final String Description = "Exports splits as binary sequences in FastA format.";
 
     /**
      * can we export this data?

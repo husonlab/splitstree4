@@ -42,9 +42,7 @@ public class TreesNameDialog extends JDialog {
     /**
      * construct and open dialog
      *
-     * @param owner
-     * @param doc
-     */
+	 */
     public TreesNameDialog(JFrame owner, Document doc) {
         super(owner, "Tree names - " + SplitsTreeProperties.getVersion());
         this.doc = doc;
@@ -71,8 +69,7 @@ public class TreesNameDialog extends JDialog {
     /**
      * set up the dialog
      *
-     * @param owner
-     */
+	 */
     private void setupDialog(JFrame owner) {
         setLocation(new Point(owner.getLocation().x + 20, owner.getLocation().y + 20));
         setSize(200, 300);
@@ -112,7 +109,6 @@ public class TreesNameDialog extends JDialog {
     /**
      * is this applicable to the given document
      *
-     * @param doc
      * @return true, if this dialog makes sense for the current document
      */
     public static boolean isApplicable(Document doc) {
@@ -170,23 +166,22 @@ public class TreesNameDialog extends JDialog {
         return cancel = action;
     }
 
-    /**
-     * a node to be displayed in the list
-     */
-    class Node extends Component {
-        String name;
-        float threshold;
+	/**
+	 * a node to be displayed in the list
+	 */
+	static class Node extends Component {
+		String name;
+		final float threshold;
 
-        Node(String label, float threshold) {
-            this.name = label;
-            this.threshold = threshold;
-        }
+		Node(String label, float threshold) {
+			this.name = label;
+			this.threshold = threshold;
+		}
 
-        /**
-         * get the string representation
+		/**
+		 * get the string representation
          *
-         * @return
-         */
+		 */
         public String toString() {
             //return "'"+name+"'\t "+threshold;
             return name;
@@ -195,8 +190,7 @@ public class TreesNameDialog extends JDialog {
         /**
          * edit the node
          *
-         * @param owner
-         */
+		 */
         public void edit(Component owner) {
             String str = JOptionPane.showInputDialog(owner, "Edit tree name:", name);
             if (str != null && str.length() > 0)

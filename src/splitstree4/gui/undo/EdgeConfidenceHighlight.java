@@ -31,22 +31,21 @@ import splitstree4.nexus.Splits;
  * Daniel Huson and David Bryant
  */
 public class EdgeConfidenceHighlight extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    EdgeIntArray widths;
-    EdgeArray colors;
-    Network network;
-    boolean selectedOnly;
+	final MainViewer viewer;
+	final EdgeIntArray widths;
+	final EdgeArray colors;
+	final Network network;
+	final boolean selectedOnly;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param width        uses widths to highlight
-     * @param shading      use shading to highlight
-     * @param selectedOnly hight selected edges only
-     */
-    public EdgeConfidenceHighlight(MainViewer viewer, boolean width, boolean shading, boolean selectedOnly) {
-        this.viewer = viewer;
+	/**
+	 * constructor
+	 *
+	 * @param width        uses widths to highlight
+	 * @param shading      use shading to highlight
+	 * @param selectedOnly hight selected edges only
+	 */
+	public EdgeConfidenceHighlight(MainViewer viewer, boolean width, boolean shading, boolean selectedOnly) {
+		this.viewer = viewer;
         this.selectedOnly = selectedOnly;
 
         PhyloSplitsGraph graph = viewer.getPhyloGraph();
@@ -62,8 +61,7 @@ public class EdgeConfidenceHighlight extends ICommandAdapter implements ICommand
     /**
      * construct the reverse command
      *
-     * @param viewer
-     */
+	 */
     private EdgeConfidenceHighlight(MainViewer viewer, boolean selectedOnly) {
         this.viewer = viewer;
         this.network = viewer.getDir().getDocument().getNetwork();

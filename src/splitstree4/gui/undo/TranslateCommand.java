@@ -26,20 +26,20 @@ import splitstree4.gui.main.MainViewer;
  * daniel Huson, 5.2005
  */
 public class TranslateCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    Transform trans;
-    int horizontal;
-    int vertical;
+	final MainViewer viewer;
+	final Transform trans;
+	final int horizontal;
+	final int vertical;
 
-    public TranslateCommand(MainViewer view, Transform trans, int horizontal, int vertical) {
-        this.viewer = view;
-        this.trans = trans;
-        this.horizontal = horizontal;
-        this.vertical = vertical;
-    }
+	public TranslateCommand(MainViewer view, Transform trans, int horizontal, int vertical) {
+		this.viewer = view;
+		this.trans = trans;
+		this.horizontal = horizontal;
+		this.vertical = vertical;
+	}
 
-    public ICommand execute() {
-        setReverseCommand(new TransformCommand(viewer, trans, trans));
+	public ICommand execute() {
+		setReverseCommand(new TransformCommand(viewer, trans, trans));
         // does nothing!
         viewer.repaint();
         return getReverseCommand();

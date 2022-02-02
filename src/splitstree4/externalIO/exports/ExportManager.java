@@ -36,7 +36,7 @@ import java.util.*;
  */
 public class ExportManager {
 
-	static String packageName = "splitstree4.externalIO.exports";
+	static final String packageName = "splitstree4.externalIO.exports";
 
 	/**
 	 * gets the list of exporters
@@ -102,7 +102,6 @@ public class ExportManager {
 	 * get list of exporter names
 	 *
 	 * @return list of exporter names
-	 * @throws SplitsException
 	 */
 	public static ArrayList getExportNames() throws Exception {
 		return getExportNames(null);
@@ -111,9 +110,7 @@ public class ExportManager {
 	/**
 	 * get list of exporter names   for named block or all, if block=null
 	 *
-	 * @param block
 	 * @return list of exporter names
-	 * @throws SplitsException
 	 */
 	public static ArrayList getExportNames(String block) throws Exception {
 		//MZ: 2006-01-28
@@ -180,8 +177,6 @@ public class ExportManager {
 	 *
 	 * @param doc    the document
 	 * @param blocks names of selected blocks
-	 * @return
-	 * @throws SplitsException
 	 */
 	public static String[] getSuitableExporter(Document doc, Collection blocks) throws SplitsException {
 		//MZ: 2006-01-27
@@ -213,7 +208,7 @@ public class ExportManager {
 		}
 
 		return names.size() != 0 ?
-				(String[]) names.toArray(new String[names.size()]) :
+				(String[]) names.toArray(new String[0]) :
 				new String[]{"No suitable Exporter found"};
 
 //
@@ -254,11 +249,7 @@ public class ExportManager {
 	/**
 	 * export file using the named exporter
 	 *
-	 * @param saveFile
-	 * @param appendFile
-	 * @param exporterName
 	 * @param blocks       list of blocks to be exported
-	 * @param doc
 	 * @return mapping from names assigned in export to original names
 	 */
 	public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc) throws Exception {
@@ -269,11 +260,7 @@ public class ExportManager {
 	/**
 	 * export file using the named exporter
 	 *
-	 * @param saveFile
-	 * @param appendFile
-	 * @param exporterName
 	 * @param blocks         list of blocks to be exported
-	 * @param doc
 	 * @param additionalInfo Additional information to be passed to exporter
 	 * @return mapping from names assigned in export to original names
 	 */
@@ -329,7 +316,7 @@ public class ExportManager {
 				if (obj instanceof ExporterAdapter)
 					return (ExporterAdapter) obj;
 			}
-		} catch (Exception ex) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}

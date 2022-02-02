@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: UnalignedTransform.java,v 1.8 2006-05-23 05:57:33 huson Exp $
- */
 package splitstree4.algorithms.unaligned;
 
 import splitstree4.algorithms.Transformation;

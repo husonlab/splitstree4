@@ -33,23 +33,23 @@ import java.awt.event.MouseEvent;
  * Daniel Huson and David Bryant
  */
 public class PopupListener implements IPopupListener {
-    JPopupMenu nodeMenu;
-    //JPopupMenu nodeLabelMenu;
-    JPopupMenu edgeMenu;
-    //JPopupMenu EdgeLabelMenu;
-    JPopupMenu panelMenu;
-    MainViewer viewer;
-    Document doc;
+	final JPopupMenu nodeMenu;
+	//JPopupMenu nodeLabelMenu;
+	final JPopupMenu edgeMenu;
+	//JPopupMenu EdgeLabelMenu;
+	final JPopupMenu panelMenu;
+	final MainViewer viewer;
+	final Document doc;
 
-    public PopupListener(MainViewer viewer, Document doc, MainViewerActions mainActions,
-                         DirectorActions dirActions) {
-        this.viewer = viewer;
-        this.doc = doc;
+	public PopupListener(MainViewer viewer, Document doc, MainViewerActions mainActions,
+						 DirectorActions dirActions) {
+		this.viewer = viewer;
+		this.doc = doc;
 
-        nodeMenu = new JPopupMenu();
-        nodeMenu.add(mainActions.getCopyNodeLabel());
-        nodeMenu.add(mainActions.getEditNodeLabel());
-        nodeMenu.addSeparator();
+		nodeMenu = new JPopupMenu();
+		nodeMenu.add(mainActions.getCopyNodeLabel());
+		nodeMenu.add(mainActions.getEditNodeLabel());
+		nodeMenu.addSeparator();
         nodeMenu.add(mainActions.getExcludeSelectedTaxa());
         nodeMenu.addSeparator();
         nodeMenu.add(mainActions.getNodeName());
@@ -92,9 +92,7 @@ public class PopupListener implements IPopupListener {
     /**
      * popup menu on node
      *
-     * @param me
-     * @param nodes
-     */
+	 */
     public void doNodePopup(MouseEvent me, NodeSet nodes) {
         if (nodes.size() != 0) {
             if (!me.isShiftDown()) {
@@ -111,9 +109,7 @@ public class PopupListener implements IPopupListener {
     /**
      * popup menu on node label
      *
-     * @param me
-     * @param nodes
-     */
+	 */
     public void doNodeLabelPopup(MouseEvent me, NodeSet nodes) {
         doNodePopup(me, nodes);
     }
@@ -121,9 +117,7 @@ public class PopupListener implements IPopupListener {
     /**
      * popup menu on edge
      *
-     * @param me
-     * @param edges
-     */
+	 */
     public void doEdgePopup(MouseEvent me, EdgeSet edges) {
         if (edges.size() != 0) {
             boolean oldSplitSelectionMode = viewer.getUseSplitSelectionModel();
@@ -142,9 +136,7 @@ public class PopupListener implements IPopupListener {
     /**
      * popup menu on edge
      *
-     * @param me
-     * @param edges
-     */
+	 */
     public void doEdgeLabelPopup(MouseEvent me, EdgeSet edges) {
         doEdgePopup(me, edges);
     }
@@ -152,8 +144,7 @@ public class PopupListener implements IPopupListener {
     /**
      * popup menu not on graph
      *
-     * @param me
-     */
+	 */
     public void doPanelPopup(MouseEvent me) {
         panelMenu.show(me.getComponent(), me.getX(), me.getY());
     }

@@ -26,18 +26,18 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant
  */
 public class ChangeEdgeLabelCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    Edge e;
-    String label;
+	final MainViewer viewer;
+	final Edge e;
+	String label;
 
-    public ChangeEdgeLabelCommand(MainViewer viewer, Edge e, String label) {
-        this.viewer = viewer;
-        this.e = e;
-        this.label = label;
-    }
+	public ChangeEdgeLabelCommand(MainViewer viewer, Edge e, String label) {
+		this.viewer = viewer;
+		this.e = e;
+		this.label = label;
+	}
 
-    /**
-     * Executes this command.
+	/**
+	 * Executes this command.
      *
      * @return a new command which will undo the effect of this execution.
      */

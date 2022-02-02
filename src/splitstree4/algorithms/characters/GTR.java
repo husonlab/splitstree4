@@ -117,9 +117,7 @@ public class GTR extends DNAdistance {
     /**
      * return the option panel for the method
      *
-     * @param doc
-     * @return
-     */
+	 */
     public JPanel getGUIPanel(Document doc) {
         if (guiPanel != null)
             return guiPanel;

@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: DistancesAnalysisMethod.java,v 1.1 2005-11-08 11:13:40 huson Exp $
- */
 package splitstree4.analysis.distances;
 
 import splitstree4.analysis.AnalysisMethod;
@@ -32,7 +30,6 @@ public interface DistancesAnalysisMethod extends AnalysisMethod {
     /**
      * Determine whether given method can be applied to given data.
      *
-     * @param doc
      * @param taxa the taxa
      * @param dist the block
      * @return true, if method applies to given data
@@ -43,7 +40,6 @@ public interface DistancesAnalysisMethod extends AnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
      * @param taxa the taxa
      * @param dist the block
      */

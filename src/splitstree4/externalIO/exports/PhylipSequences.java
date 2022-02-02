@@ -41,7 +41,7 @@ public class PhylipSequences extends ExporterAdapter implements Exporter {
     public PhylipSequences() {
     }
 
-    private String Description = "Exports character sequences in Phylip format";
+    private final String Description = "Exports character sequences in Phylip format";
 
     /**
      * can we import this data?
@@ -58,8 +58,7 @@ public class PhylipSequences extends ExporterAdapter implements Exporter {
     /**
      * convert input into phylip sequential format
      *
-     * @return
-     */
+	 */
     public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
         Taxa taxa = doc.getTaxa();
         Characters chars = doc.getCharacters();
@@ -104,7 +103,7 @@ public class PhylipSequences extends ExporterAdapter implements Exporter {
                     for (int c = 1; c <= chars.getNchar(); c++)
                         if (!chars.isMasked(c))
                             buf.append(chars.get(t, c));
-                    w.write(buf.toString() + "\n");
+					w.write(buf + "\n");
                 }
             }
             System.err.println();
@@ -116,7 +115,6 @@ public class PhylipSequences extends ExporterAdapter implements Exporter {
     /**
      * gets the phylip label used for the named taxon
      *
-     * @param t
      * @return phylip label
      */
     public String taxonId2phylipLabel(int t) {
@@ -127,7 +125,6 @@ public class PhylipSequences extends ExporterAdapter implements Exporter {
     /**
      * gets the taxon that corresponds to the given phylip name
      *
-     * @param label
      * @return original label
      */
     public String phylipLabel2taxonId(String label) {

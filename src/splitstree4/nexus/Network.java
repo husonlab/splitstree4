@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: Network.java,v 1.55 2010-05-30 11:19:56 huson Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.nexus;
 
@@ -62,7 +56,7 @@ public class Network extends NexusBlock {
     private VertexDescription[] vertices = null;
     private EdgeDescription[] edges = null;
 
-    static Map<String, Font> fonts = new HashMap<>(); // hash all fonts
+    static final Map<String, Font> fonts = new HashMap<>(); // hash all fonts
 
     private String newick = null; // keep a Newick representation if tree
 
@@ -76,21 +70,21 @@ public class Network extends NexusBlock {
     final public static String RECTILINEAR = "rectilinear";
     private String layout = CIRCULAR;
 
-    /**
-     * drawing switches
-     * todo: these belong in assumptions
-     */
-    public class Draw {
-        private boolean toScale = true;
-        private float hoffset = 0;
-        private float voffset = 0;
-        private int hflip = 0;
-        private int vflip = 0;
-        private double rotate = 0;
-        private float zoom = -1;
+	/**
+	 * drawing switches
+	 * todo: these belong in assumptions
+	 */
+	public static class Draw {
+		private boolean toScale = true;
+		private float hoffset = 0;
+		private float voffset = 0;
+		private int hflip = 0;
+		private int vflip = 0;
+		private double rotate = 0;
+		private float zoom = -1;
 
-        boolean modifyShowNodeNames = false;
-        boolean modifyShowNodeIds = false;
+		boolean modifyShowNodeNames = false;
+		boolean modifyShowNodeIds = false;
         boolean modifyShowEdgeWeights = false;
         boolean modifyShowEdgeIds = false;
         boolean modifyShowEdgeConfidences = false;
@@ -230,7 +224,6 @@ public class Network extends NexusBlock {
     /**
      * Construct a new Network object from a given PhyloGraphView
      *
-     * @param taxa
      * @param graphView the PhyloGraphView
      */
     public Network(Taxa taxa, PhyloGraphView graphView) {
@@ -250,7 +243,6 @@ public class Network extends NexusBlock {
     /**
      * sets the draw block
      *
-     * @param draw
      */
     public void setDraw(Draw draw) {
         this.draw = draw;
@@ -402,8 +394,10 @@ public class Network extends NexusBlock {
 
         boolean hasVertexLabel = false;
         for (int i = 1; !hasVertexLabel && i <= getNvertices(); i++) {
-            if (vertices[i].label != null)
-                hasVertexLabel = true;
+			if (vertices[i].label != null) {
+				hasVertexLabel = true;
+				break;
+			}
         }
         if (hasVertexLabel) {
             String font = null;
@@ -425,8 +419,10 @@ public class Network extends NexusBlock {
 
         boolean hasEdgeLabel = false;
         for (int i = 1; !hasEdgeLabel && i <= getNedges(); i++)
-            if (edges[i].label != null)
-                hasEdgeLabel = true;
+			if (edges[i].label != null) {
+				hasEdgeLabel = true;
+				break;
+			}
         if (hasEdgeLabel) {
             String font = null;
             w.write("ELABELS\n");
@@ -440,8 +436,10 @@ public class Network extends NexusBlock {
 
         boolean hasInternal = false;
         for (int i = 1; !hasInternal && i <= getNedges(); i++)
-            if (edges[i].internal != null)
-                hasInternal = true;
+			if (edges[i].internal != null) {
+				hasInternal = true;
+				break;
+			}
 
         if (hasInternal) {
             w.write("INTERNAL\n");
@@ -915,7 +913,6 @@ public class Network extends NexusBlock {
     /**
      * syncronizes the network to the PhyloGraphView
      *
-     * @param graphView
      */
     public void syncNetwork2PhyloGraphView(Taxa taxa, Splits splits, PhyloGraphView graphView) {
         PhyloSplitsGraph graph = graphView.getPhyloGraph();
@@ -1154,10 +1151,6 @@ public class Network extends NexusBlock {
     /**
      * set taxa labels to show names or ids or both
      *
-     * @param showNames
-     * @param showIDs
-     * @param taxa
-     * @param graphView
      * @param selectedOnly apply only to selected nodes?
      */
     public void modifyNodeLabels(boolean showNames, boolean showIDs, Taxa taxa, PhyloGraphView graphView, boolean selectedOnly) {
@@ -1205,10 +1198,6 @@ public class Network extends NexusBlock {
     /**
      * modify edge labels
      *
-     * @param showWeight
-     * @param showEClass
-     * @param showConfidence
-     * @param splits
      * @param graphView      the PhyloGraphView
      * @param selectedOnly   apply only to selected edges?
      */
@@ -1283,11 +1272,6 @@ public class Network extends NexusBlock {
     /**
      * get widths and colors for edge confidence rendering
      *
-     * @param edgeWidth
-     * @param edgeShading
-     * @param splits
-     * @param graphView
-     * @param selectedOnly
      * @param widths       will return the new edge widths here
      * @param colors       will return the new edge colors here
      */
@@ -1351,8 +1335,6 @@ public class Network extends NexusBlock {
     /**
      * hide some taxa
      *
-     * @param origTaxa
-     * @param exTaxa
      */
     public void hideTaxa(Taxa origTaxa, TaxaSet exTaxa) {
         System.err.println("hideTaxa for Network: not implemented");
@@ -1386,7 +1368,6 @@ public class Network extends NexusBlock {
     /**
      * apply a created taxon2 vertex description map
      *
-     * @param taxon2VertexDescription
      */
     public void applyTaxon2VertexDescription(Map taxon2VertexDescription) {
         // this is where the program "remembers" user modifications to labels

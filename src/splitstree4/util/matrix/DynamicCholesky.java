@@ -67,26 +67,26 @@ public class DynamicCholesky implements Serializable {
     Class variables
     * ------------------------ */
 
-    /**
-     * Array for internal storage of decomposition.
-     *
-     * @serial internal array storage.
-     */
-    private double[][] Lfull; /* Lower triangle contains cholesky factor. Upper contains A  */
-    private double[] Adiagfull; /* Diagonal of full matrix */
+	/**
+	 * Array for internal storage of decomposition.
+	 *
+	 * @serial internal array storage.
+	 */
+	private final double[][] Lfull; /* Lower triangle contains cholesky factor. Upper contains A  */
+	private final double[] Adiagfull; /* Diagonal of full matrix */
 
-    private double[][] L;  /* Lower triangle cholesky factor for currentlu unmasked entries */
-    private double[] Adiag; /* Current diagonal of the cholesky factor for unmasked rows */
+	private final double[][] L;  /* Lower triangle cholesky factor for currentlu unmasked entries */
+	private final double[] Adiag; /* Current diagonal of the cholesky factor for unmasked rows */
 
 
-    /**
-     * Row and column dimension (square matrix).
-     *
-     * @serial matrix dimension.
-     */
-    private int n;
+	/**
+	 * Row and column dimension (square matrix).
+	 *
+	 * @serial matrix dimension.
+	 */
+	private final int n;
 
-    /**
+	/**
      * Number of rows currently not deleted
      */
     private int ncurr;
@@ -99,21 +99,21 @@ public class DynamicCholesky implements Serializable {
     private boolean isspd;
 
 
-    /**
-     * Current mask
-     *
-     * @serial current mask
-     */
-    private BitSet mask;
+	/**
+	 * Current mask
+	 *
+	 * @serial current mask
+	 */
+	private final BitSet mask;
 
-    /**
-     * Map from indices in the complete matrices to rows in the current submatrix.
-     */
-    private int[] full2partial;
-    /**
-     * Map from indices in the submatrix to indices in the complete matrix
-     */
-    private int[] partial2full;
+	/**
+	 * Map from indices in the complete matrices to rows in the current submatrix.
+	 */
+	private final int[] full2partial;
+	/**
+	 * Map from indices in the submatrix to indices in the complete matrix
+	 */
+	private final int[] partial2full;
 
     /* ------------------------
     Constructor
@@ -244,8 +244,7 @@ public class DynamicCholesky implements Serializable {
     /**
      * Unmasks a row of the full matrix, including the row in the cholesky decomposition.
      *
-     * @param rowToUnmask
-     */
+	 */
 
     public void unmaskRow(int rowToUnmask) {
         if (mask.get(rowToUnmask)) {

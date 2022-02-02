@@ -37,22 +37,20 @@ import java.awt.event.WindowEvent;
  * 17.2.2004
  */
 public class ConfidenceWindow implements IDirectableViewer {
-    private boolean uptodate = false;
-    private Director dir;
-    private ConfidenceWindowActions actions;
-    private ConfidenceWindowMenuBar menuBar;
-    private JFrame frame;
+	private boolean uptodate = false;
+	private final Director dir;
+	private final ConfidenceWindowActions actions;
+	private final ConfidenceWindowMenuBar menuBar;
+	private final JFrame frame;
 
-    /**
-     * sets up the algorithms window
-     *
-     * @param dir
-     */
-    public ConfidenceWindow(Director dir) {
-        this.dir = dir;
-        actions = new ConfidenceWindowActions(this, dir);
-        menuBar = new ConfidenceWindowMenuBar(this, dir);
-        setUptoDate(true);
+	/**
+	 * sets up the algorithms window
+	 */
+	public ConfidenceWindow(Director dir) {
+		this.dir = dir;
+		actions = new ConfidenceWindowActions(this, dir);
+		menuBar = new ConfidenceWindowMenuBar(this, dir);
+		setUptoDate(true);
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -149,9 +147,8 @@ public class ConfidenceWindow implements IDirectableViewer {
     /**
      * set uptodate state
      *
-     * @param flag
-     */
-    public void setUptoDate(boolean flag) {
+	 */
+	public void setUptoDate(boolean flag) {
         uptodate = flag;
     }
 

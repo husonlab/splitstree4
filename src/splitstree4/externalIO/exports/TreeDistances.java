@@ -46,8 +46,7 @@ public class TreeDistances extends ExporterAdapter implements Exporter {
         if (doc == null || blocks.size() != 1)
             return false;
         if (!blocks.contains(Splits.NAME) && blocks.contains(Trees.NAME) && !blocks.contains(Network.NAME)) {
-            if (doc.isValidByName(Trees.NAME))
-                return true;
+			return doc.isValidByName(Trees.NAME);
         }
         return false;
     }

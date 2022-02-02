@@ -230,9 +230,6 @@ public class DNA2Splits implements Characters2Splits {
     /**
      * gets the color of a character, using RY alphabet, if desired
      *
-     * @param chars
-     * @param ch
-     * @param useRY
      * @return color or -1
      */
     int getColor(Characters chars, char ch, boolean useRY) {
@@ -252,8 +249,7 @@ public class DNA2Splits implements Characters2Splits {
     /**
      * add all trivial splits?
      *
-     * @return
-     */
+	 */
     public boolean getOptionAddAllTrivial() {
         return optionAddAllTrivial;
     }
@@ -261,8 +257,7 @@ public class DNA2Splits implements Characters2Splits {
     /**
      * sets the minimum split weight to be respected by the algorithm
      *
-     * @param optionAddAllTrivial
-     */
+	 */
     public void setOptionAddAllTrivial(boolean optionAddAllTrivial) {
         this.optionAddAllTrivial = optionAddAllTrivial;
     }
@@ -280,8 +275,7 @@ public class DNA2Splits implements Characters2Splits {
     /**
      * threshold for minimum split weight
      *
-     * @return
-     */
+	 */
     public int getOptionMinSplitWeight() {
         return optionMinSplitWeight;
     }

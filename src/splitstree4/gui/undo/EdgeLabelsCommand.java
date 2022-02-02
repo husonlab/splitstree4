@@ -33,10 +33,10 @@ public class EdgeLabelsCommand extends ICommandAdapter implements ICommand {
     boolean showEClass;
     boolean showConfidence;
     boolean showInterval;
-    MainViewer viewer;
-    boolean selectedOnly;
-    EdgeArray origLabels;
-    boolean isReverseCommand;
+	final MainViewer viewer;
+	boolean selectedOnly;
+	EdgeArray origLabels;
+	final boolean isReverseCommand;
 
     public EdgeLabelsCommand(MainViewer viewer, boolean showWeight, boolean showEClass, boolean showConfidence,
                              boolean showInterval,
@@ -54,8 +54,7 @@ public class EdgeLabelsCommand extends ICommandAdapter implements ICommand {
     /**
      * this constructor only used for reverse command
      *
-     * @param viewer
-     */
+	 */
     private EdgeLabelsCommand(MainViewer viewer) {
         this.viewer = viewer;
 

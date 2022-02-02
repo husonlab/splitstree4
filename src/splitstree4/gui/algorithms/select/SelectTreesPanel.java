@@ -34,19 +34,17 @@ import java.util.LinkedList;
  * Date: 19-Dec-2003
  */
 public class SelectTreesPanel extends JPanel implements IUpdateableView {
-    private Director dir;
-    private SelectTreesActions actions;
-    JList list = new JList();
+	private final Director dir;
+	private final SelectTreesActions actions;
+	JList list = new JList();
 
-    /**
-     * sets up the algorithms window
-     *
-     * @param dir
-     */
-    public SelectTreesPanel(Director dir) {
-        this.dir = dir;
-        actions = new SelectTreesActions(dir);
-        setup();
+	/**
+	 * sets up the algorithms window
+	 */
+	public SelectTreesPanel(Director dir) {
+		this.dir = dir;
+		actions = new SelectTreesActions(dir);
+		setup();
     }
 
     /**

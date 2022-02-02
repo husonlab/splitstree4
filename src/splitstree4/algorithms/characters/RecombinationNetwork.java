@@ -107,8 +107,7 @@ public class RecombinationNetwork extends ReticulateNetwork implements Character
     /**
      * set the minimal weight fo the splits to be consided by the algorithm
      *
-     * @param optionMinSplitWeight
-     */
+	 */
     public static void setOptionMinSplitWeight(int optionMinSplitWeight) {
         RecombinationNetwork.optionMinSplitWeight = optionMinSplitWeight;
     }
@@ -116,8 +115,7 @@ public class RecombinationNetwork extends ReticulateNetwork implements Character
     /**
      * are the nodes labeled with their sequences?
      *
-     * @return
-     */
+	 */
     public boolean getOptionShowSequences() {
         return optionShowSequences;
     }
@@ -125,8 +123,7 @@ public class RecombinationNetwork extends ReticulateNetwork implements Character
     /**
      * should the nodes beeing labeled with sequences?
      *
-     * @param optionShowSequences
-     */
+	 */
     public void setOptionShowSequences(boolean optionShowSequences) {
         this.optionShowSequences = optionShowSequences;
     }
@@ -134,8 +131,7 @@ public class RecombinationNetwork extends ReticulateNetwork implements Character
     /**
      * are the edges beeing labeled with the mutations
      *
-     * @return
-     */
+	 */
     public boolean getOptionShowMutations() {
         return optionShowMutations;
     }
@@ -143,8 +139,7 @@ public class RecombinationNetwork extends ReticulateNetwork implements Character
     /**
      * should the edges beeing labeled with the mutations
      *
-     * @param optionShowMutations
-     */
+	 */
     public void setOptionShowMutations(boolean optionShowMutations) {
         this.optionShowMutations = optionShowMutations;
     }

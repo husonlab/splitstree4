@@ -27,20 +27,17 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant
  */
 public class NodeLabelRotateCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    NodeArray angles;
+	final MainViewer viewer;
+	final NodeArray angles;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param delta
-     */
-    public NodeLabelRotateCommand(MainViewer viewer, float delta) {
-        this.viewer = viewer;
-        angles = new NodeArray(viewer.getGraph());
-        for (Node v : viewer.getSelectedNodes()) {
-            angles.put(v, viewer.getNV(v).getLabelAngle() + delta);
+	/**
+	 * constructor
+	 */
+	public NodeLabelRotateCommand(MainViewer viewer, float delta) {
+		this.viewer = viewer;
+		angles = new NodeArray(viewer.getGraph());
+		for (Node v : viewer.getSelectedNodes()) {
+			angles.put(v, viewer.getNV(v).getLabelAngle() + delta);
         }
     }
 

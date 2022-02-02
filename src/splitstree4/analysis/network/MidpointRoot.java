@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class MidpointRoot implements NetworkAnalysisMethod {
 
-    public static String DESCRIPTION = "Identifies edges on the network containing midpoints on the paths between the most divergent taxa";
+    public static final String DESCRIPTION = "Identifies edges on the network containing midpoints on the paths between the most divergent taxa";
 
     /**
      * gets a description of the method
@@ -56,7 +56,6 @@ public class MidpointRoot implements NetworkAnalysisMethod {
      * Determine whether given method can be applied to given data.
      * We require a splits block and a network block
      *
-     * @param doc
      * @param taxa    the taxa
      * @param network the block
      * @return true, if method applies to given data
@@ -92,17 +91,13 @@ public class MidpointRoot implements NetworkAnalysisMethod {
     /**
      * Runs the analysis
      *
-     * @param doc
      * @param taxa    the taxa
      * @param network the block
      */
     public String apply(Document doc, Taxa taxa, Network network) {
-        /** FIrst step: identify the most distant taxa, according to the splits block.
-         *
-         */
 
-        if (doc != null)
-            doc.notifySubtask("Finding most divergent taxa");
+		if (doc != null)
+			doc.notifySubtask("Finding most divergent taxa");
 
         Splits splits = doc.getSplits();
 

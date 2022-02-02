@@ -50,37 +50,37 @@ import java.util.LinkedList;
  */
 public class TaxaSetViewer implements IDirectableViewer {
 
-    private static boolean treeIsEditable = false;
+    private static final boolean treeIsEditable = false;
 
-    private boolean uptodate = true;
-    java.util.List allActions = new LinkedList();
-    JLabel descriptionLabel = null;
-    private JFrame frame;
-    private JPanel top;
-    private JLabel message;
-    private JPanel messagePanel;
-    private JPanel button;
-    private JPanel groupButtons;
-    private JScrollPane treeScrollPane;
-    private JTree taxaTree;
-    private PhyloTree phyloTree;
-    private DefaultTreeModel taxaTreeModel;
-    private Director dir;
-    private Document doc;
+	private boolean uptodate = true;
+	final java.util.List allActions = new LinkedList();
+	JLabel descriptionLabel = null;
+	private final JFrame frame;
+	private JPanel top;
+	private JLabel message;
+	private JPanel messagePanel;
+	private JPanel button;
+	private JPanel groupButtons;
+	private JScrollPane treeScrollPane;
+	private JTree taxaTree;
+	private PhyloTree phyloTree;
+	private DefaultTreeModel taxaTreeModel;
+	private final Director dir;
+	private final Document doc;
 
-    private TaxaSetViewer viewer;
-    private TaxaSetViewerActions tsva;
-    private PhyloGraphView phyloGraphView;
+	private final TaxaSetViewer viewer;
+	private final TaxaSetViewerActions tsva;
+	private final PhyloGraphView phyloGraphView;
 
 
-    //constructor
+	//constructor
 
-    public TaxaSetViewer(Director dir, PhyloGraphView phyloView) {
-        // init object
-        viewer = this;
-        this.dir = dir;
-        doc = dir.getDocument();
-        phyloGraphView = phyloView;
+	public TaxaSetViewer(Director dir, PhyloGraphView phyloView) {
+		// init object
+		viewer = this;
+		this.dir = dir;
+		doc = dir.getDocument();
+		phyloGraphView = phyloView;
         // get actionlist
         tsva = new TaxaSetViewerActions(this, dir);
 
@@ -215,8 +215,7 @@ public class TaxaSetViewer implements IDirectableViewer {
     /**
      * set uptodate state
      *
-     * @param flag
-     */
+	 */
     public void setUptoDate(boolean flag) {
         uptodate = flag;
     }
@@ -283,11 +282,7 @@ public class TaxaSetViewer implements IDirectableViewer {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("taxaTree");
         taxaTreeModel = new DefaultTreeModel(root, true);
 
-        /**
-         * Tree Scroll Pane & Taxa Tree
-         */
-
-        //initializeTaxaTree();
+		//initializeTaxaTree();
         taxaTree = new JTree(taxaTreeModel);
 
         taxaTree.setRootVisible(false);
@@ -308,11 +303,7 @@ public class TaxaSetViewer implements IDirectableViewer {
         top.add(treeScrollPane, constraints);
 
 
-        /**
-         * group buttons
-         */
-
-        // 'GROUP': define a group of taxa.
+		// 'GROUP': define a group of taxa.
         JButton groupButton = new JButton(tsva.getGroupAction(messagePanel, taxaTree));
         // 'ADD TO EXISTING GROUP': add a group of tree nodes to an existing group
         JButton addToExistingGroupButton = new JButton(tsva.getAddToExistingGroupAction(messagePanel, taxaTree));
@@ -370,11 +361,7 @@ public class TaxaSetViewer implements IDirectableViewer {
         top.add(groupButtons, constraints);
 
 
-        /**
-         * buttons
-         */
-
-        // 'APPLY': run algorithm with user-options, without closing this window.
+		// 'APPLY': run algorithm with user-options, without closing this window.
         JButton applyButton = new JButton(tsva.getApplyAction(messagePanel, taxaTree));
 
         // 'OK': run algorithm with user-options, and close this window.
@@ -410,13 +397,9 @@ public class TaxaSetViewer implements IDirectableViewer {
         button.setBorder(BorderFactory.createEmptyBorder(20, 15, 15, 15));
         button.setSize(340, 70);
 
-        /**
-         * Error Message Pane
-         */
 
-
-        //JLabel iconLabel = new JLabel(ResourceManager.getIcon("sun/Stop16.gif"),JLabel.CENTER);
-        //errorMessagePanel.add(iconLabel);
+		//JLabel iconLabel = new JLabel(ResourceManager.getIcon("sun/Stop16.gif"),JLabel.CENTER);
+		//errorMessagePanel.add(iconLabel);
 
         message = new JLabel();
         //errorMessage.setForeground(Color.RED);
@@ -495,9 +478,6 @@ public class TaxaSetViewer implements IDirectableViewer {
         message.setText(errorMessageText);
     }
 
-    /**
-     * initialize the tree using taxasets
-     */
     /*  private void initializeTaxaTreeWithTaxaSets() {
 
    DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode) taxaTreeModel.getRoot();

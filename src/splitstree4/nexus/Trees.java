@@ -131,9 +131,7 @@ public class Trees extends NexusBlock {
     /**
      * sets the i-th tree name
      *
-     * @param i
-     * @param name
-     */
+	 */
     public void setName(int i, String name) {
         names.setElementAt(name, i - 1);
     }
@@ -152,9 +150,7 @@ public class Trees extends NexusBlock {
     /**
      * sets the i-th tree taxaset
      *
-     * @param i
-     * @param taxaset
-     */
+	 */
     public void setTaxaSet(int i, TaxaSet taxaset) {
         taxasets.setElementAt(taxaset, i - 1);
     }
@@ -163,7 +159,6 @@ public class Trees extends NexusBlock {
      * returns the index of the named tree.
      * Trees are numbered 1 to ntrees
      *
-     * @param name
      * @return index of named tree
      */
     public int indexOf(String name) {
@@ -184,7 +179,6 @@ public class Trees extends NexusBlock {
      * Returns the nexus flag [&R] indicating whether the tree should be considered
      * as rooted
      *
-     * @param i
      * @return String  Returns [&R] if rooted, and "" otherwise.
      */
     public String getFlags(int i) {
@@ -198,8 +192,7 @@ public class Trees extends NexusBlock {
      * remove the tree at index i.
      * The index must be between 1 and ntrees
      *
-     * @param i
-     */
+	 */
     public void removeTree(int i) {
 
         if (names.remove(i - 1) != null && trees.remove(i - 1) != null)
@@ -242,14 +235,14 @@ public class Trees extends NexusBlock {
 
         // make sure tree gets unique name
         names.setSize(ntrees);
-        if (name.length() == 0)
-            name = "tree";
-        if (names.indexOf(name) != -1) {
-            int count = 1;
-            while (names.indexOf(name + "_" + count) != -1)
-                count++;
-            name += "_" + count;
-        }
+		if (name.length() == 0)
+			name = "tree";
+		if (names.contains(name)) {
+			int count = 1;
+			while (names.contains(name + "_" + count))
+				count++;
+			name += "_" + count;
+		}
         names.add(ntrees - 1, name);
         taxasets.add(ntrees - 1, (this.getTaxaInTree(taxa, ntrees)));
         // these taxa sets are only set so that we can easily tell whether set of trees
@@ -300,8 +293,7 @@ public class Trees extends NexusBlock {
     /**
      * sets the node-label to taxon translation map
      *
-     * @param trans
-     */
+	 */
     public void setTranslate(Map<String, String> trans) {
         this.translate.clear();
         for (String key : trans.keySet()) {
@@ -366,7 +358,6 @@ public class Trees extends NexusBlock {
     /**
      * is translate one-to-one?
      *
-     * @param translate
      * @return true, if one-to-one
      */
     public boolean translateIsOneToOne(Map<String, String> translate) {
@@ -567,8 +558,7 @@ public class Trees extends NexusBlock {
     /**
      * are trees considered rooted?
      *
-     * @param rooted
-     */
+	 */
     public void setRooted(boolean rooted) {
         this.rooted = rooted;
     }
@@ -631,8 +621,7 @@ public class Trees extends NexusBlock {
     /**
      * does trees block contain a partial tree
      *
-     * @param partial
-     */
+	 */
     public void setPartial(boolean partial) {
         this.partial = partial;
     }
@@ -672,7 +661,6 @@ public class Trees extends NexusBlock {
     /**
      * gets the support of this tree, that is, the set of taxa mentioned in it
      *
-     * @param taxa
      * @param which tree
      * @return the set of taxa mentioned in this tree
      */
@@ -691,7 +679,6 @@ public class Trees extends NexusBlock {
     /**
      * gets the value of a format switch
      *
-     * @param name
      * @return value of format switch
      */
     public boolean getFormatSwitchValue(String name) {
@@ -703,9 +690,7 @@ public class Trees extends NexusBlock {
      * If the block contains partial trees, then the translate statement must mention all
      * taxa. We use this info to build a taxa block
      *
-     * @param taxa
-     * @throws SplitsException
-     */
+	 */
     public void setTaxaFromPartialTrees(Taxa taxa) throws SplitsException {
         Set<String> taxaLabels = new HashSet<>();
         for (int i = 1; i <= getNtrees(); i++) {
@@ -755,9 +740,7 @@ public class Trees extends NexusBlock {
     /**
      * induces trees not containing the hidden taxa
      *
-     * @param origTaxa
-     * @param hiddenTaxa
-     */
+	 */
     public void hideTaxa(Taxa origTaxa, TaxaSet hiddenTaxa) {
         if ((hiddenTaxa == null || hiddenTaxa.cardinality() == 0) && originalTrees == null)
             return;   // nothing to do
@@ -845,8 +828,7 @@ public class Trees extends NexusBlock {
     /**
      * restores the original splits
      *
-     * @param originalTaxa
-     */
+	 */
     public void restoreOriginal(Taxa originalTaxa) {
         this.copy(originalTaxa, originalTrees);
         previousTaxa = originalTaxa;
@@ -855,8 +837,7 @@ public class Trees extends NexusBlock {
     /**
      * save the original trees
      *
-     * @param originalTaxa
-     */
+	 */
     public void setOriginal(Taxa originalTaxa) {
         originalTrees = this.clone(originalTaxa);
         previousTaxa = null;
@@ -866,7 +847,6 @@ public class Trees extends NexusBlock {
     /**
      * clones a trees object
      *
-     * @param taxa
      * @return a clone
      */
     public Trees clone(Taxa taxa) {
@@ -886,7 +866,6 @@ public class Trees extends NexusBlock {
     /**
      * copies a trees object
      *
-     * @param taxa
      * @param src  source tree
      */
     public void copy(Taxa taxa, Trees src) {
@@ -903,8 +882,7 @@ public class Trees extends NexusBlock {
     /**
      * sets the translate map to the identity mapping taxa->taxa
      *
-     * @param taxa
-     */
+	 */
     public void setIdentityTranslate(Taxa taxa) {
         Map<String, String> map = new HashMap<>();
         for (int t = 1; t <= taxa.getNtax(); t++)
@@ -915,8 +893,7 @@ public class Trees extends NexusBlock {
     /**
      * Sets the translate map to taxaid->taxa
      *
-     * @param taxa
-     */
+	 */
     public void setNumberedIdentityTranslate(Taxa taxa) {
         Map<String, String> map = new HashMap<>();
         for (int t = 1; t <= taxa.getNtax(); t++)

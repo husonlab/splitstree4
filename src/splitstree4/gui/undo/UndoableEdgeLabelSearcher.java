@@ -47,8 +47,7 @@ public class UndoableEdgeLabelSearcher implements IObjectSearcher {
     /**
      * constructor
      *
-     * @param viewer
-     */
+	 */
     public UndoableEdgeLabelSearcher(MainViewer viewer) {
         this(null, SEARCHER_NAME, viewer);
     }
@@ -56,8 +55,7 @@ public class UndoableEdgeLabelSearcher implements IObjectSearcher {
     /**
      * constructor
      *
-     * @param viewer
-     */
+	 */
     public UndoableEdgeLabelSearcher(Frame frame, MainViewer viewer) {
         this(frame, SEARCHER_NAME, viewer);
     }
@@ -65,9 +63,7 @@ public class UndoableEdgeLabelSearcher implements IObjectSearcher {
     /**
      * constructor
      *
-     * @param name
-     * @param viewer
-     */
+	 */
     public UndoableEdgeLabelSearcher(Frame frame, String name, MainViewer viewer) {
         this.frame = frame;
         this.name = name;
@@ -146,8 +142,7 @@ public class UndoableEdgeLabelSearcher implements IObjectSearcher {
     /**
      * set selection state of current object
      *
-     * @param select
-     */
+	 */
     public void setCurrentSelected(boolean select) {
         if (current != null) {
             if (select)
@@ -160,8 +155,7 @@ public class UndoableEdgeLabelSearcher implements IObjectSearcher {
     /**
      * set select state of all objects
      *
-     * @param select
-     */
+	 */
     public void selectAll(boolean select) {
         viewer.selectAllEdges(select);
         viewer.repaint();
@@ -182,8 +176,7 @@ public class UndoableEdgeLabelSearcher implements IObjectSearcher {
     /**
      * set the label of the current object
      *
-     * @param newLabel
-     */
+	 */
     public void setCurrentLabel(String newLabel) {
         if (current != null) {
             String currentLabel = viewer.getLabel(current);
@@ -263,8 +256,7 @@ public class UndoableEdgeLabelSearcher implements IObjectSearcher {
     /**
      * fire the label changed listener
      *
-     * @param e
-     */
+	 */
     private void fireLabelChangedListeners(Edge e) {
         for (Object labelChangedListener : labelChangedListeners) {
             LabelChangedListener listener = (LabelChangedListener) labelChangedListener;
@@ -275,8 +267,7 @@ public class UndoableEdgeLabelSearcher implements IObjectSearcher {
     /**
      * add a label changed listener
      *
-     * @param listener
-     */
+	 */
     public void addLabelChangedListener(LabelChangedListener listener) {
         labelChangedListeners.add(listener);
     }
@@ -284,8 +275,7 @@ public class UndoableEdgeLabelSearcher implements IObjectSearcher {
     /**
      * remove a label changed listener
      *
-     * @param listener
-     */
+	 */
     public void removeLabelChangedListener(LabelChangedListener listener) {
         labelChangedListeners.remove(listener);
     }

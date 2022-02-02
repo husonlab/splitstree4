@@ -99,10 +99,9 @@ public class Document extends DocumentData {
      * @param name the name of the block, or null to do all blocks
      */
     void deleteDependentBlocks(String name) {
-        boolean found = false;
+        boolean found = name == null;
 
-        if (name == null) // null: delete all
-            found = true;
+        // null: delete all
 
         if (found && taxa != null)
             taxa = null;
@@ -190,9 +189,6 @@ public class Document extends DocumentData {
     /**
      * update all date that depends on the named block
      *
-     * @param name
-     * @throws jloda.util.CanceledException
-     * @throws SplitsException
      */
     public void update(String name) throws Exception {
         boolean found = false;  // found block to begin updating at?
@@ -733,8 +729,6 @@ public class Document extends DocumentData {
     /**
      * does it look like hidden taxa choice has changed?
      *
-     * @param taxa
-     * @param assumptions
      * @return true or false
      */
     private boolean taxaHaveJustChanged(Taxa taxa, Assumptions assumptions) {
@@ -750,9 +744,6 @@ public class Document extends DocumentData {
     /**
      * post modifies the set of splits in such a way that the original ones don't get lost
      *
-     * @param taxa
-     * @param splits
-     * @throws CanceledException
      */
     private void updateSplitsPostModification(Taxa taxa, Splits splits, String targetName) throws CanceledException {
 
@@ -852,8 +843,6 @@ public class Document extends DocumentData {
     /**
      * post modifies the set of trees in such a way that the original ones don't get lost
      *
-     * @param taxa
-     * @param trees
      */
     private void updateTreesPostModification(Taxa taxa, Trees trees) {
         // setup or restore original trees:
@@ -1376,7 +1365,6 @@ public class Document extends DocumentData {
     /**
      * Sets a flag indicating that we should not change the splits.
      *
-     * @param fs
      */
     public void setKeepSplits(boolean fs) {
         keepSplits = fs;
@@ -1394,7 +1382,6 @@ public class Document extends DocumentData {
     /**
      * set the current state of the document
      *
-     * @param valid
      */
     public void setValid(boolean valid) {
         this.valid = valid;
@@ -1404,7 +1391,6 @@ public class Document extends DocumentData {
     /**
      * Compute the number of lines in a file
      *
-     * @param file
      */
     private int countNumberLines(File file) {
         int countRec = 0;
@@ -1418,7 +1404,7 @@ public class Document extends DocumentData {
             countRec = lineRead.getLineNumber() - 1;
             fileRead.close();
             lineRead.close();
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
         return countRec;
     }
@@ -1511,7 +1497,6 @@ public class Document extends DocumentData {
      * @param dp       The Document
      * @param complete save all sequence sites
      * @param blocks   list of blocks to export
-     * @throws CanceledException
      */
     public void exportFile(File file, String exporter, Document dp, Collection blocks, boolean complete) {
         exportFile(file, exporter, dp, blocks, complete, null);
@@ -1525,7 +1510,6 @@ public class Document extends DocumentData {
      * @param dp       The Document
      * @param complete save all sequence sites
      * @param blocks   list of blocks to export
-     * @throws CanceledException
      */
     public void exportFile(File file, String exporter, Document dp, Collection blocks, boolean complete, ExporterInfo additionalInfo) {
         try {
@@ -1542,7 +1526,6 @@ public class Document extends DocumentData {
     /**
      * Sets whether the cancel option is open to the user.
      *
-     * @param enabled
      */
     public void notifyEnabled(boolean enabled) {
         if (progressListener != null) {
@@ -1553,7 +1536,6 @@ public class Document extends DocumentData {
     /**
      * notifies the progess monitor to set the maximum
      *
-     * @param max
      */
     public void notifySetMaximumProgress(int max) throws CanceledException {
         if (progressListener != null) {
@@ -1566,7 +1548,6 @@ public class Document extends DocumentData {
     /**
      * Sets the progress bar to the current proportion of the file we've read in.
      *
-     * @param np
      */
     public void notifyProgress(NexusStreamParser np) throws CanceledException {
         notifySetProgress((100 * np.lineno() / Math.max(1, getNumberLines())));
@@ -1593,8 +1574,6 @@ public class Document extends DocumentData {
     /**
      * set the task and subtask name
      *
-     * @param task
-     * @param subtask
      */
     public void notifyTasks(String task, String subtask) {
         progressListener.setTasks(task, subtask);
@@ -1612,7 +1591,6 @@ public class Document extends DocumentData {
     /**
      * set the progress listener
      *
-     * @param progressListener
      */
     public void setProgressListener(ProgressListener progressListener) {
         this.progressListener = progressListener;
@@ -1621,7 +1599,6 @@ public class Document extends DocumentData {
     /**
      * returns true, if given transform is applicable at current state of document
      *
-     * @param transform
      * @return true, if transform applicable
      */
     public boolean isApplicable(Transformation transform) {
@@ -1742,7 +1719,6 @@ public class Document extends DocumentData {
     /**
      * returns true if named block is first valid input block
      *
-     * @param name
      * @return true, if first
      */
     public boolean isFirstValidInputBlock(String name) {
@@ -1753,7 +1729,6 @@ public class Document extends DocumentData {
     /**
      * keeps only the named input block, deletes all others
      *
-     * @param name
      */
     public void keepOnlyThisInputBlock(String name) {
 
@@ -1781,7 +1756,6 @@ public class Document extends DocumentData {
      *
      * @param splits splits (for  cycle)
      * @param w      writer
-     * @throws IOException
      */
     public void writeBS(Splits splits, Writer w) throws IOException {
         if (isValid(bootstrap)) {
@@ -1843,7 +1817,6 @@ public class Document extends DocumentData {
     /**
      * gets the value of a format switch,
      *
-     * @param blockName
      * @param name      of formating switch
      * @return true or false depending on whether the switch is set or not
      */
@@ -1873,11 +1846,6 @@ public class Document extends DocumentData {
     /**
      * reads and executes a splitstree block
      *
-     * @param np
-     * @throws IOException
-     * @throws SplitsException
-     * @throws CanceledException
-     * @throws Exception
      */
     public void read(NexusStreamParser np) throws Exception {
         np.matchBeginBlock("SplitsTree");
@@ -1957,8 +1925,8 @@ public class Document extends DocumentData {
                     FileWriter fw = new FileWriter(file, append);
 
                     fw.write("#nexus\n");
-                    for (Object block : blocks) {
-                        String blockName = (String) block;
+                    for (String block : blocks) {
+                        String blockName = block;
                         System.err.print(" " + blockName);
                         if (!write(fw, blockName))
                             throw new SplitsException("Failed to write block: " + blockName);
@@ -1972,7 +1940,7 @@ public class Document extends DocumentData {
                 PrintStream ps = jloda.util.Basic.hideSystemErr();
                 try {
                     write(sw);
-                    System.out.println(sw.toString());
+                    System.out.println(sw);
                 } finally {
                     jloda.util.Basic.restoreSystemErr(ps);
                 }
@@ -1996,7 +1964,7 @@ public class Document extends DocumentData {
                     }
                     w.flush();
 
-                    System.out.println(w.toString());
+                    System.out.println(w);
                 } finally {
                     jloda.util.Basic.restoreSystemErr(ps);
                 }
@@ -2212,7 +2180,7 @@ public class Document extends DocumentData {
                     else if (format.equalsIgnoreCase("jpg"))
                         JPGExportType.writeToFile(file, graphView);
 
-                    System.err.println(format + " written to file: " + file.toString());
+                    System.err.println(format + " written to file: " + file);
                 } finally {
                     graphView.setPOWEREDBY(oldPoweredBy);
                 }
@@ -2298,7 +2266,7 @@ public class Document extends DocumentData {
                     block.append("saveweights=yes; \n");
 
                 if (outputFile != null && outputFile.length() > 0)
-                    block.append("OutputFile=\'").append(outputFile).append("\';\n");
+                    block.append("OutputFile='").append(outputFile).append("';\n");
 
                 block.append("end;\n");
                 setBootstrap(null);
@@ -2511,9 +2479,8 @@ public class Document extends DocumentData {
                 }
             } else if (np.peekMatchIgnoreCase("about;")) {
                 String message = SplitsTreeProperties.getVersion() +
-                                 "\n\nVisit http://www.splitstree.org\n\n" +
-                                 "Daniel Huson (huson@informatik.uni-tuebingen.de)\nDavid Bryant (david.bryant@otago.ac.nz)\n\n" +
-                                 "Additional programming:\nMarkus Franz\nMig\374el Jett\351\nTobias Kl\366pper\nMichael Schr\366der";
+                                 "\n\nVisit https://www.splitstree.org\n\n" +
+                                 "Daniel Huson (huson@informatik.uni-tuebingen.de)\nDavid Bryant (david.bryant@otago.ac.nz)\n";
 
                 np.matchIgnoreCase("about;");
                 System.out.println(message);
@@ -2613,7 +2580,6 @@ public class Document extends DocumentData {
     /**
      * sets the parent for alert windows etc
      *
-     * @param parent
      */
     public void setParent(Component parent) {
         this.parent = parent;
@@ -2645,7 +2611,6 @@ public class Document extends DocumentData {
     /**
      * sets the the top comments found in a nexus file
      *
-     * @param topComments
      */
     public void setTopComments(String topComments) {
         this.topComments = topComments;

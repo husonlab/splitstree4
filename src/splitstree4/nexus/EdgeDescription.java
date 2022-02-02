@@ -35,24 +35,24 @@ import java.util.LinkedList;
  * @version $Id: EdgeDescription.java,v 1.16 2010-02-23 15:52:01 huson Exp $
  */
 public class EdgeDescription implements Cloneable {
-    static int ECLASS = 0; // undefined
-    static int LINE = 1;
-    static Color FGC = Color.black;
-    static Color BGC = Color.white;
-    static String FONT = "Default-PLAIN-10";
-    static Point OFFSET = new Point(0, 0);
-    static float WEIGHT = 1.0f;
-    static byte SHAPE = EdgeView.POLY_EDGE;
+	static final int ECLASS = 0; // undefined
+	static final int LINE = 1;
+	static final Color FGC = Color.black;
+	static final Color BGC = Color.white;
+	static final String FONT = "Default-PLAIN-10";
+	static final Point OFFSET = new Point(0, 0);
+	static final float WEIGHT = 1.0f;
+	static final byte SHAPE = EdgeView.POLY_EDGE;
 
-    int id;
-    int source;
-    int target;
-    java.util.List<Point2D> internal; // list of internal points
-    int eclass = ECLASS;
-    float weight = WEIGHT;
-    int line = LINE;
-    Color fgc = FGC;
-    Color bgc = BGC;
+	int id;
+	int source;
+	int target;
+	java.util.List<Point2D> internal; // list of internal points
+	int eclass = ECLASS;
+	float weight = WEIGHT;
+	int line = LINE;
+	Color fgc = FGC;
+	Color bgc = BGC;
     Color labelFgc = FGC;
     Color labelBgc = null;
 
@@ -138,9 +138,7 @@ public class EdgeDescription implements Cloneable {
      *
      * @param id     edges id
      * @param nedges number of edges
-     * @param np
-     * @throws java.io.IOException
-     */
+	 */
     void read(int id, int nedges, NexusStreamParser np) throws IOException {
         np.matchIgnoreCase("" + id);
         this.id = id;
@@ -177,9 +175,7 @@ public class EdgeDescription implements Cloneable {
     /**
      * read an edge label description
      *
-     * @param np
-     * @throws IOException
-     */
+	 */
     void readLabel(NexusStreamParser np, String prevFont) throws IOException {
         if (prevFont != null)
             font = prevFont;
@@ -211,9 +207,7 @@ public class EdgeDescription implements Cloneable {
     /**
      * reads a description of a list of internal points of an edge
      *
-     * @param np
-     * @throws IOException
-     */
+	 */
     void readInternal(NexusStreamParser np) throws IOException {
         internal = new LinkedList<>();
         while (!np.peekMatchRespectCase(",")) {
@@ -229,7 +223,7 @@ public class EdgeDescription implements Cloneable {
      */
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append("").append(id).append(" ").append(source).append(" ").append(target);
+		buf.append(id).append(" ").append(source).append(" ").append(target);
         if (eclass != ECLASS)
             buf.append(" s=").append(eclass);
         if (weight != WEIGHT)
@@ -252,19 +246,19 @@ public class EdgeDescription implements Cloneable {
      * @return string
      */
     String labelToString(String prevFont) {
-        StringBuilder buf = new StringBuilder();
-        buf.append("").append(id).append(" '").append(label).append("'");
-        buf.append(" ll=").append((int) (labelLayout));
-        if (labelOffset != null && (labelOffset.x != 0 || labelOffset.y != 0))
-            buf.append(" x=").append(labelOffset.x).append(" y=").append(labelOffset.y);
-        if (labelAngle != 0)
-            buf.append(" a=").append(labelAngle);
-        if (font != null && (prevFont == null || !font.equals(prevFont)))
-            buf.append(" f='").append(font).append("'");
-        if (labelFgc != null && !labelFgc.equals(FGC))
-            buf.append(" lc=").append(labelFgc.getRed()).append(" ").append(labelFgc.getGreen()).append(" ").append(labelFgc.getBlue());
-        if (labelBgc != null)
-            buf.append(" lk=").append(labelBgc.getRed()).append(" ").append(labelBgc.getGreen()).append(" ").append(labelBgc.getBlue());
+		StringBuilder buf = new StringBuilder();
+		buf.append(id).append(" '").append(label).append("'");
+		buf.append(" ll=").append(labelLayout);
+		if (labelOffset != null && (labelOffset.x != 0 || labelOffset.y != 0))
+			buf.append(" x=").append(labelOffset.x).append(" y=").append(labelOffset.y);
+		if (labelAngle != 0)
+			buf.append(" a=").append(labelAngle);
+		if (font != null && (!font.equals(prevFont)))
+			buf.append(" f='").append(font).append("'");
+		if (labelFgc != null && !labelFgc.equals(FGC))
+			buf.append(" lc=").append(labelFgc.getRed()).append(" ").append(labelFgc.getGreen()).append(" ").append(labelFgc.getBlue());
+		if (labelBgc != null)
+			buf.append(" lk=").append(labelBgc.getRed()).append(" ").append(labelBgc.getGreen()).append(" ").append(labelBgc.getBlue());
 
         return buf.toString();
     }
@@ -276,7 +270,7 @@ public class EdgeDescription implements Cloneable {
      */
     String internalToString() {
         StringBuilder buf = new StringBuilder();
-        buf.append("").append(id);
+		buf.append(id);
         if (internal != null) {
             for (Point2D apt : internal) {
                 buf.append(" ").append((float) apt.getX()).append(" ").append((float) apt.getY());

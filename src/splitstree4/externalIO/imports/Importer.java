@@ -34,7 +34,6 @@ public interface Importer {
     /**
      * can we import this data?
      *
-     * @param input
      * @return true, if can handle this import
      */
     boolean isApplicable(Reader input) throws Exception;
@@ -42,7 +41,6 @@ public interface Importer {
     /**
      * does this importer apply to the type of nexus block
      *
-     * @param blockName
      * @return true, if can handle this import
      */
     boolean isApplicableToBlock(String blockName);
@@ -50,9 +48,7 @@ public interface Importer {
     /**
      * convert input into nexus format
      *
-     * @param input
-     * @return
-     */
+	 */
     String apply(Reader input) throws Exception;
 
 
@@ -64,8 +60,7 @@ public interface Importer {
     /**
      * set the data type
      *
-     * @param dataType
-     */
+	 */
     void setDatatype(String dataType);
 
     /**

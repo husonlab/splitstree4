@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** Reorder taxa
- *@version $Id: Reorder.java,v 1.6 2007-01-25 08:58:16 huson Exp $
- *@author Daniel Huson and David Bryant
- * 3.2003
- */
 package splitstree4.progs;
 
 import jloda.swing.util.CommandLineOptions;
@@ -30,7 +25,6 @@ import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Iterator;
@@ -59,7 +53,7 @@ public class Reorder {
         Taxa taxa = new Taxa();
         Splits splits = new Splits();
 
-        NexusStreamParser np = new NexusStreamParser(new BufferedReader(new FileReader(new File(inname))));
+        NexusStreamParser np = new NexusStreamParser(new BufferedReader(new FileReader(inname)));
 
         np.matchIgnoreCase("#nexus");
         taxa.read(np);
@@ -69,7 +63,7 @@ public class Reorder {
         Splits rsplits = new Splits(taxa.getNtax());
         reorder(taxa, splits, rtaxa, rsplits);
 
-        FileWriter w = new FileWriter(new File(outname));
+		FileWriter w = new FileWriter(outname);
         w.write("#nexus\n");
         rtaxa.write(w);
         rsplits.write(w, taxa);

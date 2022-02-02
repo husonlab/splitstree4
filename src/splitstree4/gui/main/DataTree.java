@@ -48,8 +48,7 @@ public class DataTree extends JTree {
     /**
      * constructor
      *
-     * @param dir
-     */
+	 */
     public DataTree(Director dir) {
         super();
         setModel(new DefaultTreeModel(new DefaultMutableTreeNode("#Nexus")));
@@ -84,9 +83,6 @@ public class DataTree extends JTree {
     /**
      * recursively find a path
      *
-     * @param parent
-     * @param names
-     * @param depth
      * @return path
      */
     private TreePath findRec(TreePath parent, String[] names, int depth) {

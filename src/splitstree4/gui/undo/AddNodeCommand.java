@@ -27,30 +27,23 @@ import splitstree4.gui.main.MainViewer;
  * Daniel Huson and David Bryant
  */
 public class AddNodeCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    int x;
-    int y;
-    Node toDelete;
+	final MainViewer viewer;
+	final int x;
+	final int y;
+	Node toDelete;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param x
-     * @param y
-     */
-    public AddNodeCommand(MainViewer viewer, int x, int y) {
-        this.viewer = viewer;
-        this.x = x;
-        this.y = y;
+	/**
+	 * constructor
+	 */
+	public AddNodeCommand(MainViewer viewer, int x, int y) {
+		this.viewer = viewer;
+		this.x = x;
+		this.y = y;
     }
 
     /**
      * constructor for reverse command
      *
-     * @param viewer
-     * @param x
-     * @param y
      * @param toDelete if null, we are adding a new node, otherwise this is the node to delete
      */
     private AddNodeCommand(MainViewer viewer, int x, int y, Node toDelete) {

@@ -53,13 +53,6 @@ public class NexusCellRenderer implements TreeCellRenderer {
     /**
      * get the tree cell render component
      *
-     * @param tree
-     * @param value
-     * @param isSelected
-     * @param expanded
-     * @param leaf
-     * @param row
-     * @param hasFocus
      * @return component
      */
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean isSelected, boolean expanded,

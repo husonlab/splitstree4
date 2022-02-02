@@ -40,7 +40,7 @@ import java.util.*;
  */
 public class ReticulateNetworkExport extends ExporterAdapter implements Exporter {
 
-    private String Description = "Save a reticulte network";
+    private final String Description = "Save a reticulte network";
 
     /**
      * can we import this data?
@@ -59,7 +59,6 @@ public class ReticulateNetworkExport extends ExporterAdapter implements Exporter
     /**
      * convert input into nexus format
      *
-     * @param doc
      * @return null
      */
     public Map apply(Writer w, Document doc, Collection blockNames) throws Exception {
@@ -102,9 +101,8 @@ public class ReticulateNetworkExport extends ExporterAdapter implements Exporter
     }
 
     private String sortRSubtrees(HashMap rTaxaName2subtree) {
-        HashSet rTaxaNames = new HashSet();
-        rTaxaNames.addAll(rTaxaName2subtree.keySet());
-        HashMap rTaxaName2Node = new HashMap();
+		HashSet rTaxaNames = new HashSet(rTaxaName2subtree.keySet());
+		HashMap rTaxaName2Node = new HashMap();
         HashMap node2rTaxaName = new HashMap();
         // build Sort graph
         Graph g = new Graph();
@@ -139,32 +137,30 @@ public class ReticulateNetworkExport extends ExporterAdapter implements Exporter
         }
 
         // sort nodes by their OutDegree
-        ArrayList<Node> list = new ArrayList<>();
+		ArrayList<Node> list = new ArrayList<>();
 
-        it = g.nodes().iterator();
-        while (it.hasNext()) {
-            Node n = (Node) it.next();
-            System.out.println("Node: " + n + "\toutdegree: " + n.getOutDegree());
-            list.add(n);
-        }
-        StringBuilder re = new StringBuilder();
+		it = g.nodes().iterator();
+		while (it.hasNext()) {
+			Node n = (Node) it.next();
+			System.out.println("Node: " + n + "\toutdegree: " + n.getOutDegree());
+			list.add(n);
+		}
+		StringBuilder re = new StringBuilder();
 
-        list.sort(new Comparator<Node>() {
-            public int compare(Node n1, Node n2) {
-                if (n1.equals(n2))
-                    return 0;
-                else if (n1.getOutDegree() > n2.getOutDegree())
-                    return 1;
-                else
-                    return -1;
-            }
-        });
-        for (Node next : list) {
-            String name = (String) node2rTaxaName.get(next);
-            re.append(name).append("=").append(rTaxaName2subtree.get(name)).append(";\n");
-        }
-        return re.toString();
-    }
+		list.sort((n1, n2) -> {
+			if (n1.equals(n2))
+				return 0;
+			else if (n1.getOutDegree() > n2.getOutDegree())
+				return 1;
+			else
+				return -1;
+		});
+		for (Node next : list) {
+			String name = (String) node2rTaxaName.get(next);
+			re.append(name).append("=").append(rTaxaName2subtree.get(name)).append(";\n");
+		}
+		return re.toString();
+	}
 
     private String recMakeNewick(Node start, PhyloSplitsGraph graph, Taxa taxa, HashMap node2rTaxaName, HashMap rTaxaName2subtree, HashSet usedLabels) throws Exception {
         StringBuilder subtree = new StringBuilder();
@@ -193,9 +189,9 @@ public class ReticulateNetworkExport extends ExporterAdapter implements Exporter
             }
         }
         if (start.getInDegree() < 2) {
-            System.out.println("returning subtree: " + "(" + subtree.toString() + ")");
-            return "(" + subtree.toString() + ")";
-        } else if (start.getInDegree() == 2) {
+			System.out.println("returning subtree: " + "(" + subtree + ")");
+			return "(" + subtree + ")";
+		} else if (start.getInDegree() == 2) {
             if (node2rTaxaName.get(start) == null) {// first time we visit this node
                 String rLabel;
                 if (graph.getLabel(start) != null)

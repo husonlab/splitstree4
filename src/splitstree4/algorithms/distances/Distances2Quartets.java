@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version $Id: Distances2Quartets.java,v 1.8 2007-09-11 12:31:07 kloepper Exp $
- *
- * @author Daniel Huson and David Bryant
- *
- */
 
 package splitstree4.algorithms.distances;
 

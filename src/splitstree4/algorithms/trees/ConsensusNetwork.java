@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * implements consensus networks
- * @version $Id: ConsensusNetwork.java,v 1.29 2010-04-23 02:58:54 bryant Exp $
- * @author Tobias Kloepper and Daniel Huson and David Bryant
- * 7.03
- */
 package splitstree4.algorithms.trees;
 
 import jloda.util.CanceledException;
@@ -169,7 +163,6 @@ public class ConsensusNetwork implements Trees2Splits {
     /**
      * sets the threshold (between 0 and 1)
      *
-     * @param threshold
      */
     public void setOptionThreshold(double threshold) {
         this.threshold = Math.min(1.0, Math.max(0.0, threshold));
@@ -178,7 +171,6 @@ public class ConsensusNetwork implements Trees2Splits {
     /**
      * decide what to scale the edge weights by
      *
-     * @return
      */
     public String getOptionEdgeWeights() {
         return optionEdgeWeights;
@@ -187,7 +179,6 @@ public class ConsensusNetwork implements Trees2Splits {
     /**
      * decide what to scale the edge weights by
      *
-     * @param optionEdgeWeights
      */
     public void setOptionEdgeWeights(String optionEdgeWeights) {
         this.optionEdgeWeights = optionEdgeWeights;
@@ -196,7 +187,6 @@ public class ConsensusNetwork implements Trees2Splits {
     /**
      * return the possible chocies for optionEdgeWeights
      *
-     * @param doc
      * @return list of choices
      */
     public List selectionOptionEdgeWeights(Document doc) {
@@ -213,8 +203,8 @@ public class ConsensusNetwork implements Trees2Splits {
      * a value object contains a set of all weights seen so far and their counts
      */
     private static class WeightStats {
-        List weights;
-        int totalCount;
+        final List weights;
+		int totalCount;
         double sum;
 
         /**
@@ -229,7 +219,6 @@ public class ConsensusNetwork implements Trees2Splits {
         /**
          * add the given weight and count
          *
-         * @param weight
          */
         void add(float weight) {
             Float fWeight = weight;

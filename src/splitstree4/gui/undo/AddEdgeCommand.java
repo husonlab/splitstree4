@@ -30,24 +30,21 @@ import java.awt.geom.Point2D;
  * Daniel Huson and David Bryant
  */
 public class AddEdgeCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    Node a;
-    Node b;
-    int x;
-    int y;
-    Edge edgeToDelete;
-    Node nodeToDelete;
+	final MainViewer viewer;
+	final Node a;
+	final Node b;
+	final int x;
+	final int y;
+	Edge edgeToDelete;
+	Node nodeToDelete;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param a
-     * @param b
-     * @param x      x-coordinate for new node, if b==null
-     * @param y      y-coordinate for new node, if b==null
-     */
-    public AddEdgeCommand(MainViewer viewer, Node a, Node b, int x, int y) {
+	/**
+	 * constructor
+	 *
+	 * @param x x-coordinate for new node, if b==null
+	 * @param y y-coordinate for new node, if b==null
+	 */
+	public AddEdgeCommand(MainViewer viewer, Node a, Node b, int x, int y) {
         this.viewer = viewer;
         this.a = a;
         this.b = b;
@@ -58,14 +55,10 @@ public class AddEdgeCommand extends ICommandAdapter implements ICommand {
     /**
      * constructor used only by reverse commande
      *
-     * @param viewer
-     * @param a
-     * @param b
      * @param x            x-coordinate for new node, if b==null
      * @param y            y-coordinate for new node, if b==null
      * @param edgeToDelete if null, we are adding a new edge, otherwise this is the edge to delete
-     * @param nodeToDelete
-     */
+	 */
     private AddEdgeCommand(MainViewer viewer, Node a, Node b, int x, int y, Edge edgeToDelete, Node nodeToDelete) {
         this.viewer = viewer;
         this.a = a;

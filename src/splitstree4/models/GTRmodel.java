@@ -32,12 +32,11 @@ package splitstree4.models;
  */
 public class GTRmodel extends NucleotideModel {
 
-    private double[][] Q;
+    private final double[][] Q;
 
     /**
      * General time reversible model
      *
-     * @param QMatrix
      * @param basefreqs Takes a provisional Q matrix and the base frequencies. Under the GTR properties, the matriix
      *                  Pi Q is symmetric. We enforce this as follows:
      *                  FOR OFF-DIAGONAL

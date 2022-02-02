@@ -30,22 +30,21 @@ import java.util.Random;
  * Daniel Huson and David Bryant
  */
 public class EdgeColorCommand extends ICommandAdapter implements ICommand {
-    MainViewer viewer;
-    EdgeArray colors;
-    boolean fg;
-    boolean label;
-    boolean lbg;
+	final MainViewer viewer;
+	final EdgeArray colors;
+	final boolean fg;
+	final boolean label;
+	final boolean lbg;
 
-    /**
-     * constructor
-     *
-     * @param viewer
-     * @param color  color or null, null is invisible
-     */
-    public EdgeColorCommand(MainViewer viewer, Color color, boolean randomColors, boolean fg, boolean label, boolean lbg) {
-        this.viewer = viewer;
-        this.fg = fg;
-        this.label = label;
+	/**
+	 * constructor
+	 *
+	 * @param color color or null, null is invisible
+	 */
+	public EdgeColorCommand(MainViewer viewer, Color color, boolean randomColors, boolean fg, boolean label, boolean lbg) {
+		this.viewer = viewer;
+		this.fg = fg;
+		this.label = label;
         this.lbg = lbg;
 
         Random rand = new Random();
@@ -69,9 +68,8 @@ public class EdgeColorCommand extends ICommandAdapter implements ICommand {
     /**
      * constructor  for reverse command
      *
-     * @param viewer
-     */
-    private EdgeColorCommand(MainViewer viewer, boolean fg, boolean label, boolean lbg) {
+	 */
+	private EdgeColorCommand(MainViewer viewer, boolean fg, boolean label, boolean lbg) {
         this.viewer = viewer;
         this.fg = fg;
         this.label = label;

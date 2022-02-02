@@ -18,11 +18,6 @@
  */
 package splitstree4.gui.formatter;
 
-/**
- * format nodes and edges
- * Daniel Huson and David Bryant, 2.2007
- */
-
 import jloda.graph.Edge;
 import jloda.graph.EdgeSet;
 import jloda.graph.Node;
@@ -44,8 +39,6 @@ import splitstree4.gui.undo.NodeColorCommand;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -56,27 +49,27 @@ import java.util.LinkedList;
  * format nodes and edges
  */
 public class Formatter implements IDirectableViewer {
-    public static final String CONFIGURATOR_GEOMETRY = "ConfiguratorGeometry";
-    public static final String DEFAULT_FONT = "DefaultFont";
+	public static final String CONFIGURATOR_GEOMETRY = "ConfiguratorGeometry";
+	public static final String DEFAULT_FONT = "DefaultFont";
 
-    private final java.util.List<IFormatterListener> formatterListeners = new LinkedList<>();
+	private final java.util.List<IFormatterListener> formatterListeners = new LinkedList<>();
 
-    private boolean uptodate = false;
-    private IDirector dir;
-    private MainViewer viewer;
-    private FormatterActions actions;
-    private FormatterMenuBar menuBar;
-    private JFrame frame;
+	private boolean uptodate = false;
+	private IDirector dir;
+	private MainViewer viewer;
+	private final FormatterActions actions;
+	private final FormatterMenuBar menuBar;
+	private final JFrame frame;
 
-    private JComboBox nodeSize, fontName, fontSize, nodeShape, edgeShape, edgeWidth;
-    private JCheckBox boldFont, italicFont, labels, foregroundColor, backgroundColor, labelForegroundColor,
-            labelBackgroundColor;
-    private JColorChooser colorChooser;
+	private JComboBox nodeSize, fontName, fontSize, nodeShape, edgeShape, edgeWidth;
+	private JCheckBox boldFont, italicFont, labels, foregroundColor, backgroundColor, labelForegroundColor,
+			labelBackgroundColor;
+	private JColorChooser colorChooser;
 
 
-    /**
-     * constructor
-     *
+	/**
+	 * constructor
+	 *
      * @param dir               the director
      * @param viewer            the graph view
      * @param showRotateButtons show label rotate buttons?
@@ -173,9 +166,7 @@ public class Formatter implements IDirectableViewer {
      * set the viewer to a new viewer.  Usually called in windowActivated listener in main window
      * If this is used, frame is set not to destroy itself
      *
-     * @param dir
-     * @param viewer
-     */
+	 */
     public void changeDirector(final Director dir, MainViewer viewer) {
         this.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.viewer = viewer;
@@ -274,10 +265,7 @@ public class Formatter implements IDirectableViewer {
                         nodeSize.setSelectedIndex(-1);
                     else
                         nodeSize.setSelectedItem(Integer.toString(nSize));
-                    if (nShape == -1)
-                        nodeShape.setSelectedIndex(-1);
-                    else
-                        nodeShape.setSelectedIndex(nShape);
+					nodeShape.setSelectedIndex(nShape);
                 } else {
                     nodeSize.setSelectedIndex(-1);
                     fontSize.setSelectedIndex(-1);
@@ -400,8 +388,7 @@ public class Formatter implements IDirectableViewer {
     /**
      * set uptodate state
      *
-     * @param flag
-     */
+	 */
     public void setUptoDate(boolean flag) {
         uptodate = flag;
     }
@@ -611,30 +598,28 @@ public class Formatter implements IDirectableViewer {
     }
 
     private JColorChooser makeColor() {
-        final JColorChooser chooser = new JColorChooser();
+		final JColorChooser chooser = new JColorChooser();
 
-        AbstractColorChooserPanel[] panels = chooser.getChooserPanels();
-        for (AbstractColorChooserPanel panel : panels) {
-            if (!panel.getClass().getName().equals("javax.swing.colorchooser.DefaultSwatchChooserPanel"))
-                chooser.removeChooserPanel(panel);
-        }
-        chooser.setPreviewPanel(new JPanel());
-        chooser.getSelectionModel().addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent ev) {
-                Color color = chooser.getColor();
-                CompoundCommand cmd = new CompoundCommand();
-                boolean fg = ((JCheckBox) getActions().getForegroundColorAction(null).getValue(FormatterActions.CHECKBOXITEM)).isSelected();
-                boolean bg = ((JCheckBox) getActions().getBackgroundColorAction(null).getValue(FormatterActions.CHECKBOXITEM)).isSelected();
-                boolean label = ((JCheckBox) getActions().getLabelForegroundColorAction(null).getValue(FormatterActions.CHECKBOXITEM)).isSelected();
-                boolean lbg = ((JCheckBox) getActions().getLabelBackgroundColorAction(null).getValue(FormatterActions.CHECKBOXITEM)).isSelected();
+		AbstractColorChooserPanel[] panels = chooser.getChooserPanels();
+		for (AbstractColorChooserPanel panel : panels) {
+			if (!panel.getClass().getName().equals("javax.swing.colorchooser.DefaultSwatchChooserPanel"))
+				chooser.removeChooserPanel(panel);
+		}
+		chooser.setPreviewPanel(new JPanel());
+		chooser.getSelectionModel().addChangeListener(ev -> {
+			Color color = chooser.getColor();
+			CompoundCommand cmd = new CompoundCommand();
+			boolean fg = ((JCheckBox) getActions().getForegroundColorAction(null).getValue(FormatterActions.CHECKBOXITEM)).isSelected();
+			boolean bg = ((JCheckBox) getActions().getBackgroundColorAction(null).getValue(FormatterActions.CHECKBOXITEM)).isSelected();
+			boolean label = ((JCheckBox) getActions().getLabelForegroundColorAction(null).getValue(FormatterActions.CHECKBOXITEM)).isSelected();
+			boolean lbg = ((JCheckBox) getActions().getLabelBackgroundColorAction(null).getValue(FormatterActions.CHECKBOXITEM)).isSelected();
 
-                cmd.add(new EdgeColorCommand(viewer, color, false, fg, label, lbg));
-                cmd.add(new NodeColorCommand(viewer, color, false, fg, bg, label, lbg));
-                new Edit(cmd, "color").execute(viewer.getUndoSupportNetwork());
-            }
-        });
-        return chooser;
-    }
+			cmd.add(new EdgeColorCommand(viewer, color, false, fg, label, lbg));
+			cmd.add(new NodeColorCommand(viewer, color, false, fg, bg, label, lbg));
+			new Edit(cmd, "color").execute(viewer.getUndoSupportNetwork());
+		});
+		return chooser;
+	}
 
     private JComboBox makeEdgeWidth() {
         Object[] possibleValues = {"1", "2", "3", "4", "5", "6", "7", "8", "10"};
@@ -656,36 +641,33 @@ public class Formatter implements IDirectableViewer {
     /**
      * fire node format changed
      *
-     * @param nodes
-     */
+	 */
     void fireNodeFormatChanged(NodeSet nodes) {
         if (nodes != null && nodes.size() > 0) {
-            for (Object formatterListener : formatterListeners) {
-                IFormatterListener listener = (IFormatterListener) formatterListener;
-                listener.nodeFormatChanged(nodes);
-            }
-        }
+			for (IFormatterListener formatterListener : formatterListeners) {
+				IFormatterListener listener = formatterListener;
+				listener.nodeFormatChanged(nodes);
+			}
+		}
     }
 
     /**
      * fire edge format changed
      *
-     * @param edges
-     */
+	 */
     void fireEdgeFormatChanged(EdgeSet edges) {
         if (edges != null && edges.size() > 0) {
-            for (Object formatterListener : formatterListeners) {
-                IFormatterListener listener = (IFormatterListener) formatterListener;
-                listener.edgeFormatChanged(edges);
-            }
-        }
+			for (IFormatterListener formatterListener : formatterListeners) {
+				IFormatterListener listener = formatterListener;
+				listener.edgeFormatChanged(edges);
+			}
+		}
     }
 
     /**
      * add a formatter listener
      *
-     * @param listener
-     */
+	 */
     public void addFormatterListener(IFormatterListener listener) {
         formatterListeners.add(listener);
     }
@@ -693,8 +675,7 @@ public class Formatter implements IDirectableViewer {
     /**
      * remove a formatter listener
      *
-     * @param listener
-     */
+	 */
     public void removeFormatterListener(IFormatterListener listener) {
         formatterListeners.remove(listener);
     }
@@ -707,18 +688,18 @@ public class Formatter implements IDirectableViewer {
         try {
             String family = fontName.getSelectedItem().toString();
             int size = Integer.parseInt(fontSize.getSelectedItem().toString());
-            if (size > 0) {
-                boolean bold = boldFont.isSelected();
-                boolean italics = italicFont.isSelected();
-                int style = 0;
-                if (bold)
-                    style += Font.BOLD;
-                if (italics)
-                    style += Font.ITALIC;
-                ProgramProperties.put(DEFAULT_FONT, family, style, size);
-            }
-        } catch (Exception ex) {
-        }
+			if (size > 0) {
+				boolean bold = boldFont.isSelected();
+				boolean italics = italicFont.isSelected();
+				int style = 0;
+				if (bold)
+					style += Font.BOLD;
+				if (italics)
+					style += Font.ITALIC;
+				ProgramProperties.put(DEFAULT_FONT, family, style, size);
+			}
+		} catch (Exception ignored) {
+		}
     }
 
     /**

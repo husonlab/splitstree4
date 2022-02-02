@@ -50,8 +50,7 @@ public class InputDialog extends JDialog {
     /**
      * constructor
      *
-     * @param viewer
-     */
+	 */
     public InputDialog(final MainViewer viewer) {
         this.viewer = viewer;
         final Actions actions = new Actions(this);

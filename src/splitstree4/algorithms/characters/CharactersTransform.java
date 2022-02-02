@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/** $Id: CharactersTransform.java,v 1.18 2007-09-11 12:31:02 kloepper Exp $
- */
 package splitstree4.algorithms.characters;
 
 import splitstree4.algorithms.Transformation;
