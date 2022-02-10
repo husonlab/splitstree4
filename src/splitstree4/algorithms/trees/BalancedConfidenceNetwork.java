@@ -49,7 +49,7 @@ public class BalancedConfidenceNetwork implements Trees2Splits {
      * Applies the method to the given data
      *
      * @param taxa  the taxa
-     * @param trees a nexus trees block containinga list of trees
+     * @param trees a nexus trees block containing list of trees
      * @return the computed set of consensus splits
      */
     public Splits apply(Document doc, Taxa taxa, Trees trees) throws CanceledException {
