@@ -350,7 +350,7 @@ public abstract class DNAdistance extends SequenceBasedDistance {
             public void actionPerformed(ActionEvent event) {
                 double val;
                 try {
-                    val = (new Double(textField.getText()));
+                    val = Double.parseDouble(textField.getText());
                 } catch (NumberFormatException ex) {
                     val = -1;
                 }

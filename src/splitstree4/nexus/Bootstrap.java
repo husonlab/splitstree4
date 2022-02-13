@@ -21,6 +21,7 @@ package splitstree4.nexus;
 import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import jloda.util.CanceledException;
+import jloda.util.NumberUtils;
 import jloda.util.parse.NexusStreamParser;
 import splitstree4.algorithms.util.PaupNode;
 import splitstree4.algorithms.util.simulate.RandomCharacters;
@@ -855,13 +856,13 @@ public class Bootstrap extends NexusBlock {
                             + label);
             }
 
-            float value = new Float(np.getWordRespectCase());
+            float value = NumberUtils.parseFloat(np.getWordRespectCase());
 
             if (getFormat().getShowSplits()) {
                 TaxaSet ts = new TaxaSet();
                 while (!np.peekMatchIgnoreCase(",")) {
                     // @todo check if we really want this to be a int
-                    ts.set((int) (new Float(np.getWordRespectCase())).floatValue());
+                    ts.set((int) NumberUtils.parseFloat(np.getWordRespectCase()));
                 }
                 np.matchIgnoreCase(",");
                 this.bsplits.add(ts, value, label);

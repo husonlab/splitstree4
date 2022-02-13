@@ -92,7 +92,7 @@ public class K3ST extends DNAdistance {
             public void actionPerformed(ActionEvent event) {
                 double val;
                 try {
-                    val = (new Double(textField.getText()));
+                    val = Double.parseDouble((textField.getText()));
                 } catch (NumberFormatException ex) {
                     val = -1;
                 }
@@ -123,7 +123,7 @@ public class K3ST extends DNAdistance {
             public void actionPerformed(ActionEvent event) {
                 double val;
                 try {
-                    val = (new Double(textField2.getText()));
+                    val = Double.parseDouble(textField2.getText());
                 } catch (NumberFormatException ex) {
                     val = -1;
                 }

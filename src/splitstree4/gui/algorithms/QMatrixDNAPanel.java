@@ -95,7 +95,7 @@ public class QMatrixDNAPanel extends JPanel implements ActionListener, FocusList
             for (int j = i + 1; j < 4; j++) {
                 double val;
                 try {
-                    val = new Double(matrixCells[i][j].getText());
+                    val = Double.parseDouble(matrixCells[i][j].getText());
                 } catch (NumberFormatException ex) {
                     val = -1;
                 }

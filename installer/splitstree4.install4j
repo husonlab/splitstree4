@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="8.0.11" transformSequenceNumber="8">
+<install4j version="9.0.5" transformSequenceNumber="9">
   <directoryPresets config="../jars/Jama-NOTICE.txt" />
   <application name="SplitsTree4" applicationId="1505-7129-3447-4151" mediaDir="../../../builds" shortName="splitstree4" publisher="Daniel Huson and David Bryant" publisherWeb="www.splitstree.org" version="4.13" allPathsRelative="true" macVolumeId="b8c0a1154e563a9a" javaMinVersion="16">
     <codeSigning macEnabled="true" macPkcs12File="../../../../etc/application.p12" windowsEnabled="true" windowsPkcs12File="../../../../etc/windows.pfx" />
-    <jreBundles jdkProviderId="AdoptOpenJDK" release="openjdk16/jdk-16+36">
+    <jreBundles jdkProviderId="Zulu" release="17/17.0.2">
       <modules />
     </jreBundles>
   </application>
-  <files>
+  <files preserveSymlinks="false">
     <mountPoints>
       <mountPoint id="1691242167" location="jars" />
       <mountPoint id="1691242153" location="Examples" />
@@ -936,11 +936,19 @@ return true;</property>
           <group id="1691242522" beanClass="com.install4j.runtime.beans.groups.VerticalFormComponentGroup" useExternalParametrization="true" externalParametrizationName="Customize banner image" externalParametrizationMode="include">
             <serializedBean>
               <property name="backgroundColor">
-                <object class="java.awt.Color">
-                  <int>255</int>
-                  <int>255</int>
-                  <int>255</int>
-                  <int>255</int>
+                <object class="com.install4j.runtime.beans.LightOrDarkColor">
+                  <object class="java.awt.Color">
+                    <int>255</int>
+                    <int>255</int>
+                    <int>255</int>
+                    <int>255</int>
+                  </object>
+                  <object class="java.awt.Color">
+                    <int>49</int>
+                    <int>52</int>
+                    <int>53</int>
+                    <int>255</int>
+                  </object>
                 </object>
               </property>
               <property name="borderSides">
@@ -949,11 +957,19 @@ return true;</property>
                 </object>
               </property>
               <property name="imageEdgeBackgroundColor">
-                <object class="java.awt.Color">
-                  <int>25</int>
-                  <int>143</int>
-                  <int>220</int>
-                  <int>255</int>
+                <object class="com.install4j.runtime.beans.LightOrDarkColor">
+                  <object class="java.awt.Color">
+                    <int>25</int>
+                    <int>143</int>
+                    <int>220</int>
+                    <int>255</int>
+                  </object>
+                  <object class="java.awt.Color">
+                    <int>0</int>
+                    <int>74</int>
+                    <int>151</int>
+                    <int>255</int>
+                  </object>
                 </object>
               </property>
               <property name="imageEdgeBorder" type="boolean" value="true" />
@@ -1007,11 +1023,19 @@ return true;</property>
               <group id="1691242529" beanClass="com.install4j.runtime.beans.groups.VerticalFormComponentGroup" useExternalParametrization="true" externalParametrizationName="Customize title bar" externalParametrizationMode="include">
                 <serializedBean>
                   <property name="backgroundColor">
-                    <object class="java.awt.Color">
-                      <int>255</int>
-                      <int>255</int>
-                      <int>255</int>
-                      <int>255</int>
+                    <object class="com.install4j.runtime.beans.LightOrDarkColor">
+                      <object class="java.awt.Color">
+                        <int>255</int>
+                        <int>255</int>
+                        <int>255</int>
+                        <int>255</int>
+                      </object>
+                      <object class="java.awt.Color">
+                        <int>49</int>
+                        <int>52</int>
+                        <int>53</int>
+                        <int>255</int>
+                      </object>
                     </object>
                   </property>
                   <property name="borderSides">
@@ -1114,27 +1138,18 @@ return true;</property>
     </styles>
   </installerGui>
   <mediaSets>
-    <unixInstaller name="Unix Installer" id="1691242146" installDir="splitstree4" overridePrincipalLanguage="true">
+    <unixInstaller name="Unix Installer" id="1691242146" installDir="splitstree4" overridePrincipalLanguage="true" require64BitVm="true">
       <exclude>
         <entry location="openjfx/macos" />
         <entry location="openjfx/windows-x64" />
       </exclude>
-      <jreBundle jreBundleSource="generated">
-        <modules>
-          <jmodDirectory location="../../javafx-jmods/unix" />
-        </modules>
-      </jreBundle>
     </unixInstaller>
-    <macosFolder name="Mac OS X Folder" id="1691242165" installDir="SplitsTree" overridePrincipalLanguage="true">
+    <macosFolder name="Mac OS X Folder" id="1691242165" installDir="SplitsTree" overridePrincipalLanguage="true" architecture="universal">
       <exclude>
         <entry location="openjfx/unix" />
         <entry location="openjfx/windows-x64" />
       </exclude>
-      <jreBundle jreBundleSource="generated" includedJre="macosx-amd64-12.0.1">
-        <modules>
-          <jmodDirectory location="../../javafx-jmods/macos" />
-        </modules>
-      </jreBundle>
+      <jreBundle includedJre="macosx-amd64-12.0.1" />
     </macosFolder>
     <windows name="Windows64bit" id="1691242288" installDir="SplitsTree" overridePrincipalLanguage="true">
       <excludedLaunchers>
@@ -1145,11 +1160,7 @@ return true;</property>
         <entry location="openjfx/macos" />
         <entry location="openjfx/unix" />
       </exclude>
-      <jreBundle usePack200="false" jreBundleSource="generated" includedJre="windows-amd64-12.0.1" installOnlyIfNecessary="true">
-        <modules>
-          <jmodDirectory location="../../javafx-jmods/windows" />
-        </modules>
-      </jreBundle>
+      <jreBundle usePack200="false" includedJre="windows-amd64-12.0.1" installOnlyIfNecessary="true" />
     </windows>
   </mediaSets>
   <buildIds buildAll="false">

@@ -18,6 +18,7 @@
  */
 package splitstree4.gui.algorithms;
 
+import jloda.util.NumberUtils;
 import splitstree4.algorithms.characters.DNAdistance;
 import splitstree4.analysis.characters.CaptureRecapture;
 import splitstree4.core.Document;
@@ -175,11 +176,11 @@ public class RatesPanel extends JPanel implements ActionListener, FocusListener 
     private void updateFields() {
         //Check the gamma distribution
         double val;
-        try {
-            val = (new Double(alphaField.getText()));
-        } catch (NumberFormatException ex) {
+        if (NumberUtils.isDouble(alphaField.getText()))
+            val = NumberUtils.parseDouble(alphaField.getText());
+        else
             val = -1;
-        }
+
         if (val > 0.0) {
             distTransform.setOptionGamma(val);
             rateButtons[1].setEnabled(true);
@@ -190,11 +191,11 @@ public class RatesPanel extends JPanel implements ActionListener, FocusListener 
         }
 
         //Now the alpha
-        try {
-            val = (new Double(pinvField.getText()));
-        } catch (NumberFormatException ex) {
+        if (NumberUtils.isDouble(pinvField.getText()))
+            val = NumberUtils.parseDouble(pinvField.getText());
+        else
             val = -1;
-        }
+
         if (val >= 0.0 && val <= 1.0) {
             distTransform.setOptionPInvar(val);
         }

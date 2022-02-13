@@ -416,7 +416,7 @@ class LogDetPanel extends JPanel implements ActionListener, FocusListener {
 
         //Now the alpha
         try {
-            val = (new Double(pinvField.getText()));
+            val = (Double.parseDouble(pinvField.getText()));
         } catch (NumberFormatException ex) {
             val = 0.0;
         }
