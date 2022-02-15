@@ -1112,7 +1112,6 @@ public class Network extends NexusBlock {
         }
     }
 
-
     /**
      * syncs the viewer's respresentation of edge labels after a change
      *

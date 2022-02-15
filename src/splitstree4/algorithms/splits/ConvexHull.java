@@ -298,13 +298,18 @@ public class ConvexHull implements Splits2Network {
 			graph.setLabel(n, null);
 
 			if (graph.hasTaxa(n)) {
-				String label = taxa.getLabel(graph.getTaxa(n).iterator().next());
+                var buf = new StringBuilder();
 
-				for (Integer t : graph.getTaxa(n)) {
-					label += (", " + taxa.getLabel(t));
-				}
-				graph.setLabel(n, label);
-			}
+                var first = true;
+                for (var t : graph.getTaxa(n)) {
+                    if (first)
+                        first = false;
+                    else
+                        buf.append(", ");
+                    buf.append(taxa.getLabel(t));
+                }
+                graph.setLabel(n, buf.toString());
+            }
 		}
 
         int[] cyclicOrdering = splits.getCycle();
