@@ -1202,7 +1202,7 @@ public class Document extends DocumentData {
         } else if (name.equalsIgnoreCase(Network.NAME) && network != null) {
             w.write("Network <font color=#a0a0a0>(" + network.getNvertices() + ", " + network.getNedges() + ")");
         } else if (name.equalsIgnoreCase(Bootstrap.NAME) && bootstrap != null) {
-            w.write("Bootstrap <font color=#a0a0a0>(" + bootstrap.getRuns() + "runs)");
+            w.write("Bootstrap <font color=#a0a0a0>(" + bootstrap.getRuns() + " runs)");
         } else if (name.equalsIgnoreCase(Traits.NAME) && traits != null) {
             w.write("Traits: <font color=#a0a0a0>(" + traits.getNtraits() + ")");
         } else if (name.equalsIgnoreCase(Analysis.NAME) && analysis != null
