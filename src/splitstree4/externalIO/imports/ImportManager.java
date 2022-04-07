@@ -21,7 +21,6 @@ package splitstree4.externalIO.imports;
 import jloda.swing.util.Alert;
 import jloda.util.Basic;
 import jloda.util.ResourceUtils;
-import splitstree4.core.SplitsException;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
@@ -124,8 +123,8 @@ public class ImportManager {
      * import data from the named file
      *
      * @return nexus version of data
-	 */
-    static public String importData(File file) throws Exception {
+     */
+    static public String importData(File file) throws IOException {
         return importData(file, null);
     }
 
@@ -133,8 +132,8 @@ public class ImportManager {
      * import data from the named file
      *
      * @return nexus version of data
-	 */
-    static public String importData(File file, String dataType) throws Exception {
+     */
+    static public String importData(File file, String dataType) throws IOException {
         //MZ: 2006-01-28
         String[] importers;
         try {
@@ -177,7 +176,7 @@ public class ImportManager {
                 }
         }
 
-        throw new SplitsException("No suitable Importer found");
+        throw new IOException("No suitable Importer found");
     }
 
     /**

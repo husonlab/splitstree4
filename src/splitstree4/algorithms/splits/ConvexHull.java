@@ -31,6 +31,7 @@ import splitstree4.nexus.Network;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -92,7 +93,7 @@ public class ConvexHull implements Splits2Network {
      * @return the modified or new graph
      */
 
-    public PhyloGraphView apply(Document doc, Taxa taxa, Splits splits, BitSet usedSplits, PhyloGraphView graphView) throws Exception {
+    public PhyloGraphView apply(Document doc, Taxa taxa, Splits splits, BitSet usedSplits, PhyloGraphView graphView) throws IOException {
         int[] order = getOrderToProcessSplitsIn(taxa, splits, usedSplits);
 
         return apply(doc, taxa, splits, order, graphView, usedSplits);
@@ -110,7 +111,7 @@ public class ConvexHull implements Splits2Network {
      * @return the modified or new graph
      */
 
-    public PhyloGraphView apply(Document doc, Taxa taxa, Splits splits, int[] order, PhyloGraphView graphView, BitSet usedSplits) throws Exception {
+    public PhyloGraphView apply(Document doc, Taxa taxa, Splits splits, int[] order, PhyloGraphView graphView, BitSet usedSplits) throws IOException {
         if (graphView != null && usedSplits.cardinality() == splits.getNsplits())
             return graphView;
 
@@ -351,7 +352,7 @@ public class ConvexHull implements Splits2Network {
     }//end apply
 
 
-    private void convexHullPath(PhyloSplitsGraph graph, Node start, NodeIntArray hulls, BitSet allowedSplits, ArrayList<Node> intersectionNodes, int side) throws Exception {
+    private void convexHullPath(PhyloSplitsGraph graph, Node start, NodeIntArray hulls, BitSet allowedSplits, ArrayList<Node> intersectionNodes, int side) throws IOException {
         final EdgeSet seen = new EdgeSet(graph);
         final Stack<Node> todo = new Stack<>();
         todo.push(start);

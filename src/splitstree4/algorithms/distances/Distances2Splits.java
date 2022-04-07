@@ -24,6 +24,8 @@ import splitstree4.nexus.Distances;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 
+import java.io.IOException;
+
 /**
  * Interface for methods that compute splits from distances
  */
@@ -36,7 +38,7 @@ public interface Distances2Splits extends DistancesTransform {
      * @param d    the input distances
      * @return the computed set of splits
      */
-    Splits apply(Document doc, Taxa taxa, Distances d) throws Exception;
+    Splits apply(Document doc, Taxa taxa, Distances d) throws IOException;
 }
 
 // EOF

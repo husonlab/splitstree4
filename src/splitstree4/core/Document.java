@@ -170,7 +170,7 @@ public class Document extends DocumentData {
     /**
      * Update the whole document.
      */
-    public void update() throws Exception {
+    public void update() throws IOException {
         System.err.println("--------- Start update ----------");
 
         if (assumptions != null && assumptions.isUptodate()) // have just read file and its uptodate
@@ -188,9 +188,8 @@ public class Document extends DocumentData {
 
     /**
      * update all date that depends on the named block
-     *
      */
-    public void update(String name) throws Exception {
+    public void update(String name) throws SplitsException, IOException {
         boolean found = false;  // found block to begin updating at?
         setValid(true); // if update fails, will be set to false
 
@@ -199,8 +198,8 @@ public class Document extends DocumentData {
         // TODO: only set name to top block if set of hidden taxa has changed!
         //TODO: FIgure out what the above todo means
         if ((taxa != null) && (assumptions != null)
-                && (assumptions.getExTaxa() != null) &&
-                ((assumptions.getExTaxa().cardinality() > 0)
+            && (assumptions.getExTaxa() != null) &&
+            ((assumptions.getExTaxa().cardinality() > 0)
                         || (taxa.getNtax() < taxa.getOriginalTaxa().getNtax()))
                 && taxaHaveJustChanged(taxa, assumptions)) {
 
@@ -390,8 +389,7 @@ public class Document extends DocumentData {
                     }
                 } else if (trans instanceof Characters2Splits) {
                     Characters2Splits char2splits = (Characters2Splits) trans;
-                    System.err.println("Computing CHARACTERS to SPLITS: " +
-                            Configurator.getOptions(char2splits));
+                    System.err.println("Computing CHARACTERS to SPLITS: " + Configurator.getOptions(char2splits));
                     try {
                         if (!fixSplits())
                             splits = char2splits.apply(this, taxa, characters);
@@ -460,8 +458,7 @@ public class Document extends DocumentData {
 
                 if (trans instanceof Distances2Quartets) {
                     Distances2Quartets dist2quart = (Distances2Quartets) trans;
-                    System.err.println("Computing DISTANCES to QUARTETS: " +
-                            Configurator.getOptions(dist2quart));
+                    System.err.println("Computing DISTANCES to QUARTETS: " + Configurator.getOptions(dist2quart));
                     try {
                         quartets = dist2quart.apply(this, taxa, distances);
                     } catch (Exception ex) {
@@ -469,22 +466,20 @@ public class Document extends DocumentData {
                     }
                 } else if (trans instanceof Distances2Splits) {
                     Distances2Splits dist2splits = (Distances2Splits) trans;
-                    System.err.println("Computing DISTANCES to SPLITS: " +
-                            Configurator.getOptions(dist2splits));
+                    System.err.println("Computing DISTANCES to SPLITS: " + Configurator.getOptions(dist2splits));
                     try {
                         if (!fixSplits())
                             splits = dist2splits.apply(this, taxa, distances);
                     } catch (CanceledException ex) {
                         throw new CanceledException(Distances.NAME);
-                    } catch (Exception ex) {
+                    } catch (IOException ex) {
                         ex.printStackTrace(); //TODO: FIX.
                         //throw new SplitsException("Algorithm failed: " + ex.getMessage());
                         throw ex;
                     }
                 } else if (trans instanceof Distances2Trees) {
                     Distances2Trees dist2tree = (Distances2Trees) trans;
-                    System.err.println("Computing DISTANCES to TREES: " +
-                            Configurator.getOptions(dist2tree));
+                    System.err.println("Computing DISTANCES to TREES: " + Configurator.getOptions(dist2tree));
                     trees = dist2tree.apply(this, taxa, distances);
                     System.err.println("done");
                     if (assumptions.getTreesTransformName() == null)
@@ -704,7 +699,7 @@ public class Document extends DocumentData {
         } catch (NoClassDefFoundError ex) {
             setValid(false);
             throw new SplitsException(ex.toString());
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             setValid(false);
             throw ex;
         } finally {
@@ -898,7 +893,7 @@ public class Document extends DocumentData {
      *
      * @param r the reader
      */
-    public void readNexus(Reader r) throws SplitsException, java.io.IOException {
+    public void readNexus(Reader r) throws java.io.IOException {
         readNexus(new NexusStreamParser(r));
     }
 
@@ -1224,11 +1219,11 @@ public class Document extends DocumentData {
      * @param name the name
      */
     public void showUsageTransform(String name) {
-        Iterator it = Transforms.getAllTransforms(name).iterator();
+        var it = Transforms.getAllTransforms(name).iterator();
         if (!it.hasNext())
             System.out.println("No such transform: " + name);
         while (it.hasNext()) {
-            Transformation trans = ((Transformation) it.next());
+            var trans = it.next();
             System.out.println("Help for transform=" + name + ":");
             System.out.println("Description: " + Configurator.getDescription(trans));
             System.out.println("Syntax: " + Configurator.getUsage(trans));
@@ -1292,9 +1287,8 @@ public class Document extends DocumentData {
      * import non-nexus data from a string
      *
      * @param source the source string
-     * @return true, if import successful
      */
-    public String importDataFromString(Component parent, String source) throws IOException, SplitsException, CanceledException {
+    public void importDataFromString(Component parent, String source) throws IOException, SplitsException {
         //notifyLockInput();
         clear();
         String result = ImportManager.importDataFromString(source);
@@ -1312,10 +1306,8 @@ public class Document extends DocumentData {
                     w.write("[!" + getTopComments() + "]\n");
                 write(w, Taxa.NAME);
                 write(w, Characters.NAME);
-                result = w.toString();
             }
         }
-        return result;
     }
 
     /**
@@ -1415,7 +1407,7 @@ public class Document extends DocumentData {
      *
      * @param file the file
      */
-    public void open(Component parent, File file) throws IOException, SplitsException {
+    public void open(Component parent, File file) throws IOException {
         clear();
 
         setNumberLines(countNumberLines(file));
@@ -1437,7 +1429,7 @@ public class Document extends DocumentData {
             //User pressed cancel during read. Clear, and pass exception.
             clear();
             // throw ex;
-        } catch (IOException | SplitsException ex) {
+        } catch (IOException ex) {
             clear();
             new Alert(parent, "Error parsing file: " + ex.getMessage());
             throw ex;
@@ -1515,11 +1507,8 @@ public class Document extends DocumentData {
         try {
             ExportManager.exportData(file, false, complete, exporter, blocks, this, additionalInfo);
             // update();
-        } catch (SplitsException e) {
+        } catch (IOException e) {
             new Alert(parent, "File export failed: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace(); //DEBUGGING
-            Basic.caught(e);
         }
     }
 
@@ -1860,8 +1849,7 @@ public class Document extends DocumentData {
      *
      * @param np the the nexus stream parser
      */
-    public void parse(NexusStreamParser np) throws IOException, SplitsException,
-            Exception, CanceledException {
+    public void parse(NexusStreamParser np) throws IOException, SplitsException, CanceledException {
 
         //We are in Expert mode (all commands available)
         boolean isExpert = SplitsTreeProperties.getExpertMode();
@@ -1926,10 +1914,9 @@ public class Document extends DocumentData {
 
                     fw.write("#nexus\n");
                     for (String block : blocks) {
-                        String blockName = block;
-                        System.err.print(" " + blockName);
-                        if (!write(fw, blockName))
-                            throw new SplitsException("Failed to write block: " + blockName);
+                        System.err.print(" " + block);
+                        if (!write(fw, block))
+                            throw new SplitsException("Failed to write block: " + block);
                     }
                     System.err.print("\n");
                 }
@@ -2006,7 +1993,7 @@ public class Document extends DocumentData {
                 readNexus(fp);
                 try {
                     update();
-                } catch (CanceledException ex) {
+                } catch (IOException ex) {
                     if (isValidByName(ex.getMessage()))
                         deleteDependentBlocks(ex.getMessage());
                     else
@@ -2327,8 +2314,7 @@ public class Document extends DocumentData {
                     taxa.write(w);
                     splits.write(w, getTaxa());
                 }
-            } else if (np.peekMatchIgnoreCase("analysis")) // does analysis
-            {
+            } else if (np.peekMatchIgnoreCase("analysis")) {
                 String block = np.convertToBlock("analysis", ";", Analysis.NAME);
                 readNexus(new StringReader(block));
                 if (getAnalysis() != null) {

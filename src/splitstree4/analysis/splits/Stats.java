@@ -24,6 +24,8 @@ import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 import splitstree4.util.SplitsUtilities;
 
+import java.io.IOException;
+
 /**
  * Basic statistics for splits
  */
@@ -60,17 +62,17 @@ public class Stats implements SplitsAnalysisMethod {
      * @param taxa   the taxa
      * @param splits the block
      */
-    public String apply(Document doc, Taxa taxa, Splits splits) throws Exception {
+    public String apply(Document doc, Taxa taxa, Splits splits) throws IOException {
         if (splits.getCycle() == null || splits.getCycle()[1] == 0)
             SplitsUtilities.computeCycle(doc, taxa, splits, doc.getAssumptions().getLayoutStrategy());
 
         String result = "Splits: ";
         if (splits.getProperties().getCompatibility() ==
-                Splits.Properties.UNKNOWN
-                && SplitsUtilities.isCompatible(splits)) {
+            Splits.Properties.UNKNOWN
+            && SplitsUtilities.isCompatible(splits)) {
             splits.getProperties().setCompatibility(Splits.Properties.COMPATIBLE);
         } else if (splits.getProperties().getCompatibility() ==
-                Splits.Properties.UNKNOWN
+                   Splits.Properties.UNKNOWN
                 && SplitsUtilities.isCyclic(doc, taxa, splits, doc.getAssumptions().getLayoutStrategy())) {
             splits.getProperties().setCompatibility(Splits.Properties.CYCLIC);
         } else if (splits.getProperties().getCompatibility() ==

@@ -32,6 +32,7 @@ import splitstree4.nexus.Trees;
 import splitstree4.util.CGVizWriter;
 import splitstree4.util.TreeCollector;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.*;
@@ -75,7 +76,7 @@ public class DCMPartialTrees implements Characters2Trees {
      * @param chars the characters matrix
      * @return the computed splits
      */
-    public Trees apply(Document doc, Taxa taxa, Characters chars) throws Exception {
+    public Trees apply(Document doc, Taxa taxa, Characters chars) throws IOException {
         doc.notifyTasks("DCMPartialTrees", "determine start-end of fragments");
         doc.notifySetMaximumProgress(100);    //initialize maximum progress
         doc.notifySetProgress(-1);
@@ -196,7 +197,7 @@ public class DCMPartialTrees implements Characters2Trees {
 
             System.err.println("# Base-case assumptions:\n" + tmpDoc.getAssumptions().toString(taxa));
 
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             System.err.println("DCMPartialTrees: Failed to duplicate data: " + ex);
             throw ex;
         }

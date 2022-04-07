@@ -24,6 +24,8 @@ import splitstree4.nexus.Distances;
 import splitstree4.nexus.Taxa;
 import splitstree4.nexus.Trees;
 
+import java.io.IOException;
+
 /**
  * Interface for methods that compute a tree from distances
  */
@@ -36,7 +38,7 @@ public interface Distances2Trees extends DistancesTransform {
      * @param d the input distances
      * @return the computed phylogenetic tree as a nexus Trees object
      */
-    Trees apply(Document doc, Taxa t, Distances d) throws Exception;
+    Trees apply(Document doc, Taxa t, Distances d) throws IOException;
 }
 
 // EOF

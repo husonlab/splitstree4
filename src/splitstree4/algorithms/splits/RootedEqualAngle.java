@@ -34,6 +34,7 @@ import splitstree4.nexus.Taxa;
 import splitstree4.util.SplitsUtilities;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -61,7 +62,7 @@ public class RootedEqualAngle implements Splits2Network {
      * @param splits0 the splits
      * @return the computed set of splits
      */
-    public Network apply(Document doc, Taxa taxa0, Splits splits0) throws Exception {
+    public Network apply(Document doc, Taxa taxa0, Splits splits0) throws IOException {
         return apply(doc, taxa0, splits0, new PhyloGraphView());
     }
 
@@ -73,7 +74,7 @@ public class RootedEqualAngle implements Splits2Network {
      * @param graphView0 the graph view
      * @return the computed set of splits
      */
-    public Network apply(Document doc, Taxa taxa0, Splits splits0, PhyloGraphView graphView0) throws Exception {
+    public Network apply(Document doc, Taxa taxa0, Splits splits0, PhyloGraphView graphView0) throws IOException {
 
         progress = doc.getProgressListener(); //Set new progress bar.
         doc.notifySetMaximumProgress(100);    //initialize maximum progress
@@ -430,9 +431,8 @@ public class RootedEqualAngle implements Splits2Network {
 
     /**
      * adds an interior split using the wrapping algorithm
-     *
      */
-    private void wrapSplit(Taxa taxa, Splits splits, int s, int[] cycle, PhyloSplitsGraph graph) throws Exception {
+    private void wrapSplit(Taxa taxa, Splits splits, int s, int[] cycle, PhyloSplitsGraph graph) throws IOException {
         TaxaSet part = (TaxaSet) (splits.get(s).clone());
         if (part.get(1))
             part = part.getComplement(taxa.getNtax());
@@ -465,7 +465,7 @@ public class RootedEqualAngle implements Splits2Network {
             if (nodesVisited.contains(v)) {
                 System.err.println(graph);
 
-                throw new Exception("Node already visited: " + v);
+                throw new SplitsException("Node already visited: " + v);
             }
             nodesVisited.add(v);
 

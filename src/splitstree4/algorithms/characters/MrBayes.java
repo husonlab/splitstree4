@@ -76,13 +76,13 @@ public class MrBayes implements Characters2Trees {
     /* (non-Javadoc)
      * @see splits.algorithms.characters.Characters2Trees#apply(splits.nexus.Taxa, splits.nexus.Characters)
      */
-    public Trees apply(Document doc, Taxa taxa, Characters chars) throws Exception {
+    public Trees apply(Document doc, Taxa taxa, Characters chars) throws IOException {
 
 
         doc.notifyTasks("Run MrBayes", getOptionMrBayesPath());
         doc.notifySetProgress(-1);
 
-		final File mrBayesBin = new File(getOptionMrBayesPath());
+        final File mrBayesBin = new File(getOptionMrBayesPath());
         // Check to see if this file exists/
         if (!mrBayesBin.isFile()) {
             throw new SplitsException(getClass().getName() + ": File not found: " + getOptionMrBayesPath());
@@ -153,15 +153,15 @@ public class MrBayes implements Characters2Trees {
      * @param mrBayesBin the executable MrBayes
      * @param inputFile  (the input file)
      */
-    private void executeMrBayes(File mrBayesBin, File inputFile, Document doc) throws Exception {
+    private void executeMrBayes(File mrBayesBin, File inputFile, Document doc) throws IOException {
 
 
         String shell = (os == MrBayes.REDMOND) ? "cmd.exe" : "sh";
         String readCmdStringOpt = (os == MrBayes.REDMOND) ? "/c" : "-c";
 
         String mrBayesCmd = mrBayesBin.getAbsolutePath()
-                + "  "
-                + inputFile.getName();
+                            + "  "
+                            + inputFile.getName();
 
 
         String[] commands = new String[]
@@ -196,8 +196,7 @@ public class MrBayes implements Characters2Trees {
             // any error???
             if (exitVal != 0)
                 throw new SplitsException("Return value=" + exitVal);
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             //ToDO: we can still recover any trees generated.
             throw new SplitsException(getClass().getName() + ": " + e.getMessage());
         }
@@ -212,7 +211,7 @@ public class MrBayes implements Characters2Trees {
      * @return the parsed Trees-block
      * @throws Exception SplitsException, if import or parsing fails
      */
-    private Trees parseTrees(File outtree, Taxa taxa) throws Exception {
+    private Trees parseTrees(File outtree, Taxa taxa) throws IOException {
 
         Trees trees = new Trees();
         String nexus;

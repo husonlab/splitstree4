@@ -26,6 +26,8 @@ import splitstree4.nexus.Network;
 import splitstree4.nexus.Taxa;
 import splitstree4.nexus.Trees;
 
+import java.io.IOException;
+
 /**
  * Interface for methods that compute a network from trees
  */
@@ -37,7 +39,7 @@ public interface Trees2Network extends TreesTransform {
      * @param trees the trees
      * @return the computed network
      */
-    Network apply(Document doc, Taxa taxa, Trees trees) throws Exception;
+    Network apply(Document doc, Taxa taxa, Trees trees) throws IOException;
 }
 
 // EOF

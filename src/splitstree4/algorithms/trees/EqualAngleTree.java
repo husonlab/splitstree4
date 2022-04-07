@@ -27,6 +27,8 @@ import splitstree4.nexus.Taxa;
 import splitstree4.nexus.Trees;
 import splitstree4.util.TreesUtilities;
 
+import java.io.IOException;
+
 /**
  * constructs a tree directly from the trees block without first producing splits
  * Daniel Huson and David Bryant
@@ -54,7 +56,7 @@ public class EqualAngleTree implements Trees2Network {
      * @param trees the trees
      * @return the computed network
      */
-    public Network apply(Document doc, Taxa taxa, Trees trees) throws Exception {
+    public Network apply(Document doc, Taxa taxa, Trees trees) throws IOException {
         PhyloTree tree = trees.getTree(getOptionWhich());
 
         TreesUtilities.setNode2taxa(tree, taxa);

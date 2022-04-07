@@ -27,6 +27,7 @@ import splitstree4.nexus.Distances;
 import splitstree4.nexus.Taxa;
 import splitstree4.nexus.Trees;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -49,24 +50,24 @@ public class OldRandomTrees implements Distances2Trees {
         return (taxa != null);
     }
 
-    /**
-     * Applies the method to the given data
-     *
-     * @param taxa the input taxa
-     * @param dist the input distances
-     * @return the computed phylogenetic tree (PhyloTree) as a nexus Trees object
-     */
-    public Trees apply(Document doc, Taxa taxa, Distances dist) throws Exception {
+	/**
+	 * Applies the method to the given data
+	 *
+	 * @param taxa the input taxa
+	 * @param dist the input distances
+	 * @return the computed phylogenetic tree (PhyloTree) as a nexus Trees object
+	 */
+	public Trees apply(Document doc, Taxa taxa, Distances dist) throws IOException {
 
-        doc.notifySubtask("Generate random tree(s)");
-        doc.notifySetMaximumProgress(this.numTrees);
-        doc.notifySetProgress(0);
-        PhyloTree tree = makeRandomTree(taxa);
+		doc.notifySubtask("Generate random tree(s)");
+		doc.notifySetMaximumProgress(this.numTrees);
+		doc.notifySetProgress(0);
+		PhyloTree tree = makeRandomTree(taxa);
 
-        Trees treelist = new Trees("RandomTree", tree, taxa);
-        for (int i = 2; i <= this.numTrees; i++) {
-            doc.notifySetProgress(i - 1);
-            tree = makeRandomTree(taxa);
+		Trees treelist = new Trees("RandomTree", tree, taxa);
+		for (int i = 2; i <= this.numTrees; i++) {
+			doc.notifySetProgress(i - 1);
+			tree = makeRandomTree(taxa);
             treelist.addTree("RandomTree" + i, tree, taxa);
         }
         doc.notifySetProgress(this.numTrees);

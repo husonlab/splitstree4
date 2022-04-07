@@ -23,6 +23,8 @@ import splitstree4.nexus.Characters;
 import splitstree4.nexus.Taxa;
 import splitstree4.nexus.Trees;
 
+import java.io.IOException;
+
 /**
  * Interface for methods that compute a tree from characters
  */
@@ -36,7 +38,7 @@ public interface Characters2Trees extends CharactersTransform {
      * @param chars the characters matrix
      * @return the computed tree
      */
-    Trees apply(Document doc, Taxa taxa, Characters chars) throws Exception;
+    Trees apply(Document doc, Taxa taxa, Characters chars) throws IOException;
 }
 
 // EOF

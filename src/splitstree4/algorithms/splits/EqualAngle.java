@@ -26,6 +26,7 @@ import jloda.util.CanceledException;
 import jloda.util.IteratorUtils;
 import jloda.util.Pair;
 import splitstree4.core.Document;
+import splitstree4.core.SplitsException;
 import splitstree4.core.TaxaSet;
 import splitstree4.nexus.Network;
 import splitstree4.nexus.Splits;
@@ -34,6 +35,7 @@ import splitstree4.util.SplitsUtilities;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -71,7 +73,7 @@ public class EqualAngle implements Splits2Network {
      * @param splits the splits
      * @return the computed set of splits
      */
-    public Network apply(Document doc, Taxa taxa, Splits splits) throws Exception {
+    public Network apply(Document doc, Taxa taxa, Splits splits) throws IOException {
         phyloGraphView = new PhyloGraphView();
         return createNetwork(doc, taxa, splits, new HashSet<Integer>(), new HashMap());
     }
@@ -84,7 +86,7 @@ public class EqualAngle implements Splits2Network {
      * @param graphView0 the graphview
      * @return the computed set of splits
      */
-    public Network apply(Document doc, Taxa taxa, Splits splits, PhyloGraphView graphView0) throws Exception {
+    public Network apply(Document doc, Taxa taxa, Splits splits, PhyloGraphView graphView0) throws IOException {
         phyloGraphView = graphView0;
         return createNetwork(doc, taxa, splits, new HashSet<Integer>(), new HashMap());
     }
@@ -123,7 +125,7 @@ public class EqualAngle implements Splits2Network {
      * @param forbiddenSplits list of splits which won't be modified by the algorithm.
      * @param forbiddenSplits for each forbidden split, its angle.
      */
-    private Network createNetwork(Document doc, Taxa taxa, Splits splits, HashSet<Integer> forbiddenSplits, HashMap splitAngles) throws Exception {
+    private Network createNetwork(Document doc, Taxa taxa, Splits splits, HashSet<Integer> forbiddenSplits, HashMap splitAngles) throws IOException {
         this.doc = doc;
         doc.notifyTasks("Equal Angle", null);
         doc.notifySetMaximumProgress(100);    //initialize maximum progress
@@ -543,9 +545,8 @@ public class EqualAngle implements Splits2Network {
 
     /**
      * adds an interior split using the wrapping algorithm
-     *
-	 */
-    private void wrapSplit(Taxa taxa, Splits splits, int s, int[] cycle, PhyloSplitsGraph graph) throws Exception {
+     */
+    private void wrapSplit(Taxa taxa, Splits splits, int s, int[] cycle, PhyloSplitsGraph graph) throws IOException {
         TaxaSet part = (TaxaSet) (splits.get(s).clone());
         if (part.get(1))
             part = part.getComplement(taxa.getNtax());
@@ -578,7 +579,7 @@ public class EqualAngle implements Splits2Network {
             if (nodesVisited.contains(v)) {
                 System.err.println(graph);
 
-                throw new Exception("Node already visited: " + v);
+                throw new SplitsException("Node already visited: " + v);
             }
             nodesVisited.add(v);
 
@@ -590,7 +591,7 @@ public class EqualAngle implements Splits2Network {
                     break;
                 }
                 if (f == f0)
-                    throw new RuntimeException("Node wraparound: f=" + f + " f0=" + f0);
+                    throw new SplitsException("Node wraparound: f=" + f + " f0=" + f0);
 
                 f = graph.getNextAdjacentEdgeCyclic(f, v);
             }

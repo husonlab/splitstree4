@@ -69,7 +69,7 @@ public class C2Text implements Characters2Trees {
      * @param chars the input characters
      * @return the computed trees Object
      */
-    public Trees apply(Document doc, Taxa taxa, Characters chars) throws Exception {
+    public Trees apply(Document doc, Taxa taxa, Characters chars) throws IOException {
         {
             doc.notifyTasks("Run external program", getOptionCommand());
             doc.notifySetProgress(-1);

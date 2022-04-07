@@ -83,10 +83,11 @@ public class UPGMA implements Distances2Trees {
         int[] sizes = new int[ntax + 1];
         double[] heights = new double[ntax + 1];
 
-        for (int i = 1; i <= ntax; i++) {
-            subtrees[i] = tree.newNode();
-            tree.setLabel(subtrees[i], taxa.getLabel(i));
-            sizes[i] = 1;
+        for (int t = 1; t <= ntax; t++) {
+            subtrees[t] = tree.newNode();
+            tree.addTaxon(subtrees[t], t);
+            tree.setLabel(subtrees[t], taxa.getLabel(t));
+            sizes[t] = 1;
         }
 
         double[][] d = new double[ntax + 1][ntax + 1];// distance matix

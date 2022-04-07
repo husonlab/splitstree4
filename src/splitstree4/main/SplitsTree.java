@@ -75,8 +75,8 @@ public class SplitsTree {
 
         final ArgsOptions options = new ArgsOptions(args, this, "Interactive analysis and visualization of phylogenetic data");
         options.setAuthors("Daniel H. Huson and David J. Bryant");
-        options.setLicense("Copyright (C) 2020 Daniel H. Huson and David J. Bryant. This program comes with ABSOLUTELY NO WARRANTY.");
-        options.setVersion(ProgramProperties.getProgramVersion());
+		options.setLicense("Copyright (C) 2022 Daniel H. Huson and David J. Bryant. This program comes with ABSOLUTELY NO WARRANTY.");
+		options.setVersion(ProgramProperties.getProgramVersion());
 
         options.comment("Input:");
         final String fileName = options.getOption("-i", "input", "Input file", "");

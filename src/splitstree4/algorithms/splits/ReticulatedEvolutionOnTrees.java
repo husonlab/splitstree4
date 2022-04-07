@@ -36,6 +36,7 @@ import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 import splitstree4.util.SplitsUtilities;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -89,7 +90,7 @@ public class ReticulatedEvolutionOnTrees implements Splits2Network {
      * @param splits the splits
      * @return the computed set of splits
      */
-    public Network apply(Document doc, Taxa taxa, Splits splits) throws Exception {
+    public Network apply(Document doc, Taxa taxa, Splits splits) throws IOException {
         System.err.println("Computing network...");
 
         // 0. if this hasn't be set explicitly, then compute for splits:

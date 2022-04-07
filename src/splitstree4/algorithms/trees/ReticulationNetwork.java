@@ -27,6 +27,8 @@ import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 import splitstree4.nexus.Trees;
 
+import java.io.IOException;
+
 /**
  * @deprecated
  */
@@ -48,17 +50,17 @@ public class ReticulationNetwork extends ReticulatedEvolutionOnTrees implements 
 	 * @param trees the input trees
 	 * @return the computed set of splits
 	 */
-	public Network apply(Document doc, Taxa taxa, Trees trees) throws Exception {
+	public Network apply(Document doc, Taxa taxa, Trees trees) throws IOException {
 		// first make splits from a set of (partial) Trees
-        Splits splits;
-        if (trees.getPartial()) {
-            SuperNetwork zc = new SuperNetwork();
-            splits = zc.apply(doc, taxa, trees);
-        } else {
-            ConsensusNetwork cn = new ConsensusNetwork();
-            cn.setOptionThreshold(threshold);
-            splits = cn.apply(doc, taxa, trees);
-        }
+		Splits splits;
+		if (trees.getPartial()) {
+			SuperNetwork zc = new SuperNetwork();
+			splits = zc.apply(doc, taxa, trees);
+		} else {
+			ConsensusNetwork cn = new ConsensusNetwork();
+			cn.setOptionThreshold(threshold);
+			splits = cn.apply(doc, taxa, trees);
+		}
 
         // compute cycle and stuff:
         doc.setSplits(splits);

@@ -24,6 +24,7 @@ import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 import splitstree4.util.CircularLeastSquares;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class LassoNet implements Distances2Splits {
         return this.optionStoppingPoint;
     }
 
-    public Splits apply(Document doc, Taxa taxa, Distances d) throws Exception {
+    public Splits apply(Document doc, Taxa taxa, Distances d) throws IOException {
 
         //First obtain ordering
         doc.notifyTasks("Computing LassoNet", "Computing circular ordering");

@@ -20,10 +20,12 @@
 package splitstree4.core;
 
 
+import java.io.IOException;
+
 /**
  * General splitstree exception
  */
-public class SplitsException extends Exception {
+public class SplitsException extends IOException {
     public SplitsException() {
         super();
     }

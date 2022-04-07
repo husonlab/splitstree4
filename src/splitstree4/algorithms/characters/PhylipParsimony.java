@@ -115,7 +115,7 @@ public class PhylipParsimony implements Characters2Trees {
     /* (non-Javadoc)
      * @see splits.algorithms.characters.Characters2Trees#apply(splits.nexus.Taxa, splits.nexus.Characters)
      */
-    public Trees apply(Document doc, Taxa taxa, Characters chars) throws Exception {
+    public Trees apply(Document doc, Taxa taxa, Characters chars) throws IOException {
         doc.notifyTasks("Run Phylip", getOptionPhylipPath());
         doc.notifySetProgress(-1);
 
@@ -186,7 +186,7 @@ public class PhylipParsimony implements Characters2Trees {
      * @return the parsed Trees-block
      * @throws Exception SplitsException, if import or parsing fails
      */
-    private Trees parseTrees(File outtree, Map exportName2OrigName, Taxa taxa) throws Exception {
+    private Trees parseTrees(File outtree, Map exportName2OrigName, Taxa taxa) throws IOException {
 
         Trees trees = new Trees();
         String nexus;
@@ -223,7 +223,7 @@ public class PhylipParsimony implements Characters2Trees {
      *
      * @param st_options the input-file
      */
-    private void writeOptionFile(File st_options, Document doc) throws Exception {
+    private void writeOptionFile(File st_options, Document doc) throws IOException {
 
         FileWriter fw;
         try {
@@ -316,12 +316,12 @@ public class PhylipParsimony implements Characters2Trees {
      *
      * @param optionfile the input file for phylip
      */
-    private void executePhylip(File optionfile, File phylipBin) throws Exception {
+    private void executePhylip(File optionfile, File phylipBin) throws IOException {
         String shell = (os == REDMOND) ? "cmd.exe" : "sh";
         String readCmdStringOpt = (os == REDMOND) ? "/c" : "-c";
         String phylipCmd = phylipBin.getAbsolutePath()
-                + " < "
-                + optionfile.getAbsolutePath();
+                           + " < "
+                           + optionfile.getAbsolutePath();
         if (os == REDMOND && phylipBin.getAbsolutePath().contains(" "))
             new Alert("Path contains space, this won't work");
         String[] commands = new String[]
@@ -354,7 +354,7 @@ public class PhylipParsimony implements Characters2Trees {
             if (exitVal != 0)
                 throw new SplitsException("Return value=" + exitVal);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new SplitsException(getClass().getName() + ": " + e.getMessage());
         }
     }

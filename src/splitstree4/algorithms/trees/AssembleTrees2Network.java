@@ -77,7 +77,7 @@ public class AssembleTrees2Network implements Trees2Network {
      * @param trees the trees
      * @return the computed network
      */
-    public Network apply(Document doc, Taxa taxa, Trees trees) throws Exception {
+    public Network apply(Document doc, Taxa taxa, Trees trees) throws IOException {
         // We assume that the i-th tree attaches to precisely two nodes
         // in the first i-1 trees. If the name of the ith tree is ti, then
         // the two attachment sites are represented by two taxa named ti.1 and ti.2

@@ -67,17 +67,18 @@ public class NJ implements Distances2Trees {
 
         try {
 
-            HashMap<String, Node> TaxaHashMap = new HashMap<>();
-            int nbNtax = dist.getNtax();
-            StringBuffer[] tax = new StringBuffer[nbNtax + 1];
-            //Taxa labels are saved as a StringBuffer array
+			HashMap<String, Node> TaxaHashMap = new HashMap<>();
+			int nbNtax = dist.getNtax();
+			StringBuffer[] tax = new StringBuffer[nbNtax + 1];
+			//Taxa labels are saved as a StringBuffer array
 
-            for (int i = 1; i <= nbNtax; i++) {
-                tax[i] = new StringBuffer();
-				tax[i].append(taxa.getLabel(i));
+			for (int t = 1; t <= nbNtax; t++) {
+				tax[t] = new StringBuffer();
+				tax[t].append(taxa.getLabel(t));
 				Node v = tree.newNode(); // create newNode for each Taxon
-				tree.setLabel(v, tax[i].toString());
-				TaxaHashMap.put(tax[i].toString(), v);
+				tree.setLabel(v, tax[t].toString());
+				tree.addTaxon(v, t);
+				TaxaHashMap.put(tax[t].toString(), v);
 			}
 
 			double[][] h = new double[nbNtax + 1][nbNtax + 1];// distance matix
@@ -216,7 +217,7 @@ public class NJ implements Distances2Trees {
         } catch (Exception ex) {
             Basic.caught(ex);
         }
-        //System.err.println(tree.toString());
+		//System.err.println(tree.toBracketString(true));
 
         return new Trees("NJ", tree, taxa);
     }

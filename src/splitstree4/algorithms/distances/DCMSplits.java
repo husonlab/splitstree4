@@ -23,6 +23,8 @@ import splitstree4.nexus.Distances;
 import splitstree4.nexus.Splits;
 import splitstree4.nexus.Taxa;
 
+import java.io.IOException;
+
 /**
  * implements the disk-covering method for split decomposition
  */
@@ -48,7 +50,7 @@ public class DCMSplits implements Distances2Splits {
      * @param distances the input distances
      * @return the computed set of splits
      */
-    public Splits apply(Document doc, Taxa taxa, Distances distances) throws Exception {
+    public Splits apply(Document doc, Taxa taxa, Distances distances) throws IOException {
 
         return null;
     }

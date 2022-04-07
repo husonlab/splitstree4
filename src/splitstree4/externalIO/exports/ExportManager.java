@@ -29,7 +29,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * manages the importers
@@ -103,7 +105,7 @@ public class ExportManager {
 	 *
 	 * @return list of exporter names
 	 */
-	public static ArrayList getExportNames() throws Exception {
+	public static ArrayList<String> getExportNames() throws IOException {
 		return getExportNames(null);
 	}
 
@@ -112,13 +114,13 @@ public class ExportManager {
 	 *
 	 * @return list of exporter names
 	 */
-	public static ArrayList getExportNames(String block) throws Exception {
+	public static ArrayList<String> getExportNames(String block) {
 		//MZ: 2006-01-28
-		List blocks = new LinkedList();
+		var blocks = new ArrayList<String>();
 		if (block != null)
 			blocks.add(block);
 
-		ArrayList names = new ArrayList();
+		var names = new ArrayList<String>();
 		String[] exporters;
 		try {
 			exporters = ResourceUtils.fetchResources(ExportManager.class, packageName);
@@ -130,13 +132,16 @@ public class ExportManager {
 		for (int i = 0; i != exporters.length; ++i) {
 			if (exporters[i].endsWith(".class")) {
 				exporters[i] = exporters[i].substring(0, exporters[i].length() - 6);
-				Class c = Class.forName(packageName.concat(".").concat(exporters[i]));
-				if (!c.isInterface()
-					&& !Modifier.isAbstract(c.getModifiers())
-					&& Exporter.class.isAssignableFrom(c)) {
-					Exporter e = (Exporter) c.getConstructor().newInstance();
-					if (blocks.size() == 0 || e.isApplicable(null, blocks))
-						names.add(getExportName(e));
+				try {
+					Class c = Class.forName(packageName.concat(".").concat(exporters[i]));
+					if (!c.isInterface()
+						&& !Modifier.isAbstract(c.getModifiers())
+						&& Exporter.class.isAssignableFrom(c)) {
+						Exporter e = (Exporter) c.getConstructor().newInstance();
+						if (blocks.size() == 0 || e.isApplicable(null, blocks))
+							names.add(getExportName(e));
+					}
+				} catch (Exception ignored) {
 				}
 			}
 		}
@@ -249,10 +254,10 @@ public class ExportManager {
 	/**
 	 * export file using the named exporter
 	 *
-	 * @param blocks       list of blocks to be exported
+	 * @param blocks list of blocks to be exported
 	 * @return mapping from names assigned in export to original names
 	 */
-	public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc) throws Exception {
+	public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc) throws IOException {
 		return exportData(saveFile, appendFile, exportAll, exporterName, blocks, doc, null);
 	}
 
@@ -264,35 +269,38 @@ public class ExportManager {
 	 * @param additionalInfo Additional information to be passed to exporter
 	 * @return mapping from names assigned in export to original names
 	 */
-	public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc, ExporterInfo additionalInfo) throws Exception {
+	public static Map exportData(File saveFile, boolean appendFile, boolean exportAll, String exporterName, Collection blocks, Document doc, ExporterInfo additionalInfo) throws IOException {
 		String className;
 		if (exporterName.contains("."))
 			className = exporterName;
 		else
 			className = packageName + "." + exporterName;
 
-		Class c = Class.forName(className);
-		if (!c.isInterface()) {
-			Object obj = c.getConstructor().newInstance();
-			if (obj instanceof Exporter) {
-				Exporter exporter = (Exporter) obj;
-				exporter.setOptionExportAll(exportAll);
-				//exporter.setAdditionalInfo(additionalInfo);
-				// try to open a file
-				Writer w = new FileWriter(saveFile, appendFile);
+		try {
+			Class c = Class.forName(className);
+			if (!c.isInterface()) {
+				Object obj = c.getConstructor().newInstance();
+				if (obj instanceof Exporter) {
+					Exporter exporter = (Exporter) obj;
+					exporter.setOptionExportAll(exportAll);
+					//exporter.setAdditionalInfo(additionalInfo);
+					// try to open a file
+					Writer w = new FileWriter(saveFile, appendFile);
 
-				Map exportNames2originalNames;
-				if (additionalInfo == null)
-					exportNames2originalNames = exporter.apply(w, doc, blocks);
-				else
-					exportNames2originalNames = exporter.apply(w, doc, blocks, additionalInfo);
+					Map exportNames2originalNames;
+					if (additionalInfo == null)
+						exportNames2originalNames = exporter.apply(w, doc, blocks);
+					else
+						exportNames2originalNames = exporter.apply(w, doc, blocks, additionalInfo);
 
-				System.err.println("Exported data in format: " + exporterName);
-				w.close();
-				return exportNames2originalNames;
+					System.err.println("Exported data in format: " + exporterName);
+					w.close();
+					return exportNames2originalNames;
+				}
 			}
+		} catch (Exception ignored) {
 		}
-		throw new SplitsException("Unknown or illegal Exporter: " + exporterName);
+		throw new IOException("Unknown or illegal Exporter: " + exporterName);
 	}
 
 	/**
