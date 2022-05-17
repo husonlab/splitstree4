@@ -467,6 +467,8 @@ public class NeighborNetSplitWeightOptimizer {
                 }
             }
 
+            System.err.println("min_i: " + min_i + " min_grad: " + min_grad);
+
             if ((min_i == -1) || (min_grad > -0.0001)) {
 //            	if (computeRegularised) {
 //            		/* Return to the main loop, without the regularisation term, and fixing active all variables currently active */

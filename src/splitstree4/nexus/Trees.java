@@ -460,7 +460,7 @@ public class Trees extends NexusBlock {
             name = name.replaceAll("]", ")");
 
             np.matchIgnoreCase("=");
-            np.getComment(); // clears comments
+            np.popComments(); // clears comments
 
             StringBuilder buf = new StringBuilder();
 
@@ -480,7 +480,7 @@ public class Trees extends NexusBlock {
             if (rootedGloballySet)
                 isRooted = getRooted();
             else {
-                String comment = np.getComment();
+                String comment = np.popComments();
                 isRooted = (comment != null && comment.equalsIgnoreCase("&R"));
             }
 
@@ -909,7 +909,7 @@ public class Trees extends NexusBlock {
     public void changeNodeLabels(Map old2new) {
         for (int t = 1; t <= getNtrees(); t++) {
             PhyloTree tree = getTree(t);
-            tree.changeLabels(old2new);
+            tree.changeLabels(old2new, false);
         }
     }
 }

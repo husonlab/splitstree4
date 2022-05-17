@@ -916,7 +916,7 @@ public class Document extends DocumentData {
 
         np.setCollectAllComments(true); // want to collect all comments upto taxa block
         if (np.peekMatchBeginBlock(Taxa.NAME))
-            setTopComments(np.getComment());
+            setTopComments(np.popComments());
         np.setCollectAllComments(false);
 
         if (np.peekMatchBeginBlock(Taxa.NAME)) {

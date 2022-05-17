@@ -256,7 +256,7 @@ public class Quartets extends NexusBlock {
         Writer w = new StringWriter();
         Quartets clone = null;
         try {
-            clone = this.getClass().newInstance();
+            clone = this.getClass().getConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
