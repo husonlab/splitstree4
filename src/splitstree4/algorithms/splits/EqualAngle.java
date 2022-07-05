@@ -707,11 +707,7 @@ public class EqualAngle implements Splits2Network {
      * @param TaxaAngles  for each taxa, its angle
      * @param split2angle for each split, its angle
      */
-    private void assignAnglesToSplits
-    (double[] TaxaAngles,
-     double[] split2angle, Splits
-             splits, int[] cycle)
-            throws NotOwnerException {
+    private void assignAnglesToSplits(double[] TaxaAngles, double[] split2angle, Splits splits, int[] cycle) throws NotOwnerException {
 
         int ntaxa = splits.getNtax();
         for (int s = 1; s <= splits.getNsplits(); s++) {

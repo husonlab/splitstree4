@@ -111,38 +111,39 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
                 str = str.replaceAll(" ", "").replaceAll("\t", "");
                 PhyloTree tree = new PhyloTree();
                 try {
-					tree.parseBracketNotation(StringUtils.removeComments(str, '[', ']'), true);
+                    tree.parseBracketNotation(StringUtils.removeComments(str, '[', ']'), true);
                     if (TreesUtilities.hasNumbersOnInternalNodes(tree))
                         TreesUtilities.changeNumbersOnInternalNodesToEdgeConfidencies(tree);
+
+
+                    if (getOptionConvertMultiLabeledTree()) {
+                        try {
+                            Document doc = convertMultiTree2Splits(tree);
+                            StringWriter sw = new StringWriter();
+                            doc.write(sw);
+                            //System.err.println(sw.toString());
+                            return sw.toString();
+                        } catch (NotMultiLabeledException ex) {
+                            Basic.caught(ex);
+                        }
+                    } else {
+                        if (tree.isInputHasMultiLabels() && !haveWarnedMultipleLabels) {
+                            new Alert("One or more trees contain multiple occurrences of the same taxon-label,"
+                                      + " these have been made unique by adding suffixes .1, .2 etc");
+                            haveWarnedMultipleLabels = true;
+                        }
+                    }
+                    for (String label : tree.nodeLabels()) {
+                        labels.add(label);
+                    }
+                    // this is for partial Trees
+                    if (size == 0) size = labels.size();
+                    if (labels.size() != size) partial = true;
+                    treesString.append("tree t").append(count++).append("=").append(str).append("\n");
                 } catch (Exception ex) {
                     System.err.println(ex.getMessage());
                     throw ex;
                 }
-
-                if (getOptionConvertMultiLabeledTree()) {
-                    try {
-                        Document doc = convertMultiTree2Splits(tree);
-                        StringWriter sw = new StringWriter();
-                        doc.write(sw);
-                        //System.err.println(sw.toString());
-                        return sw.toString();
-                    } catch (NotMultiLabeledException ex) {
-                        Basic.caught(ex);
-                    }
-                } else {
-                    if (tree.getInputHasMultiLabels() && !haveWarnedMultipleLabels) {
-                        new Alert("One or more trees contain multiple occurrences of the same taxon-label,"
-                                + " these have been made unique by adding suffixes .1, .2 etc");
-                        haveWarnedMultipleLabels = true;
-                    }
-                }
-                for (String label : tree.nodeLabels()) {
-                    labels.add(label);
-                }
-                // this is for partial Trees
-                if (size == 0) size = labels.size();
-                if (labels.size() != size) partial = true;
-                treesString.append("tree t").append(count++).append("=").append(str).append("\n");
             }
         }
 

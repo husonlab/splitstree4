@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * computes splits from binary data
+ * computes splits from DNA sequences
  *
  * @author huson
  * Date: 16-Feb-2004
