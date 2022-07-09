@@ -686,7 +686,7 @@ public class Sets extends NexusBlock {
                 String treeString = np.getWordFileNamePunctuation();
                 np.matchIgnoreCase(";");
                 PhyloTree tree = new PhyloTree();
-                tree.read(new StringReader(treeString), true);
+                tree.read(new StringReader(treeString));
                 this.addTaxonomy(name, tree);
             }
 

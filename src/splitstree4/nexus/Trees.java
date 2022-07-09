@@ -484,7 +484,8 @@ public class Trees extends NexusBlock {
                 isRooted = (comment != null && comment.equalsIgnoreCase("&R"));
             }
 
-            PhyloTree tree = PhyloTree.valueOf(buf.toString(), isRooted);
+            var tree = new PhyloTree();
+            tree.parseBracketNotation(buf.toString(), isRooted);
 
             {
                 int count = 0;
@@ -492,8 +493,8 @@ public class Trees extends NexusBlock {
                 stack.push(tree.getRoot());
                 while (stack.size() > 0) {
                     Node v = stack.pop();
-					count++;
-					stack.addAll(IteratorUtils.asList(v.children()));
+                    count++;
+                    stack.addAll(IteratorUtils.asList(v.children()));
                 }
                 System.err.println("nodes " + tree.getNumberOfNodes() + " vs " + count);
             }
