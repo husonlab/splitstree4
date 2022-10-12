@@ -20,8 +20,8 @@ package splitstree4.gui.formatter;
 
 import jloda.swing.director.IDirector;
 import jloda.swing.graphview.GraphView;
+import jloda.swing.util.ProgramProperties;
 import jloda.swing.window.MenuMnemonics;
-import jloda.util.ProgramProperties;
 import splitstree4.gui.main.MainViewer;
 
 import javax.swing.*;

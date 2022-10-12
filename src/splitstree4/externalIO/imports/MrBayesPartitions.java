@@ -290,11 +290,9 @@ public class MrBayesPartitions extends FileFilter implements Importer {
             boolean valid = false;                         //Have we successfully read stuff in yet?
 
             //First try and read as a NEXUS file.
-            try {
-                NexusStreamParser fp = new NexusStreamParser(new FileReader(taxaFile));
+            try (var fp = new NexusStreamParser(new FileReader(taxaFile))) {
                 taxadoc.readNexus(fp);   //Read in the file
                 valid = true;
-
             } catch (FileNotFoundException e) {
                 new Alert(mainViewerFrame, "File not found: " + e.getMessage());
                 return;
@@ -304,10 +302,10 @@ public class MrBayesPartitions extends FileFilter implements Importer {
             //If that didn't work, try and import it.
             if (!valid) {
 				try {
-					String input = ImportManager.importData(taxaFile);
-					taxadoc.readNexus(new NexusStreamParser(new StringReader(input)));
-					valid = true;
-				} catch (Exception ignored) {
+                    var input = ImportManager.importData(taxaFile);
+                    taxadoc.readNexus(new NexusStreamParser(new StringReader(input)));
+                    valid = true;
+                } catch (Exception ignored) {
 				}
             }
             if (valid) {

@@ -78,7 +78,7 @@ public class NexusFileFilter extends FileFilter {
      */
     public static boolean isNexusFile(File file) {
         try {
-            NexusStreamParser np = new NexusStreamParser(new FileReader(file));
+             NexusStreamParser np = new NexusStreamParser(new FileReader(file));
             np.matchIgnoreCase("#nexus begin taxa;");
             return true;
         } catch (Exception ex) {

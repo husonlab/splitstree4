@@ -42,9 +42,9 @@ import java.util.List;
 import java.util.*;
 
 /**
- * deprecated
  * Implements the Galled network method
  */
+@Deprecated
 public class GalledNetwork implements Splits2Network {
 	public final boolean EXPERT = true;
 	private final boolean verbose = false;

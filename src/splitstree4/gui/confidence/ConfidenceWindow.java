@@ -20,8 +20,8 @@ package splitstree4.gui.confidence;
 
 import jloda.swing.commands.CommandManager;
 import jloda.swing.director.IDirectableViewer;
+import jloda.swing.util.ProgramProperties;
 import jloda.swing.window.WindowListenerAdapter;
-import jloda.util.ProgramProperties;
 import splitstree4.gui.Director;
 import splitstree4.main.SplitsTreeProperties;
 

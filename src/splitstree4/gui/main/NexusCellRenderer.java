@@ -66,7 +66,7 @@ public class NexusCellRenderer implements TreeCellRenderer {
         String text = "?";
 
         try {
-            NexusStreamParser np = new NexusStreamParser(new StringReader(stringValue));
+             NexusStreamParser np = new NexusStreamParser(new StringReader(stringValue));
             if (np.peekMatchIgnoreCase("#nexus"))
                 np.matchIgnoreCase("#nexus");
             np.matchIgnoreCase("begin");

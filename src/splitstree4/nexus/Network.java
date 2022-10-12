@@ -159,7 +159,7 @@ public class Network extends NexusBlock {
             if (taxlabels != null)   // instruct syncNetwork2PhyloView to modify node labels
             {
                 modifyShowNodeNames = (taxlabels.equalsIgnoreCase("name")
-                        || taxlabels.equalsIgnoreCase("both"));
+                                       || taxlabels.equalsIgnoreCase("both"));
                 modifyShowNodeIds = (taxlabels.equalsIgnoreCase("id")
                         || taxlabels.equalsIgnoreCase("both"));
             }
@@ -530,7 +530,6 @@ public class Network extends NexusBlock {
             np.matchIgnoreCase("recompute runs=");
             doRecompute = np.getInt(0, 10000);
             np.matchIgnoreCase(";");
-
         }
 
         if (np.peekMatchIgnoreCase("vlabels")) {

@@ -20,6 +20,7 @@ package splitstree4.nexus;
 
 import jloda.graph.Edge;
 import jloda.swing.graphview.EdgeView;
+import jloda.swing.util.Colors;
 import jloda.util.Basic;
 import jloda.util.parse.NexusStreamParser;
 
@@ -138,7 +139,7 @@ public class EdgeDescription implements Cloneable {
      *
      * @param id     edges id
      * @param nedges number of edges
-	 */
+     */
     void read(int id, int nedges, NexusStreamParser np) throws IOException {
         np.matchIgnoreCase("" + id);
         this.id = id;
@@ -159,23 +160,22 @@ public class EdgeDescription implements Cloneable {
         weight = (float) np.findIgnoreCase(tokens, "weight=", -10000, 10000, weight);
         weight = (float) np.findIgnoreCase(tokens, "w=", -10000, 10000, weight);
 
-        fgc = np.findIgnoreCase(tokens, "fgc=", fgc);
-        fgc = np.findIgnoreCase(tokens, "fg=", fgc);
-        fgc = np.findIgnoreCase(tokens, "c=", fgc);
+        fgc = Colors.convert(np.findIgnoreCase(tokens, "fgc=", Colors.convert(fgc)));
+        fgc = Colors.convert(np.findIgnoreCase(tokens, "fg=", Colors.convert(fgc)));
+        fgc = Colors.convert(np.findIgnoreCase(tokens, "c=", Colors.convert(fgc)));
 
-        bgc = np.findIgnoreCase(tokens, "bgc=", bgc);
-        bgc = np.findIgnoreCase(tokens, "bg=", bgc);
-        bgc = np.findIgnoreCase(tokens, "b=", bgc);
+        bgc = Colors.convert(np.findIgnoreCase(tokens, "bgc=", Colors.convert(bgc)));
+        bgc = Colors.convert(np.findIgnoreCase(tokens, "bg=", Colors.convert(bgc)));
+        bgc = Colors.convert(np.findIgnoreCase(tokens, "b=", Colors.convert(bgc)));
 
         if (tokens.size() != 0)
             throw new IOException("line " + np.lineno() + ": `" + tokens +
-                    "' unexpected");
+                                  "' unexpected");
     }
 
     /**
      * read an edge label description
-     *
-	 */
+     */
     void readLabel(NexusStreamParser np, String prevFont) throws IOException {
         if (prevFont != null)
             font = prevFont;
@@ -196,18 +196,18 @@ public class EdgeDescription implements Cloneable {
 
         labelAngle = np.findIgnoreCase(tokens, "a=", labelAngle);
 
-        labelFgc = np.findIgnoreCase(tokens, "lc=", labelFgc);
-        labelBgc = np.findIgnoreCase(tokens, "lk=", labelBgc);
+        labelFgc = Colors.convert(np.findIgnoreCase(tokens, "lc=", Colors.convert(labelFgc)));
+        labelBgc = Colors.convert(np.findIgnoreCase(tokens, "lk=", Colors.convert(labelBgc)));
 
         if (tokens.size() != 0)
             throw new IOException("line " + np.lineno() + ": `" + tokens +
-                    "' unexpected");
+                                  "' unexpected");
     }
 
     /**
      * reads a description of a list of internal points of an edge
      *
-	 */
+     */
     void readInternal(NexusStreamParser np) throws IOException {
         internal = new LinkedList<>();
         while (!np.peekMatchRespectCase(",")) {

@@ -313,7 +313,7 @@ public class SelectCharactersActions implements UpdateableActions {
      *
 	 */
     private List parseText(Document doc, String text) throws IOException {
-        NexusStreamParser np = new NexusStreamParser(new StringReader("=" + text + ";"));
+         NexusStreamParser np = new NexusStreamParser(new StringReader("=" + text + ";"));
         return np.getIntegerList("=", ";");
 
     }

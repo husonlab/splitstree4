@@ -19,9 +19,9 @@
 package splitstree4.main;
 
 import jloda.swing.export.ExportImageDialog;
+import jloda.swing.util.ProgramProperties;
 import jloda.swing.util.ResourceManager;
 import jloda.swing.window.About;
-import jloda.util.ProgramProperties;
 import jloda.util.PropertiesListListener;
 import splitstree4.gui.main.MainViewer;
 import splitstree4.gui.main.StatusBar;

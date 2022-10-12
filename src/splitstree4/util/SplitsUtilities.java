@@ -389,7 +389,7 @@ public class SplitsUtilities {
      */
     public static boolean equalCycles(int[] cycle, String text) {
 
-        NexusStreamParser np = new NexusStreamParser(new StringReader(text));
+         NexusStreamParser np = new NexusStreamParser(new StringReader(text));
         try {
             for (int i = 1; i < cycle.length; i++) {
                 if (np.getInt() != cycle[i])

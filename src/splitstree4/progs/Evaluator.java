@@ -49,7 +49,7 @@ public class Evaluator {
             double w1 = 0, w2 = 0;
             int j1 = 0, j2 = 0;
             for (int line = 1; line <= 2; line++) {
-                NexusStreamParser np = new NexusStreamParser(new StringReader(aline));
+                 NexusStreamParser np = new NexusStreamParser(new StringReader(aline));
 
                 double w = np.getDouble();
                 np.matchIgnoreCase("1"); // must always be taxon 1 for SplitsTree

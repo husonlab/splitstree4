@@ -280,7 +280,7 @@ class Analyzer {
     void read(NexusStreamParser np) throws IOException {
         np.peekMatchAnyTokenIgnoreCase
                 (Unaligned.NAME + " " + Characters.NAME + " " + Distances.NAME +
-                        " " + Quartets.NAME + " " + Splits.NAME + " " + Trees.NAME + " " + Network.NAME + " " + Bootstrap.NAME);
+                 " " + Quartets.NAME + " " + Splits.NAME + " " + Trees.NAME + " " + Network.NAME + " " + Bootstrap.NAME);
         kind = np.getWordRespectCase();
         if (np.peekMatchAnyTokenIgnoreCase("off on once"))
             state = np.getWordRespectCase();

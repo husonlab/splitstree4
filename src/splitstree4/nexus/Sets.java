@@ -460,7 +460,7 @@ public class Sets extends NexusBlock {
      * and a range ending with '.' is shorthand for a range ending with the last taxon.
      *
      * @return Set of sets read in.
-	 */
+     */
     private Set<String> readTaxSet(NexusStreamParser np, Taxa taxa) throws IOException {
         Set<String> result = new HashSet<>();
 
@@ -511,7 +511,7 @@ public class Sets extends NexusBlock {
      * reads a characters set
      *
      * @return Set of sets read in.
-	 */
+     */
 
     private Set<Integer> readCharSet(NexusStreamParser np, Characters chars) throws IOException {
         Set<Integer> set = new TreeSet<>();
@@ -558,7 +558,7 @@ public class Sets extends NexusBlock {
      * read a character parititon
      *
      * @return Set of set read in.
-	 */
+     */
 
     private Partition readCharPartition(NexusStreamParser np, Characters chars) throws IOException {
         Partition result = new Partition();
@@ -653,8 +653,7 @@ public class Sets extends NexusBlock {
 
     /**
      * reads a sets block
-     *
-	 */
+     */
     public void read(NexusStreamParser np, Taxa taxa, Characters chars) throws IOException {
         if (taxa.getMustDetectLabels())
             throw new IOException("line " + np.lineno() + ": Can't read SETS block because no taxlabels given in TAXA block");

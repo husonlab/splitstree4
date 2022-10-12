@@ -703,8 +703,8 @@ public class MainViewerActions {
                         int size = font.getSize() + 2;
                         font = new Font(font.getFamily(), font.getStyle(), size);
                         viewer.setFont(v, font);
-                        ProgramProperties.put(ProgramProperties.DEFAULT_FONT, font.getFamily(), font.getStyle(), size > 0 ? size : 6);
-                        changed = true;
+						jloda.swing.util.ProgramProperties.put(ProgramProperties.DEFAULT_FONT, font.getFamily(), font.getStyle(), size > 0 ? size : 6);
+						changed = true;
                     }
                 }
                 if (doSelectedEdges) {
@@ -713,9 +713,9 @@ public class MainViewerActions {
                             Font font = viewer.getFont(e);
                             int size = font.getSize() + 2;
                             font = new Font(font.getFamily(), font.getStyle(), size);
-                            viewer.setFont(e, font);
-                            ProgramProperties.put(ProgramProperties.DEFAULT_FONT, font.getFamily(), font.getStyle(), size > 0 ? size : 6);
-                            changed = true;
+							viewer.setFont(e, font);
+							jloda.swing.util.ProgramProperties.put(ProgramProperties.DEFAULT_FONT, font.getFamily(), font.getStyle(), size > 0 ? size : 6);
+							changed = true;
                         }
                     }
                 }
@@ -772,9 +772,9 @@ public class MainViewerActions {
                         int size = font.getSize() - 2;
                         if (size > 0) {
                             font = new Font(font.getFamily(), font.getStyle(), size);
-                            viewer.setFont(v, font);
-                            ProgramProperties.put(ProgramProperties.DEFAULT_FONT, font.getFamily(), font.getStyle(), size > 0 ? size : 6);
-                            changed = true;
+							viewer.setFont(v, font);
+							jloda.swing.util.ProgramProperties.put(ProgramProperties.DEFAULT_FONT, font.getFamily(), font.getStyle(), size > 0 ? size : 6);
+							changed = true;
                         }
                     }
                 }
@@ -785,9 +785,9 @@ public class MainViewerActions {
                             int size = font.getSize() - 2;
                             if (size > 0) {
                                 font = new Font(font.getFamily(), font.getStyle(), size);
-                                viewer.setFont(e, font);
-                                ProgramProperties.put(ProgramProperties.DEFAULT_FONT, font.getFamily(), font.getStyle(), size > 0 ? size : 6);
-                                changed = true;
+								viewer.setFont(e, font);
+								jloda.swing.util.ProgramProperties.put(ProgramProperties.DEFAULT_FONT, font.getFamily(), font.getStyle(), size > 0 ? size : 6);
+								changed = true;
                             }
                         }
                     }

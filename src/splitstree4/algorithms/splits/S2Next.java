@@ -184,7 +184,7 @@ public class S2Next /* implements Splits2Network    */ {
 
             if (getOptionoutformat().equalsIgnoreCase("nexus")) {
                 FileReader r = new FileReader(outfile);
-                NexusStreamParser np = new NexusStreamParser(r);
+                var np = new NexusStreamParser(r);
                 np.matchIgnoreCase("#nexus");
                 Taxa tmp = new Taxa();
                 tmp.read(np);

@@ -294,7 +294,7 @@ public class Quartets extends NexusBlock {
         ps.println("END;");
     }
 
-	/**
+    /**
      * Read a matrics of quartets
      *
      * @param np   the nexus streamparser

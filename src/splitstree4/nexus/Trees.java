@@ -487,7 +487,7 @@ public class Trees extends NexusBlock {
             var tree = new PhyloTree();
             tree.parseBracketNotation(buf.toString(), isRooted);
 
-            {
+            if (false) {
                 int count = 0;
                 final Stack<Node> stack = new Stack<>();
                 stack.push(tree.getRoot());
@@ -498,7 +498,6 @@ public class Trees extends NexusBlock {
                 }
                 System.err.println("nodes " + tree.getNumberOfNodes() + " vs " + count);
             }
-
 
             if (TreesUtilities.hasNumbersOnInternalNodes(tree))
                 TreesUtilities.changeNumbersOnInternalNodesToEdgeConfidencies(tree);

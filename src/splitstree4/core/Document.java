@@ -943,7 +943,7 @@ public class Document extends DocumentData {
                 unaligned.read(np, taxa);
                 notifyProgress(np);
                 System.err.println("\t" + taxa.getNtax() + " sequences, datatype: " +
-                        unaligned.getFormat().getDatatype());
+                                   unaligned.getFormat().getDatatype());
                 notifySetProgress(30);
             } else if (np.peekMatchBeginBlock(Characters.NAME)) {
                 if (characters == null)
@@ -1536,7 +1536,6 @@ public class Document extends DocumentData {
 
     /**
      * Sets the progress bar to the current proportion of the file we've read in.
-     *
      */
     public void notifyProgress(NexusStreamParser np) throws CanceledException {
         notifySetProgress((100 * np.lineno() / Math.max(1, getNumberLines())));
@@ -1980,7 +1979,7 @@ public class Document extends DocumentData {
                 np.matchIgnoreCase(";");
 
                 File file = new File(fname);
-                NexusStreamParser fp = new NexusStreamParser(new FileReader(file));
+                var fp = new NexusStreamParser(new FileReader(file));
                 setFile(file);
                 setDirty(false);
 
@@ -2003,7 +2002,7 @@ public class Document extends DocumentData {
             {
                 np.matchIgnoreCase("open file=");
                 File file = new File(np.getWordFileNamePunctuation());
-                NexusStreamParser fp = new NexusStreamParser(new FileReader(file));
+                var fp = new NexusStreamParser(new FileReader(file));
                 setFile(file);
                 setDirty(false);
                 np.matchIgnoreCase(";");
@@ -2057,7 +2056,7 @@ public class Document extends DocumentData {
                         setDirty(false);
                     }   // assume this is some other format that must be imported
                     else {
-                        NexusStreamParser fp = new NexusStreamParser(reader);
+                        var fp = new NexusStreamParser(reader);
                         readNexus(fp);
                         reader.close();
                         setFile(file);
@@ -2552,7 +2551,7 @@ public class Document extends DocumentData {
      * @param r the reader
      */
     private void execute(Reader r) throws Exception {
-        NexusStreamParser np = new NexusStreamParser(r);
+        var np = new NexusStreamParser(r);
 
         if (np.peekMatchAnyTokenIgnoreCase("#nexus begin beginblock"))
             readNexus(np);

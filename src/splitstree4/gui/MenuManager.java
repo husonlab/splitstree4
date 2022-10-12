@@ -19,9 +19,9 @@
 package splitstree4.gui;
 
 import jloda.swing.util.AppleSystemMenuItems;
+import jloda.swing.util.ProgramProperties;
 import jloda.swing.util.ResourceManager;
 import jloda.swing.window.MenuMnemonics;
-import jloda.util.ProgramProperties;
 
 import javax.swing.*;
 import java.awt.*;

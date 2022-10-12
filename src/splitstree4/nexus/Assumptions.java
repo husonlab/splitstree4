@@ -717,7 +717,7 @@ public class Assumptions extends NexusBlock {
 
         if (taxa.getMustDetectLabels())
             throw new IOException("line " + np.lineno() +
-                    ": Can't read ASSUMPTIONS block because no taxlabels given in TAXA block");
+                                  ": Can't read ASSUMPTIONS block because no taxlabels given in TAXA block");
 
         np.matchBeginBlock(NAME);
 

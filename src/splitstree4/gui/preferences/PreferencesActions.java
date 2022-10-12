@@ -22,7 +22,7 @@
  */
 package splitstree4.gui.preferences;
 
-import jloda.util.ProgramProperties;
+import jloda.swing.util.ProgramProperties;
 import splitstree4.gui.Director;
 import splitstree4.gui.DirectorActions;
 import splitstree4.gui.main.MainViewerToolBar;

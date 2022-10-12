@@ -21,6 +21,7 @@ package splitstree4.nexus;
 import jloda.graph.Node;
 import jloda.swing.graphview.NodeView;
 import jloda.swing.graphview.ViewBase;
+import jloda.swing.util.Colors;
 import jloda.util.Basic;
 import jloda.util.parse.NexusStreamParser;
 
@@ -154,13 +155,13 @@ public class VertexDescription implements Cloneable {
      *
      * @param id        vertex id
      * @param nvertices number of vertices
-	 */
+     */
     void read(int id, int nvertices, NexusStreamParser np) throws IOException {
         np.matchIgnoreCase("" + id);
         this.id = id;
         x = (float) np.getDouble();
         y = (float) np.getDouble();
-        java.util.List tokens = np.getTokensLowerCase(null, ",");
+        var tokens = np.getTokensLowerCase(null, ",");
         width = np.findIgnoreCase(tokens, "width=", 0, 100, width);
         width = np.findIgnoreCase(tokens, "w=", 0, 100, width);
 
@@ -170,20 +171,20 @@ public class VertexDescription implements Cloneable {
         line = np.findIgnoreCase(tokens, "line=", 0, 100, line);
         line = np.findIgnoreCase(tokens, "l=", 0, 100, line);
 
-        fgc = np.findIgnoreCase(tokens, "fgc=", fgc);
-        fgc = np.findIgnoreCase(tokens, "fg=", fgc);
-        fgc = np.findIgnoreCase(tokens, "c=", fgc);
+        fgc = Colors.convert(np.findIgnoreCase(tokens, "fgc=", Colors.convert(fgc)));
+        fgc = Colors.convert(np.findIgnoreCase(tokens, "fg=", Colors.convert(fgc)));
+        fgc = Colors.convert(np.findIgnoreCase(tokens, "c=", Colors.convert(fgc)));
 
-        bgc = np.findIgnoreCase(tokens, "bgc=", bgc);
-        bgc = np.findIgnoreCase(tokens, "bg=", bgc);
-        bgc = np.findIgnoreCase(tokens, "b=", bgc);
+        bgc = Colors.convert(np.findIgnoreCase(tokens, "bgc=", Colors.convert(bgc)));
+        bgc = Colors.convert(np.findIgnoreCase(tokens, "bg=", Colors.convert(bgc)));
+        bgc = Colors.convert(np.findIgnoreCase(tokens, "b=", Colors.convert(bgc)));
 
         shape = np.findIgnoreCase(tokens, "shape=", "nor", shape);
         shape = np.findIgnoreCase(tokens, "s=", "nor", shape);
 
         if (tokens.size() != 0)
             throw new IOException("line " + np.lineno() + ": `" + tokens +
-                    "' unexpected");
+                                  "' unexpected");
     }
 
     /**
@@ -211,13 +212,12 @@ public class VertexDescription implements Cloneable {
 
     /**
      * read a vertex label description
-     *
-	 */
+     */
     void readLabel(NexusStreamParser np, String prevFont) throws IOException {
         if (prevFont != null)
             font = prevFont;
         label = np.getLabelRespectCase();
-        java.util.List tokens = np.getTokensRespectCase(null, ",");
+        var tokens = np.getTokensRespectCase(null, ",");
         font = np.findIgnoreCase(tokens, "font=", null, font);
         font = np.findIgnoreCase(tokens, "f=", null, font);
 
@@ -229,12 +229,12 @@ public class VertexDescription implements Cloneable {
         if (xoffset != 0 || yoffset != 0)
             labelOffset = new Point(xoffset, yoffset);
         labelAngle = np.findIgnoreCase(tokens, "a=", labelAngle);
-        labelFgc = np.findIgnoreCase(tokens, "lc=", labelFgc);
-        labelBgc = np.findIgnoreCase(tokens, "lk=", labelBgc);
+        labelFgc = Colors.convert(np.findIgnoreCase(tokens, "lc=", Colors.convert(labelFgc)));
+        labelBgc = Colors.convert(np.findIgnoreCase(tokens, "lk=", Colors.convert(labelBgc)));
 
         if (tokens.size() != 0)
             throw new IOException("line " + np.lineno() + ": `" + tokens +
-                    "' unexpected");
+                                  "' unexpected");
     }
 
     String labelToString(String prevFont) {

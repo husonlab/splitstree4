@@ -53,7 +53,7 @@ public class Reorder {
         Taxa taxa = new Taxa();
         Splits splits = new Splits();
 
-        NexusStreamParser np = new NexusStreamParser(new BufferedReader(new FileReader(inname)));
+         NexusStreamParser np = new NexusStreamParser(new BufferedReader(new FileReader(inname)));
 
         np.matchIgnoreCase("#nexus");
         taxa.read(np);

@@ -160,7 +160,7 @@ public class C2Text implements Characters2Trees {
                 // parse received data:
                 doc.notifySubtask("parse imported data");
                 try {
-                    NexusStreamParser np = new NexusStreamParser(new StringReader(nexus));
+                     NexusStreamParser np = new NexusStreamParser(new StringReader(nexus));
                     np.matchIgnoreCase("#nexus");
                     Taxa tmpTaxa = new Taxa();
                     tmpTaxa.read(np);

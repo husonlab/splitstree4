@@ -717,13 +717,13 @@ public class Bootstrap extends NexusBlock {
             throws IOException {
         if (taxa == null)
             throw new IOException("line " + np.lineno() +
-                    ": ST_BOOTSTRAP block must be preceded by valid TAXA block");
+                                  ": ST_BOOTSTRAP block must be preceded by valid TAXA block");
         if (characters == null)
             throw new IOException("line " + np.lineno() +
-                    ": ST_BOOTSTRAP block must be preceded by valid CHARACTERS block");
+                                  ": ST_BOOTSTRAP block must be preceded by valid CHARACTERS block");
         if (splits == null)
             throw new IOException("line " + np.lineno() +
-                    ": ST_BOOTSTRAP block must be preceded by valid ST_SPLITS block");
+                                  ": ST_BOOTSTRAP block must be preceded by valid ST_SPLITS block");
 
         np.matchBeginBlock(NAME);
 
@@ -837,9 +837,9 @@ public class Bootstrap extends NexusBlock {
 
 
     /**
-     * Read a matrix from a NexusStreamParser
+     * Read a matrix from a  NexusStreamParser
      *
-     * @param np     the NexusStreamParser to read from.
+     * @param np     the  NexusStreamParser to read from.
      * @param splits the set of splits
      */
     private void readMatrix(NexusStreamParser np, Splits splits) throws IOException {
@@ -853,7 +853,7 @@ public class Bootstrap extends NexusBlock {
                 label = np.getWordRespectCase();
                 if (i <= splits.getNsplits() && !label.equals(splits.getLabel(i)))
                     throw new IOException("line " + np.lineno() + ": illegal label: "
-                            + label);
+                                          + label);
             }
 
             float value = NumberUtils.parseFloat(np.getWordRespectCase());
