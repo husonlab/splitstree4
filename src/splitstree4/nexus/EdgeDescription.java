@@ -20,7 +20,7 @@ package splitstree4.nexus;
 
 import jloda.graph.Edge;
 import jloda.swing.graphview.EdgeView;
-import jloda.swing.util.Colors;
+import jloda.swing.util.ColorUtilsSwing;
 import jloda.util.Basic;
 import jloda.util.parse.NexusStreamParser;
 
@@ -150,28 +150,28 @@ public class EdgeDescription implements Cloneable {
         line = np.findIgnoreCase(tokens, "line=", 0, 100, line);
         line = np.findIgnoreCase(tokens, "l=", 0, 100, line);
 
-        eclass = np.findIgnoreCase(tokens, "eclass=", -10000, 10000, eclass);
-        eclass = np.findIgnoreCase(tokens, "s=", -10000, 10000, eclass);
+		eclass = np.findIgnoreCase(tokens, "eclass=", -10000, 10000, eclass);
+		eclass = np.findIgnoreCase(tokens, "s=", -10000, 10000, eclass);
 
-        shape = (byte) np.findIgnoreCase(tokens, "shape=", 0, 10, shape);
-        shape = (byte) np.findIgnoreCase(tokens, "h=", 0, 10, shape);
+		shape = (byte) np.findIgnoreCase(tokens, "shape=", 0, 10, shape);
+		shape = (byte) np.findIgnoreCase(tokens, "h=", 0, 10, shape);
 
 
-        weight = (float) np.findIgnoreCase(tokens, "weight=", -10000, 10000, weight);
-        weight = (float) np.findIgnoreCase(tokens, "w=", -10000, 10000, weight);
+		weight = (float) np.findIgnoreCase(tokens, "weight=", -10000, 10000, weight);
+		weight = (float) np.findIgnoreCase(tokens, "w=", -10000, 10000, weight);
 
-        fgc = Colors.convert(np.findIgnoreCase(tokens, "fgc=", Colors.convert(fgc)));
-        fgc = Colors.convert(np.findIgnoreCase(tokens, "fg=", Colors.convert(fgc)));
-        fgc = Colors.convert(np.findIgnoreCase(tokens, "c=", Colors.convert(fgc)));
+		fgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "fgc=", ColorUtilsSwing.convert(fgc)));
+		fgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "fg=", ColorUtilsSwing.convert(fgc)));
+		fgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "c=", ColorUtilsSwing.convert(fgc)));
 
-        bgc = Colors.convert(np.findIgnoreCase(tokens, "bgc=", Colors.convert(bgc)));
-        bgc = Colors.convert(np.findIgnoreCase(tokens, "bg=", Colors.convert(bgc)));
-        bgc = Colors.convert(np.findIgnoreCase(tokens, "b=", Colors.convert(bgc)));
+		bgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "bgc=", ColorUtilsSwing.convert(bgc)));
+		bgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "bg=", ColorUtilsSwing.convert(bgc)));
+		bgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "b=", ColorUtilsSwing.convert(bgc)));
 
-        if (tokens.size() != 0)
-            throw new IOException("line " + np.lineno() + ": `" + tokens +
-                                  "' unexpected");
-    }
+		if (tokens.size() != 0)
+			throw new IOException("line " + np.lineno() + ": `" + tokens +
+								  "' unexpected");
+	}
 
     /**
      * read an edge label description
@@ -186,23 +186,23 @@ public class EdgeDescription implements Cloneable {
         font = np.findIgnoreCase(tokens, "font=", null, font);
         font = np.findIgnoreCase(tokens, "f=", null, font);
 
-        labelLayout = (byte) np.findIgnoreCase(tokens, "ll=", 0, EdgeView.MAXLAYOUT, EdgeView.EAST);
-        int xoffset = labelOffset != null ? labelOffset.x : 0;
-        int yoffset = labelOffset != null ? labelOffset.y : 0;
-        xoffset = np.findIgnoreCase(tokens, "x=", -10000, +10000, xoffset);
-        yoffset = np.findIgnoreCase(tokens, "y=", -10000, +10000, yoffset);
-        if (xoffset != 0 || yoffset != 0)
-            labelOffset = new Point(xoffset, yoffset);
+		labelLayout = (byte) np.findIgnoreCase(tokens, "ll=", 0, EdgeView.MAXLAYOUT, EdgeView.EAST);
+		int xoffset = labelOffset != null ? labelOffset.x : 0;
+		int yoffset = labelOffset != null ? labelOffset.y : 0;
+		xoffset = np.findIgnoreCase(tokens, "x=", -10000, +10000, xoffset);
+		yoffset = np.findIgnoreCase(tokens, "y=", -10000, +10000, yoffset);
+		if (xoffset != 0 || yoffset != 0)
+			labelOffset = new Point(xoffset, yoffset);
 
-        labelAngle = np.findIgnoreCase(tokens, "a=", labelAngle);
+		labelAngle = np.findIgnoreCase(tokens, "a=", labelAngle);
 
-        labelFgc = Colors.convert(np.findIgnoreCase(tokens, "lc=", Colors.convert(labelFgc)));
-        labelBgc = Colors.convert(np.findIgnoreCase(tokens, "lk=", Colors.convert(labelBgc)));
+		labelFgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "lc=", ColorUtilsSwing.convert(labelFgc)));
+		labelBgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "lk=", ColorUtilsSwing.convert(labelBgc)));
 
-        if (tokens.size() != 0)
-            throw new IOException("line " + np.lineno() + ": `" + tokens +
-                                  "' unexpected");
-    }
+		if (tokens.size() != 0)
+			throw new IOException("line " + np.lineno() + ": `" + tokens +
+								  "' unexpected");
+	}
 
     /**
      * reads a description of a list of internal points of an edge

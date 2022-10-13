@@ -2140,7 +2140,7 @@ public class Document extends DocumentData {
                 graphView.trans.setCoordinateRect(graphView.getBBox());
                 graphView.trans.fitToSize(graphView.getBBox(), new Dimension(scale, scale));
                 graphView.centerGraph();
-                graphView.setCanvasColor(Color.white);
+				graphView.setCanvasColor(java.awt.Color.white);
 
                 String oldPoweredBy = graphView.getPOWEREDBY();
                 graphView.setPOWEREDBY(title);

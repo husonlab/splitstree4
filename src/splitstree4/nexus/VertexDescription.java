@@ -21,7 +21,7 @@ package splitstree4.nexus;
 import jloda.graph.Node;
 import jloda.swing.graphview.NodeView;
 import jloda.swing.graphview.ViewBase;
-import jloda.swing.util.Colors;
+import jloda.swing.util.ColorUtilsSwing;
 import jloda.util.Basic;
 import jloda.util.parse.NexusStreamParser;
 
@@ -161,31 +161,31 @@ public class VertexDescription implements Cloneable {
         this.id = id;
         x = (float) np.getDouble();
         y = (float) np.getDouble();
-        var tokens = np.getTokensLowerCase(null, ",");
-        width = np.findIgnoreCase(tokens, "width=", 0, 100, width);
-        width = np.findIgnoreCase(tokens, "w=", 0, 100, width);
+		var tokens = np.getTokensLowerCase(null, ",");
+		width = np.findIgnoreCase(tokens, "width=", 0, 100, width);
+		width = np.findIgnoreCase(tokens, "w=", 0, 100, width);
 
-        height = np.findIgnoreCase(tokens, "height=", 0, 100, height);
-        height = np.findIgnoreCase(tokens, "h=", 0, 100, height);
+		height = np.findIgnoreCase(tokens, "height=", 0, 100, height);
+		height = np.findIgnoreCase(tokens, "h=", 0, 100, height);
 
-        line = np.findIgnoreCase(tokens, "line=", 0, 100, line);
-        line = np.findIgnoreCase(tokens, "l=", 0, 100, line);
+		line = np.findIgnoreCase(tokens, "line=", 0, 100, line);
+		line = np.findIgnoreCase(tokens, "l=", 0, 100, line);
 
-        fgc = Colors.convert(np.findIgnoreCase(tokens, "fgc=", Colors.convert(fgc)));
-        fgc = Colors.convert(np.findIgnoreCase(tokens, "fg=", Colors.convert(fgc)));
-        fgc = Colors.convert(np.findIgnoreCase(tokens, "c=", Colors.convert(fgc)));
+		fgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "fgc=", ColorUtilsSwing.convert(fgc)));
+		fgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "fg=", ColorUtilsSwing.convert(fgc)));
+		fgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "c=", ColorUtilsSwing.convert(fgc)));
 
-        bgc = Colors.convert(np.findIgnoreCase(tokens, "bgc=", Colors.convert(bgc)));
-        bgc = Colors.convert(np.findIgnoreCase(tokens, "bg=", Colors.convert(bgc)));
-        bgc = Colors.convert(np.findIgnoreCase(tokens, "b=", Colors.convert(bgc)));
+		bgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "bgc=", ColorUtilsSwing.convert(bgc)));
+		bgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "bg=", ColorUtilsSwing.convert(bgc)));
+		bgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "b=", ColorUtilsSwing.convert(bgc)));
 
-        shape = np.findIgnoreCase(tokens, "shape=", "nor", shape);
-        shape = np.findIgnoreCase(tokens, "s=", "nor", shape);
+		shape = np.findIgnoreCase(tokens, "shape=", "nor", shape);
+		shape = np.findIgnoreCase(tokens, "s=", "nor", shape);
 
-        if (tokens.size() != 0)
-            throw new IOException("line " + np.lineno() + ": `" + tokens +
-                                  "' unexpected");
-    }
+		if (tokens.size() != 0)
+			throw new IOException("line " + np.lineno() + ": `" + tokens +
+								  "' unexpected");
+	}
 
     /**
      * vertex to string
@@ -219,23 +219,23 @@ public class VertexDescription implements Cloneable {
         label = np.getLabelRespectCase();
         var tokens = np.getTokensRespectCase(null, ",");
         font = np.findIgnoreCase(tokens, "font=", null, font);
-        font = np.findIgnoreCase(tokens, "f=", null, font);
+		font = np.findIgnoreCase(tokens, "f=", null, font);
 
-        labelLayout = (byte) np.findIgnoreCase(tokens, "l=", 0, NodeView.MAXLAYOUT, NodeView.LAYOUT);
-        int xoffset = labelOffset != null ? labelOffset.x : 0;
-        int yoffset = labelOffset != null ? labelOffset.y : 0;
-        xoffset = np.findIgnoreCase(tokens, "x=", -10000, +10000, xoffset);
-        yoffset = np.findIgnoreCase(tokens, "y=", -10000, +10000, yoffset);
-        if (xoffset != 0 || yoffset != 0)
-            labelOffset = new Point(xoffset, yoffset);
-        labelAngle = np.findIgnoreCase(tokens, "a=", labelAngle);
-        labelFgc = Colors.convert(np.findIgnoreCase(tokens, "lc=", Colors.convert(labelFgc)));
-        labelBgc = Colors.convert(np.findIgnoreCase(tokens, "lk=", Colors.convert(labelBgc)));
+		labelLayout = (byte) np.findIgnoreCase(tokens, "l=", 0, NodeView.MAXLAYOUT, NodeView.LAYOUT);
+		int xoffset = labelOffset != null ? labelOffset.x : 0;
+		int yoffset = labelOffset != null ? labelOffset.y : 0;
+		xoffset = np.findIgnoreCase(tokens, "x=", -10000, +10000, xoffset);
+		yoffset = np.findIgnoreCase(tokens, "y=", -10000, +10000, yoffset);
+		if (xoffset != 0 || yoffset != 0)
+			labelOffset = new Point(xoffset, yoffset);
+		labelAngle = np.findIgnoreCase(tokens, "a=", labelAngle);
+		labelFgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "lc=", ColorUtilsSwing.convert(labelFgc)));
+		labelBgc = ColorUtilsSwing.convert(np.findIgnoreCase(tokens, "lk=", ColorUtilsSwing.convert(labelBgc)));
 
-        if (tokens.size() != 0)
-            throw new IOException("line " + np.lineno() + ": `" + tokens +
-                                  "' unexpected");
-    }
+		if (tokens.size() != 0)
+			throw new IOException("line " + np.lineno() + ": `" + tokens +
+								  "' unexpected");
+	}
 
     String labelToString(String prevFont) {
         StringBuilder buf = new StringBuilder();
