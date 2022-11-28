@@ -918,7 +918,7 @@ public class MainViewerMenuBar extends JMenuBar {
                 ApplicationDisplayMode applicationDisplayMode = ProgramProperties.isUseGUI() ? ApplicationDisplayMode.GUI : ApplicationDisplayMode.CONSOLE;
                 UpdateDescriptor updateDescriptor;
                 try {
-                    updateDescriptor = UpdateChecker.getUpdateDescriptor("http://software-ab.informatik.uni-tuebingen.de/download/splitstree4/updates.xml", applicationDisplayMode);
+                    updateDescriptor = UpdateChecker.getUpdateDescriptor("https://software-ab.cs.uni-tuebingen.de/download/splitstree4/updates.xml", applicationDisplayMode);
                 } catch (Exception ex) {
                     Basic.caught(ex);
                     new InfoMessage(mainViewer.getFrame(), "Installed version is up-to-date");
@@ -927,8 +927,8 @@ public class MainViewerMenuBar extends JMenuBar {
                 if (updateDescriptor.getEntries().length > 0) {
                     if (!ProgramProperties.isUseGUI()) {
                         UpdateDescriptorEntry entry = updateDescriptor.getEntries()[0];
-                        new InfoMessage(mainViewer.getFrame(), "New version available: " + entry.getNewVersion()
-                                + "\nPlease download from: http://software-ab.informatik.uni-tuebingen.de/download/splitstree4");
+						new InfoMessage(mainViewer.getFrame(), "New version available: " + entry.getNewVersion()
+															   + "\nPlease download from: https://software-ab.cs.uni-tuebingen.de/download/splitstree4");
                         return;
                     }
                 } else {
