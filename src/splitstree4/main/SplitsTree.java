@@ -112,7 +112,6 @@ public class SplitsTree {
         }
         System.err.println("Java version: " + System.getProperty("java.version"));
 
-
         if (ProgramProperties.isUseGUI())  // run in GUI mode
 		{
 			System.setProperty("user.dir", System.getProperty("user.home"));

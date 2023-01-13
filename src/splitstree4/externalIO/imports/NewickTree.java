@@ -91,7 +91,6 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
         StringBuilder treesString = new StringBuilder();
         StringBuilder translate = new StringBuilder();
         translate.append("begin trees;\n");
-        boolean haveWarnedMultipleLabels = false;
 
         // read in the trees
         int count = 1, size = 0;
@@ -110,6 +109,7 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
             if (str.trim().length() != 0) {
                 str = str.replaceAll(" ", "").replaceAll("\t", "");
                 PhyloTree tree = new PhyloTree();
+                tree.allowMultiLabeledNodes = false;
                 try {
                     tree.parseBracketNotation(StringUtils.removeComments(str, '[', ']'), true);
                     if (TreesUtilities.hasNumbersOnInternalNodes(tree))
@@ -127,10 +127,8 @@ public class NewickTree extends FileFilter implements Importer, FilenameFilter {
                             Basic.caught(ex);
                         }
                     } else {
-                        if (tree.isInputHasMultiLabels() && !haveWarnedMultipleLabels) {
-                            new Alert("One or more trees contain multiple occurrences of the same taxon-label,"
-                                      + " these have been made unique by adding suffixes .1, .2 etc");
-                            haveWarnedMultipleLabels = true;
+                        if (tree.isInputHasMultiLabels()) {
+                            throw new IOException("One or more trees contain multiple occurrences of the same taxon-label");
                         }
                     }
                     for (String label : tree.nodeLabels()) {
