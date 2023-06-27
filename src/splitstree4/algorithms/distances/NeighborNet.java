@@ -70,11 +70,11 @@ public class NeighborNet implements Distances2Splits {
 
         cycle = runNeighborNet(doc, dist);
 
-        String var = selectVariance(this.optionVarianceName);
+        String variance = selectVariance(this.optionVarianceName);
         if (doc != null)
             doc.notifySubtask("edge weights");
 
-        NeighborNetSplitWeightOptimizer.Options options = new NeighborNetSplitWeightOptimizer.Options(var, optionThreshold);
+        NeighborNetSplitWeightOptimizer.Options options = new NeighborNetSplitWeightOptimizer.Options(variance, optionThreshold);
         Splits splits = NeighborNetSplitWeightOptimizer.computeWeightedSplits(cycle, dist, options);
 
         if (SplitsUtilities.isCompatible(splits))

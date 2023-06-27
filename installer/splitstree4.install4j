@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="9.0.5" transformSequenceNumber="9">
+<install4j version="10.0.3" transformSequenceNumber="10">
   <directoryPresets config="../jars/Jama-NOTICE.txt" />
   <application name="SplitsTree4" applicationId="1505-7129-3447-4151" mediaDir="../../../builds" shortName="splitstree4" publisher="Daniel Huson and David Bryant" publisherWeb="www.splitstree.org" version="4.13" allPathsRelative="true" macVolumeId="b8c0a1154e563a9a" javaMinVersion="16">
     <codeSigning macEnabled="true" macPkcs12File="../../../../etc/application.p12" windowsEnabled="true" windowsPkcs12File="../../../../etc/windows.pfx" />
-    <jreBundles jdkProviderId="Zulu" release="17/17.0.2">
+    <jreBundles jdkProviderId="Liberica" release="18/18.0.2.1+1">
       <modules />
     </jreBundles>
   </application>
-  <files preserveSymlinks="false">
+  <files>
     <mountPoints>
       <mountPoint id="1691242167" location="jars" />
       <mountPoint id="1691242153" location="Examples" />
@@ -80,7 +80,6 @@
           <directory location="jars" failOnError="false" />
         </modulePath>
       </java>
-      <macStaticAssociationActions mode="selected" />
       <vmOptionsFile mode="none" />
       <iconImageFiles>
         <file path="../src/splitstree4/resources/icons/SplitsTree16.png" />
@@ -102,7 +101,6 @@
           <directory location="jars" failOnError="false" />
         </modulePath>
       </java>
-      <macStaticAssociationActions mode="selected" />
       <vmOptionsFile mode="none" />
       <iconImageFiles>
         <file path="../src/splitstree4/resources/icons/SplitsTree16.png" />
@@ -1151,7 +1149,7 @@ return true;</property>
       </exclude>
       <jreBundle includedJre="macosx-amd64-12.0.1" />
     </macosFolder>
-    <windows name="Windows64bit" id="1691242288" installDir="SplitsTree" overridePrincipalLanguage="true">
+    <windows name="Windows64bit" id="1691242288" installDir="SplitsTree" overridePrincipalLanguage="true" architecture="64">
       <excludedLaunchers>
         <launcher id="1691242548" />
       </excludedLaunchers>

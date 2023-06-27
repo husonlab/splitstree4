@@ -44,28 +44,6 @@ public class NeighborNetSplitWeightOptimizer {
     private static final double CG_EPSILON = 0.0001;
 
     /**
-     * Create the set of all circular splits for a given ordering
-     *
-     * @param ntax     Number of taxa
-     * @param ordering circular ordering
-     * @param weight   weight to give each split
-     * @return set of ntax*(ntax-1)/2 circular splits
-     */
-    static public Splits getAllSplits(int ntax, int[] ordering, double weight) {
-        /* Construct the splits with the appropriate weights */
-        Splits splits = new Splits(ntax);
-        for (int i = 0; i < ntax; i++) {
-            TaxaSet t = new TaxaSet();
-            for (int j = i + 1; j < ntax; j++) {
-                t.set(ordering[j + 1]);
-                splits.add(t, (float) weight);
-            }
-        }
-        return splits;
-    }
-
-
-    /**
      * Class  CircularSplitWeights.Options
      *
      * @author dbryant
