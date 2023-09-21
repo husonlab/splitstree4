@@ -2120,7 +2120,8 @@ public class Document extends DocumentData {
                     throw new SplitsException("EXPORTGRAPHICS: Must specify FILE=filename");
                 String format = np.findIgnoreCase(tokens, "format=", "eps svg gif png jpg pdf", "eps");
                 boolean replace = np.findIgnoreCase(tokens, "replace=", "yes no", "no").equals("yes");
-                boolean text2shapes = np.findIgnoreCase(tokens, "textasshapes=", "yes no", "no").equals("yes");
+                boolean text2shapes = np.findIgnoreCase(tokens, "textAsShapes=", "yes no", "no").equals("yes");
+                boolean showScaleBar = np.findIgnoreCase(tokens, "scaleBar=", "yes no", "no").equals("yes");
                 String title = np.findIgnoreCase(tokens, "title=", null, "");
                 int scale = np.findIgnoreCase(tokens, "size=", 0, 10000, 600);
                 np.checkFindDone(tokens);
@@ -2133,6 +2134,7 @@ public class Document extends DocumentData {
                     throw new SplitsException("EXPORTGRAPHICS: invalid network block (try 'update' first)");
 
                 PhyloGraphView graphView = new PhyloGraphView();
+                graphView.setDrawScaleBar(showScaleBar);
                 graphView.setSize(scale, scale);
                 graphView.getScrollPane().setSize(scale, scale);
                 graphView.trans.reset();
@@ -2515,7 +2517,7 @@ public class Document extends DocumentData {
         ps.println("\t\t- save all data or named blocks to a file in Nexus format");
         ps.println("\tEXPORT FILE=file FORMAT=format [REPLACE={YES|NO}] [APPEND={YES|NO}] [DATA=list-of-blocks]");
         ps.println("\t\t - export data in the named format");
-        ps.println("\tEXPORTGRAPHICS [format={EPS|PNG|GIF|JPG|SVG|PDF}] [REPLACE={YES|NO}] [TEXTASSHAPES={YES|NO}]\n" +
+        ps.println("\tEXPORTGRAPHICS [format={EPS|PNG|GIF|JPG|SVG|PDF}] [REPLACE={YES|NO}] [TEXTASSHAPES={YES|NO}] [SCALEBAR={YES|NO}]\n" +
                 "\t               [TITLE=title] [SIZE=number] file=file");
         ps.println("\t\t - export graphics in specified format (default format is EPS, default size is 600)");
         ps.println("\tUPDATE - rerun computations to bring data up-to-date");
